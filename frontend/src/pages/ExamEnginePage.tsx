@@ -24,7 +24,7 @@ import { LabEngine } from '../components/engines/LabEngine';
 import { CodeEditorEngine } from '../components/engines/CodeEditorEngine';
 import { EssayEngine } from '../components/engines/EssayEngine';
 
-import { Calculator, FileEdit, Bookmark, ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, Highlighting } from 'lucide-react';
+import { Calculator, FileEdit, Bookmark, ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, Highlighter } from 'lucide-react';
 
 export const ExamEnginePage: React.FC = () => {
   const navigate = useNavigate();
