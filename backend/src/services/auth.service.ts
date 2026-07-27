@@ -21,7 +21,7 @@ export class AuthService {
     return { token, user };
   }
 
-  async loginEntra(idToken?: string, accessToken?: string, code?: string) {
+  async loginEntra(idToken?: string, accessToken?: string, code?: string, redirectUri?: string) {
     let email = 'entra_user@ntms.com';
     let name = 'Microsoft Entra User';
     let oid = 'entra-oid-' + Date.now();
@@ -35,7 +35,7 @@ export class AuthService {
           client_secret: config.azure.clientSecret,
           code: code,
           grant_type: 'authorization_code',
-          redirect_uri: 'http://40.81.226.111:3000',
+          redirect_uri: redirectUri || 'http://40.81.226.111:3000/login',
         });
 
         const tokenRes = await fetch(tokenEndpoint, {

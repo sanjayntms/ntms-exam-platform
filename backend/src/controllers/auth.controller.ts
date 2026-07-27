@@ -16,8 +16,8 @@ export class AuthController {
 
   async loginEntra(req: Request, res: Response) {
     try {
-      const { idToken, accessToken, code } = req.body;
-      const result = await this.authService.loginEntra(idToken, accessToken, code);
+      const { idToken, accessToken, code, redirectUri } = req.body;
+      const result = await this.authService.loginEntra(idToken, accessToken, code, redirectUri);
       return res.json(result);
     } catch (err: any) {
       return res.status(400).json({ error: err.message });

@@ -22,7 +22,8 @@ export const LoginPage: React.FC = () => {
       if (code) {
         setIsEntraLoading(true);
         try {
-          const res = await api.post('/auth/entra', { code });
+          const redirectUri = window.location.origin + '/login';
+          const res = await api.post('/auth/entra', { code, redirectUri });
           localStorage.setItem('ntms_token', res.data.token);
           window.history.replaceState(null, '', window.location.pathname);
           window.location.href = '/dashboard';
