@@ -88,6 +88,7 @@ export interface Exam {
   passingScore: number;
   allowCalculator: boolean;
   allowNotes: boolean;
+  isUnlocked?: boolean;
   sections: ExamSection[];
 }
 

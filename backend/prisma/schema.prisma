@@ -21,6 +21,7 @@ model User {
   createdExams Exam[]        @relation("ExamCreator")
   attempts     ExamAttempt[]
   auditLogs    AuditLog[]
+  examAccess   StudentExamAccess[]
 
   @@map("users")
 }
@@ -143,8 +144,24 @@ model Exam {
 
   sections          ExamSection[]
   attempts          ExamAttempt[]
+  studentAccess     StudentExamAccess[]
 
   @@map("exams")
+}
+
+model StudentExamAccess {
+  id         String   @id @default(uuid())
+  userId     String
+  examId     String
+  isUnlocked Boolean  @default(false)
+  unlockedAt DateTime @default(now())
+  unlockedBy String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exam Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, examId])
+  @@map("student_exam_access")
 }
 
 model ExamSection {

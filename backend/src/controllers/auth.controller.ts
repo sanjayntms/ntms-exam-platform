@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../services/auth.service.js';
+import { prisma } from '../infrastructure/database.js';
 
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -33,6 +34,22 @@ export class AuthController {
       return res.json({ user: freshUser || req.user });
     } catch (err: any) {
       return res.json({ user: req.user });
+    }
+  }
+
+  async logout(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      if (userId) {
+        // Lock all exams for this user upon logout
+        await prisma.studentExamAccess.updateMany({
+          where: { userId },
+          data: { isUnlocked: false },
+        });
+      }
+      return res.json({ message: 'Successfully logged out. All exam access has been locked.' });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
     }
   }
 }

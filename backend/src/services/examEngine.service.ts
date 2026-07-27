@@ -1,10 +1,11 @@
 import { UnitOfWork } from '../infrastructure/repositories/unitOfWork.js';
-import { AttemptStatus } from '../domain/types.js';
+import { AttemptStatus, Role } from '../domain/types.js';
+import { prisma } from '../infrastructure/database.js';
 
 export class ExamEngineService {
   constructor(private uow: UnitOfWork) {}
 
-  async startExamAttempt(userId: string, examId: string) {
+  async startExamAttempt(userId: string, examId: string, userRole?: string) {
     const exam = await this.uow.exams.findById(examId);
     if (!exam) throw new Error('Exam not found');
 
@@ -17,6 +18,19 @@ export class ExamEngineService {
       }
     }
     if (!user) throw new Error('Valid candidate user not found in database');
+
+    const effectiveRole = userRole || user.role;
+
+    // Validate per-student lock status if user is candidate
+    if (effectiveRole === Role.CANDIDATE) {
+      const access = await prisma.studentExamAccess.findUnique({
+        where: { userId_examId: { userId: user.id, examId } },
+      });
+
+      if (!access || !access.isUnlocked) {
+        throw new Error('This exam is currently LOCKED for your account. Please request Admin (sanjay@ntmsentra.onmicrosoft.com) to unlock it.');
+      }
+    }
 
     let totalQuestions = 0;
     exam.sections.forEach((section) => {
@@ -113,8 +127,9 @@ export class ExamEngineService {
           return userAnswer?.isTrue === content.isTrueCorrect;
 
         case 'DROPDOWN':
-          if (!content.dropdowns || !userAnswer?.dropdowns) return false;
-          return content.dropdowns.every((d: any) => userAnswer.dropdowns[d.id] === d.correctAnswer);
+          if (!content.dropdowns && !content.questions) return false;
+          const list = content.dropdowns || content.questions || [];
+          return list.every((d: any) => userAnswer.dropdowns?.[d.id] === d.correctAnswer);
 
         case 'FILL_IN_BLANK':
           if (!content.blanks || !userAnswer?.blanks) return false;
@@ -153,7 +168,6 @@ export class ExamEngineService {
         case 'LAB':
         case 'CODE_EDITOR':
         case 'ESSAY':
-          // Automatic pass check for non-empty responses in practice mode
           return !!userAnswer;
 
         default:

@@ -6,7 +6,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   loginLocal: (email: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   isLoading: boolean;
 }
 
@@ -48,10 +48,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('ntms_token');
-    setToken(null);
-    setUser(null);
+  const logout = async () => {
+    try {
+      if (token) {
+        await api.post('/auth/logout');
+      }
+    } catch (e) {
+      console.warn('Logout API error', e);
+    } finally {
+      localStorage.removeItem('ntms_token');
+      setToken(null);
+      setUser(null);
+    }
   };
 
   return (
