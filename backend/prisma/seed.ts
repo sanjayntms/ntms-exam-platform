@@ -14,7 +14,7 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 async function main() {
-  console.log('🌱 Starting 100% Unique Question Bank Seeding across ALL 6 Certification Tracks...');
+  console.log('🌱 Starting Seeding for ALL 6 Certification Tracks with Unique Questions & Shuffled Options...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -168,7 +168,6 @@ async function main() {
       },
     });
   });
-
   const seededAZ900 = await seedTrack(az900QuestionsData, catAzure.id);
 
   // ==========================================
@@ -238,13 +237,136 @@ async function main() {
       },
     });
   });
-
   const seededAI900 = await seedTrack(ai900QuestionsData, catAzure.id);
 
-  // Create Exam Entities and Exam Sections
+  // ==========================================
+  // 3. SC-200 - UNIQUE QUESTIONS
+  // ==========================================
+  const sc200UniqueQuestions = [
+    { title: 'Defender for Endpoint - Live Response Remote Terminal', prompt: 'Which Defender for Endpoint feature enables security analysts to connect remotely to a compromised device terminal to collect forensics or isolate execution?', correct: 'Live Response Remote Shell', bad1: 'Network Inspection System', bad2: 'Tamper Protection', bad3: 'Automated Investigation Playbook', exp: 'Live Response provides a remote interactive shell on endpoints.' },
+    { title: 'Defender for Identity - Honeytoken Account Monitoring', prompt: 'Honeytoken accounts are decoy accounts configured in Active Directory to lure attackers conducting Kerberoasting. What service monitors these?', correct: 'Microsoft Defender for Identity', bad1: 'Azure Key Vault', bad2: 'Microsoft Defender for Cloud Apps', bad3: 'Defender for Office 365', exp: 'Defender for Identity monitors active directory honeytokens.' },
+    { title: 'Defender for Cloud Apps - OAuth App Consent Policies', prompt: 'Which Microsoft Defender component restricts risky third-party OAuth applications from accessing organizational data?', correct: 'Microsoft Defender for Cloud Apps', bad1: 'Azure Network Security Group', bad2: 'Defender for Endpoint', bad3: 'Azure Firewall', exp: 'Defender for Cloud Apps manages OAuth app permissions and consent.' },
+  ];
+  const sc200QuestionsData: any[] = [];
+  sc200UniqueQuestions.forEach((q, idx) => {
+    const qNum = String(idx + 1).padStart(3, '0');
+    sc200QuestionsData.push({
+      code: `SC200-Q${qNum}`,
+      title: `SC-200 Item ${idx + 1}: ${q.title}`,
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: q.exp,
+      content: {
+        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        options: shuffleArray([
+          { id: 'opt1', text: q.correct, isCorrect: true },
+          { id: 'opt2', text: q.bad1 },
+          { id: 'opt3', text: q.bad2 },
+          { id: 'opt4', text: q.bad3 },
+        ]),
+      },
+    });
+  });
+  const seededSC200 = await seedTrack(sc200QuestionsData, catAzure.id);
+
+  // ==========================================
+  // 4. AZ-305 - UNIQUE QUESTIONS
+  // ==========================================
+  const az305UniqueQuestions = [
+    { title: 'Database Architecture - SQL Hyperscale', prompt: 'Designing an enterprise OLTP database requiring auto-scaling storage up to 100 TB and near-instantaneous backups uses which database tier?', correct: 'Azure SQL Database Hyperscale Tier', bad1: 'General Purpose Tier', bad2: 'Cosmos DB Table API', bad3: 'Basic SQL Database', exp: 'Hyperscale tier auto-scales storage up to 100 TB.' },
+    { title: 'Business Continuity - Auto-Failover Groups', prompt: 'An enterprise application requires RPO < 5 seconds and RTO < 30 seconds across two Azure regions. What solution should you design?', correct: 'Azure SQL Database Active Geo-Replication with Auto-Failover Groups', bad1: 'Manual BACPAC restores', bad2: 'Geo-redundant storage read access', bad3: 'VM script failovers', exp: 'Auto-Failover Groups provide multi-region database failover.' },
+  ];
+  const az305QuestionsData: any[] = [];
+  az305UniqueQuestions.forEach((q, idx) => {
+    const qNum = String(idx + 1).padStart(3, '0');
+    az305QuestionsData.push({
+      code: `AZ305-Q${qNum}`,
+      title: `AZ-305 Architect Item ${idx + 1}: ${q.title}`,
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: q.exp,
+      content: {
+        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        options: shuffleArray([
+          { id: 'opt1', text: q.correct, isCorrect: true },
+          { id: 'opt2', text: q.bad1 },
+          { id: 'opt3', text: q.bad2 },
+          { id: 'opt4', text: q.bad3 },
+        ]),
+      },
+    });
+  });
+  const seededAZ305 = await seedTrack(az305QuestionsData, catAzure.id);
+
+  // ==========================================
+  // 5. AZ-104 - UNIQUE QUESTIONS
+  // ==========================================
+  const az104UniqueQuestions = [
+    { title: 'Identity - Azure AD SSPR', prompt: 'Enabling Self-Service Password Reset (SSPR) for corporate users requires which license?', correct: 'Azure AD Premium P1 or P2 License', bad1: 'Free Azure AD Tier', bad2: 'Office 365 E1', bad3: 'Basic License', exp: 'SSPR requires Azure AD Premium licensing.' },
+    { title: 'Storage - Shared Access Signatures (SAS)', prompt: 'Granting a partner temporary 2-hour read-only access to a Blob container without sharing storage keys uses what?', correct: 'Service Shared Access Signature (SAS)', bad1: 'Account Storage Key 1', bad2: 'Public Anonymous Access', bad3: 'Tenant Access ID', exp: 'SAS tokens provide delegated, time-bound access.' },
+  ];
+  const az104QuestionsData: any[] = [];
+  az104UniqueQuestions.forEach((q, idx) => {
+    const qNum = String(idx + 1).padStart(3, '0');
+    az104QuestionsData.push({
+      code: `AZ104-Q${qNum}`,
+      title: `AZ-104 Admin Item ${idx + 1}: ${q.title}`,
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: q.exp,
+      content: {
+        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        options: shuffleArray([
+          { id: 'opt1', text: q.correct, isCorrect: true },
+          { id: 'opt2', text: q.bad1 },
+          { id: 'opt3', text: q.bad2 },
+          { id: 'opt4', text: q.bad3 },
+        ]),
+      },
+    });
+  });
+  const seededAZ104 = await seedTrack(az104QuestionsData, catAzure.id);
+
+  // ==========================================
+  // 6. AI-901 - UNIQUE QUESTIONS
+  // ==========================================
+  const ai901UniqueQuestions = [
+    { title: 'Model Catalog & Benchmarking', prompt: 'In Azure AI Foundry, how do you evaluate model benchmark accuracy across foundation LLM endpoints?', correct: 'Use Azure AI Foundry Model Catalog benchmarks & Prompt Flow evaluation', bad1: 'Manual visual inspection', bad2: 'Disable evaluation pipelines', bad3: 'Static console logs', exp: 'AI Foundry provides model benchmarks and evaluation workflows.' },
+  ];
+  const ai901QuestionsData: any[] = [];
+  ai901UniqueQuestions.forEach((q, idx) => {
+    const qNum = String(idx + 1).padStart(3, '0');
+    ai901QuestionsData.push({
+      code: `AI901-Q${qNum}`,
+      title: `AI-901 Item ${idx + 1}: ${q.title}`,
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: q.exp,
+      content: {
+        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        options: shuffleArray([
+          { id: 'opt1', text: q.correct, isCorrect: true },
+          { id: 'opt2', text: q.bad1 },
+          { id: 'opt3', text: q.bad2 },
+          { id: 'opt4', text: q.bad3 },
+        ]),
+      },
+    });
+  });
+  const seededAI901 = await seedTrack(ai901QuestionsData, catAzure.id);
+
+  // Create Exam Entities and Exam Sections for ALL 6 TRACKS
   const examsToCreate = [
-    { code: 'AI-900', title: 'Microsoft Azure AI Fundamentals (AI-900)', time: 60, seeded: seededAI900, count: seededAI900.length },
     { code: 'AZ-900', title: 'Microsoft Azure Fundamentals (AZ-900)', time: 60, seeded: seededAZ900, count: seededAZ900.length },
+    { code: 'AI-900', title: 'Microsoft Azure AI Fundamentals (AI-900)', time: 60, seeded: seededAI900, count: seededAI900.length },
+    { code: 'SC-200', title: 'Microsoft Security Operations Analyst (SC-200)', time: 150, seeded: seededSC200, count: seededSC200.length },
+    { code: 'AZ-305', title: 'Designing Microsoft Azure Infrastructure Solutions (AZ-305)', time: 150, seeded: seededAZ305, count: seededAZ305.length },
+    { code: 'AZ-104', title: 'Microsoft Azure Administrator (AZ-104)', time: 90, seeded: seededAZ104, count: seededAZ104.length },
+    { code: 'AI-901', title: 'Microsoft Azure AI & AI Foundry Solutions (AI-901)', time: 60, seeded: seededAI901, count: seededAI901.length },
   ];
 
   for (const item of examsToCreate) {
@@ -275,7 +397,7 @@ async function main() {
     console.log(`✅ Seeded ${item.code} with ${item.count} 100% UNIQUE questions!`);
   }
 
-  console.log('🎉 ALL Certification Tracks Successfully Seeded with 100% UNIQUE Distinct Questions!');
+  console.log('🎉 ALL 6 Certification Tracks Successfully Seeded with 100% UNIQUE Distinct Questions!');
 }
 
 main()

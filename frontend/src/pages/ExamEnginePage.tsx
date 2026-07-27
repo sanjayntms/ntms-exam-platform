@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useExamSession } from '../context/ExamSessionContext';
-import { QuestionPalette } from '../components/common/QuestionPalette';
-import { Timer } from '../components/common/Timer';
-import { CalculatorModal } from '../components/common/CalculatorModal';
-import { ScratchpadModal } from '../components/common/ScratchpadModal';
+import api from '../services/api';
 import { SingleChoiceEngine } from '../components/engines/SingleChoiceEngine';
 import { MultipleChoiceEngine } from '../components/engines/MultipleChoiceEngine';
 import { TrueFalseEngine } from '../components/engines/TrueFalseEngine';
@@ -19,8 +17,11 @@ import { SimulationEngine } from '../components/engines/SimulationEngine';
 import { LabEngine } from '../components/engines/LabEngine';
 import { CodeEditorEngine } from '../components/engines/CodeEditorEngine';
 import { EssayEngine } from '../components/engines/EssayEngine';
-import { Flag, Calculator, FileText, LayoutGrid, ChevronLeft, ChevronRight, HelpCircle, AlertTriangle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { QuestionPalette } from '../components/exam/QuestionPalette';
+import { Timer } from '../components/exam/Timer';
+import { CalculatorModal } from '../components/common/CalculatorModal';
+import { ScratchpadModal } from '../components/common/ScratchpadModal';
+import { Flag, HelpCircle, Calculator, FileText, LayoutGrid, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 
 export const ExamEnginePage: React.FC = () => {
   const {
@@ -37,6 +38,7 @@ export const ExamEnginePage: React.FC = () => {
 
   const [showPalette, setShowPalette] = useState(false);
   const [showEndConfirm, setShowEndConfirm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,9 +53,31 @@ export const ExamEnginePage: React.FC = () => {
   const currentQuestion = flatQuestions[currentQuestionIndex];
   const qState = currentQuestion ? questionStates[currentQuestion.id] || { isMarkedForReview: false, notes: '', answer: null, strikeouts: {} } : { isMarkedForReview: false, notes: '', answer: null, strikeouts: {} };
 
-  const handleFinish = () => {
-    if (attemptId) {
+  const handleFinish = async () => {
+    if (!attemptId) return;
+    setIsSubmitting(true);
+    try {
+      // Build answers dictionary from questionStates
+      const answersMap: Record<string, any> = {};
+      Object.keys(questionStates).forEach((qId) => {
+        if (questionStates[qId]?.answer) {
+          answersMap[qId] = questionStates[qId].answer;
+        }
+      });
+
+      // Submit attempt for final evaluation in backend ExamEngineService
+      await api.post('/attempts/submit', {
+        attemptId,
+        answers: answersMap,
+        isFinalSubmit: true,
+      });
+
       navigate(`/results/${attemptId}`);
+    } catch (err) {
+      console.error('Error submitting exam attempt:', err);
+      navigate(`/results/${attemptId}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -252,12 +276,13 @@ export const ExamEnginePage: React.FC = () => {
               <h3 className="text-base font-bold">Submit NTMS Exam Attempt?</h3>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Are you sure you want to finish and submit your exam attempt? You will not be able to change your answers after submission.
+              Are you sure you want to finish and submit your exam attempt? Your submitted answers will be evaluated to generate your official certification score report.
             </p>
             <div className="flex justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => setShowEndConfirm(false)}
+                disabled={isSubmitting}
                 className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-semibold text-xs"
               >
                 Return to Exam
@@ -265,9 +290,10 @@ export const ExamEnginePage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleFinish}
-                className="px-5 py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs shadow"
+                disabled={isSubmitting}
+                className="px-5 py-2 bg-ntms-navy hover:bg-ntms-hoverBlue disabled:opacity-50 text-white rounded font-bold text-xs shadow flex items-center gap-2"
               >
-                Confirm & Submit
+                {isSubmitting ? 'Evaluating Score...' : 'Confirm & Submit'}
               </button>
             </div>
           </div>
