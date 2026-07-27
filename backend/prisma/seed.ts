@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with ALL Questions across AI-901 (15 Qs), AI-900 (35 Qs), and AZ-900 (40 Qs with ExamHeist)...');
+  console.log('🌱 Starting NTMS Database Seeding with ALL Tracks (AZ-104, AI-901, AI-900, AZ-900)...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -62,11 +62,372 @@ async function main() {
 
   // Create Categories
   const catAzure = await prisma.category.create({
-    data: { name: 'Microsoft Azure Certification', description: 'AZ-900, AI-900 & AI-901 Tracks' },
+    data: { name: 'Microsoft Azure Certification', description: 'AZ-104, AZ-900, AI-900 & AI-901 Tracks' },
   });
 
   // ==========================================
-  // 1. AI-901 EXAM TRACK (15 QUESTIONS)
+  // 1. AZ-104 EXAM TRACK (BRAND NEW! 20 QUESTIONS)
+  // ==========================================
+  const az104QuestionsData = [
+    {
+      code: 'AZ104-Q001',
+      title: 'RBAC - Built-in Virtual Machine Contributor Role',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Virtual Machine Contributor lets you manage VMs, but not access to them or the virtual network/storage account they connect to, nor grant RBAC permissions.',
+      prompt: 'You need to grant a user named User1 the ability to create and manage virtual machines in a specific Resource Group, but User1 must NOT be able to grant access rights to other users. Which Built-in Azure RBAC role should you assign?',
+      options: [
+        { id: 'opt1', text: 'Virtual Machine Contributor', isCorrect: true },
+        { id: 'opt2', text: 'Owner' },
+        { id: 'opt3', text: 'Contributor' },
+        { id: 'opt4', text: 'User Access Administrator' },
+      ],
+    },
+    {
+      code: 'AZ104-Q002',
+      title: 'Entra ID - Self-Service Password Reset (SSPR) Verification',
+      type: QuestionType.MULTIPLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'SSPR supports Mobile App Notification, Mobile App Code, Email, Office Phone, and Mobile Phone.',
+      prompt: 'You plan to enable Self-Service Password Reset (SSPR) for 500 users in your Entra ID tenant. Which authentication methods can be enabled for SSPR verification? (Select two)',
+      options: [
+        { id: 'opt1', text: 'Mobile App Notification', isCorrect: true },
+        { id: 'opt2', text: 'Email', isCorrect: true },
+        { id: 'opt3', text: 'Security Questions only' },
+        { id: 'opt4', text: 'MAC Address Verification' },
+      ],
+    },
+    {
+      code: 'AZ104-Q003',
+      title: 'Management Groups - Azure Policy Assignment Scope',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Assigning a policy to a Root Management Group enforces compliance inherited by all underlying subscriptions.',
+      prompt: 'Your organization has 15 Azure subscriptions across 3 departments. You need to enforce a custom Azure Policy requiring all storage accounts to use HTTPS only across all subscriptions. Where should you assign the Azure Policy definition?',
+      options: [
+        { id: 'opt1', text: 'Root Management Group', isCorrect: true },
+        { id: 'opt2', text: 'Resource Group level' },
+        { id: 'opt3', text: 'Individual Subscriptions' },
+        { id: 'opt4', text: 'Virtual Network level' },
+      ],
+    },
+    {
+      code: 'AZ104-Q004',
+      title: 'Storage Account Security - VNet Service Endpoints & Firewalls',
+      type: QuestionType.MULTIPLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Storage Firewalls & VNet Service Endpoints / Private Endpoints restrict storage access to specific subnets.',
+      prompt: 'You have an Azure Storage Account named store1. You need to ensure that store1 accepts network connections ONLY from a specific subnet named Subnet1 in VNet1. Which features should you configure? (Select two)',
+      options: [
+        { id: 'opt1', text: 'Virtual Network Service Endpoints / Private Endpoints', isCorrect: true },
+        { id: 'opt2', text: 'Storage Account Firewalls & Virtual Networks configuration', isCorrect: true },
+        { id: 'opt3', text: 'Shared Access Signatures (SAS)' },
+        { id: 'opt4', text: 'Access Keys' },
+      ],
+    },
+    {
+      code: 'AZ104-Q005',
+      title: 'Blob Storage - Lifecycle Management Automation',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Lifecycle management rules automatically transition blobs to cool/archive tiers or delete them after a specified number of days.',
+      prompt: 'You have 10 TB of log files in an Azure Blob Storage container. You need to configure a rule that automatically moves logs to Cool Storage after 30 days of un-modification and deletes them after 365 days. Which feature provides this automation?',
+      options: [
+        { id: 'opt1', text: 'Blob Lifecycle Management', isCorrect: true },
+        { id: 'opt2', text: 'Storage Sync Service' },
+        { id: 'opt3', text: 'Azure Backup' },
+        { id: 'opt4', text: 'Storage Explorer' },
+      ],
+    },
+    {
+      code: 'AZ104-Q006',
+      title: 'Azure File Sync - Local Caching & Cloud Tiering',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure File Sync centralizes file shares in Azure Files while keeping local caches on Windows Servers.',
+      prompt: 'You have an on-premises Windows File Server named Server1. You want to sync its SMB file shares to an Azure File Share while caching frequently accessed files locally on Server1. Which service should you deploy?',
+      options: [
+        { id: 'opt1', text: 'Azure File Sync', isCorrect: true },
+        { id: 'opt2', text: 'Azure Data Box' },
+        { id: 'opt3', text: 'AzCopy' },
+        { id: 'opt4', text: 'Azure Site Recovery' },
+      ],
+    },
+    {
+      code: 'AZ104-Q007',
+      title: 'Virtual Machines - Availability Sets Fault Domains SLA',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Availability Sets distribute VMs across multiple physical fault domains (racks) to guarantee a 99.95% SLA.',
+      prompt: 'You are deploying two Virtual Machines (VM1 and VM2) running a web cluster. You need to guarantee an SLA of 99.95% by ensuring the VMs are placed on different physical hardware racks with separate power supplies within a single datacenter. What configuration should you use?',
+      options: [
+        { id: 'opt1', text: 'Availability Set with Fault Domains', isCorrect: true },
+        { id: 'opt2', text: 'Availability Zones' },
+        { id: 'opt3', text: 'Proximity Placement Group' },
+        { id: 'opt4', text: 'VM Scale Set' },
+      ],
+    },
+    {
+      code: 'AZ104-Q008',
+      title: 'VM Automation - Custom Script Extension',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Custom Script Extension downloads and executes scripts on Azure virtual machines post-provisioning.',
+      prompt: 'You need to automatically execute a PowerShell script that installs IIS web server software on a Windows Server VM immediately after the VM is provisioned. What should you use?',
+      options: [
+        { id: 'opt1', text: 'Custom Script Extension', isCorrect: true },
+        { id: 'opt2', text: 'Azure Policy' },
+        { id: 'opt3', text: 'Desired State Configuration (DSC) Agent' },
+        { id: 'opt4', text: 'Run Command' },
+      ],
+    },
+    {
+      code: 'AZ104-Q009',
+      title: 'Azure Container Instances (ACI) Serverless Containers',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Container Instances (ACI) is a fast, serverless container execution environment for short-lived or batch jobs.',
+      prompt: 'You need to run a standalone Docker containerized microservice task that executes for 20 minutes once every night without deploying a full Kubernetes cluster or virtual machines. Which service is cost-optimal?',
+      options: [
+        { id: 'opt1', text: 'Azure Container Instances (ACI)', isCorrect: true },
+        { id: 'opt2', text: 'Azure Kubernetes Service (AKS)' },
+        { id: 'opt3', text: 'Azure App Service' },
+        { id: 'opt4', text: 'Virtual Machine Scale Sets' },
+      ],
+    },
+    {
+      code: 'AZ104-Q010',
+      title: 'Azure App Service - Deployment Slots Zero-Downtime Swaps',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Deployment slots are live apps with their own host names. Swapping slots moves staging to production with zero downtime.',
+      prompt: 'You host a web app in Azure App Service. You need to test a new version of the app in production without downtime, and instantly swap traffic back if bugs are detected. What feature should you configure?',
+      options: [
+        { id: 'opt1', text: 'Deployment Slots', isCorrect: true },
+        { id: 'opt2', text: 'Auto-scale Rules' },
+        { id: 'opt3', text: 'App Service Environment (ASE)' },
+        { id: 'opt4', text: 'Traffic Manager' },
+      ],
+    },
+    {
+      code: 'AZ104-Q011',
+      title: 'Virtual Networking - Global VNet Peering Routing',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'VNet Peering routes traffic securely across Azure private backbone network without VPN gateways or public IPs.',
+      prompt: 'You have two Virtual Networks (VNet1 in East US and VNet2 in West US). You configure Global VNet Peering between them. VMs in VNet1 must communicate with VMs in VNet2. Do you need an Azure VPN Gateway or public IP addresses for this communication?',
+      options: [
+        { id: 'opt1', text: 'No, VNet Peering routes traffic securely over Microsoft private backbone network without gateways or public IPs', isCorrect: true },
+        { id: 'opt2', text: 'Yes, VPN Gateway is mandatory for cross-region traffic' },
+        { id: 'opt3', text: 'Yes, Public IPs are required on all NICs' },
+        { id: 'opt4', text: 'Yes, ExpressRoute is required' },
+      ],
+    },
+    {
+      code: 'AZ104-Q012',
+      title: 'Network Security Groups - Rule Priority Processing',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'NSG rules are processed in priority order from lowest number to highest. Lower numbers take precedence.',
+      prompt: 'An NSG has an inbound rule Rule1 with Priority 100 allowing Port 80, and another inbound rule Rule2 with Priority 200 denying Port 80. Will HTTP traffic on Port 80 be allowed or denied?',
+      options: [
+        { id: 'opt1', text: 'Allowed, because lower numerical priority values (100) are processed first and take precedence', isCorrect: true },
+        { id: 'opt2', text: 'Denied, because Deny rules always override Allow rules' },
+        { id: 'opt3', text: 'Denied, because Priority 200 is evaluated first' },
+        { id: 'opt4', text: 'Blocked by default Azure rules' },
+      ],
+    },
+    {
+      code: 'AZ104-Q013',
+      title: 'Networking - User Defined Routes (UDR) Forced Tunneling',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'User Defined Routes (UDRs) override Azure default system routes to route 0.0.0.0/0 to a Virtual Appliance.',
+      prompt: 'You need to force all outbound internet traffic from VMs in Subnet1 to route through a central Network Virtual Appliance (NVA) firewall VM at 10.0.1.4. What should you create and associate with Subnet1?',
+      options: [
+        { id: 'opt1', text: 'Route Table with a User Defined Route (UDR) pointing 0.0.0.0/0 to 10.0.1.4', isCorrect: true },
+        { id: 'opt2', text: 'Network Security Group (NSG)' },
+        { id: 'opt3', text: 'Azure NAT Gateway' },
+        { id: 'opt4', text: 'Application Gateway' },
+      ],
+    },
+    {
+      code: 'AZ104-Q014',
+      title: 'Azure Load Balancer - Public Load Balancer Distribution',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'A public load balancer maps the public IP address and port number of incoming traffic to the private IP and port of the VM.',
+      prompt: 'You have a 3-tier application (Web, App, DB). You need to balance incoming HTTP requests from public internet clients across 4 Web tier VMs. Which type of load balancer should you deploy?',
+      options: [
+        { id: 'opt1', text: 'Public Azure Load Balancer', isCorrect: true },
+        { id: 'opt2', text: 'Internal Load Balancer' },
+        { id: 'opt3', text: 'Azure Traffic Manager' },
+        { id: 'opt4', text: 'Azure DNS' },
+      ],
+    },
+    {
+      code: 'AZ104-Q015',
+      title: 'Azure DNS - Private DNS Zones VNet Links',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Private DNS Zones provide name resolution for VMs within a VNet and across linked VNets.',
+      prompt: 'You need to configure name resolution so that virtual machines in VNet1 can resolve internal hostnames of VMs in VNet2 (e.g. vm1.internal.contoso.com) without deploying custom IaaS DNS servers. What should you configure?',
+      options: [
+        { id: 'opt1', text: 'Azure Private DNS Zone linked to both VNets', isCorrect: true },
+        { id: 'opt2', text: 'Public Azure DNS Zone' },
+        { id: 'opt3', text: 'Hosts file on each VM' },
+        { id: 'opt4', text: 'Azure ExpressRoute Private Peering' },
+      ],
+    },
+    {
+      code: 'AZ104-Q016',
+      title: 'Monitoring - Log Analytics Workspace KQL Analytics',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Log Analytics Workspace stores log telemetry and enables querying via Kusto Query Language (KQL).',
+      prompt: 'You need to write Kusto Query Language (KQL) queries to analyze diagnostic logs collected from 50 Virtual Machines, Azure Firewalls, and Storage Accounts in a single dashboard. Where should diagnostic logs be sent?',
+      options: [
+        { id: 'opt1', text: 'Log Analytics Workspace', isCorrect: true },
+        { id: 'opt2', text: 'Azure Blob Storage' },
+        { id: 'opt3', text: 'Azure Event Hubs' },
+        { id: 'opt4', text: 'Azure Key Vault' },
+      ],
+    },
+    {
+      code: 'AZ104-Q017',
+      title: 'Network Watcher - IP Flow Verify Diagnostic Tool',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'IP Flow Verify checks if a packet is allowed or denied based on 5-tuple security group rules.',
+      prompt: 'A Virtual Machine VM1 cannot communicate with VM2 over Port 443. You suspect a Network Security Group rule is blocking the traffic. Which feature in Azure Network Watcher should you use to test if a packet is allowed or denied?',
+      options: [
+        { id: 'opt1', text: 'IP Flow Verify', isCorrect: true },
+        { id: 'opt2', text: 'Connection Monitor' },
+        { id: 'opt3', text: 'Packet Capture' },
+        { id: 'opt4', text: 'Next Hop' },
+      ],
+    },
+    {
+      code: 'AZ104-Q018',
+      title: 'Backup & Recovery - Recovery Services Vault Management',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'A Recovery Services Vault is a management entity that stores backup data and policies for Azure VMs.',
+      prompt: 'You need to configure daily automated backup policies and retention schedules for 10 Azure Virtual Machines. Which Azure resource container must you deploy to manage VM backups?',
+      options: [
+        { id: 'opt1', text: 'Recovery Services Vault', isCorrect: true },
+        { id: 'opt2', text: 'Storage Account Blob Container' },
+        { id: 'opt3', text: 'Azure Key Vault' },
+        { id: 'opt4', text: 'Management Group' },
+      ],
+    },
+    {
+      code: 'AZ104-Q019',
+      title: 'Disaster Recovery - Azure Site Recovery (ASR) Cross-Region',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Site Recovery (ASR) handles disaster recovery by replicating workloads to a secondary Azure region.',
+      prompt: 'You need to orchestrate business continuity and disaster recovery (BCDR) for Azure VMs by replicating them from the East US region to the West US region. Which service should you configure?',
+      options: [
+        { id: 'opt1', text: 'Azure Site Recovery (ASR)', isCorrect: true },
+        { id: 'opt2', text: 'Azure Backup' },
+        { id: 'opt3', text: 'Azure Import/Export' },
+        { id: 'opt4', text: 'Virtual Machine Scale Sets' },
+      ],
+    },
+  ];
+
+  const seededAZ104Questions = [];
+  for (const qData of az104QuestionsData) {
+    const q = await prisma.question.create({
+      data: {
+        code: qData.code,
+        title: qData.title,
+        type: qData.type,
+        difficulty: qData.difficulty,
+        points: qData.points,
+        explanation: qData.explanation,
+        categoryId: catAzure.id,
+        content: JSON.stringify({
+          prompt: qData.prompt,
+          options: qData.options,
+        }),
+      },
+    });
+    seededAZ104Questions.push(q);
+  }
+
+  // Question 20: Drag and Drop Administrative Tools
+  const qAZ104_DD = await prisma.question.create({
+    data: {
+      code: 'AZ104-Q020',
+      title: 'Azure Administrator Core Services Drag and Drop',
+      type: QuestionType.DRAG_AND_DROP,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 2.5,
+      explanation: 'Log Analytics Workspace runs KQL, ASR handles Disaster Recovery, VNet Peering links networks.',
+      categoryId: catAzure.id,
+      content: JSON.stringify({
+        prompt: 'Drag each Azure administrative service from the left pool to its corresponding description on the right.',
+        items: [
+          { id: 'ad1', label: 'Log Analytics Workspace' },
+          { id: 'ad2', label: 'Azure Site Recovery (ASR)' },
+          { id: 'ad3', label: 'VNet Peering' },
+        ],
+        targets: [
+          { id: 'target1', label: 'Centralizes diagnostic logs and executes KQL queries across resources', correctItemId: 'ad1' },
+          { id: 'target2', label: 'Orchestrates cross-region disaster recovery VM replication and failover', correctItemId: 'ad2' },
+          { id: 'target3', label: 'Connects virtual networks securely over Microsoft private network without public IPs', correctItemId: 'ad3' },
+        ],
+      }),
+    },
+  });
+  seededAZ104Questions.push(qAZ104_DD);
+
+  const examAZ104 = await prisma.exam.create({
+    data: {
+      code: 'AZ-104',
+      title: 'Microsoft Azure Administrator (AZ-104)',
+      vendor: ExamVendor.MICROSOFT,
+      examType: ExamType.CERTIFICATION,
+      description: 'Demonstrate domain expertise in managing Azure identities, governance, storage, compute, virtual networking, and resource monitoring.',
+      timeLimitMinutes: 90,
+      passingScore: 70.0,
+      creatorId: creatorUser.id,
+      status: ExamStatus.PUBLISHED,
+    },
+  });
+
+  const secAZ104 = await prisma.examSection.create({
+    data: { examId: examAZ104.id, title: 'Section 1: Azure Identities, Governance, Storage, Compute & Virtual Networks', orderIndex: 1 },
+  });
+
+  let order104 = 1;
+  for (const q of seededAZ104Questions) {
+    await prisma.sectionQuestion.create({ data: { sectionId: secAZ104.id, questionId: q.id, orderIndex: order104++ } });
+  }
+
+  // ==========================================
+  // 2. AI-901 EXAM TRACK (15 QUESTIONS)
   // ==========================================
   const ai901QuestionsData = [
     {
@@ -351,7 +712,7 @@ async function main() {
   }
 
   // ==========================================
-  // 2. AI-900 EXAM TRACK (35 COMPLETE QUESTIONS)
+  // 3. AI-900 EXAM TRACK (35 COMPLETE QUESTIONS)
   // ==========================================
   const ai900QuestionsData = [
     {
@@ -936,7 +1297,7 @@ async function main() {
   }
 
   // ==========================================
-  // 3. AZ-900 EXAM TRACK (40 QUESTIONS - INCL. EXAMHEIST)
+  // 4. AZ-900 EXAM TRACK (40 QUESTIONS)
   // ==========================================
   const az900QuestionsData = [
     {
@@ -1374,7 +1735,6 @@ async function main() {
         { id: 'opt4', text: 'Azure Files' },
       ],
     },
-    // --- EXAMHEIST AZ-900 QUESTIONS ---
     {
       code: 'AZ900-Q031',
       title: 'ExamHeist - Azure Support Plans Ticket Entitlements',
@@ -1558,7 +1918,6 @@ async function main() {
   });
   seededAZ900Questions.push(qAZ900_DD);
 
-  // Question 40: Storage Explorer GUI
   const qAZ900_40 = await prisma.question.create({
     data: {
       code: 'AZ900-Q040',
@@ -1604,6 +1963,7 @@ async function main() {
     await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: q.id, orderIndex: orderAZ++ } });
   }
 
+  console.log(`✅ Successfully seeded ALL ${seededAZ104Questions.length} AZ-104 questions into AZ-104 track!`);
   console.log(`✅ Successfully seeded ALL ${seededAI901Questions.length} AI-901 questions into AI-901 track!`);
   console.log(`✅ Successfully seeded ALL ${seededAI900Questions.length} AI-900 questions into AI-900 track!`);
   console.log(`✅ Successfully seeded ALL ${seededAZ900Questions.length} AZ-900 questions into AZ-900 track!`);
