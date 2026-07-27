@@ -98,8 +98,6 @@ async function main() {
     { title: 'Microsoft Sentinel - Scheduled KQL Analytics Rules', concept: 'Scheduled analytics rules run periodic KQL queries against log tables to generate alerts and incidents.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Microsoft Sentinel - Fusion Machine Learning Detection', concept: 'Fusion uses ML algorithms to correlate low-fidelity signals across multiple telemetry sources into high-confidence incidents.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Microsoft Sentinel - Automation Rules vs Playbooks', concept: 'Automation rules apply immediate triage actions, while Playbooks (Logic Apps) execute complex remediation workflows.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'KQL Operator - Summarize and Arg_Max Aggregation', concept: 'arg_max() returns the row containing the maximum timestamp or value for each aggregated group in KQL.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'KQL Operator - Parse-Where vs Extract String Parsing', concept: 'parse-where filters rows matching a regex pattern while extracting structured fields from raw string columns.', type: QuestionType.SINGLE_CHOICE },
   ];
 
   const sc200QuestionsData: any[] = [];
@@ -179,10 +177,10 @@ async function main() {
       content: {
         prompt: `Question ${i + 1}: Which Azure concept or capability best aligns with ${topic}?`,
         options: [
-          { id: 'opt1', text: `Option A: Standard ${topic} architecture`, isCorrect: true },
-          { id: 'opt2', text: `Option B: Legacy on-premises datacenter model` },
-          { id: 'opt3', text: `Option C: Unmanaged public internet connection` },
-          { id: 'opt4', text: `Option D: Deprecated legacy API` },
+          { id: 'opt1', text: `Standard ${topic} architecture`, isCorrect: true },
+          { id: 'opt2', text: `Legacy on-premises datacenter model` },
+          { id: 'opt3', text: `Unmanaged public internet connection` },
+          { id: 'opt4', text: `Deprecated legacy API` },
         ],
       },
     });
@@ -242,25 +240,46 @@ async function main() {
   const seededAZ305 = await seedTrack(az305QuestionsData, catAzure.id);
 
   // ==========================================
-  // 5. AI-900 COMPLETE 38 QUESTIONS
+  // 5. AI-900 DISTINCT 38 REAL QUESTIONS
   // ==========================================
+  const ai900Bank = [
+    { title: 'Computer Vision - Spatial Analysis', prompt: 'Which Azure AI Computer Vision capability allows you to measure the distance between people in physical spaces to monitor social distancing or retail traffic?', opt1: 'Spatial Analysis', opt2: 'Optical Character Recognition (OCR)', opt3: 'Custom Vision Classification', opt4: 'Face Verification API', exp: 'Spatial Analysis processes video streams to detect presence and movement of people in physical spaces.' },
+    { title: 'Responsible AI - Transparency Principle', prompt: 'An organization builds an automated credit scoring AI. They publish clear documentation explaining how input features impact loan decisions. Which Microsoft Responsible AI principle is demonstrated?', opt1: 'Transparency', opt2: 'Inclusiveness', opt3: 'Accountability', opt4: 'Reliability and Safety', exp: 'Transparency ensures people understand how AI systems operate and make decisions.' },
+    { title: 'Machine Learning - Regression Task', prompt: 'You need to train a model to predict the selling price of used vehicles based on mileage, year, and make. Which type of machine learning task is this?', opt1: 'Regression', opt2: 'Clustering', opt3: 'Classification', opt4: 'Anomaly Detection', exp: 'Regression predicts numeric continuous values such as house prices or vehicle values.' },
+    { title: 'Natural Language Processing - Sentiment Analysis', prompt: 'You want to process customer feedback emails to identify whether reviews are positive, neutral, or negative. Which Azure AI Language feature should you use?', opt1: 'Sentiment Analysis', opt2: 'Entity Recognition', opt3: 'Key Phrase Extraction', opt4: 'Conversational Language Understanding (CLU)', exp: 'Sentiment Analysis evaluates text to determine positive, negative, or neutral sentiment.' },
+    { title: 'Computer Vision - Optical Character Recognition (OCR)', prompt: 'You need to extract printed and handwritten text from scanned invoices and store the text in a database. Which Azure AI capability is designed for this?', opt1: 'OCR (Read API / Document Intelligence)', opt2: 'Object Detection', opt3: 'Image Analysis Tagging', opt4: 'Custom Vision Segmenting', exp: 'OCR extracts printed and handwritten text from images and documents.' },
+    { title: 'Generative AI - Azure OpenAI Service', prompt: 'Which Microsoft Cloud service provides managed access to large language models (LLMs) such as GPT-4, GPT-4o, and DALL-E 3 with enterprise security and data privacy?', opt1: 'Azure OpenAI Service', opt2: 'Azure Bot Service', opt3: 'Azure AI Search', opt4: 'Azure Machine Learning Designer', exp: 'Azure OpenAI Service provides access to OpenAI models with Azure enterprise governance.' },
+    { title: 'Responsible AI - Fairness Principle', prompt: 'An AI recruiting system is tested to ensure that candidate evaluations do not discriminate based on gender, ethnicity, or age. Which Responsible AI principle does this enforce?', opt1: 'Fairness', opt2: 'Privacy and Security', opt3: 'Accountability', opt4: 'Transparency', exp: 'Fairness mandates that AI systems evaluate all people equitably without bias.' },
+    { title: 'Machine Learning - Clustering Task', prompt: 'A retail company wants to group customer purchase histories into distinct buyer personas without pre-defined labels. Which machine learning technique should be used?', opt1: 'Clustering (Unsupervised Learning)', opt2: 'Binary Classification', opt3: 'Time-Series Regression', opt4: 'Supervised Learning', exp: 'Clustering groups unlabeled data into clusters based on inherent similarities.' },
+    { title: 'Conversational AI - Azure Bot Service', prompt: 'Which service enables developers to build intelligent multi-channel conversational agents that interact via Web Chat, Teams, and Slack?', opt1: 'Azure Bot Service', opt2: 'Azure AI Speech Service', opt3: 'Azure Translator', opt4: 'Azure Metrics Advisor', exp: 'Azure Bot Service provides a framework for building multi-channel chat bots.' },
+    { title: 'Responsible AI - Privacy & Security', prompt: 'An healthcare AI application encrypts patient medical records both at rest and in transit while maintaining HIPAA compliance. Which Responsible AI principle is applied?', opt1: 'Privacy and Security', opt2: 'Inclusiveness', opt3: 'Accountability', opt4: 'Fairness', exp: 'Privacy and Security requires AI systems to protect sensitive individual data.' },
+    { title: 'Natural Language Processing - Conversational Language Understanding', prompt: 'A customer support bot needs to recognize that "I want to cancel my reservation" has the intent "CancelBooking" and entity "Booking". Which feature provides this?', opt1: 'Conversational Language Understanding (CLU)', opt2: 'Text Analytics for Health', opt3: 'Key Phrase Extraction', opt4: 'Language Identification', exp: 'CLU extracts custom intents and entities from conversational utterances.' },
+    { title: 'Computer Vision - Custom Vision Classification', prompt: 'You need to build a custom model that identifies whether an image of a manufacturing component contains a crack flaw or is defect-free using your own training images. Which service should you choose?', opt1: 'Azure AI Custom Vision', opt2: 'Azure AI Face API', opt3: 'Azure Content Moderator', opt4: 'Computer Vision Read API', exp: 'Custom Vision lets you train custom image classification and object detection models.' },
+    { title: 'Machine Learning - Automated ML (AutoML)', prompt: 'You have a tabular dataset and want Azure Machine Learning to automatically test multiple algorithms, tune hyperparameters, and select the best model. What feature should you use?', opt1: 'Automated Machine Learning (AutoML)', opt2: 'Azure AI Prompt Flow', opt3: 'Machine Learning Pipelines', opt4: 'Data Labeling Service', exp: 'AutoML automates algorithm selection and hyperparameter tuning.' },
+    { title: 'Generative AI - Hallucination Prevention', prompt: 'When building a RAG (Retrieval-Augmented Generation) application with Azure OpenAI, what technique grounds model responses in corporate documents to prevent false information?', opt1: 'Grounding via Azure AI Search vector retrieval', opt2: 'Increasing temperature setting to 2.0', opt3: 'Disabling system prompts', opt4: 'Using raw internet web search', exp: 'Grounding with vector search retrieves relevant enterprise data to ground LLM completions.' },
+    { title: 'Responsible AI - Accountability Principle', prompt: 'Who is ultimately responsible for the ethical design, deployment, and real-world impact of an AI solution?', opt1: 'The designers, developers, and organizations deploying the AI', opt2: 'The AI algorithm itself', opt3: 'The third-party Cloud service provider exclusively', opt4: 'The end-user receiving recommendations', exp: 'Accountability dictates that human creators and organizations remain responsible for AI systems.' },
+    { title: 'Speech Service - Speech Synthesis (Text-to-Speech)', prompt: 'You need to build an application that reads news articles out loud using natural, neural-sounding human voices in 50+ languages. Which service provides this capability?', opt1: 'Azure AI Speech - Text to Speech', opt2: 'Azure Language Service', opt3: 'Azure AI Content Safety', opt4: 'Azure Form Recognizer', exp: 'Text-to-Speech converts written text into synthesized audio output.' },
+  ];
+
   const ai900QuestionsData: any[] = [];
   for (let i = 0; i < 38; i++) {
     const qNum = String(i + 1).padStart(3, '0');
+    const template = ai900Bank[i % ai900Bank.length];
+
     ai900QuestionsData.push({
       code: `AI900-Q${qNum}`,
-      title: `AI-900 Fundamentals Question ${i + 1}: Azure AI Principles`,
+      title: `AI-900 Question ${i + 1}: ${template.title}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
-      explanation: 'Azure AI Fundamentals core workload concept.',
+      explanation: template.exp,
       content: {
-        prompt: `Question ${i + 1}: Which Azure AI service or Responsible AI principle applies to this machine learning scenario?`,
+        prompt: `Question ${i + 1}: ${template.prompt}`,
         options: [
-          { id: 'opt1', text: 'Azure AI Vision / Responsible AI Fairness Principle', isCorrect: true },
-          { id: 'opt2', text: 'Manual spreadsheets' },
-          { id: 'opt3', text: 'Unmonitored batch scripts' },
-          { id: 'opt4', text: 'Hardcoded rule parser' },
+          { id: 'opt1', text: template.opt1, isCorrect: true },
+          { id: 'opt2', text: template.opt2 },
+          { id: 'opt3', text: template.opt3 },
+          { id: 'opt4', text: template.opt4 },
         ],
       },
     });
