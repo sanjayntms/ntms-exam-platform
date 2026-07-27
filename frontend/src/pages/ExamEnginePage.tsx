@@ -20,22 +20,22 @@ import { LabEngine } from '../components/engines/LabEngine';
 import { CodeEditorEngine } from '../components/engines/CodeEditorEngine';
 import { EssayEngine } from '../components/engines/EssayEngine';
 import { Flag, Calculator, FileText, LayoutGrid, ChevronLeft, ChevronRight, HelpCircle, AlertTriangle } from 'lucide-react';
-import { QuestionType } from '../types';
 import { useNavigate } from 'react-router-dom';
 
 export const ExamEnginePage: React.FC = () => {
   const {
     exam,
+    attemptId,
+    flatQuestions,
     currentQuestionIndex,
     setCurrentQuestionIndex,
     questionStates,
     toggleMarkForReview,
-    finishExam,
+    setCalculatorOpen,
+    setScratchpadOpen,
   } = useExamSession();
 
   const [showPalette, setShowPalette] = useState(false);
-  const [showCalculator, setShowCalculator] = useState(false);
-  const [showScratchpad, setShowScratchpad] = useState(false);
   const [showEndConfirm, setShowEndConfirm] = useState(false);
 
   const navigate = useNavigate();
@@ -48,12 +48,10 @@ export const ExamEnginePage: React.FC = () => {
     );
   }
 
-  const flatQuestions = exam.sections.flatMap((s) => s.questions);
   const currentQuestion = flatQuestions[currentQuestionIndex];
   const qState = currentQuestion ? questionStates[currentQuestion.id] || {} : {};
 
-  const handleFinish = async () => {
-    const attemptId = await finishExam();
+  const handleFinish = () => {
     if (attemptId) {
       navigate(`/results/${attemptId}`);
     }
@@ -62,35 +60,35 @@ export const ExamEnginePage: React.FC = () => {
   const renderEngine = () => {
     if (!currentQuestion) return null;
     switch (currentQuestion.type) {
-      case QuestionType.SINGLE_CHOICE:
+      case 'SINGLE_CHOICE':
         return <SingleChoiceEngine question={currentQuestion} />;
-      case QuestionType.MULTIPLE_CHOICE:
+      case 'MULTIPLE_CHOICE':
         return <MultipleChoiceEngine question={currentQuestion} />;
-      case QuestionType.TRUE_FALSE:
+      case 'TRUE_FALSE':
         return <TrueFalseEngine question={currentQuestion} />;
-      case QuestionType.DROPDOWN:
+      case 'DROPDOWN':
         return <DropdownEngine question={currentQuestion} />;
-      case QuestionType.FILL_IN_BLANK:
+      case 'FILL_IN_BLANK':
         return <FillBlankEngine question={currentQuestion} />;
-      case QuestionType.MATCHING:
+      case 'MATCHING':
         return <MatchingEngine question={currentQuestion} />;
-      case QuestionType.DRAG_AND_DROP:
+      case 'DRAG_AND_DROP':
         return <DragDropEngine question={currentQuestion} />;
-      case QuestionType.REORDER:
+      case 'REORDER':
         return <ReorderEngine question={currentQuestion} />;
-      case QuestionType.BUILD_LIST:
+      case 'BUILD_LIST':
         return <BuildListEngine question={currentQuestion} />;
-      case QuestionType.HOTSPOT:
+      case 'HOTSPOT':
         return <HotspotEngine question={currentQuestion} />;
-      case QuestionType.CASE_STUDY:
+      case 'CASE_STUDY':
         return <CaseStudyEngine question={currentQuestion} />;
-      case QuestionType.SIMULATION:
+      case 'SIMULATION':
         return <SimulationEngine question={currentQuestion} />;
-      case QuestionType.LAB:
+      case 'LAB':
         return <LabEngine question={currentQuestion} />;
-      case QuestionType.CODE_EDITOR:
+      case 'CODE_EDITOR':
         return <CodeEditorEngine question={currentQuestion} />;
-      case QuestionType.ESSAY:
+      case 'ESSAY':
         return <EssayEngine question={currentQuestion} />;
       default:
         return <SingleChoiceEngine question={currentQuestion} />;
@@ -116,7 +114,7 @@ export const ExamEnginePage: React.FC = () => {
           <button type="button" className="text-xs text-slate-300 hover:text-white flex items-center gap-1">
             <HelpCircle className="w-4 h-4" /> Help
           </button>
-          <Timer initialMinutes={exam.timeLimitMinutes} onTimeExpired={handleFinish} />
+          <Timer />
         </div>
       </header>
 
@@ -138,7 +136,7 @@ export const ExamEnginePage: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => setShowCalculator(true)}
+            onClick={() => setCalculatorOpen(true)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
           >
             <Calculator className="w-3.5 h-3.5 text-ntms-blue" />
@@ -147,7 +145,7 @@ export const ExamEnginePage: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => setShowScratchpad(true)}
+            onClick={() => setScratchpadOpen(true)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
           >
             <FileText className="w-3.5 h-3.5 text-emerald-700" />
@@ -241,11 +239,9 @@ export const ExamEnginePage: React.FC = () => {
         </div>
       </footer>
 
-      {/* Calculator Modal */}
-      {showCalculator && <CalculatorModal onClose={() => setShowCalculator(false)} />}
-
-      {/* Scratchpad Modal */}
-      {showScratchpad && <ScratchpadModal onClose={() => setShowScratchpad(false)} />}
+      {/* Calculator & Scratchpad Modals */}
+      <CalculatorModal />
+      <ScratchpadModal />
 
       {/* End Exam Confirmation Modal */}
       {showEndConfirm && (

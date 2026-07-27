@@ -2,9 +2,7 @@ import React from 'react';
 import { useExamSession } from '../../context/ExamSessionContext';
 
 export const QuestionPalette: React.FC = () => {
-  const { exam, currentQuestionIndex, setCurrentQuestionIndex, questionStates } = useExamSession();
-
-  const flatQuestions = exam?.sections.flatMap((s) => s.questions) || [];
+  const { flatQuestions, currentQuestionIndex, setCurrentQuestionIndex, questionStates } = useExamSession();
 
   return (
     <div className="space-y-4 font-sans">
