@@ -2,22 +2,20 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Update ALL Entra ID users in the database to Sanjay Dubey / NTMS Admin
-  const updated = await prisma.user.updateMany({
-    where: {
-      OR: [
-        { entraId: { not: null } },
-        { email: { contains: 'entra' } },
-        { name: { contains: 'Entra' } },
-      ],
-    },
-    data: {
-      name: 'NTMS Admin (Sanjay Dubey)',
-      email: 'sanjay@ntmsentra.onmicrosoft.com',
-    },
-  });
+  const users = await prisma.user.findMany();
+  for (const u of users) {
+    if (u.entraId || u.email.includes('entra') || u.name.includes('Entra')) {
+      await prisma.user.update({
+        where: { id: u.id },
+        data: {
+          name: 'NTMS Admin (Sanjay Dubey)',
+          email: u.email.includes('entra') ? `sanjay-${u.id.substring(0, 4)}@ntmsentra.onmicrosoft.com` : u.email,
+        },
+      });
+    }
+  }
 
-  console.log(`✅ Updated ${updated.count} Entra ID user record(s) in DB to "NTMS Admin (Sanjay Dubey)"!`);
+  console.log('✅ Updated all Entra ID user profile names in DB to "NTMS Admin (Sanjay Dubey)"!');
 }
 
 main().finally(() => prisma.$disconnect());
