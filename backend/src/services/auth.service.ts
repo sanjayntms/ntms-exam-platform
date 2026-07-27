@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { UnitOfWork } from '../infrastructure/repositories/unitOfWork.js';
 import { config } from '../config/index.js';
-import { Role } from '@prisma/client';
+import { Role } from '../domain/types.js';
 
 export class AuthService {
   constructor(private uow: UnitOfWork) {}

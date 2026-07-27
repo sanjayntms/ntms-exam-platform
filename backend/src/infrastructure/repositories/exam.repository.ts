@@ -1,4 +1,5 @@
-import { PrismaClient, Exam, ExamStatus, ExamVendor } from '@prisma/client';
+import { PrismaClient, Exam } from '@prisma/client';
+import { ExamStatus, ExamVendor } from '../../domain/types.js';
 
 export class ExamRepository {
   constructor(private prisma: PrismaClient) {}

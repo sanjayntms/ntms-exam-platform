@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Role, QuestionType, DifficultyLevel, ExamVendor, ExamType } from '@prisma/client';
+import { Role, QuestionType, DifficultyLevel, ExamVendor, ExamType } from './types.js';
 
 export const LoginSchema = z.object({
   email: z.string().email(),

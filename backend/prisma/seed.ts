@@ -1,4 +1,5 @@
-import { PrismaClient, Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus } from '../src/domain/types.js';
 
 const prisma = new PrismaClient();
 

@@ -1,5 +1,5 @@
 import { UnitOfWork } from '../infrastructure/repositories/unitOfWork.js';
-import { AttemptStatus } from '@prisma/client';
+import { AttemptStatus } from '../domain/types.js';
 
 export class ExamEngineService {
   constructor(private uow: UnitOfWork) {}

@@ -12,7 +12,7 @@ import { AnalyticsController } from '../controllers/analytics.controller.js';
 import { UserController } from '../controllers/user.controller.js';
 import { authenticateJWT } from '../middleware/auth.middleware.js';
 import { authorizeRoles } from '../middleware/rbac.middleware.js';
-import { Role } from '@prisma/client';
+import { Role } from '../domain/types.js';
 
 const router = Router();
 

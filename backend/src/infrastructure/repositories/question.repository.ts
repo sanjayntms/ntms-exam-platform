@@ -1,4 +1,5 @@
-import { PrismaClient, Question, QuestionType, DifficultyLevel } from '@prisma/client';
+import { PrismaClient, Question } from '@prisma/client';
+import { QuestionType, DifficultyLevel } from '../../domain/types.js';
 
 export class QuestionRepository {
   constructor(private prisma: PrismaClient) {}

@@ -1,4 +1,5 @@
-import { PrismaClient, ExamAttempt, AttemptStatus } from '@prisma/client';
+import { PrismaClient, ExamAttempt } from '@prisma/client';
+import { AttemptStatus } from '../../domain/types.js';
 
 export class AttemptRepository {
   constructor(private prisma: PrismaClient) {}

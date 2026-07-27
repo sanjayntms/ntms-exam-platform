@@ -7,77 +7,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum Role {
-  ADMINISTRATOR
-  EXAM_CREATOR
-  CANDIDATE
-  GUEST
-}
-
-enum ExamVendor {
-  MICROSOFT
-  AWS
-  CISCO
-  VMWARE
-  LINUX
-  CUSTOM
-  UNIVERSITY
-}
-
-enum ExamType {
-  CERTIFICATION
-  PRACTICE
-  MOCK
-  LAB
-  SIMULATION
-  CASE_STUDY
-}
-
-enum QuestionType {
-  SINGLE_CHOICE
-  MULTIPLE_CHOICE
-  TRUE_FALSE
-  DROPDOWN
-  FILL_IN_BLANK
-  MATCHING
-  DRAG_AND_DROP
-  REORDER
-  BUILD_LIST
-  HOTSPOT
-  CASE_STUDY
-  SIMULATION
-  LAB
-  CODE_EDITOR
-  ESSAY
-}
-
-enum DifficultyLevel {
-  BEGINNER
-  INTERMEDIATE
-  ADVANCED
-  EXPERT
-}
-
-enum ExamStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-enum AttemptStatus {
-  IN_PROGRESS
-  PAUSED
-  SUBMITTED
-  EXPIRED
-  EVALUATED
-}
-
 model User {
   id           String        @id @default(uuid())
   entraId      String?       @unique
   email        String        @unique
   name         String
-  role         Role          @default(CANDIDATE)
+  role         String        @default("CANDIDATE")
   passwordHash String?
   isActive     Boolean       @default(true)
   createdAt    DateTime      @default(now())
@@ -111,8 +46,8 @@ model Question {
   id             String          @id @default(uuid())
   title          String
   code           String          @unique
-  type           QuestionType
-  difficulty     DifficultyLevel @default(INTERMEDIATE)
+  type           String
+  difficulty     String          @default("INTERMEDIATE")
   points         Float           @default(1.0)
   negativePoints Float           @default(0.0)
   explanation    String?
@@ -187,8 +122,8 @@ model Exam {
   id                String      @id @default(uuid())
   title             String
   code              String      @unique
-  vendor            ExamVendor  @default(MICROSOFT)
-  examType          ExamType    @default(CERTIFICATION)
+  vendor            String      @default("MICROSOFT")
+  examType          String      @default("CERTIFICATION")
   description       String?
   instructions      String?
   timeLimitMinutes  Int         @default(120)
@@ -199,7 +134,7 @@ model Exam {
   allowNotes        Boolean     @default(true)
   negativeMarking   Boolean     @default(false)
   partialMarking    Boolean     @default(true)
-  status            ExamStatus  @default(PUBLISHED)
+  status            String      @default("PUBLISHED")
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
 
@@ -241,7 +176,7 @@ model ExamAttempt {
   id               String        @id @default(uuid())
   userId           String
   examId           String
-  status           AttemptStatus @default(IN_PROGRESS)
+  status           String        @default("IN_PROGRESS")
   startedAt        DateTime      @default(now())
   completedAt      DateTime?
   timeSpentSeconds Int           @default(0)
