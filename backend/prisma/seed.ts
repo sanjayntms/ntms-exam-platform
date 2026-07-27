@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding for Requested Exam Tracks...');
+  console.log('🌱 Starting NTMS Database Seeding with Drag & Drop Question Types...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -97,22 +97,26 @@ async function main() {
     },
   });
 
-  const qInterview2 = await prisma.question.create({
+  const qInterviewDD = await prisma.question.create({
     data: {
-      code: 'INT-QA-Q002',
-      title: 'Terraform State File Locking Interview Question',
-      type: QuestionType.MULTIPLE_CHOICE,
+      code: 'INT-QA-DD01',
+      title: 'DevOps & Architecture Drag and Drop',
+      type: QuestionType.DRAG_AND_DROP,
       difficulty: DifficultyLevel.ADVANCED,
-      points: 2.0,
-      explanation: 'State locking prevents concurrent execution from corrupting state file. DynamoDB (AWS) or Blob Lease (Azure) are used for remote backends.',
+      points: 3.0,
+      explanation: 'Drag each DevOps concept to its architectural definition.',
       categoryId: catInterview.id,
       content: JSON.stringify({
-        prompt: 'Which mechanisms ensure Terraform state file locking during team execution? (Select TWO)',
-        options: [
-          { id: 'opt1', text: 'Azure Blob Storage with native Blob Lease locking', isCorrect: true },
-          { id: 'opt2', text: 'AWS S3 bucket combined with DynamoDB state table locking', isCorrect: true },
-          { id: 'opt3', text: 'Git commit lock on local master branch' },
-          { id: 'opt4', text: 'HTTP 404 response header' },
+        prompt: 'Drag each DevOps concept from the pool on the left to its corresponding architectural definition on the right.',
+        items: [
+          { id: 'item1', label: 'CI/CD Pipeline' },
+          { id: 'item2', label: 'Infrastructure as Code' },
+          { id: 'item3', label: 'Blue-Green Deployment' },
+        ],
+        targets: [
+          { id: 'target1', label: 'Declarative automated provisioning of cloud environments', correctItemId: 'item2' },
+          { id: 'target2', label: 'Zero-downtime release switching between staging and production', correctItemId: 'item3' },
+          { id: 'target3', label: 'Automated build, test, and software deployment workflow', correctItemId: 'item1' },
         ],
       }),
     },
@@ -124,7 +128,7 @@ async function main() {
       title: 'Interview QA: Cloud & DevOps Technical Practice',
       vendor: ExamVendor.CUSTOM,
       examType: ExamType.PRACTICE,
-      description: 'Technical interview practice questions covering Azure Architecture, Terraform, and DevOps principles.',
+      description: 'Technical interview practice questions covering Azure Architecture, Terraform, and DevOps principles with Drag & Drop items.',
       timeLimitMinutes: 45,
       passingScore: 75.0,
       creatorId: creatorUser.id,
@@ -133,10 +137,10 @@ async function main() {
   });
 
   const secInt = await prisma.examSection.create({
-    data: { examId: examInterviewQA.id, title: 'Section 1: Architectural Q&A', orderIndex: 1 },
+    data: { examId: examInterviewQA.id, title: 'Section 1: Architectural Q&A & Drag & Drop', orderIndex: 1 },
   });
   await prisma.sectionQuestion.create({ data: { sectionId: secInt.id, questionId: qInterview1.id, orderIndex: 1 } });
-  await prisma.sectionQuestion.create({ data: { sectionId: secInt.id, questionId: qInterview2.id, orderIndex: 2 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secInt.id, questionId: qInterviewDD.id, orderIndex: 2 } });
 
   // ==========================================
   // 2. AZ-900 EXAM TRACK
@@ -162,18 +166,27 @@ async function main() {
     },
   });
 
-  const qAZ900_2 = await prisma.question.create({
+  const qAZ900_DD = await prisma.question.create({
     data: {
-      code: 'AZ900-Q002',
-      title: 'Azure SLA Guarantees',
-      type: QuestionType.TRUE_FALSE,
-      difficulty: DifficultyLevel.BEGINNER,
-      points: 1.0,
-      explanation: 'Azure ExpressRoute connections do not traverse the public internet.',
+      code: 'AZ900-DD01',
+      title: 'Azure SLA Availability Drag and Drop',
+      type: QuestionType.DRAG_AND_DROP,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 2.5,
+      explanation: 'Availability Zones offer 99.99% SLA, Availability Sets offer 99.95%, single Premium SSD VM offers 99.9%.',
       categoryId: catAzure.id,
       content: JSON.stringify({
-        prompt: 'Azure ExpressRoute traffic traverses the public internet by default.',
-        isTrueCorrect: false,
+        prompt: 'Drag each Azure SLA percentage from the left pool to its corresponding virtual machine deployment configuration on the right.',
+        items: [
+          { id: 'sla1', label: '99.99%' },
+          { id: 'sla2', label: '99.9%' },
+          { id: 'sla3', label: '99.95%' },
+        ],
+        targets: [
+          { id: 'target1', label: 'Virtual Machines deployed across Availability Zones', correctItemId: 'sla1' },
+          { id: 'target2', label: 'Single Virtual Machine with Premium SSD storage', correctItemId: 'sla2' },
+          { id: 'target3', label: 'Virtual Machines deployed in an Availability Set', correctItemId: 'sla3' },
+        ],
       }),
     },
   });
@@ -184,7 +197,7 @@ async function main() {
       title: 'Microsoft Azure Fundamentals (AZ-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of cloud concepts, Azure services, security, privacy, pricing, and support.',
+      description: 'Demonstrate foundational knowledge of cloud concepts, Azure services, security, privacy, pricing, and SLA Drag & Drop items.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -193,10 +206,10 @@ async function main() {
   });
 
   const secAZ900 = await prisma.examSection.create({
-    data: { examId: examAZ900.id, title: 'Section 1: General Cloud Concepts', orderIndex: 1 },
+    data: { examId: examAZ900.id, title: 'Section 1: General Cloud Concepts & SLAs', orderIndex: 1 },
   });
   await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: qAZ900_1.id, orderIndex: 1 } });
-  await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: qAZ900_2.id, orderIndex: 2 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: qAZ900_DD.id, orderIndex: 2 } });
 
   // ==========================================
   // 3. AZ-104 EXAM TRACK
@@ -222,19 +235,26 @@ async function main() {
     },
   });
 
-  const qAZ104_2 = await prisma.question.create({
+  const qAZ104_DD = await prisma.question.create({
     data: {
-      code: 'AZ104-Q002',
-      title: 'Azure RBAC Custom Role Definition',
-      type: QuestionType.FILL_IN_BLANK,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.5,
-      explanation: 'Microsoft.Storage/storageAccounts/read grants read permissions to storage accounts.',
+      code: 'AZ104-DD01',
+      title: 'Azure Networking Components Drag and Drop',
+      type: QuestionType.DRAG_AND_DROP,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 3.0,
+      explanation: 'UDR overrides system routes, Peering connects VNets, NSG filters ports.',
       categoryId: catAzure.id,
       content: JSON.stringify({
-        prompt: 'In Azure RBAC JSON role definition, to grant permission to list storage keys, add action: "Microsoft.Storage/storageAccounts/[BLANK_1]/action".',
-        blanks: [
-          { id: 'BLANK_1', correctAnswers: ['listkeys', 'listKeys'] },
+        prompt: 'Drag each Azure Networking component from the pool to its corresponding functional description on the right.',
+        items: [
+          { id: 'net1', label: 'User Defined Route (UDR)' },
+          { id: 'net2', label: 'VNet Peering' },
+          { id: 'net3', label: 'Network Security Group (NSG)' },
+        ],
+        targets: [
+          { id: 'target1', label: 'Custom route table used to override default system routing', correctItemId: 'net1' },
+          { id: 'target2', label: 'Private low-latency interconnection between two Virtual Networks', correctItemId: 'net2' },
+          { id: 'target3', label: 'Stateful firewall rules filtering traffic at subnet or NIC level', correctItemId: 'net3' },
         ],
       }),
     },
@@ -246,7 +266,7 @@ async function main() {
       title: 'Microsoft Azure Administrator (AZ-104)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Validate expertise in implementing, managing, and monitoring identity, governance, storage, compute, and virtual networks in Azure.',
+      description: 'Validate expertise in implementing, managing, and monitoring identity, governance, storage, compute, and virtual networks with Drag & Drop items.',
       timeLimitMinutes: 120,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -255,10 +275,10 @@ async function main() {
   });
 
   const secAZ104 = await prisma.examSection.create({
-    data: { examId: examAZ104.id, title: 'Section 1: Networking & Identity Management', orderIndex: 1 },
+    data: { examId: examAZ104.id, title: 'Section 1: Networking & Routing Drag & Drop', orderIndex: 1 },
   });
   await prisma.sectionQuestion.create({ data: { sectionId: secAZ104.id, questionId: qAZ104_1.id, orderIndex: 1 } });
-  await prisma.sectionQuestion.create({ data: { sectionId: secAZ104.id, questionId: qAZ104_2.id, orderIndex: 2 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secAZ104.id, questionId: qAZ104_DD.id, orderIndex: 2 } });
 
   // ==========================================
   // 4. TERRAFORM ASSOCIATE EXAM TRACK
@@ -284,22 +304,26 @@ async function main() {
     },
   });
 
-  const qTF2 = await prisma.question.create({
+  const qTF_DD = await prisma.question.create({
     data: {
-      code: 'TF-Q002',
-      title: 'Terraform State Management Command',
-      type: QuestionType.SINGLE_CHOICE,
+      code: 'TF-DD01',
+      title: 'Terraform HCL Blocks Drag and Drop',
+      type: QuestionType.DRAG_AND_DROP,
       difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: 'terraform state mv renames resources in state without destroying infrastructure.',
+      points: 2.5,
+      explanation: 'provider configures plugin, resource creates infrastructure, data queries existing infrastructure.',
       categoryId: catDevOps.id,
       content: JSON.stringify({
-        prompt: 'Which command refactors a resource inside the Terraform state file without destroying or recreating real infrastructure?',
-        options: [
-          { id: 'opt1', text: 'terraform refresh' },
-          { id: 'opt2', text: 'terraform state mv', isCorrect: true },
-          { id: 'opt3', text: 'terraform destroy --force' },
-          { id: 'opt4', text: 'terraform import --overwrite' },
+        prompt: 'Drag each Terraform block type from the left pool to its configuration purpose on the right.',
+        items: [
+          { id: 'block1', label: 'provider' },
+          { id: 'block2', label: 'resource' },
+          { id: 'block3', label: 'data' },
+        ],
+        targets: [
+          { id: 'target1', label: 'Configures target platform API authentication and plugin binaries', correctItemId: 'block1' },
+          { id: 'target2', label: 'Declares an infrastructure component to be created and managed', correctItemId: 'block2' },
+          { id: 'target3', label: 'Queries an existing external infrastructure component for read-only attributes', correctItemId: 'block3' },
         ],
       }),
     },
@@ -311,7 +335,7 @@ async function main() {
       title: 'HashiCorp Certified: Terraform Associate',
       vendor: ExamVendor.CUSTOM,
       examType: ExamType.CERTIFICATION,
-      description: 'Validate understanding of Infrastructure as Code (IaC) concepts, Terraform CLI, state management, modules, and Terraform Cloud.',
+      description: 'Validate understanding of Infrastructure as Code (IaC) concepts, CLI commands, HCL blocks, and Drag & Drop items.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -320,10 +344,10 @@ async function main() {
   });
 
   const secTF = await prisma.examSection.create({
-    data: { examId: examTerraform.id, title: 'Section 1: Terraform Fundamentals & CLI', orderIndex: 1 },
+    data: { examId: examTerraform.id, title: 'Section 1: Terraform HCL & Core Workflow', orderIndex: 1 },
   });
   await prisma.sectionQuestion.create({ data: { sectionId: secTF.id, questionId: qTF1.id, orderIndex: 1 } });
-  await prisma.sectionQuestion.create({ data: { sectionId: secTF.id, questionId: qTF2.id, orderIndex: 2 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secTF.id, questionId: qTF_DD.id, orderIndex: 2 } });
 
   // ==========================================
   // 5. AZURE RESOURCE SPECIFIC (Storage & VNet)
@@ -331,7 +355,7 @@ async function main() {
   const qResSpec1 = await prisma.question.create({
     data: {
       code: 'AZ-RES-Q001',
-      title: 'Azure Storage Account Access Tier Matching',
+      title: 'Azure Storage Access Tier Matching',
       type: QuestionType.MATCHING,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 2.0,
@@ -349,22 +373,26 @@ async function main() {
     },
   });
 
-  const qResSpec2 = await prisma.question.create({
+  const qResSpec_DD = await prisma.question.create({
     data: {
-      code: 'AZ-RES-Q002',
-      title: 'Azure Storage Private Endpoint vs VNet Service Endpoint',
-      type: QuestionType.SINGLE_CHOICE,
+      code: 'AZ-RES-DD01',
+      title: 'Azure Storage Account Performance Drag and Drop',
+      type: QuestionType.DRAG_AND_DROP,
       difficulty: DifficultyLevel.ADVANCED,
-      points: 1.5,
-      explanation: 'Private Endpoints assign a private IP address from your VNet to Azure Storage Blob service.',
+      points: 3.0,
+      explanation: 'Drag storage account types to performance tier requirements.',
       categoryId: catAzure.id,
       content: JSON.stringify({
-        prompt: 'Which feature secures Azure Storage Account access by assigning a dedicated private IP address from your subnet directly to the storage service?',
-        options: [
-          { id: 'opt1', text: 'Azure Service Endpoint' },
-          { id: 'opt2', text: 'Azure Private Endpoint (Private Link)', isCorrect: true },
-          { id: 'opt3', text: 'Azure Storage Shared Access Signature (SAS)' },
-          { id: 'opt4', text: 'Azure Application Gateway v2' },
+        prompt: 'Drag each Azure Storage Account type from the pool on the left to its performance tier requirement on the right.',
+        items: [
+          { id: 'stg1', label: 'Standard General Purpose v2' },
+          { id: 'stg2', label: 'Premium Block Blobs' },
+          { id: 'stg3', label: 'Premium File Shares' },
+        ],
+        targets: [
+          { id: 'target1', label: 'Ultra low-latency SSD storage for high transaction rates', correctItemId: 'stg2' },
+          { id: 'target2', label: 'High-performance SMB/NFS enterprise file storage', correctItemId: 'stg3' },
+          { id: 'target3', label: 'Cost-effective storage for blobs, tables, queues, and disks', correctItemId: 'stg1' },
         ],
       }),
     },
@@ -376,7 +404,7 @@ async function main() {
       title: 'Azure Resource Specific: Storage Accounts & Virtual Networks (VNets)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.PRACTICE,
-      description: 'Grouped resource specialization focusing strictly on Azure Storage Accounts, Private Endpoints, VNets, Subnets, and Network Security Groups.',
+      description: 'Grouped resource specialization focusing strictly on Azure Storage Accounts, Private Endpoints, VNets, Subnets, and Drag & Drop items.',
       timeLimitMinutes: 45,
       passingScore: 80.0,
       creatorId: creatorUser.id,
@@ -385,17 +413,17 @@ async function main() {
   });
 
   const secResSpec = await prisma.examSection.create({
-    data: { examId: examAzureResource.id, title: 'Section 1: Storage Account & VNet Configuration', orderIndex: 1 },
+    data: { examId: examAzureResource.id, title: 'Section 1: Storage & Network Drag and Drop Specialization', orderIndex: 1 },
   });
   await prisma.sectionQuestion.create({ data: { sectionId: secResSpec.id, questionId: qResSpec1.id, orderIndex: 1 } });
-  await prisma.sectionQuestion.create({ data: { sectionId: secResSpec.id, questionId: qResSpec2.id, orderIndex: 2 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secResSpec.id, questionId: qResSpec_DD.id, orderIndex: 2 } });
 
-  console.log('✅ All 5 Requested Exam Tracks Seeded Successfully:');
-  console.log('   1. INTERVIEW-QA (Cloud & DevOps Practice)');
-  console.log('   2. AZ-900 (Microsoft Azure Fundamentals)');
-  console.log('   3. AZ-104 (Microsoft Azure Administrator)');
-  console.log('   4. TF-ASSOC-003 (HashiCorp Certified Terraform Associate)');
-  console.log('   5. AZ-RES-SPEC-01 (Azure Resource Specific: Storage & VNets)');
+  console.log('✅ All 5 Exam Tracks updated with Drag & Drop Question Types:');
+  console.log('   1. INTERVIEW-QA (INT-QA-DD01: DevOps Architecture Drag & Drop)');
+  console.log('   2. AZ-900 (AZ900-DD01: Azure SLA Availability Drag & Drop)');
+  console.log('   3. AZ-104 (AZ104-DD01: Azure Networking Drag & Drop)');
+  console.log('   4. TF-ASSOC-003 (TF-DD01: Terraform HCL Blocks Drag & Drop)');
+  console.log('   5. AZ-RES-SPEC-01 (AZ-RES-DD01: Azure Storage Performance Drag & Drop)');
   console.log('🎉 NTMS Database Seeding Complete!');
 }
 
