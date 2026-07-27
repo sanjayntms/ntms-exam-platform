@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with 25 AZ-900 Questions & Answers...');
+  console.log('🌱 Starting NTMS Database Seeding with 40 AZ-900 Questions & Answers...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -143,7 +143,7 @@ async function main() {
   await prisma.sectionQuestion.create({ data: { sectionId: secInt.id, questionId: qInterviewDD.id, orderIndex: 2 } });
 
   // ==========================================
-  // 2. AZ-900 EXAM TRACK (25 COMPREHENSIVE QUESTIONS)
+  // 2. AZ-900 EXAM TRACK (40 COMPREHENSIVE QUESTIONS)
   // ==========================================
   const az900QuestionsData = [
     {
@@ -506,6 +506,232 @@ async function main() {
         { id: 'opt4', text: 'Azure Log Vault' },
       ],
     },
+    // ADDITIONAL 15 QUESTIONS FROM MASTERCLASS (TOTAL 40 QUESTIONS)
+    {
+      code: 'AZ900-Q026',
+      title: 'Azure Arc Multicloud Governance',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Azure Arc simplifies governance and management by extending Azure Resource Manager (ARM) to multicloud and on-premises servers.',
+      prompt: 'Which Azure service allows you to manage and govern servers, Kubernetes clusters, and databases running on AWS, GCP, or on-premises using Azure Resource Manager?',
+      options: [
+        { id: 'opt1', text: 'Azure Arc', isCorrect: true },
+        { id: 'opt2', text: 'Azure Sentinel' },
+        { id: 'opt3', text: 'Azure ExpressRoute' },
+        { id: 'opt4', text: 'Azure Stack' },
+      ],
+    },
+    {
+      code: 'AZ900-Q027',
+      title: 'Azure Blob Lifecycle Management Rules',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Lifecycle management rules automatically move blobs to cooler access tiers or delete them after a specified number of days.',
+      prompt: 'You need to automatically transition storage blobs to the Cool tier after 30 days of inactivity and delete them after 365 days. Which feature should you configure?',
+      options: [
+        { id: 'opt1', text: 'Lifecycle Management Rules', isCorrect: true },
+        { id: 'opt2', text: 'Storage Redundancy' },
+        { id: 'opt3', text: 'Blob Versioning' },
+        { id: 'opt4', text: 'Azure Backup' },
+      ],
+    },
+    {
+      code: 'AZ900-Q028',
+      title: 'Azure Virtual Machine Scale Sets Auto-scaling',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Virtual Machine Scale Sets (VMSS) allow you to deploy and manage a group of identical, auto-scaling VMs.',
+      prompt: 'Which Azure compute feature automatically scales the number of identical virtual machines up or down based on CPU load or schedule?',
+      options: [
+        { id: 'opt1', text: 'Virtual Machine Scale Sets (VMSS)', isCorrect: true },
+        { id: 'opt2', text: 'Availability Sets' },
+        { id: 'opt3', text: 'Availability Zones' },
+        { id: 'opt4', text: 'Azure Batch' },
+      ],
+    },
+    {
+      code: 'AZ900-Q029',
+      title: 'Azure Load Balancer Layer 4 Distribution',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Load Balancer operates at Layer 4 of the OSI model to balance TCP and UDP traffic.',
+      prompt: 'Which Layer 4 high-availability service distributes incoming TCP and UDP network traffic across healthy Virtual Machine instances?',
+      options: [
+        { id: 'opt1', text: 'Azure Load Balancer', isCorrect: true },
+        { id: 'opt2', text: 'Azure Application Gateway' },
+        { id: 'opt3', text: 'Azure Front Door' },
+        { id: 'opt4', text: 'Azure Traffic Manager' },
+      ],
+    },
+    {
+      code: 'AZ900-Q030',
+      title: 'Azure Application Gateway & Web Application Firewall (WAF)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Application Gateway is a Layer 7 web traffic load balancer that includes Web Application Firewall (WAF) to block web attacks like SQLi & XSS.',
+      prompt: 'Which Layer 7 web load balancer includes Web Application Firewall (WAF) to protect web applications from common exploits like SQL injection?',
+      options: [
+        { id: 'opt1', text: 'Azure Application Gateway', isCorrect: true },
+        { id: 'opt2', text: 'Azure Load Balancer' },
+        { id: 'opt3', text: 'Azure ExpressRoute' },
+        { id: 'opt4', text: 'Azure NAT Gateway' },
+      ],
+    },
+    {
+      code: 'AZ900-Q031',
+      title: 'Azure SQL Database Managed PaaS',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure SQL Database is a fully managed PaaS relational database engine with built-in high availability and auto-tuning.',
+      prompt: 'Which fully managed relational PaaS database service handles OS patching, backups, and high availability without managing virtual servers?',
+      options: [
+        { id: 'opt1', text: 'Azure SQL Database', isCorrect: true },
+        { id: 'opt2', text: 'SQL Server on Azure Virtual Machine' },
+        { id: 'opt3', text: 'Azure Cosmos DB' },
+        { id: 'opt4', text: 'Azure Cache for Redis' },
+      ],
+    },
+    {
+      code: 'AZ900-Q032',
+      title: 'Azure Bastion Secure RDP/SSH Access',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Bastion provides secure, seamless RDP and SSH access to virtual machines directly through the Azure portal over TLS.',
+      prompt: 'Which service provides secure RDP and SSH connectivity directly to your Virtual Machines through an HTML5 web browser without public IP addresses?',
+      options: [
+        { id: 'opt1', text: 'Azure Bastion', isCorrect: true },
+        { id: 'opt2', text: 'Azure VPN Gateway' },
+        { id: 'opt3', text: 'Azure Firewall' },
+        { id: 'opt4', text: 'Network Security Group' },
+      ],
+    },
+    {
+      code: 'AZ900-Q033',
+      title: 'Azure Key Vault Managed HSM Encryption',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Key Vault Managed HSM provides single-tenant, FIPS 140-2 Level 3 validated hardware security modules.',
+      prompt: 'Your organization requires cryptographic keys to be stored in single-tenant FIPS 140-2 Level 3 validated Hardware Security Modules. Which service should you choose?',
+      options: [
+        { id: 'opt1', text: 'Azure Key Vault Managed HSM', isCorrect: true },
+        { id: 'opt2', text: 'Azure Disk Encryption' },
+        { id: 'opt3', text: 'Azure Storage Encryption' },
+        { id: 'opt4', text: 'Microsoft Entra ID' },
+      ],
+    },
+    {
+      code: 'AZ900-Q034',
+      title: 'Azure Blueprints Subscription Standardization',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Azure Blueprints allows architects to define a repeatable set of ARM templates, RBAC assignments, and policies for subscription deployment.',
+      prompt: 'Which Azure service enables cloud architects to package ARM templates, RBAC roles, and policies into a repeatable blueprint for new subscription provisioning?',
+      options: [
+        { id: 'opt1', text: 'Azure Blueprints', isCorrect: true },
+        { id: 'opt2', text: 'Azure Automation' },
+        { id: 'opt3', text: 'Azure Advisor' },
+        { id: 'opt4', text: 'Azure Resource Graph' },
+      ],
+    },
+    {
+      code: 'AZ900-Q035',
+      title: 'Azure AI Services Pre-built Machine Learning APIs',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure AI Services provide pre-trained REST APIs for vision, speech, language, and decision-making without custom AI training.',
+      prompt: 'Which suite of pre-built AI services allows developers to add speech, vision, and natural language translation to applications without building ML models?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Services (Cognitive Services)', isCorrect: true },
+        { id: 'opt2', text: 'Azure Machine Learning Studio' },
+        { id: 'opt3', text: 'Azure Databricks' },
+        { id: 'opt4', text: 'Azure Synapse Analytics' },
+      ],
+    },
+    {
+      code: 'AZ900-Q036',
+      title: 'Azure Synapse Analytics Enterprise Data Warehousing',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Synapse Analytics combines enterprise data warehousing and Big Data analytics into a unified service.',
+      prompt: 'Which enterprise analytics service integrates big data processing, data warehousing, and data pipelines into a single unified workspace?',
+      options: [
+        { id: 'opt1', text: 'Azure Synapse Analytics', isCorrect: true },
+        { id: 'opt2', text: 'Azure HDInsight' },
+        { id: 'opt3', text: 'Azure Stream Analytics' },
+        { id: 'opt4', text: 'Azure Data Factory' },
+      ],
+    },
+    {
+      code: 'AZ900-Q037',
+      title: 'Azure DevOps Services Collaboration Toolset',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure DevOps Services provides Azure Boards, Azure Repos, Azure Pipelines, Azure Test Plans, and Azure Artifacts.',
+      prompt: 'Which suite of development services provides kanban boards, cloud Git repositories, automated CI/CD build pipelines, and package management?',
+      options: [
+        { id: 'opt1', text: 'Azure DevOps Services', isCorrect: true },
+        { id: 'opt2', text: 'Azure DevTest Labs' },
+        { id: 'opt3', text: 'Azure Automation' },
+        { id: 'opt4', text: 'GitHub Enterprise' },
+      ],
+    },
+    {
+      code: 'AZ900-Q038',
+      title: 'Azure IoT Hub Managed IoT Connectivity',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure IoT Hub provides secure, reliable bi-directional communication between millions of IoT devices and cloud solutions.',
+      prompt: 'Which Azure service acts as a central message hub for bi-directional communication between millions of IoT sensors and cloud backends?',
+      options: [
+        { id: 'opt1', text: 'Azure IoT Hub', isCorrect: true },
+        { id: 'opt2', text: 'Azure Event Grid' },
+        { id: 'opt3', text: 'Azure Service Bus' },
+        { id: 'opt4', text: 'Azure Notification Hubs' },
+      ],
+    },
+    {
+      code: 'AZ900-Q039',
+      title: 'Azure Migrate Central Migration Hub',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Migrate provides a centralized portal to discover, assess, and migrate on-premises servers, databases, and web apps to Azure.',
+      prompt: 'Which tool provides a unified hub for discovering, assessing performance sizing, and executing server migrations from on-premises datacenters to Azure?',
+      options: [
+        { id: 'opt1', text: 'Azure Migrate', isCorrect: true },
+        { id: 'opt2', text: 'Azure Database Migration Service' },
+        { id: 'opt3', text: 'Azure Site Recovery' },
+        { id: 'opt4', text: 'Azure Data Box' },
+      ],
+    },
+    {
+      code: 'AZ900-Q040',
+      title: 'Azure Data Box Offline Physical Data Transfer',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Data Box physical storage appliances allow offline transfer of petabytes of data to Azure over slow network connections.',
+      prompt: 'Your organization needs to transfer 100 Terabytes of data to Azure Blob Storage over a congested network connection. Which physical hardware appliance service should you order?',
+      options: [
+        { id: 'opt1', text: 'Azure Data Box', isCorrect: true },
+        { id: 'opt2', text: 'Azure Import/Export' },
+        { id: 'opt3', text: 'Azure ExpressRoute' },
+        { id: 'opt4', text: 'Azure Files' },
+      ],
+    },
   ];
 
   const seededAZ900Questions = [];
@@ -561,7 +787,7 @@ async function main() {
       title: 'Microsoft Azure Fundamentals (AZ-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of cloud concepts, Azure architecture, services, security, privacy, pricing, and SLAs with 25 practice questions.',
+      description: 'Demonstrate foundational knowledge of cloud concepts, Azure architecture, services, security, privacy, pricing, and SLAs with 40 practice questions.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
