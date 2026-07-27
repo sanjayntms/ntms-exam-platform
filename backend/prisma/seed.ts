@@ -157,13 +157,13 @@ async function main() {
 
     az900QuestionsData.push({
       code: `AZ900-Q${qNum}`,
-      title: `AZ-900 Item ${idx + 1}: ${q.title}`,
+      title: `Question ${idx + 1}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
       explanation: q.exp,
       content: {
-        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        prompt: q.prompt,
         options: shuffleArray(rawOptions),
       },
     });
@@ -226,13 +226,13 @@ async function main() {
 
     ai900QuestionsData.push({
       code: `AI900-Q${qNum}`,
-      title: `AI-900 Item ${idx + 1}: ${q.title}`,
+      title: `Question ${idx + 1}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
       explanation: q.exp,
       content: {
-        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        prompt: q.prompt,
         options: shuffleArray(rawOptions),
       },
     });
@@ -252,13 +252,13 @@ async function main() {
     const qNum = String(idx + 1).padStart(3, '0');
     sc200QuestionsData.push({
       code: `SC200-Q${qNum}`,
-      title: `SC-200 Item ${idx + 1}: ${q.title}`,
+      title: `Question ${idx + 1}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
       explanation: q.exp,
       content: {
-        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        prompt: q.prompt,
         options: shuffleArray([
           { id: 'opt1', text: q.correct, isCorrect: true },
           { id: 'opt2', text: q.bad1 },
@@ -282,13 +282,13 @@ async function main() {
     const qNum = String(idx + 1).padStart(3, '0');
     az305QuestionsData.push({
       code: `AZ305-Q${qNum}`,
-      title: `AZ-305 Architect Item ${idx + 1}: ${q.title}`,
+      title: `Question ${idx + 1}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.ADVANCED,
       points: 1.0,
       explanation: q.exp,
       content: {
-        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        prompt: q.prompt,
         options: shuffleArray([
           { id: 'opt1', text: q.correct, isCorrect: true },
           { id: 'opt2', text: q.bad1 },
@@ -312,13 +312,13 @@ async function main() {
     const qNum = String(idx + 1).padStart(3, '0');
     az104QuestionsData.push({
       code: `AZ104-Q${qNum}`,
-      title: `AZ-104 Admin Item ${idx + 1}: ${q.title}`,
+      title: `Question ${idx + 1}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
       explanation: q.exp,
       content: {
-        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        prompt: q.prompt,
         options: shuffleArray([
           { id: 'opt1', text: q.correct, isCorrect: true },
           { id: 'opt2', text: q.bad1 },
@@ -341,13 +341,13 @@ async function main() {
     const qNum = String(idx + 1).padStart(3, '0');
     ai901QuestionsData.push({
       code: `AI901-Q${qNum}`,
-      title: `AI-901 Item ${idx + 1}: ${q.title}`,
+      title: `Question ${idx + 1}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
       explanation: q.exp,
       content: {
-        prompt: `Question ${idx + 1}: ${q.prompt}`,
+        prompt: q.prompt,
         options: shuffleArray([
           { id: 'opt1', text: q.correct, isCorrect: true },
           { id: 'opt2', text: q.bad1 },

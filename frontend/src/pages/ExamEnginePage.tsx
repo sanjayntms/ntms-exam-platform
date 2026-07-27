@@ -263,7 +263,7 @@ export const ExamEnginePage: React.FC = () => {
             </div>
 
             <div className="space-y-6">
-              <h2 className="text-lg font-bold text-slate-900 tracking-tight">{currentQuestion?.title}</h2>
+              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">Question {currentQuestionIndex + 1}</h2>
               {renderEngine()}
             </div>
           </div>
