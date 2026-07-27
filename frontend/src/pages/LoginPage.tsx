@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, UserCheck, Key, Lock } from 'lucide-react';
-import { Role } from '../types';
+import { ShieldCheck, UserCheck, Key } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEntraLoading, setIsEntraLoading] = useState(false);
-  const { login } = useAuth();
+  const { loginLocal } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await loginLocal(email);
       navigate('/dashboard');
     } catch (err: any) {
       alert('Login failed: ' + (err.response?.data?.error || err.message));
@@ -23,7 +22,7 @@ export const LoginPage: React.FC = () => {
 
   const handleQuickLogin = async (roleEmail: string) => {
     try {
-      await login(roleEmail, 'password123');
+      await loginLocal(roleEmail);
       navigate('/dashboard');
     } catch (err: any) {
       alert('Quick login failed: ' + (err.response?.data?.error || err.message));
@@ -33,7 +32,7 @@ export const LoginPage: React.FC = () => {
   const handleEntraSSO = () => {
     setIsEntraLoading(true);
     setTimeout(async () => {
-      await login('candidate@ntms.com', 'password123');
+      await loginLocal('candidate@ntms.com');
       setIsEntraLoading(false);
       navigate('/dashboard');
     }, 1200);

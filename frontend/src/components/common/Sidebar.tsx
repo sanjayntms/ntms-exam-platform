@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, BookOpen, FileQuestion, BarChart3, Users, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { Role } from '../../types';
 
 export const Sidebar: React.FC = () => {
   const { user } = useAuth();
@@ -14,7 +13,7 @@ export const Sidebar: React.FC = () => {
     { to: '/analytics', label: 'Analytics & Score Reports', icon: BarChart3 },
   ];
 
-  if (user?.role === Role.ADMINISTRATOR) {
+  if (user?.role === 'ADMINISTRATOR') {
     navItems.push({ to: '/users', label: 'User & Role Controls', icon: Users });
   }
 

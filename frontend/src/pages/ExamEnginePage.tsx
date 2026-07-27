@@ -49,7 +49,7 @@ export const ExamEnginePage: React.FC = () => {
   }
 
   const currentQuestion = flatQuestions[currentQuestionIndex];
-  const qState = currentQuestion ? questionStates[currentQuestion.id] || {} : {};
+  const qState = currentQuestion ? questionStates[currentQuestion.id] || { isMarkedForReview: false, notes: '', answer: null, strikeouts: {} } : { isMarkedForReview: false, notes: '', answer: null, strikeouts: {} };
 
   const handleFinish = () => {
     if (attemptId) {
