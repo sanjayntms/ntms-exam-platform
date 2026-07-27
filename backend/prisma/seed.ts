@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Exam Platform Database Seeding...');
+  console.log('🌱 Starting NTMS Database Seeding for Requested Exam Tracks...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -60,36 +60,96 @@ async function main() {
 
   console.log('✅ Users created successfully.');
 
-  // Create Categories & Tags
-  const cloudCategory = await prisma.category.create({
+  // Create Categories
+  const catAzure = await prisma.category.create({
+    data: { name: 'Microsoft Azure Certification', description: 'AZ-900, AZ-104 & Resource Specifics' },
+  });
+
+  const catDevOps = await prisma.category.create({
+    data: { name: 'Infrastructure as Code & DevOps', description: 'Terraform & Automation' },
+  });
+
+  const catInterview = await prisma.category.create({
+    data: { name: 'Interview Preparation', description: 'Technical Q&A Practice' },
+  });
+
+  // ==========================================
+  // 1. INTERVIEW QA EXAM TRACK
+  // ==========================================
+  const qInterview1 = await prisma.question.create({
     data: {
-      name: 'Cloud Computing & Infrastructure',
-      description: 'Azure, AWS, and Hybrid Cloud Architecture',
+      code: 'INT-QA-Q001',
+      title: 'Azure Active Directory vs Entra ID',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Microsoft renamed Azure AD to Microsoft Entra ID to encompass unified multicloud identity management.',
+      categoryId: catInterview.id,
+      content: JSON.stringify({
+        prompt: 'In a Cloud Architect interview, you are asked: What is the primary architectural purpose of Microsoft Entra ID?',
+        options: [
+          { id: 'opt1', text: 'To manage hardware hypervisors in Azure datacenters' },
+          { id: 'opt2', text: 'To provide cloud-based identity, single sign-on (SSO), and access management', isCorrect: true },
+          { id: 'opt3', text: 'To act as a physical DNS server for local desktop clients' },
+          { id: 'opt4', text: 'To encrypt Azure SQL Database backups automatically' },
+        ],
+      }),
     },
   });
 
-  const networkingCategory = await prisma.category.create({
+  const qInterview2 = await prisma.question.create({
     data: {
-      name: 'Enterprise Networking & Security',
-      description: 'Routing, Switching, Firewalls, and Zero Trust Architecture',
+      code: 'INT-QA-Q002',
+      title: 'Terraform State File Locking Interview Question',
+      type: QuestionType.MULTIPLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 2.0,
+      explanation: 'State locking prevents concurrent execution from corrupting state file. DynamoDB (AWS) or Blob Lease (Azure) are used for remote backends.',
+      categoryId: catInterview.id,
+      content: JSON.stringify({
+        prompt: 'Which mechanisms ensure Terraform state file locking during team execution? (Select TWO)',
+        options: [
+          { id: 'opt1', text: 'Azure Blob Storage with native Blob Lease locking', isCorrect: true },
+          { id: 'opt2', text: 'AWS S3 bucket combined with DynamoDB state table locking', isCorrect: true },
+          { id: 'opt3', text: 'Git commit lock on local master branch' },
+          { id: 'opt4', text: 'HTTP 404 response header' },
+        ],
+      }),
     },
   });
 
-  const tagAzure = await prisma.tag.create({ data: { name: 'Azure' } });
-  const tagAWS = await prisma.tag.create({ data: { name: 'AWS' } });
-  const tagSecurity = await prisma.tag.create({ data: { name: 'Security' } });
-  const tagKubernetes = await prisma.tag.create({ data: { name: 'Kubernetes' } });
-
-  // 1. Single Choice Question
-  const qSingleChoice = await prisma.question.create({
+  const examInterviewQA = await prisma.exam.create({
     data: {
-      code: 'AZ-900-Q001',
-      title: 'Azure Cloud Service Models',
+      code: 'INTERVIEW-QA',
+      title: 'Interview QA: Cloud & DevOps Technical Practice',
+      vendor: ExamVendor.CUSTOM,
+      examType: ExamType.PRACTICE,
+      description: 'Technical interview practice questions covering Azure Architecture, Terraform, and DevOps principles.',
+      timeLimitMinutes: 45,
+      passingScore: 75.0,
+      creatorId: creatorUser.id,
+      status: ExamStatus.PUBLISHED,
+    },
+  });
+
+  const secInt = await prisma.examSection.create({
+    data: { examId: examInterviewQA.id, title: 'Section 1: Architectural Q&A', orderIndex: 1 },
+  });
+  await prisma.sectionQuestion.create({ data: { sectionId: secInt.id, questionId: qInterview1.id, orderIndex: 1 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secInt.id, questionId: qInterview2.id, orderIndex: 2 } });
+
+  // ==========================================
+  // 2. AZ-900 EXAM TRACK
+  // ==========================================
+  const qAZ900_1 = await prisma.question.create({
+    data: {
+      code: 'AZ900-Q001',
+      title: 'Azure Cloud Service Models (IaaS / PaaS / SaaS)',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
-      explanation: 'Infrastructure as a Service (IaaS) provides maximum control over infrastructure.',
-      categoryId: cloudCategory.id,
+      explanation: 'IaaS gives maximum control over virtual network and operating system infrastructure.',
+      categoryId: catAzure.id,
       content: JSON.stringify({
         prompt: 'Which Azure cloud service model offers the highest level of flexibility and management control over your hardware resources?',
         options: [
@@ -102,38 +162,15 @@ async function main() {
     },
   });
 
-  // 2. Multiple Choice Question
-  const qMultipleChoice = await prisma.question.create({
+  const qAZ900_2 = await prisma.question.create({
     data: {
-      code: 'AZ-900-Q002',
-      title: 'Azure Storage Redundancy',
-      type: QuestionType.MULTIPLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 2.0,
-      explanation: 'LRS, ZRS, and GRS are standard Azure Blob Storage redundancy options.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Which of the following are valid Azure Blob Storage replication/redundancy options? (Select TWO)',
-        options: [
-          { id: 'opt1', text: 'Locally Redundant Storage (LRS)', isCorrect: true },
-          { id: 'opt2', text: 'Zone-Redundant Storage (ZRS)', isCorrect: true },
-          { id: 'opt3', text: 'Global Cache Replication (GCR)' },
-          { id: 'opt4', text: 'Quantum Distributed Storage (QDS)' },
-        ],
-      }),
-    },
-  });
-
-  // 3. True / False Question
-  const qTrueFalse = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q003',
-      title: 'Azure ExpressRoute Public Internet',
+      code: 'AZ900-Q002',
+      title: 'Azure SLA Guarantees',
       type: QuestionType.TRUE_FALSE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
-      explanation: 'Azure ExpressRoute connections do NOT go over the public Internet; they use a private connection.',
-      categoryId: cloudCategory.id,
+      explanation: 'Azure ExpressRoute connections do not traverse the public internet.',
+      categoryId: catAzure.id,
       content: JSON.stringify({
         prompt: 'Azure ExpressRoute traffic traverses the public internet by default.',
         isTrueCorrect: false,
@@ -141,391 +178,224 @@ async function main() {
     },
   });
 
-  // 4. Dropdown Question
-  const qDropdown = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q004',
-      title: 'Azure Identity Management',
-      type: QuestionType.DROPDOWN,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.5,
-      explanation: 'Microsoft Entra ID is Microsoft cloud-based identity and access management service.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Select the correct Azure service for identity management: To manage enterprise user access and single sign-on, you should deploy [DROPDOWN_1]. For DDoS protection, use [DROPDOWN_2].',
-        dropdowns: [
-          {
-            id: 'DROPDOWN_1',
-            options: ['Azure Key Vault', 'Microsoft Entra ID', 'Azure Bastion'],
-            correctAnswer: 'Microsoft Entra ID',
-          },
-          {
-            id: 'DROPDOWN_2',
-            options: ['Azure DDoS Protection', 'Azure Front Door', 'Azure Network Security Group'],
-            correctAnswer: 'Azure DDoS Protection',
-          },
-        ],
-      }),
-    },
-  });
-
-  // 5. Fill in the Blank Question
-  const qFillBlank = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q005',
-      title: 'Azure CLI Command',
-      type: QuestionType.FILL_IN_BLANK,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: 'az group create creates a new resource group in Azure CLI.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Complete the Azure CLI command to create a resource group named "rg-ntms" in region "eastus":\naz [BLANK_1] create --name rg-ntms --location eastus',
-        blanks: [
-          { id: 'BLANK_1', correctAnswers: ['group', 'group'] },
-        ],
-      }),
-    },
-  });
-
-  // 6. Matching Question
-  const qMatching = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q006',
-      title: 'Azure Service Categories',
-      type: QuestionType.MATCHING,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 2.0,
-      explanation: 'Match each Azure service to its primary cloud architecture domain.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Match each Azure service on the left to its corresponding domain on the right.',
-        pairs: [
-          { item: 'Azure Virtual Machines', target: 'Compute' },
-          { item: 'Azure SQL Database', target: 'Database' },
-          { item: 'Azure Blob Storage', target: 'Storage' },
-          { item: 'Azure Virtual Network', target: 'Networking' },
-        ],
-      }),
-    },
-  });
-
-  // 7. Drag and Drop Question
-  const qDragDrop = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q007',
-      title: 'SLA Availability Guarantees',
-      type: QuestionType.DRAG_AND_DROP,
-      difficulty: DifficultyLevel.ADVANCED,
-      points: 2.5,
-      explanation: 'Availability Zones offer 99.99% SLA, single VM with SSD offers 99.9%.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Drag each Azure SLA percentage to its corresponding deployment configuration.',
-        items: [
-          { id: 'sla1', label: '99.99%' },
-          { id: 'sla2', label: '99.9%' },
-          { id: 'sla3', label: '99.95%' },
-        ],
-        targets: [
-          { id: 'target1', label: 'Virtual Machines across Availability Zones', correctItemId: 'sla1' },
-          { id: 'target2', label: 'Single VM with Premium SSD', correctItemId: 'sla2' },
-          { id: 'target3', label: 'VMs in an Availability Set', correctItemId: 'sla3' },
-        ],
-      }),
-    },
-  });
-
-  // 8. Reorder Question
-  const qReorder = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q008',
-      title: 'Azure Resource Deployment Order',
-      type: QuestionType.REORDER,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 2.0,
-      explanation: 'Resource Group -> VNet -> Subnet -> Network Interface -> VM.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Arrange the following steps in the correct order to deploy a custom Virtual Machine with a private VNet.',
-        items: [
-          { id: 's1', text: 'Create an Azure Resource Group', correctOrder: 1 },
-          { id: 's2', text: 'Create an Azure Virtual Network (VNet)', correctOrder: 2 },
-          { id: 's3', text: 'Create a Subnet within the VNet', correctOrder: 3 },
-          { id: 's4', text: 'Provision the Virtual Machine attached to the Subnet', correctOrder: 4 },
-        ],
-      }),
-    },
-  });
-
-  // 9. Build List Question
-  const qBuildList = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q009',
-      title: 'Zero Trust Security Pillars',
-      type: QuestionType.BUILD_LIST,
-      difficulty: DifficultyLevel.ADVANCED,
-      points: 3.0,
-      explanation: 'Zero Trust requires explicit verification, least privilege access, and assume breach.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'From the pool of principles on the left, select and build the three core pillars of Microsoft Zero Trust security architecture in correct order.',
-        pool: [
-          'Verify Explicitly',
-          'Use Least Privilege Access',
-          'Assume Breach',
-          'Trust All Internal Traffic',
-          'Disable Multi-Factor Auth',
-        ],
-        correctSequence: ['Verify Explicitly', 'Use Least Privilege Access', 'Assume Breach'],
-      }),
-    },
-  });
-
-  // 10. Hotspot Question
-  const qHotspot = await prisma.question.create({
-    data: {
-      code: 'AZ-900-Q010',
-      title: 'Azure Portal Navigation Hotspot',
-      type: QuestionType.HOTSPOT,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 2.0,
-      explanation: 'Click on the Subscriptions icon in the navigation panel.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Click on the area in the diagram that corresponds to Azure Cost Management & Billing.',
-        imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
-        hotspots: [
-          { id: 'h1', label: 'Cost Management', x: 25, y: 40, radius: 15, isCorrect: true },
-          { id: 'h2', label: 'Virtual Machines', x: 75, y: 20, radius: 15, isCorrect: false },
-        ],
-      }),
-    },
-  });
-
-  // 11. Case Study Question
-  const caseStudyData = await prisma.caseStudy.create({
-    data: {
-      title: 'Contoso Ltd. Enterprise Cloud Migration',
-      overview: 'Contoso Ltd. is a global manufacturing company with 50,000 employees planning to migrate on-premises infrastructure to Azure.',
-      businessRequirements: 'Ensure 99.99% uptime for core ERP. Maintain compliance with GDPR and HIPAA.',
-      technicalRequirements: 'Hybrid connectivity via ExpressRoute. Azure Kubernetes Service (AKS) for microservices.',
-      existingEnvironment: 'Active Directory domain contoso.local, 500 VMware ESXi hosts in Dallas datacenter.',
-    },
-  });
-
-  const qCaseStudy = await prisma.question.create({
-    data: {
-      code: 'AZ-900-CS01',
-      title: 'Contoso Hybrid Connectivity Architecture',
-      type: QuestionType.CASE_STUDY,
-      difficulty: DifficultyLevel.EXPERT,
-      points: 4.0,
-      explanation: 'ExpressRoute with VPN failover satisfies zero-latency private connection and disaster recovery.',
-      caseStudyId: caseStudyData.id,
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Based on the Case Study tabs, which hybrid network topology best meets Contoso technical requirements for mission-critical database connectivity?',
-        options: [
-          { id: 'opt1', text: 'Azure ExpressRoute as primary connection with Site-to-Site VPN as backup', isCorrect: true },
-          { id: 'opt2', text: 'Public IP endpoints protected by Basic NSG rules' },
-          { id: 'opt3', text: 'Point-to-Site VPN tunnels on each developer machine' },
-        ],
-      }),
-    },
-  });
-
-  // 12. Simulation Question
-  const simulationData = await prisma.simulation.create({
-    data: {
-      title: 'Azure Portal: Create Virtual Machine & Configure Network Security Group',
-      portalType: 'AZURE_PORTAL',
-      instructions: '1. Navigate to Virtual Machines.\n2. Click + Create.\n3. Set Resource Group to "rg-prod".\n4. Enable HTTPS port 443 inbound rule.',
-      initialState: JSON.stringify({ vmName: '', rg: '', inboundPorts: [] }),
-      targetState: JSON.stringify({ vmName: 'vm-app-01', rg: 'rg-prod', inboundPorts: [80, 443] }),
-    },
-  });
-
-  const qSimulation = await prisma.question.create({
-    data: {
-      code: 'AZ-900-SIM01',
-      title: 'Interactive Azure Portal VM Provisioning',
-      type: QuestionType.SIMULATION,
-      difficulty: DifficultyLevel.ADVANCED,
-      points: 5.0,
-      explanation: 'Interactive task verified against target portal state configuration.',
-      simulationId: simulationData.id,
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Use the interactive Azure Portal simulation below to provision VM "vm-app-01" under "rg-prod" and open port 443.',
-      }),
-    },
-  });
-
-  // 13. Lab Question
-  const labData = await prisma.lab.create({
-    data: {
-      title: 'Hands-on Azure CLI & Bicep Deployment Lab',
-      scenario: 'You are tasked with deploying a web app environment using Azure CLI.',
-      checklists: JSON.stringify([
-        { id: 't1', task: 'Create Resource Group "rg-lab-01"' },
-        { id: 't2', task: 'Deploy App Service Plan "asp-lab"' },
-        { id: 't3', task: 'Verify web app HTTP response 200' },
-      ]),
-      validation: JSON.stringify({ command: 'az webapp show --name app-lab --query state' }),
-    },
-  });
-
-  const qLab = await prisma.question.create({
-    data: {
-      code: 'AZ-900-LAB01',
-      title: 'Hands-on Web App Provisioning Lab',
-      type: QuestionType.LAB,
-      difficulty: DifficultyLevel.EXPERT,
-      points: 5.0,
-      explanation: 'Hands-on checklist task score evaluated against verification script results.',
-      labId: labData.id,
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Complete the hands-on lab checklist items in the terminal environment provided.',
-      }),
-    },
-  });
-
-  // 14. Code Editor Question
-  const qCodeEditor = await prisma.question.create({
-    data: {
-      code: 'AZ-900-CODE01',
-      title: 'Azure Function Python Handler',
-      type: QuestionType.CODE_EDITOR,
-      difficulty: DifficultyLevel.ADVANCED,
-      points: 3.0,
-      explanation: 'func.HttpResponse with status_code=200 returns valid HTTP payload.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Write an Azure Functions Python HTTP trigger handler that reads query parameter "name" and returns a 200 OK JSON response `{"message": "Hello <name>"}`.',
-        initialCode: 'import azure.functions as func\nimport json\n\ndef main(req: func.HttpRequest) -> func.HttpResponse:\n    # Write your code here\n    pass',
-        language: 'python',
-        expectedKeywordMatches: ['func.HttpResponse', 'req.params', 'json.dumps'],
-      }),
-    },
-  });
-
-  // 15. Essay Question
-  const qEssay = await prisma.question.create({
-    data: {
-      code: 'AZ-900-ESSAY01',
-      title: 'Disaster Recovery Strategy Essay',
-      type: QuestionType.ESSAY,
-      difficulty: DifficultyLevel.EXPERT,
-      points: 5.0,
-      explanation: 'Requires comprehensive evaluation of RTO, RPO, and multi-region failover design.',
-      categoryId: cloudCategory.id,
-      content: JSON.stringify({
-        prompt: 'Explain the difference between Recovery Time Objective (RTO) and Recovery Point Objective (RPO) in Azure Disaster Recovery planning, and design a multi-region SQL database architecture that achieves RTO < 5 mins.',
-        minWords: 100,
-        maxWords: 500,
-      }),
-    },
-  });
-
-  console.log('✅ 15 Comprehensive Question Types created.');
-
-  // Create Exam with Sections
   const examAZ900 = await prisma.exam.create({
     data: {
       code: 'AZ-900',
-      title: 'Microsoft Azure Fundamentals Certification Exam',
+      title: 'Microsoft Azure Fundamentals (AZ-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of cloud concepts, Azure services, workloads, security, privacy, pricing, and support.',
-      instructions: 'You have 60 minutes to complete this exam. There are 15 questions across 2 sections. You may flag questions for review, use the built-in scratchpad and calculator.',
+      description: 'Demonstrate foundational knowledge of cloud concepts, Azure services, security, privacy, pricing, and support.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
-      isRandomized: true,
-      shuffleAnswers: true,
-      allowCalculator: true,
-      allowNotes: true,
       creatorId: creatorUser.id,
       status: ExamStatus.PUBLISHED,
     },
   });
 
-  const section1 = await prisma.examSection.create({
+  const secAZ900 = await prisma.examSection.create({
+    data: { examId: examAZ900.id, title: 'Section 1: General Cloud Concepts', orderIndex: 1 },
+  });
+  await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: qAZ900_1.id, orderIndex: 1 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: qAZ900_2.id, orderIndex: 2 } });
+
+  // ==========================================
+  // 3. AZ-104 EXAM TRACK
+  // ==========================================
+  const qAZ104_1 = await prisma.question.create({
     data: {
-      examId: examAZ900.id,
-      title: 'Section 1: General Cloud Concepts & Core Azure Services',
-      instructions: 'Answer all standard questions in this section.',
-      orderIndex: 1,
+      code: 'AZ104-Q001',
+      title: 'Azure VNet Peering & Routing',
+      type: QuestionType.MULTIPLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 2.0,
+      explanation: 'VNet peering links VNets directly via Azure backbone. Gateway transit allows spoke VNets to use hub VPN/ExpressRoute gateway.',
+      categoryId: catAzure.id,
+      content: JSON.stringify({
+        prompt: 'You configure VNet Peering between VNetA and VNetB. Which settings must be enabled to allow VNetB resources to reach your on-premises network via VNetA VPN Gateway? (Select TWO)',
+        options: [
+          { id: 'opt1', text: 'Allow gateway transit on VNetA', isCorrect: true },
+          { id: 'opt2', text: 'Use remote gateways on VNetB', isCorrect: true },
+          { id: 'opt3', text: 'Enable DDoS Protection Network Plan on VNetB' },
+          { id: 'opt4', text: 'Create an Public IP address on VNetB' },
+        ],
+      }),
     },
   });
 
-  const section2 = await prisma.examSection.create({
+  const qAZ104_2 = await prisma.question.create({
     data: {
-      examId: examAZ900.id,
-      title: 'Section 2: Case Studies, Simulations & Practical Scenarios',
-      instructions: 'Analyze the case study tabs and interact with the portal simulation.',
-      orderIndex: 2,
+      code: 'AZ104-Q002',
+      title: 'Azure RBAC Custom Role Definition',
+      type: QuestionType.FILL_IN_BLANK,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.5,
+      explanation: 'Microsoft.Storage/storageAccounts/read grants read permissions to storage accounts.',
+      categoryId: catAzure.id,
+      content: JSON.stringify({
+        prompt: 'In Azure RBAC JSON role definition, to grant permission to list storage keys, add action: "Microsoft.Storage/storageAccounts/[BLANK_1]/action".',
+        blanks: [
+          { id: 'BLANK_1', correctAnswers: ['listkeys', 'listKeys'] },
+        ],
+      }),
     },
   });
 
-  // Link questions to sections
-  const allQuestions = [
-    qSingleChoice, qMultipleChoice, qTrueFalse, qDropdown, qFillBlank,
-    qMatching, qDragDrop, qReorder, qBuildList, qHotspot
-  ];
-
-  for (let i = 0; i < allQuestions.length; i++) {
-    await prisma.sectionQuestion.create({
-      data: {
-        sectionId: section1.id,
-        questionId: allQuestions[i].id,
-        orderIndex: i + 1,
-      },
-    });
-  }
-
-  const advancedQuestions = [qCaseStudy, qSimulation, qLab, qCodeEditor, qEssay];
-  for (let i = 0; i < advancedQuestions.length; i++) {
-    await prisma.sectionQuestion.create({
-      data: {
-        sectionId: section2.id,
-        questionId: advancedQuestions[i].id,
-        orderIndex: i + 1,
-      },
-    });
-  }
-
-  // Also create AWS and Cisco exams
-  await prisma.exam.create({
+  const examAZ104 = await prisma.exam.create({
     data: {
-      code: 'AWS-SAA-C03',
-      title: 'AWS Certified Solutions Architect – Associate',
-      vendor: ExamVendor.AWS,
+      code: 'AZ-104',
+      title: 'Microsoft Azure Administrator (AZ-104)',
+      vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Showcases knowledge of AWS services including compute, networking, storage, and database.',
-      timeLimitMinutes: 130,
-      passingScore: 72.0,
-      creatorId: creatorUser.id,
-      status: ExamStatus.PUBLISHED,
-    },
-  });
-
-  await prisma.exam.create({
-    data: {
-      code: '200-301-CCNA',
-      title: 'Cisco Certified Network Associate (CCNA)',
-      vendor: ExamVendor.CISCO,
-      examType: ExamType.CERTIFICATION,
-      description: 'Covers network fundamentals, network access, IP connectivity, IP services, and security fundamentals.',
+      description: 'Validate expertise in implementing, managing, and monitoring identity, governance, storage, compute, and virtual networks in Azure.',
       timeLimitMinutes: 120,
-      passingScore: 82.5,
+      passingScore: 70.0,
       creatorId: creatorUser.id,
       status: ExamStatus.PUBLISHED,
     },
   });
 
-  console.log('✅ Exams, Sections, and SectionQuestions seeded successfully!');
+  const secAZ104 = await prisma.examSection.create({
+    data: { examId: examAZ104.id, title: 'Section 1: Networking & Identity Management', orderIndex: 1 },
+  });
+  await prisma.sectionQuestion.create({ data: { sectionId: secAZ104.id, questionId: qAZ104_1.id, orderIndex: 1 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secAZ104.id, questionId: qAZ104_2.id, orderIndex: 2 } });
+
+  // ==========================================
+  // 4. TERRAFORM ASSOCIATE EXAM TRACK
+  // ==========================================
+  const qTF1 = await prisma.question.create({
+    data: {
+      code: 'TF-Q001',
+      title: 'Terraform Core Workflow Command Order',
+      type: QuestionType.REORDER,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 2.0,
+      explanation: 'Terraform core workflow: Write HCL -> terraform init -> terraform plan -> terraform apply.',
+      categoryId: catDevOps.id,
+      content: JSON.stringify({
+        prompt: 'Arrange the core Terraform execution steps in the correct deployment sequence.',
+        items: [
+          { id: 's1', text: 'Write HCL configuration files (.tf)', correctOrder: 1 },
+          { id: 's2', text: 'Run `terraform init` to download provider plugins', correctOrder: 2 },
+          { id: 's3', text: 'Run `terraform plan` to create execution graph', correctOrder: 3 },
+          { id: 's4', text: 'Run `terraform apply` to provision infrastructure', correctOrder: 4 },
+        ],
+      }),
+    },
+  });
+
+  const qTF2 = await prisma.question.create({
+    data: {
+      code: 'TF-Q002',
+      title: 'Terraform State Management Command',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'terraform state mv renames resources in state without destroying infrastructure.',
+      categoryId: catDevOps.id,
+      content: JSON.stringify({
+        prompt: 'Which command refactors a resource inside the Terraform state file without destroying or recreating real infrastructure?',
+        options: [
+          { id: 'opt1', text: 'terraform refresh' },
+          { id: 'opt2', text: 'terraform state mv', isCorrect: true },
+          { id: 'opt3', text: 'terraform destroy --force' },
+          { id: 'opt4', text: 'terraform import --overwrite' },
+        ],
+      }),
+    },
+  });
+
+  const examTerraform = await prisma.exam.create({
+    data: {
+      code: 'TF-ASSOC-003',
+      title: 'HashiCorp Certified: Terraform Associate',
+      vendor: ExamVendor.CUSTOM,
+      examType: ExamType.CERTIFICATION,
+      description: 'Validate understanding of Infrastructure as Code (IaC) concepts, Terraform CLI, state management, modules, and Terraform Cloud.',
+      timeLimitMinutes: 60,
+      passingScore: 70.0,
+      creatorId: creatorUser.id,
+      status: ExamStatus.PUBLISHED,
+    },
+  });
+
+  const secTF = await prisma.examSection.create({
+    data: { examId: examTerraform.id, title: 'Section 1: Terraform Fundamentals & CLI', orderIndex: 1 },
+  });
+  await prisma.sectionQuestion.create({ data: { sectionId: secTF.id, questionId: qTF1.id, orderIndex: 1 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secTF.id, questionId: qTF2.id, orderIndex: 2 } });
+
+  // ==========================================
+  // 5. AZURE RESOURCE SPECIFIC (Storage & VNet)
+  // ==========================================
+  const qResSpec1 = await prisma.question.create({
+    data: {
+      code: 'AZ-RES-Q001',
+      title: 'Azure Storage Account Access Tier Matching',
+      type: QuestionType.MATCHING,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 2.0,
+      explanation: 'Hot tier for active data, Cool for >30 days, Cold for >90 days, Archive for >180 days.',
+      categoryId: catAzure.id,
+      content: JSON.stringify({
+        prompt: 'Match each Azure Storage Access Tier on the left to its optimal retention requirement on the right.',
+        pairs: [
+          { item: 'Hot Access Tier', target: 'Frequently accessed data' },
+          { item: 'Cool Access Tier', target: 'Infrequently accessed data (stored min 30 days)' },
+          { item: 'Cold Access Tier', target: 'Rarely accessed data (stored min 90 days)' },
+          { item: 'Archive Access Tier', target: 'Offline data (stored min 180 days)' },
+        ],
+      }),
+    },
+  });
+
+  const qResSpec2 = await prisma.question.create({
+    data: {
+      code: 'AZ-RES-Q002',
+      title: 'Azure Storage Private Endpoint vs VNet Service Endpoint',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.5,
+      explanation: 'Private Endpoints assign a private IP address from your VNet to Azure Storage Blob service.',
+      categoryId: catAzure.id,
+      content: JSON.stringify({
+        prompt: 'Which feature secures Azure Storage Account access by assigning a dedicated private IP address from your subnet directly to the storage service?',
+        options: [
+          { id: 'opt1', text: 'Azure Service Endpoint' },
+          { id: 'opt2', text: 'Azure Private Endpoint (Private Link)', isCorrect: true },
+          { id: 'opt3', text: 'Azure Storage Shared Access Signature (SAS)' },
+          { id: 'opt4', text: 'Azure Application Gateway v2' },
+        ],
+      }),
+    },
+  });
+
+  const examAzureResource = await prisma.exam.create({
+    data: {
+      code: 'AZ-RES-SPEC-01',
+      title: 'Azure Resource Specific: Storage Accounts & Virtual Networks (VNets)',
+      vendor: ExamVendor.MICROSOFT,
+      examType: ExamType.PRACTICE,
+      description: 'Grouped resource specialization focusing strictly on Azure Storage Accounts, Private Endpoints, VNets, Subnets, and Network Security Groups.',
+      timeLimitMinutes: 45,
+      passingScore: 80.0,
+      creatorId: creatorUser.id,
+      status: ExamStatus.PUBLISHED,
+    },
+  });
+
+  const secResSpec = await prisma.examSection.create({
+    data: { examId: examAzureResource.id, title: 'Section 1: Storage Account & VNet Configuration', orderIndex: 1 },
+  });
+  await prisma.sectionQuestion.create({ data: { sectionId: secResSpec.id, questionId: qResSpec1.id, orderIndex: 1 } });
+  await prisma.sectionQuestion.create({ data: { sectionId: secResSpec.id, questionId: qResSpec2.id, orderIndex: 2 } });
+
+  console.log('✅ All 5 Requested Exam Tracks Seeded Successfully:');
+  console.log('   1. INTERVIEW-QA (Cloud & DevOps Practice)');
+  console.log('   2. AZ-900 (Microsoft Azure Fundamentals)');
+  console.log('   3. AZ-104 (Microsoft Azure Administrator)');
+  console.log('   4. TF-ASSOC-003 (HashiCorp Certified Terraform Associate)');
+  console.log('   5. AZ-RES-SPEC-01 (Azure Resource Specific: Storage & VNets)');
   console.log('🎉 NTMS Database Seeding Complete!');
 }
 

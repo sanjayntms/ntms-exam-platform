@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { BookOpen, Award, Users, CheckCircle2, TrendingUp, Clock, AlertCircle, Monitor } from 'lucide-react';
+import { BookOpen, Award, Users, CheckCircle2, TrendingUp, Monitor } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const DashboardPage: React.FC = () => {
@@ -47,11 +47,11 @@ export const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded border border-slate-300 shadow-sm space-y-2">
           <div className="flex justify-between items-center text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Total Active Exams</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Active Exams</span>
             <BookOpen className="w-5 h-5 text-pearson-navy" />
           </div>
-          <div className="text-3xl font-extrabold text-pearson-navy">{data?.stats?.totalExams || 0}</div>
-          <span className="text-[11px] text-slate-500">Official Certification Tracks</span>
+          <div className="text-3xl font-extrabold text-pearson-navy">{data?.stats?.totalExams || 5}</div>
+          <span className="text-[11px] text-slate-500">Selected Exam Tracks</span>
         </div>
 
         <div className="bg-white p-5 rounded border border-slate-300 shadow-sm space-y-2">
@@ -59,7 +59,7 @@ export const DashboardPage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider">Question Bank</span>
             <Award className="w-5 h-5 text-emerald-600" />
           </div>
-          <div className="text-3xl font-extrabold text-slate-900">{data?.stats?.totalQuestions || 0}</div>
+          <div className="text-3xl font-extrabold text-slate-900">{data?.stats?.totalQuestions || 10}</div>
           <span className="text-[11px] text-slate-500">16 Item Formats Supported</span>
         </div>
 
@@ -86,61 +86,97 @@ export const DashboardPage: React.FC = () => {
       <div className="bg-white border border-slate-300 rounded p-6 space-y-4 shadow-sm">
         <h3 className="text-base font-bold text-pearson-navy flex items-center gap-2">
           <Monitor className="w-5 h-5 text-pearson-blue" />
-          Featured Certification Exams
+          Available Exam Tracks
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-slate-50 p-5 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="bg-slate-50 p-4 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-900 border border-purple-300">
+                PRACTICE
+              </span>
+              <h4 className="font-bold text-xs text-slate-900 mt-2">Interview QA</h4>
+              <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+                Cloud Architect & Azure DevOps technical interview questions.
+              </p>
+            </div>
+            <Link
+              to="/exams"
+              className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
+            >
+              Start Practice ➜
+            </Link>
+          </div>
+
+          <div className="bg-slate-50 p-4 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-900 border border-sky-300">
-                MICROSOFT
+                AZURE
               </span>
-              <h4 className="font-bold text-sm text-slate-900 mt-2">AZ-900: Azure Fundamentals</h4>
-              <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                Covers cloud concepts, core Azure services, security, privacy, pricing, and support.
+              <h4 className="font-bold text-xs text-slate-900 mt-2">AZ-900</h4>
+              <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+                Microsoft Azure Fundamentals certification.
               </p>
             </div>
             <Link
               to="/exams"
               className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
-              Start Exam Session ➜
+              Start Exam ➜
             </Link>
           </div>
 
-          <div className="bg-slate-50 p-5 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
+          <div className="bg-slate-50 p-4 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">
-                AWS
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-900 border border-sky-300">
+                AZURE
               </span>
-              <h4 className="font-bold text-sm text-slate-900 mt-2">AWS Solutions Architect</h4>
-              <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                Demonstrate expertise in designing resilient, high-performing AWS architectures.
+              <h4 className="font-bold text-xs text-slate-900 mt-2">AZ-104</h4>
+              <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+                Microsoft Azure Administrator certification.
               </p>
             </div>
             <Link
               to="/exams"
               className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
-              Start Exam Session ➜
+              Start Exam ➜
             </Link>
           </div>
 
-          <div className="bg-slate-50 p-5 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
+          <div className="bg-slate-50 p-4 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-teal-100 text-teal-900 border border-teal-300">
-                CISCO
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-900 border border-indigo-300">
+                DEVOPS
               </span>
-              <h4 className="font-bold text-sm text-slate-900 mt-2">200-301 CCNA Certification</h4>
-              <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                Network access, IP connectivity, security fundamentals, and automation.
+              <h4 className="font-bold text-xs text-slate-900 mt-2">Terraform</h4>
+              <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+                HashiCorp Certified Terraform Associate.
               </p>
             </div>
             <Link
               to="/exams"
               className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
-              Start Exam Session ➜
+              Start Exam ➜
+            </Link>
+          </div>
+
+          <div className="bg-slate-50 p-4 rounded border border-slate-200 space-y-3 flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 border border-emerald-300">
+                RESOURCE
+              </span>
+              <h4 className="font-bold text-xs text-slate-900 mt-2">Azure Specific</h4>
+              <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+                Storage Accounts & Virtual Networks (VNets).
+              </p>
+            </div>
+            <Link
+              to="/exams"
+              className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
+            >
+              Start Exam ➜
             </Link>
           </div>
         </div>
