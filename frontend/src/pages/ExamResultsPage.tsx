@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { ExamAttempt } from '../types';
-import { ArrowLeft, Printer, ShieldCheck, CheckCircle2, XCircle } from 'lucide-react';
+import { ArrowLeft, Printer, ShieldCheck, CheckCircle2, XCircle, FileQuestion, CheckCircle, HelpCircle } from 'lucide-react';
 
 interface DomainBreakdown {
   domain: string;
@@ -33,6 +33,12 @@ export const ExamResultsPage: React.FC = () => {
   const scorePercentage = Math.round(attempt.scorePercentage || 0);
   const scaledScore = Math.round(300 + (scorePercentage / 100) * 700);
   const isPass = attempt.passed;
+
+  const totalQuestions = attempt.totalQuestions || 43;
+  const correctCount = attempt.correctAnswers || 0;
+  const rawAnswersObj = attempt.answers ? JSON.parse(attempt.answers) : {};
+  const answeredCount = Object.keys(rawAnswersObj).length;
+  const unansweredCount = Math.max(0, totalQuestions - answeredCount);
 
   // Calculate REAL Domain Performance Breakdown based on Exam Track and Actual Score
   const getDomainBreakdown = (): DomainBreakdown[] => {
@@ -206,7 +212,7 @@ export const ExamResultsPage: React.FC = () => {
               <p className="text-xs mt-0.5">
                 {isPass
                   ? 'You have successfully satisfied the requirements to achieve certification.'
-                  : 'You did not meet the required passing threshold for this certification exam.'}
+                  : 'You did not meet the required passing threshold (700/1000) for this certification exam.'}
               </p>
             </div>
           </div>
@@ -218,6 +224,35 @@ export const ExamResultsPage: React.FC = () => {
               {scaledScore}
             </div>
             <span className="text-[10px] text-slate-600 font-mono block mt-0.5">Passing Score: 700 / 1000</span>
+          </div>
+        </div>
+
+        {/* Item-by-Item Candidate Attempt Summary Grid */}
+        <div className="bg-slate-50 border border-slate-300 rounded p-4 space-y-3">
+          <div className="flex justify-between items-center border-b border-slate-200 pb-2 text-xs font-bold text-slate-800">
+            <span className="flex items-center gap-1.5 text-ntms-navy">
+              <FileQuestion className="w-4 h-4 text-ntms-blue" /> Exam Attempt Item Summary
+            </span>
+            <span className="font-mono text-slate-500">{answeredCount} of {totalQuestions} Items Attempted</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+            <div className="bg-white p-3 rounded border border-slate-200">
+              <span className="text-[10px] text-slate-500 block uppercase font-bold">Total Items</span>
+              <span className="text-base font-extrabold text-slate-900">{totalQuestions}</span>
+            </div>
+            <div className="bg-white p-3 rounded border border-slate-200">
+              <span className="text-[10px] text-slate-500 block uppercase font-bold">Attempted</span>
+              <span className="text-base font-extrabold text-sky-700">{answeredCount}</span>
+            </div>
+            <div className="bg-white p-3 rounded border border-slate-200">
+              <span className="text-[10px] font-bold block uppercase text-emerald-700">Correct</span>
+              <span className="text-base font-extrabold text-emerald-700">{correctCount}</span>
+            </div>
+            <div className="bg-white p-3 rounded border border-slate-200">
+              <span className="text-[10px] text-slate-500 block uppercase font-bold">Unanswered / Skipped</span>
+              <span className="text-base font-extrabold text-amber-700">{unansweredCount}</span>
+            </div>
           </div>
         </div>
 
@@ -237,7 +272,7 @@ export const ExamResultsPage: React.FC = () => {
           </div>
           <div className="flex justify-between text-[10px] text-slate-500 font-mono">
             <span>Candidate Performance Scale</span>
-            <span className="font-bold text-slate-800">{scorePercentage}% Raw Correct</span>
+            <span className="font-bold text-slate-800">{correctCount} / {totalQuestions} Correct ({scorePercentage}% Raw Score)</span>
           </div>
         </div>
 
