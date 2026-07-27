@@ -1,0 +1,272 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMINISTRATOR
+  EXAM_CREATOR
+  CANDIDATE
+  GUEST
+}
+
+enum ExamVendor {
+  MICROSOFT
+  AWS
+  CISCO
+  VMWARE
+  LINUX
+  CUSTOM
+  UNIVERSITY
+}
+
+enum ExamType {
+  CERTIFICATION
+  PRACTICE
+  MOCK
+  LAB
+  SIMULATION
+  CASE_STUDY
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  DROPDOWN
+  FILL_IN_BLANK
+  MATCHING
+  DRAG_AND_DROP
+  REORDER
+  BUILD_LIST
+  HOTSPOT
+  CASE_STUDY
+  SIMULATION
+  LAB
+  CODE_EDITOR
+  ESSAY
+}
+
+enum DifficultyLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum ExamStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  PAUSED
+  SUBMITTED
+  EXPIRED
+  EVALUATED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  entraId      String?       @unique
+  email        String        @unique
+  name         String
+  role         Role          @default(CANDIDATE)
+  passwordHash String?
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  createdExams Exam[]        @relation("ExamCreator")
+  attempts     ExamAttempt[]
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  description String?
+  questions   Question[]
+
+  @@map("categories")
+}
+
+model Tag {
+  id        String            @id @default(uuid())
+  name      String            @unique
+  questions QuestionOnTag[]
+
+  @@map("tags")
+}
+
+model Question {
+  id             String          @id @default(uuid())
+  title          String
+  code           String          @unique
+  type           QuestionType
+  difficulty     DifficultyLevel @default(INTERMEDIATE)
+  points         Float           @default(1.0)
+  negativePoints Float           @default(0.0)
+  explanation    String?
+  content        String          // JSON string holding options, drag/drop pairs, code templates, etc.
+  version        Int             @default(1)
+  isApproved     Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  categoryId     String?
+  category       Category?       @relation(fields: [categoryId], references: [id])
+
+  tags           QuestionOnTag[]
+  sectionQuestions SectionQuestion[]
+  caseStudyId    String?
+  caseStudy      CaseStudy?      @relation(fields: [caseStudyId], references: [id])
+  simulationId   String?
+  simulation     Simulation?     @relation(fields: [simulationId], references: [id])
+  labId          String?
+  lab            Lab?            @relation(fields: [labId], references: [id])
+
+  @@map("questions")
+}
+
+model QuestionOnTag {
+  questionId String
+  tagId      String
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, tagId])
+  @@map("questions_on_tags")
+}
+
+model CaseStudy {
+  id                   String     @id @default(uuid())
+  title                String
+  overview             String
+  businessRequirements String
+  technicalRequirements String
+  existingEnvironment  String
+  questions            Question[]
+
+  @@map("case_studies")
+}
+
+model Simulation {
+  id           String     @id @default(uuid())
+  title        String
+  portalType   String     // "AZURE_PORTAL" | "M365" | "CISCO_CLI"
+  instructions String
+  initialState String     // JSON representation of mock state
+  targetState  String     // JSON validation criteria
+  questions    Question[]
+
+  @@map("simulations")
+}
+
+model Lab {
+  id           String     @id @default(uuid())
+  title        String
+  scenario     String
+  checklists   String     // JSON array of task items
+  validation   String     // JSON execution scripts or state checks
+  questions    Question[]
+
+  @@map("labs")
+}
+
+model Exam {
+  id                String      @id @default(uuid())
+  title             String
+  code              String      @unique
+  vendor            ExamVendor  @default(MICROSOFT)
+  examType          ExamType    @default(CERTIFICATION)
+  description       String?
+  instructions      String?
+  timeLimitMinutes  Int         @default(120)
+  passingScore      Float       @default(70.0)
+  isRandomized      Boolean     @default(true)
+  shuffleAnswers    Boolean     @default(true)
+  allowCalculator   Boolean     @default(true)
+  allowNotes        Boolean     @default(true)
+  negativeMarking   Boolean     @default(false)
+  partialMarking    Boolean     @default(true)
+  status            ExamStatus  @default(PUBLISHED)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  creatorId         String
+  creator           User        @relation("ExamCreator", fields: [creatorId], references: [id])
+
+  sections          ExamSection[]
+  attempts          ExamAttempt[]
+
+  @@map("exams")
+}
+
+model ExamSection {
+  id           String            @id @default(uuid())
+  examId       String
+  title        String
+  instructions String?
+  orderIndex   Int               @default(1)
+
+  exam         Exam              @relation(fields: [examId], references: [id], onDelete: Cascade)
+  questions    SectionQuestion[]
+
+  @@map("exam_sections")
+}
+
+model SectionQuestion {
+  sectionId  String
+  questionId String
+  orderIndex Int
+
+  section    ExamSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  question   Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([sectionId, questionId])
+  @@map("section_questions")
+}
+
+model ExamAttempt {
+  id               String        @id @default(uuid())
+  userId           String
+  examId           String
+  status           AttemptStatus @default(IN_PROGRESS)
+  startedAt        DateTime      @default(now())
+  completedAt      DateTime?
+  timeSpentSeconds Int           @default(0)
+  totalQuestions   Int           @default(0)
+  correctAnswers   Int           @default(0)
+  scorePercentage  Float         @default(0.0)
+  passed           Boolean       @default(false)
+  answers          String        // JSON object mapping questionId to submitted answers & review flags
+  auditLogs        String?       // JSON array of event logs (e.g. tab switch, pause, resume)
+
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exam             Exam          @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@map("exam_attempts")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  details   String?
+  ipAddress String?
+  userId    String?
+  timestamp DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}

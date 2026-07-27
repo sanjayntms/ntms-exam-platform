@@ -1,0 +1,30 @@
+import { Request, Response } from 'express';
+import { AuthService } from '../services/auth.service.js';
+
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  async loginLocal(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+      const result = await this.authService.loginLocal(email);
+      return res.json(result);
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
+  async loginEntra(req: Request, res: Response) {
+    try {
+      const { idToken, accessToken } = req.body;
+      const result = await this.authService.loginEntra(idToken, accessToken);
+      return res.json(result);
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
+  async me(req: Request, res: Response) {
+    return res.json({ user: req.user });
+  }
+}
