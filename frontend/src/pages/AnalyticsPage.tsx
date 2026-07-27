@@ -1,109 +1,122 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { BarChart3, TrendingUp, PieChart, Download } from 'lucide-react';
+import { Award, CheckCircle2, XCircle, FileText, Printer, ShieldCheck } from 'lucide-react';
+import { ScoreReportModal } from '../components/ScoreReportModal';
+import { ExamAttempt } from '../types';
 
 export const AnalyticsPage: React.FC = () => {
-  const [data, setData] = useState<any>(null);
+  const [attempts, setAttempts] = useState<ExamAttempt[]>([]);
+  const [selectedAttempt, setSelectedAttempt] = useState<ExamAttempt | null>(null);
 
   useEffect(() => {
-    const fetchAnalytics = async () => {
+    const fetchAttempts = async () => {
       try {
-        const res = await api.get('/analytics/dashboard');
-        setData(res.data);
+        const res = await api.get('/attempts/history');
+        setAttempts(res.data);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchAnalytics();
+    fetchAttempts();
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6 font-sans">
+      {/* Header Banner */}
+      <div className="bg-white p-6 rounded border border-slate-300 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-xl font-bold text-white tracking-tight">Enterprise Analytics & Reports</h2>
-          <p className="text-xs text-slate-400 mt-1">Pass rate metrics, difficulty distribution & candidate performance trends</p>
+          <h2 className="text-xl font-extrabold text-ntms-navy tracking-tight">
+            Candidate Exam Performance & Score Reports
+          </h2>
+          <p className="text-xs text-slate-600 mt-1">
+            Official transcript generation, section domain breakdowns & certification verification
+          </p>
         </div>
-        <button
-          onClick={() => alert('Exporting full analytics dataset to CSV/Excel...')}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-blue-600/20"
-        >
-          <Download className="w-4 h-4" /> Export Excel Report
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-          <h3 className="text-sm font-bold text-white flex items-center gap-2 font-mono uppercase text-blue-400">
-            <TrendingUp className="w-4 h-4" /> Certification Pass Rate Trends
-          </h3>
-
-          <div className="h-48 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center p-4">
-            <div className="w-full space-y-3">
-              <div>
-                <div className="flex justify-between text-xs text-slate-400 mb-1">
-                  <span>AZ-900 Microsoft Azure Fundamentals</span>
-                  <span className="text-emerald-400 font-mono font-bold">85% Pass</span>
-                </div>
-                <div className="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800">
-                  <div className="bg-gradient-to-r from-blue-600 to-emerald-400 h-full w-[85%]" />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs text-slate-400 mb-1">
-                  <span>AWS Solutions Architect Associate</span>
-                  <span className="text-emerald-400 font-mono font-bold">78% Pass</span>
-                </div>
-                <div className="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800">
-                  <div className="bg-gradient-to-r from-blue-600 to-emerald-400 h-full w-[78%]" />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs text-slate-400 mb-1">
-                  <span>Cisco 200-301 CCNA</span>
-                  <span className="text-emerald-400 font-mono font-bold">72% Pass</span>
-                </div>
-                <div className="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800">
-                  <div className="bg-gradient-to-r from-blue-600 to-emerald-400 h-full w-[72%]" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-          <h3 className="text-sm font-bold text-white flex items-center gap-2 font-mono uppercase text-amber-400">
-            <PieChart className="w-4 h-4" /> Question Bank Type Breakdown
-          </h3>
-
-          <div className="h-48 bg-slate-950 rounded-xl border border-slate-800 p-4 grid grid-cols-2 gap-4 items-center">
-            <div className="space-y-2 text-xs text-slate-300">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded bg-blue-500" />
-                <span>Choice & True/False (40%)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded bg-emerald-500" />
-                <span>Case Studies (20%)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded bg-amber-500" />
-                <span>Simulations (20%)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded bg-purple-500" />
-                <span>Hands-on Labs (20%)</span>
-              </div>
-            </div>
-
-            <div className="w-28 h-28 mx-auto rounded-full border-8 border-blue-500/40 flex items-center justify-center font-mono font-bold text-xl text-white shadow-xl shadow-blue-500/20">
-              16 Types
-            </div>
-          </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-sky-50 border border-sky-200 rounded text-ntms-navy text-xs font-mono font-bold">
+          <ShieldCheck className="w-4 h-4 text-ntms-blue" />
+          <span>Official Certification Transcripts</span>
         </div>
       </div>
+
+      {/* Candidate Score Reports Table */}
+      <div className="bg-white border border-slate-300 rounded overflow-hidden shadow-sm">
+        <div className="bg-slate-100 px-5 py-3 border-b border-slate-300 flex justify-between items-center">
+          <h3 className="font-bold text-xs text-ntms-navy uppercase tracking-wider flex items-center gap-2">
+            <Award className="w-4 h-4 text-ntms-blue" />
+            Completed Exam Score Reports
+          </h3>
+          <span className="text-[11px] font-mono text-slate-500 font-bold">
+            {attempts.length} Exam Transcripts Available
+          </span>
+        </div>
+
+        <table className="w-full text-left text-xs text-slate-800">
+          <thead className="bg-slate-50 text-slate-700 font-mono text-[11px] uppercase border-b border-slate-300">
+            <tr>
+              <th className="p-3.5">Transcript ID</th>
+              <th className="p-3.5">Exam Code & Title</th>
+              <th className="p-3.5">Date Completed</th>
+              <th className="p-3.5">Scaled Score</th>
+              <th className="p-3.5">Result</th>
+              <th className="p-3.5 text-right">Official Score Report</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-200">
+            {attempts.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="p-8 text-center text-slate-500 font-medium">
+                  No completed exam attempts found. Launch an exam from the catalog to generate score reports!
+                </td>
+              </tr>
+            ) : (
+              attempts.map((att) => {
+                const scaledScore = Math.round(300 + (att.scorePercentage / 100) * 700);
+                return (
+                  <tr key={att.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 font-mono font-extrabold text-ntms-navy">
+                      NTMS-{att.id.substring(0, 8).toUpperCase()}
+                    </td>
+                    <td className="p-3.5">
+                      <div className="font-bold text-slate-900">{att.exam?.title || 'Certification Exam'}</div>
+                      <div className="text-[10px] text-slate-500 font-mono">{att.exam?.code || 'NTMS-EXAM'}</div>
+                    </td>
+                    <td className="p-3.5 font-mono text-slate-600">
+                      {new Date(att.startedAt).toLocaleDateString()}
+                    </td>
+                    <td className="p-3.5 font-mono font-extrabold text-slate-900 text-sm">
+                      {scaledScore} <span className="text-[10px] text-slate-500 font-normal">/ 1000</span>
+                    </td>
+                    <td className="p-3.5 font-mono text-[11px]">
+                      {att.passed ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 border border-emerald-300 font-extrabold">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> PASS
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-100 text-rose-900 border border-rose-300 font-extrabold">
+                          <XCircle className="w-3.5 h-3.5" /> NO PASS
+                        </span>
+                      )}
+                    </td>
+                    <td className="p-3.5 text-right">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedAttempt(att)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs shadow transition-all"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Generate Score Report ➜</span>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Official Score Report Viewer Modal */}
+      <ScoreReportModal attempt={selectedAttempt} onClose={() => setSelectedAttempt(null)} />
     </div>
   );
 };
