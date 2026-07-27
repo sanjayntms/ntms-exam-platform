@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with 35 Deduplicated AI-900 & 10 AZ-900 Questions...');
+  console.log('🌱 Starting NTMS Database Seeding with Deduplicated AZ-900 (30 Questions) & AI-900 (35 Questions)...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -77,7 +77,6 @@ async function main() {
   // 1. AI-900 EXAM TRACK (35 DEDUPLICATED QUESTIONS)
   // ==========================================
   const ai900QuestionsData = [
-    // --- RESPONSIBLE AI (Q001 - Q006) ---
     {
       code: 'AI900-Q001',
       title: 'Responsible AI - Fairness Principle',
@@ -168,8 +167,6 @@ async function main() {
         { id: 'opt4', text: 'Inclusiveness' },
       ],
     },
-
-    // --- MACHINE LEARNING FUNDAMENTALS (Q007 - Q013) ---
     {
       code: 'AI900-Q007',
       title: 'Machine Learning - Regression Task',
@@ -275,8 +272,6 @@ async function main() {
         { id: 'opt4', text: 'Azure Data Factory' },
       ],
     },
-
-    // --- COMPUTER VISION (Q014 - Q019) ---
     {
       code: 'AI900-Q014',
       title: 'Computer Vision - Image Classification',
@@ -367,8 +362,6 @@ async function main() {
         { id: 'opt4', text: 'Azure Bot Service' },
       ],
     },
-
-    // --- NLP & SPEECH (Q020 - Q026) ---
     {
       code: 'AI900-Q020',
       title: 'NLP - Key Phrase Extraction',
@@ -474,8 +467,6 @@ async function main() {
         { id: 'opt4', text: 'Azure Personalizer' },
       ],
     },
-
-    // --- GENERATIVE AI & ADVANCED (Q027 - Q034) ---
     {
       code: 'AI900-Q027',
       title: 'Generative AI - Azure OpenAI Service',
@@ -669,7 +660,7 @@ async function main() {
   }
 
   // ==========================================
-  // 2. AZ-900 EXAM TRACK (10 QUESTIONS)
+  // 2. AZ-900 EXAM TRACK (30 DEDUPLICATED QUESTIONS)
   // ==========================================
   const az900QuestionsData = [
     {
@@ -822,6 +813,291 @@ async function main() {
         { id: 'opt4', text: 'Microsoft Entra ID' },
       ],
     },
+    {
+      code: 'AZ900-Q011',
+      title: 'Azure Storage Redundancy (LRS vs ZRS vs GRS)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Geo-Redundant Storage (GRS) replicates data synchronously three times within the primary region, then asynchronously to a secondary region hundreds of miles away.',
+      prompt: 'Which Azure storage redundancy option replicates your data to a secondary region hundreds of miles away from the primary location to protect against regional disasters?',
+      options: [
+        { id: 'opt1', text: 'Geo-Redundant Storage (GRS)', isCorrect: true },
+        { id: 'opt2', text: 'Locally Redundant Storage (LRS)' },
+        { id: 'opt3', text: 'Zone-Redundant Storage (ZRS)' },
+        { id: 'opt4', text: 'Read-Access Local Storage' },
+      ],
+    },
+    {
+      code: 'AZ900-Q012',
+      title: 'Azure Resource Groups Containers',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'A Resource Group is a logical container that holds related resources for an Azure solution.',
+      prompt: 'What is the logical container used in Azure to manage and group related resources for a single application deployment?',
+      options: [
+        { id: 'opt1', text: 'Resource Group', isCorrect: true },
+        { id: 'opt2', text: 'Management Group' },
+        { id: 'opt3', text: 'Azure Subscription' },
+        { id: 'opt4', text: 'Availability Zone' },
+      ],
+    },
+    {
+      code: 'AZ900-Q013',
+      title: 'Azure Subscriptions Billing Boundaries',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'An Azure Subscription acts as both an identity boundary and a billing boundary for Azure resource usage.',
+      prompt: 'What serves as the primary billing boundary and access control container in Azure?',
+      options: [
+        { id: 'opt1', text: 'Azure Subscription', isCorrect: true },
+        { id: 'opt2', text: 'Resource Group' },
+        { id: 'opt3', text: 'Tenant ID' },
+        { id: 'opt4', text: 'Management Group' },
+      ],
+    },
+    {
+      code: 'AZ900-Q014',
+      title: 'Azure Management Groups Hierarchy',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Management Groups provide a governance scope above subscriptions to apply policies and compliance rules across multiple subscriptions.',
+      prompt: 'Your enterprise has 20 Azure subscriptions. You need to apply a single security policy across all subscriptions. Which container hierarchy should you use?',
+      options: [
+        { id: 'opt1', text: 'Management Group', isCorrect: true },
+        { id: 'opt2', text: 'Resource Group' },
+        { id: 'opt3', text: 'Virtual Network' },
+        { id: 'opt4', text: 'Azure App Service Plan' },
+      ],
+    },
+    {
+      code: 'AZ900-Q015',
+      title: 'Azure Cosmos DB Globally Distributed NoSQL',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Cosmos DB is a fully managed, globally distributed NoSQL database service offering single-digit millisecond latency worldwide.',
+      prompt: 'Which Azure database service offers globally distributed, multi-model NoSQL capabilities with guaranteed single-digit millisecond latency?',
+      options: [
+        { id: 'opt1', text: 'Azure Cosmos DB', isCorrect: true },
+        { id: 'opt2', text: 'Azure SQL Database' },
+        { id: 'opt3', text: 'Azure Database for PostgreSQL' },
+        { id: 'opt4', text: 'Azure Managed Instance' },
+      ],
+    },
+    {
+      code: 'AZ900-Q016',
+      title: 'Azure Virtual Machines Infrastructure as a Service',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Virtual Machines (VMs) provide IaaS compute resources on demand.',
+      prompt: 'Which Azure compute service allows you to configure custom operating system patches, custom OS images, and full root administrative access?',
+      options: [
+        { id: 'opt1', text: 'Azure Virtual Machines', isCorrect: true },
+        { id: 'opt2', text: 'Azure App Service' },
+        { id: 'opt3', text: 'Azure Functions' },
+        { id: 'opt4', text: 'Azure Static Web Apps' },
+      ],
+    },
+    {
+      code: 'AZ900-Q017',
+      title: 'Azure Kubernetes Service (AKS) Container Orchestration',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'AKS is a managed Kubernetes container orchestration service in Azure.',
+      prompt: 'Which Azure service simplifies deploying, managing, and scaling containerized microservices applications using Kubernetes?',
+      options: [
+        { id: 'opt1', text: 'Azure Kubernetes Service (AKS)', isCorrect: true },
+        { id: 'opt2', text: 'Azure Container Instances (ACI)' },
+        { id: 'opt3', text: 'Azure Service Fabric' },
+        { id: 'opt4', text: 'Azure Batch' },
+      ],
+    },
+    {
+      code: 'AZ900-Q018',
+      title: 'Azure Virtual Network (VNet) Isolation',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'An Azure Virtual Network (VNet) provides private IP address network isolation for Azure resources.',
+      prompt: 'Which building block provides private IP network isolation for your Azure resources in the cloud?',
+      options: [
+        { id: 'opt1', text: 'Azure Virtual Network (VNet)', isCorrect: true },
+        { id: 'opt2', text: 'Azure ExpressRoute' },
+        { id: 'opt3', text: 'Azure Front Door' },
+        { id: 'opt4', text: 'Azure Traffic Manager' },
+      ],
+    },
+    {
+      code: 'AZ900-Q019',
+      title: 'Network Security Group (NSG) Stateful Filtering',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Network Security Groups (NSGs) filter network traffic to and from Azure resources in an Azure Virtual Network.',
+      prompt: 'Which security feature allows you to filter network traffic to and from subnets or network interfaces (NICs) based on port and IP rules?',
+      options: [
+        { id: 'opt1', text: 'Network Security Group (NSG)', isCorrect: true },
+        { id: 'opt2', text: 'Azure Application Gateway' },
+        { id: 'opt3', text: 'Azure DDoS Protection' },
+        { id: 'opt4', text: 'Azure DNS' },
+      ],
+    },
+    {
+      code: 'AZ900-Q020',
+      title: 'Azure Firewall Cloud Native Security',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Firewall is a managed, cloud-based network security service that protects your Azure Virtual Network resources.',
+      prompt: 'Which service is a fully stateful, cloud-native firewall that provides high availability and threat intelligence across virtual networks?',
+      options: [
+        { id: 'opt1', text: 'Azure Firewall', isCorrect: true },
+        { id: 'opt2', text: 'Network Security Group (NSG)' },
+        { id: 'opt3', text: 'Azure WAF' },
+        { id: 'opt4', text: 'Azure Bastion' },
+      ],
+    },
+    {
+      code: 'AZ900-Q021',
+      title: 'Azure Resource Locks (CanNotDelete vs ReadOnly)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'A CanNotDelete resource lock allows authorized users to read and modify a resource, but prevents them from deleting it.',
+      prompt: 'What type of Azure Resource Lock allows administrators to modify and update resources, but prevents them from deleting the resource?',
+      options: [
+        { id: 'opt1', text: 'CanNotDelete (Delete lock)', isCorrect: true },
+        { id: 'opt2', text: 'ReadOnly lock' },
+        { id: 'opt3', text: 'Azure Policy Lock' },
+        { id: 'opt4', text: 'Subscription Lock' },
+      ],
+    },
+    {
+      code: 'AZ900-Q022',
+      title: 'Azure Cost Management & Budgets',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Cost Management allows you to create spending budgets and receive alerts when spending exceeds thresholds.',
+      prompt: 'Which tool allows you to monitor cloud spending, set automated budget thresholds, and trigger email alerts when costs exceed limits?',
+      options: [
+        { id: 'opt1', text: 'Azure Cost Management & Budgets', isCorrect: true },
+        { id: 'opt2', text: 'Pricing Calculator' },
+        { id: 'opt3', text: 'TCO Calculator' },
+        { id: 'opt4', text: 'Azure Billing Invoice' },
+      ],
+    },
+    {
+      code: 'AZ900-Q023',
+      title: 'Azure Service Health Outage Alerts',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Service Health provides a personalized view of the health of your specific Azure services and region incidents.',
+      prompt: 'Where should you check to view personalized notifications regarding Azure outages, planned maintenance, and health advisories affecting your specific resources?',
+      options: [
+        { id: 'opt1', text: 'Azure Service Health', isCorrect: true },
+        { id: 'opt2', text: 'Azure Status Page' },
+        { id: 'opt3', text: 'Azure Monitor' },
+        { id: 'opt4', text: 'Azure Advisor' },
+      ],
+    },
+    {
+      code: 'AZ900-Q024',
+      title: 'Azure Monitor Telemetry & Log Analytics',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Monitor maximizes availability and performance of applications by collecting and analyzing telemetry data.',
+      prompt: 'Which service acts as the central data collector for metrics, logs, and performance telemetry from Azure and hybrid resources?',
+      options: [
+        { id: 'opt1', text: 'Azure Monitor', isCorrect: true },
+        { id: 'opt2', text: 'Azure Inspector' },
+        { id: 'opt3', text: 'Azure Security Center' },
+        { id: 'opt4', text: 'Azure Log Vault' },
+      ],
+    },
+    {
+      code: 'AZ900-Q025',
+      title: 'Azure Arc Multicloud Governance',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Azure Arc simplifies governance and management by extending Azure Resource Manager (ARM) to multicloud and on-premises servers.',
+      prompt: 'Which Azure service allows you to manage and govern servers, Kubernetes clusters, and databases running on AWS, GCP, or on-premises using Azure Resource Manager?',
+      options: [
+        { id: 'opt1', text: 'Azure Arc', isCorrect: true },
+        { id: 'opt2', text: 'Azure Sentinel' },
+        { id: 'opt3', text: 'Azure ExpressRoute' },
+        { id: 'opt4', text: 'Azure Stack' },
+      ],
+    },
+    {
+      code: 'AZ900-Q026',
+      title: 'Azure Virtual Machine Scale Sets Auto-scaling',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Virtual Machine Scale Sets (VMSS) allow you to deploy and manage a group of identical, auto-scaling VMs.',
+      prompt: 'Which Azure compute feature automatically scales the number of identical virtual machines up or down based on CPU load or schedule?',
+      options: [
+        { id: 'opt1', text: 'Virtual Machine Scale Sets (VMSS)', isCorrect: true },
+        { id: 'opt2', text: 'Availability Sets' },
+        { id: 'opt3', text: 'Availability Zones' },
+        { id: 'opt4', text: 'Azure Batch' },
+      ],
+    },
+    {
+      code: 'AZ900-Q027',
+      title: 'Azure Application Gateway & Web Application Firewall (WAF)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Application Gateway is a Layer 7 web traffic load balancer that includes Web Application Firewall (WAF) to block web attacks like SQLi & XSS.',
+      prompt: 'Which Layer 7 web load balancer includes Web Application Firewall (WAF) to protect web applications from common exploits like SQL injection?',
+      options: [
+        { id: 'opt1', text: 'Azure Application Gateway', isCorrect: true },
+        { id: 'opt2', text: 'Azure Load Balancer' },
+        { id: 'opt3', text: 'Azure ExpressRoute' },
+        { id: 'opt4', text: 'Azure NAT Gateway' },
+      ],
+    },
+    {
+      code: 'AZ900-Q028',
+      title: 'Azure Bastion Secure RDP/SSH Access',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Bastion provides secure, seamless RDP and SSH access to virtual machines directly through the Azure portal over TLS.',
+      prompt: 'Which service provides secure RDP and SSH connectivity directly to your Virtual Machines through an HTML5 web browser without public IP addresses?',
+      options: [
+        { id: 'opt1', text: 'Azure Bastion', isCorrect: true },
+        { id: 'opt2', text: 'Azure VPN Gateway' },
+        { id: 'opt3', text: 'Azure Firewall' },
+        { id: 'opt4', text: 'Network Security Group' },
+      ],
+    },
+    {
+      code: 'AZ900-Q029',
+      title: 'Azure Data Box Offline Physical Data Transfer',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Data Box physical storage appliances allow offline transfer of petabytes of data to Azure over slow network connections.',
+      prompt: 'Your organization needs to transfer 100 Terabytes of data to Azure Blob Storage over a congested network connection. Which physical hardware appliance service should you order?',
+      options: [
+        { id: 'opt1', text: 'Azure Data Box', isCorrect: true },
+        { id: 'opt2', text: 'Azure Import/Export' },
+        { id: 'opt3', text: 'Azure ExpressRoute' },
+        { id: 'opt4', text: 'Azure Files' },
+      ],
+    },
   ];
 
   const seededAZ900Questions = [];
@@ -844,13 +1120,40 @@ async function main() {
     seededAZ900Questions.push(q);
   }
 
+  // Question 30: Interactive SLA Drag & Drop Question
+  const qAZ900_DD = await prisma.question.create({
+    data: {
+      code: 'AZ900-Q030',
+      title: 'Azure SLA Availability Drag and Drop',
+      type: QuestionType.DRAG_AND_DROP,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 2.5,
+      explanation: 'Availability Zones offer 99.99% SLA, Availability Sets offer 99.95%, single Premium SSD VM offers 99.9%.',
+      categoryId: catAzure.id,
+      content: JSON.stringify({
+        prompt: 'Drag each Azure SLA percentage from the left pool to its corresponding virtual machine deployment configuration on the right.',
+        items: [
+          { id: 'sla1', label: '99.99%' },
+          { id: 'sla2', label: '99.9%' },
+          { id: 'sla3', label: '99.95%' },
+        ],
+        targets: [
+          { id: 'target1', label: 'Virtual Machines deployed across Availability Zones', correctItemId: 'sla1' },
+          { id: 'target2', label: 'Single Virtual Machine with Premium SSD storage', correctItemId: 'sla2' },
+          { id: 'target3', label: 'Virtual Machines deployed in an Availability Set', correctItemId: 'sla3' },
+        ],
+      }),
+    },
+  });
+  seededAZ900Questions.push(qAZ900_DD);
+
   const examAZ900 = await prisma.exam.create({
     data: {
       code: 'AZ-900',
       title: 'Microsoft Azure Fundamentals (AZ-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of cloud concepts, Azure architecture, services, security, privacy, pricing, and SLAs.',
+      description: 'Demonstrate foundational knowledge of cloud concepts, Azure architecture, services, security, privacy, pricing, and SLAs with 30 deduplicated practice questions.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -868,7 +1171,7 @@ async function main() {
   }
 
   console.log(`✅ Successfully seeded ALL ${seededAI900Questions.length} deduplicated AI-900 questions into AI-900 track!`);
-  console.log(`✅ Successfully seeded ALL ${seededAZ900Questions.length} AZ-900 questions into AZ-900 track!`);
+  console.log(`✅ Successfully seeded ALL ${seededAZ900Questions.length} deduplicated AZ-900 questions into AZ-900 track!`);
   console.log('🎉 NTMS Database Seeding Complete!');
 }
 
