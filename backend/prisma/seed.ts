@@ -1737,7 +1737,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q031',
-      title: 'ExamHeist - Azure Support Plans Ticket Entitlements',
+      title: 'Azure Support Plans Ticket Entitlements',
       type: QuestionType.MULTIPLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
@@ -1752,7 +1752,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q032',
-      title: 'ExamHeist - Read-Access Geo-Redundant Storage (RA-GRS)',
+      title: 'Read-Access Geo-Redundant Storage (RA-GRS)',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
@@ -1767,7 +1767,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q033',
-      title: 'ExamHeist - Azure Synapse Analytics Data Warehouse',
+      title: 'Azure Synapse Analytics Data Warehouse',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
@@ -1782,7 +1782,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q034',
-      title: 'ExamHeist - Azure TCO Calculator Savings Estimation',
+      title: 'Azure TCO Calculator Savings Estimation',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
@@ -1797,7 +1797,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q035',
-      title: 'ExamHeist - Azure SLA Violation Financial Credits',
+      title: 'Azure SLA Violation Financial Credits',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
@@ -1812,7 +1812,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q036',
-      title: 'ExamHeist - Azure Marketplace Deployable Assets',
+      title: 'Azure Marketplace Deployable Assets',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
@@ -1827,7 +1827,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q037',
-      title: 'ExamHeist - ARM Templates Declarative Automation',
+      title: 'ARM Templates Declarative Automation',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
@@ -1842,7 +1842,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q038',
-      title: 'ExamHeist - Azure Cloud Shell Browser Terminal',
+      title: 'Azure Cloud Shell Browser Terminal',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
@@ -1857,7 +1857,7 @@ async function main() {
     },
     {
       code: 'AZ900-Q039',
-      title: 'ExamHeist - Azure DevTest Labs Auto-Shutdown Controls',
+      title: 'Azure DevTest Labs Auto-Shutdown Controls',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
@@ -1921,7 +1921,7 @@ async function main() {
   const qAZ900_40 = await prisma.question.create({
     data: {
       code: 'AZ900-Q040',
-      title: 'ExamHeist - Azure Storage Explorer Desktop GUI Tool',
+      title: 'Azure Storage Explorer Desktop GUI Tool',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
