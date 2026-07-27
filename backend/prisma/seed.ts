@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with ALL 58 AZ-305 Questions + All Certification Tracks...');
+  console.log('🌱 Starting NTMS Database Seeding with ALL 100 AZ-305 Questions (Parts 1 & 2 Complete Bank) + All Certification Tracks...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -74,7 +74,7 @@ async function main() {
           code: qData.code,
           title: qData.title,
           type: qData.type || QuestionType.SINGLE_CHOICE,
-          difficulty: qData.difficulty || DifficultyLevel.INTERMEDIATE,
+          difficulty: qData.difficulty || DifficultyLevel.ADVANCED,
           points: qData.points || 1.0,
           explanation: qData.explanation,
           categoryId: categoryId,
@@ -87,12 +87,13 @@ async function main() {
   }
 
   // ==========================================
-  // 1. AZ-305 COMPLETE 58 QUESTIONS BANK
+  // 1. AZ-305 COMPLETE 100 QUESTIONS BANK (PARTS 1 & 2)
   // ==========================================
   const az305QuestionsData: any[] = [];
 
-  // Generate 58 AZ-305 Exam Questions covering all domains
+  // Generate 100 AZ-305 Exam Questions covering all domains (Identity, Governance, BCDR, Storage, Network, Compute, Security)
   const topicsAZ305 = [
+    // Questions 1 - 58 (Part 1 Core Architecture Bank)
     { title: 'Relational Database - SQL Hyperscale Auto-Scaling 100TB', concept: 'Azure SQL Hyperscale tier auto-scales up to 100 TB with rapid storage snapshots.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Identity Design - Entra External ID / B2C Social Auth', concept: 'Entra B2C allows external customer sign-in via Google/Apple without corporate directory contamination.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Disaster Recovery - SQL Auto-Failover Groups RTO < 30s', concept: 'Auto-Failover Groups handle multi-region database failover with auto-updated endpoints.', type: QuestionType.SINGLE_CHOICE },
@@ -151,6 +152,50 @@ async function main() {
     { title: 'Azure Advisor Cost & Performance Recommendations', concept: 'Azure Advisor provides personalized recommendations for cost reduction, security, and performance.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Azure Resource Locks Deletion Prevention', concept: 'CanNotDelete locks prevent accidental deletion of critical production resource groups.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Azure Arc Hybrid Server & Kubernetes Management', concept: 'Azure Arc extends Azure governance and management to non-Azure multi-cloud servers.', type: QuestionType.SINGLE_CHOICE },
+
+    // Questions 59 - 100 (Part 2 Advanced Architecture Bank)
+    { title: 'Entra PIM Access Reviews & Just-In-Time Privileged Access', concept: 'Microsoft Entra PIM Access Reviews automatically audit and revoke inactive admin permissions.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Workload Identity Federation for GitHub Actions CI/CD', concept: 'Workload Identity Federation (OIDC) allows GitHub Actions to deploy to Azure without storing long-lived client secrets.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Confidential Computing VMs AMD SEV-SNP Encryption in Memory', concept: 'Confidential VMs encrypt data in memory using hardware-enforced AMD SEV-SNP technology.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Customer Lockbox Workflows for Support Engineer Access', concept: 'Customer Lockbox ensures Microsoft engineers cannot access customer data without explicit tenant admin approval.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Cosmos DB Synapse Link Zero-ETL Real-Time Analytics', concept: 'Cosmos DB Synapse Link enables HTAP analytical queries over live operational data without ETL pipelines.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Blob Storage Object Replication Cross-Region Sync', concept: 'Object Replication asynchronously copies block blobs between source and destination storage accounts.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure SQL Database Serverless Auto-Pause & Auto-Scaling', concept: 'SQL Database Serverless automatically pauses compute during inactive periods to optimize cost.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'ADLS Gen2 Hierarchical Namespace (HNS) POSIX ACL Access', concept: 'Hierarchical Namespace (HNS) allows directory-level POSIX Access Control Lists (ACLs) for big data processing.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Synapse Materialized Views & Result Set Caching', concept: 'Materialized views pre-compute and store query results to boost performance on petabyte analytics.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Customer-Managed Account Failover for Storage Accounts', concept: 'Customer-Managed Account Failover allows initiating a manual failover to secondary GRS region during unannounced outages.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Immutable Blob Storage & Recovery Vault MUA Ransomware Protection', concept: 'Multi-User Authorization (MUA) requires a second approval before modifying or deleting backup vaults.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'AKS Velero Multi-Region Disaster Recovery', concept: 'Velero backs up Kubernetes cluster state, persistent volumes, and resources to Azure Blob Storage for DR.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Traffic Manager Priority Routing Active-Passive DR', concept: 'Priority routing directs all traffic to Primary region and switches to Secondary only when health probes fail.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'App Service VNet Integration & Private Endpoints', concept: 'VNet Integration allows outbound web traffic into a VNet while Private Endpoints secure inbound web calls.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Virtual WAN Secured Virtual Hub Hub-and-Spoke Mesh', concept: 'Secured Virtual Hub integrates Azure Firewall inside the VWAN hub to inspect all spoke-to-spoke traffic.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Spot Virtual Machines Eviction-Tolerant Batch Workloads', concept: 'Spot VMs utilize unused Azure capacity at up to 90% discount for fault-tolerant batch workloads.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Storage Managed Disks Ultra Disk IOPS Performance', concept: 'Ultra Disk Storage provides configurable IOPS and throughput up to 160,000 IOPS for SAP HANA workloads.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Virtual Network Peering Transitive Routing Limitations', concept: 'VNet Peering is non-transitive; traffic between VNet A and VNet C requires an NVA router or ExpressRoute Gateway.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure App Gateway Cookie-Based Affinity Session Sticky', concept: 'Cookie-based affinity routes user sessions to the exact same backend VM server instance.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Kubernetes Service (AKS) Managed NAT Gateway Outbound', concept: 'Managed NAT Gateway provides predictable static outbound IP addresses for AKS node pools.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Files Active Directory Authentication & NTFS Permissions', concept: 'Azure Files supports AD DS authentication for mapping network drives with native NTFS permissions.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Data Box Disk Offline High-Volume Data Transfer', concept: 'Data Box Disk ships SSD drives to import terabytes of data when internet bandwidth is constrained.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Database for PostgreSQL Flexible Server High Availability', concept: 'Flexible Server offers zone-redundant high availability with automatic failover between availability zones.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Event Hubs Capture Auto-Archiving to Blob Storage', concept: 'Event Hubs Capture automatically streams raw streaming data directly into Avro files in Blob Storage.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Synapse Pipelines Serverless Data Integration', concept: 'Synapse Pipelines execute ETL workflows without managing dedicated Data Factory resources.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Cognitive Search Custom Analyzer & Synonym Map', concept: 'Custom analyzers and synonym maps expand search queries to match industry jargon and spelling variations.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Policy Exemptions Regulatory Compliance Management', concept: 'Policy Exemptions allow excluding specific legacy resource groups from policy enforcement with audit logs.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Defender for Cloud Secure Score Recommendations', concept: 'Defender for Cloud Secure Score provides prioritized security recommendations to harden cloud infrastructure.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Key Vault Key Rotation Policies Auto-Renewal', concept: 'Automated Key Rotation policies periodically renew cryptographic keys in Key Vault without human intervention.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Front Door Custom Domain Managed TLS Certificate', concept: 'Azure Front Door provides free automated managed TLS certificates for custom domains with 90-day auto-renewal.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Traffic Manager Weighted Traffic Routing', concept: 'Weighted routing distributes incoming user requests across endpoints based on assigned percentage weights.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Container Registry (ACR) Geo-Replication Single Namespace', concept: 'ACR Geo-Replication serves container image pulls locally across multiple regions under a single registry domain.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Batch Auto-Scaling Pool Nodes', concept: 'Azure Batch dynamically scales compute nodes up or down based on pending job queue metrics.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Logic Apps Integration Account B2B EDI Messages', concept: 'Integration Accounts enable B2B enterprise messaging processing AS2, EDIFACT, and X12 protocols.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Service Bus Dead-Letter Queue (DLQ) Exception Handling', concept: 'Dead-Letter Queues store un-deliverable or malformed messages for manual inspection and debugging.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Cosmos DB Change Feed Event Sourcing Architecture', concept: 'Cosmos DB Change Feed listens for document modifications to trigger real-time downstream microservices.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Monitor Action Groups Alert Notifications', concept: 'Action Groups define automated receiver lists (SMS, Email, ITSM webhook, Azure Function) for metric alerts.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Managed Disks Snapshot Incremental Backup', concept: 'Incremental Disk Snapshots copy only modified blocks to Blob Storage, reducing backup costs.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Resource Manager (ARM) Template Deployment Modes', concept: 'Complete deployment mode deletes resources in the resource group that are not defined in the ARM template.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure Compute Gallery Image Definition Versioning', concept: 'Azure Compute Gallery shares and versions custom VM images globally across subscriptions and regions.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure VM Scale Sets Flexible Orchestration Mode', concept: 'Flexible Orchestration Mode combines VM Scale Set auto-scaling with standard VM management capabilities.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Azure NetApp Files Cross-Region Replication (CRR)', concept: 'Cross-Region Replication asynchronously replicates NetApp volume data to a secondary region for disaster recovery.', type: QuestionType.SINGLE_CHOICE },
   ];
 
   for (let i = 0; i < topicsAZ305.length; i++) {
@@ -243,8 +288,8 @@ async function main() {
       title: 'Designing Microsoft Azure Infrastructure Solutions (AZ-305)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Complete 58-Question Practice Exam for Microsoft Certified: Azure Solutions Architect Expert (AZ-305). Covers identity, governance, monitoring, data storage, business continuity, and infrastructure solutions.',
-      timeLimitMinutes: 120,
+      description: 'Complete 100-Question Master Practice Exam for Microsoft Certified: Azure Solutions Architect Expert (AZ-305). Covers Parts 1 & 2 full curriculum: Identity, Governance, Monitoring, Storage, BCDR, Networking, Compute, and Zero Trust Security.',
+      timeLimitMinutes: 150,
       passingScore: 70.0,
       creatorId: creatorUser.id,
       status: ExamStatus.PUBLISHED,
@@ -252,7 +297,7 @@ async function main() {
   });
 
   const secAZ305 = await prisma.examSection.create({
-    data: { examId: examAZ305.id, title: 'Section 1: Complete Azure Solutions Architect Expert Question Bank (58 Items)', orderIndex: 1 },
+    data: { examId: examAZ305.id, title: 'Section 1: Master Azure Solutions Architect Expert Question Bank (100 Items)', orderIndex: 1 },
   });
 
   let o305 = 1;
