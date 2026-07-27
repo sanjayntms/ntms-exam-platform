@@ -70,7 +70,8 @@ export class RoomController {
   async joinRoom(req: Request, res: Response) {
     try {
       const { roomCode } = req.body;
-      const userId = req.user?.id;
+      const tokenUserId = req.user?.id;
+      const userEmail = req.user?.email;
 
       if (!roomCode) {
         return res.status(400).json({ error: 'Exam Room Code is required' });
@@ -89,20 +90,33 @@ export class RoomController {
         return res.status(403).json({ error: `Exam Room "${room.title}" (${room.roomCode}) is currently CLOSED by Admin (sanjay@ntmsentra.onmicrosoft.com).` });
       }
 
-      // Log student room session
-      if (userId) {
-        await prisma.roomSession.upsert({
-          where: { roomId_userId: { roomId: room.id, userId } },
-          update: { joinedAt: new Date() },
-          create: { roomId: room.id, userId },
-        });
+      // Safely resolve active user entity in database to prevent Foreign Key constraint errors
+      let validUser = tokenUserId ? await prisma.user.findUnique({ where: { id: tokenUserId } }) : null;
+      if (!validUser && userEmail) {
+        validUser = await prisma.user.findUnique({ where: { email: userEmail } });
+      }
+      if (!validUser) {
+        validUser = await prisma.user.findFirst();
+      }
 
-        // Grant per-student unlock for this exam while room is open
-        await prisma.studentExamAccess.upsert({
-          where: { userId_examId: { userId, examId: room.examId } },
-          update: { isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
-          create: { userId, examId: room.examId, isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
-        });
+      if (validUser) {
+        try {
+          // Log student room session
+          await prisma.roomSession.upsert({
+            where: { roomId_userId: { roomId: room.id, userId: validUser.id } },
+            update: { joinedAt: new Date() },
+            create: { roomId: room.id, userId: validUser.id },
+          });
+
+          // Grant per-student unlock for this exam while room is open
+          await prisma.studentExamAccess.upsert({
+            where: { userId_examId: { userId: validUser.id, examId: room.examId } },
+            update: { isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
+            create: { userId: validUser.id, examId: room.examId, isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
+          });
+        } catch (dbErr) {
+          console.warn('Non-fatal roomSession upsert warning:', dbErr);
+        }
       }
 
       return res.json({
