@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, UserCheck, Key } from 'lucide-react';
+import { getEntraIDAuthUrl } from '../config/msalConfig';
+import api from '../services/api';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +11,32 @@ export const LoginPage: React.FC = () => {
   const [isEntraLoading, setIsEntraLoading] = useState(false);
   const { loginLocal } = useAuth();
   const navigate = useNavigate();
+
+  // Parse Entra ID OAuth Redirect response token from URL Hash
+  useEffect(() => {
+    const handleEntraRedirect = async () => {
+      const hash = window.location.hash;
+      if (hash.includes('id_token=')) {
+        setIsEntraLoading(true);
+        try {
+          const params = new URLSearchParams(hash.substring(1));
+          const idToken = params.get('id_token') || '';
+          const accessToken = params.get('access_token') || '';
+
+          const res = await api.post('/auth/entra', { idToken, accessToken });
+          localStorage.setItem('ntms_token', res.data.token);
+          // Clear hash
+          window.history.replaceState(null, '', window.location.pathname);
+          window.location.href = '/dashboard';
+        } catch (err: any) {
+          alert('Microsoft Entra ID Authentication Error: ' + (err.response?.data?.error || err.message));
+        } finally {
+          setIsEntraLoading(false);
+        }
+      }
+    };
+    handleEntraRedirect();
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,11 +59,8 @@ export const LoginPage: React.FC = () => {
 
   const handleEntraSSO = () => {
     setIsEntraLoading(true);
-    setTimeout(async () => {
-      await loginLocal('candidate@ntms.com');
-      setIsEntraLoading(false);
-      navigate('/dashboard');
-    }, 1200);
+    // Redirect to Microsoft Entra ID Login Authorization Page
+    window.location.href = getEntraIDAuthUrl();
   };
 
   return (
@@ -70,15 +95,15 @@ export const LoginPage: React.FC = () => {
             type="button"
             onClick={handleEntraSSO}
             disabled={isEntraLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded font-semibold text-xs transition-all shadow border border-slate-700"
+            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded font-semibold text-xs transition-all shadow border border-slate-700 disabled:opacity-50"
           >
-            <svg className="w-4 h-4" viewBox="0 0 23 23">
+            <svg className="w-4 h-4 shrink-0" viewBox="0 0 23 23">
               <path fill="#f35325" d="M1 1h10v10H1z" />
               <path fill="#81bc06" d="M12 1h10v10H12z" />
               <path fill="#05a6f0" d="M1 12h10v10H1z" />
               <path fill="#ffba08" d="M12 12h10v10H12z" />
             </svg>
-            <span>{isEntraLoading ? 'Connecting Entra ID...' : 'Sign in with Microsoft Entra ID (SSO)'}</span>
+            <span>{isEntraLoading ? 'Connecting to Microsoft Entra ID...' : 'Sign in with Microsoft Entra ID (SSO)'}</span>
           </button>
 
           <div className="relative flex items-center justify-center text-xs text-slate-400 uppercase font-mono my-4">
