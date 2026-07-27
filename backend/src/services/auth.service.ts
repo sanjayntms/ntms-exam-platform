@@ -36,6 +36,7 @@ export class AuthService {
           code: code,
           grant_type: 'authorization_code',
           redirect_uri: redirectUri || 'https://40.81.226.111:3000/login',
+          scope: 'openid profile email User.Read',
         });
 
         const tokenRes = await fetch(tokenEndpoint, {
@@ -49,6 +50,7 @@ export class AuthService {
         // 1. Try decoding ID Token claims
         if (tokenData.id_token) {
           const decoded: any = jwt.decode(tokenData.id_token);
+          console.log('Decoded Entra ID Token Claims:', decoded);
           email = decoded?.preferred_username || decoded?.email || decoded?.upn || email;
           name = decoded?.name || decoded?.given_name || (email.includes('@') ? email.split('@')[0] : name);
           oid = decoded?.oid || decoded?.sub || oid;
@@ -62,6 +64,7 @@ export class AuthService {
             });
             if (graphRes.ok) {
               const graphData: any = await graphRes.json();
+              console.log('Microsoft Graph API Response:', graphData);
               if (graphData.displayName) name = graphData.displayName;
               if (graphData.userPrincipalName || graphData.mail) {
                 email = graphData.userPrincipalName || graphData.mail;
@@ -86,7 +89,11 @@ export class AuthService {
     if (!user) {
       user = await this.uow.users.findByEmail(email);
       if (user) {
-        user = await this.uow.users.update(user.id, { entraId: oid, name, email });
+        user = await this.uow.users.update(user.id, {
+          entraId: oid,
+          name: name !== 'Microsoft Entra User' ? name : user.name,
+          email,
+        });
       } else {
         user = await this.uow.users.create({
           email,
@@ -96,8 +103,10 @@ export class AuthService {
         });
       }
     } else {
-      // Update name and email if changed in Entra ID
-      user = await this.uow.users.update(user.id, { name, email });
+      // Always update name & email when authenticating with Entra ID
+      if (name && name !== 'Microsoft Entra User') {
+        user = await this.uow.users.update(user.id, { name, email });
+      }
     }
 
     const token = jwt.sign(

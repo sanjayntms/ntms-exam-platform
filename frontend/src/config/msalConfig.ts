@@ -5,7 +5,7 @@ export const entraConfig = {
 };
 
 export const getEntraIDAuthUrl = () => {
-  const scope = encodeURIComponent('openid profile email');
+  const scope = encodeURIComponent('openid profile email User.Read');
   const redirectUri = encodeURIComponent(entraConfig.redirectUri);
   return `https://login.microsoftonline.com/${entraConfig.tenantId}/oauth2/v2.0/authorize?client_id=${entraConfig.clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}&response_mode=query&nonce=ntms-${Date.now()}`;
 };
