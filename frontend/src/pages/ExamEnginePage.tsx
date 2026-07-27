@@ -209,7 +209,7 @@ export const ExamEnginePage: React.FC = () => {
           <span>Previous</span>
         </button>
 
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           <button
             type="button"
             onClick={() => setShowPalette(!showPalette)}
@@ -218,15 +218,7 @@ export const ExamEnginePage: React.FC = () => {
             Item Map
           </button>
 
-          {currentQuestionIndex === flatQuestions.length - 1 ? (
-            <button
-              type="button"
-              onClick={() => setShowEndConfirm(true)}
-              className="px-6 py-2 rounded bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs shadow transition-all"
-            >
-              End Exam / Submit ➜
-            </button>
-          ) : (
+          {currentQuestionIndex < flatQuestions.length - 1 && (
             <button
               type="button"
               onClick={() => setCurrentQuestionIndex(Math.min(flatQuestions.length - 1, currentQuestionIndex + 1))}
@@ -236,6 +228,14 @@ export const ExamEnginePage: React.FC = () => {
               <ChevronRight className="w-4 h-4" />
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => setShowEndConfirm(true)}
+            className="px-5 py-2 rounded bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs shadow transition-all"
+          >
+            End Exam / Submit
+          </button>
         </div>
       </footer>
 
