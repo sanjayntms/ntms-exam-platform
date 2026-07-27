@@ -3,8 +3,18 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 
 const prisma = new PrismaClient();
 
+// Fisher-Yates shuffle algorithm for randomizing option positions
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 async function main() {
-  console.log('🌱 Starting Full Multi-Question Bank Seeding for ALL 6 Certification Tracks...');
+  console.log('🌱 Starting Full Multi-Question Bank Seeding with Shuffled Option Positions...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -127,14 +137,15 @@ async function main() {
         ],
       };
     } else {
+      const rawOptions = [
+        { id: 'opt1', text: topic.concept, isCorrect: true },
+        { id: 'opt2', text: 'Disable security monitoring agents' },
+        { id: 'opt3', text: 'Allow unauthenticated anonymous access' },
+        { id: 'opt4', text: 'Manual daily log inspection in Excel' },
+      ];
       content = {
         prompt: `You are working as a Security Operations Analyst in a Microsoft Security environment. Question ${i + 1}: ${topic.concept} Which feature or action should you implement?`,
-        options: [
-          { id: 'opt1', text: topic.concept, isCorrect: true },
-          { id: 'opt2', text: 'Disable security monitoring agents' },
-          { id: 'opt3', text: 'Allow unauthenticated anonymous access' },
-          { id: 'opt4', text: 'Manual daily log inspection in Excel' },
-        ],
+        options: shuffleArray(rawOptions),
       };
     }
 
@@ -156,7 +167,7 @@ async function main() {
   const az900Bank = [
     {
       title: 'Cloud Service Models - IaaS vs PaaS vs SaaS',
-      prompt: 'A company plans to migrate a custom web application to Azure. The company wants to manage the operating system and installed middleware, but avoid managing hardware infrastructure. Which cloud service model should they use?',
+      prompt: 'A company plans to migrate a custom web application to Azure. The company wants to manage the operating system and installed middleware, but avoid managing physical server hardware. Which cloud service model should they use?',
       opt1: 'Infrastructure as a Service (IaaS)',
       opt2: 'Platform as a Service (PaaS)',
       opt3: 'Software as a Service (SaaS)',
@@ -250,6 +261,12 @@ async function main() {
   for (let i = 0; i < 43; i++) {
     const qNum = String(i + 1).padStart(3, '0');
     const template = az900Bank[i % az900Bank.length];
+    const rawOptions = [
+      { id: 'opt1', text: template.opt1, isCorrect: true },
+      { id: 'opt2', text: template.opt2 },
+      { id: 'opt3', text: template.opt3 },
+      { id: 'opt4', text: template.opt4 },
+    ];
 
     az900QuestionsData.push({
       code: `AZ900-Q${qNum}`,
@@ -260,12 +277,7 @@ async function main() {
       explanation: template.exp,
       content: {
         prompt: `Question ${i + 1}: ${template.prompt}`,
-        options: [
-          { id: 'opt1', text: template.opt1, isCorrect: true },
-          { id: 'opt2', text: template.opt2 },
-          { id: 'opt3', text: template.opt3 },
-          { id: 'opt4', text: template.opt4 },
-        ],
+        options: shuffleArray(rawOptions), // Randomly shuffle option order
       },
     });
   }
@@ -285,6 +297,12 @@ async function main() {
   for (let i = 0; i < 24; i++) {
     const qNum = String(i + 1).padStart(3, '0');
     const template = az104Bank[i % az104Bank.length];
+    const rawOptions = [
+      { id: 'opt1', text: template.opt1, isCorrect: true },
+      { id: 'opt2', text: template.opt2 },
+      { id: 'opt3', text: template.opt3 },
+      { id: 'opt4', text: template.opt4 },
+    ];
     az104QuestionsData.push({
       code: `AZ104-Q${qNum}`,
       title: `AZ-104 Question ${i + 1}: ${template.title}`,
@@ -294,12 +312,7 @@ async function main() {
       explanation: template.exp,
       content: {
         prompt: `Question ${i + 1}: ${template.prompt}`,
-        options: [
-          { id: 'opt1', text: template.opt1, isCorrect: true },
-          { id: 'opt2', text: template.opt2 },
-          { id: 'opt3', text: template.opt3 },
-          { id: 'opt4', text: template.opt4 },
-        ],
+        options: shuffleArray(rawOptions),
       },
     });
   }
@@ -317,6 +330,12 @@ async function main() {
   for (let i = 0; i < 100; i++) {
     const qNum = String(i + 1).padStart(3, '0');
     const template = az305Bank[i % az305Bank.length];
+    const rawOptions = [
+      { id: 'opt1', text: template.opt1, isCorrect: true },
+      { id: 'opt2', text: template.opt2 },
+      { id: 'opt3', text: template.opt3 },
+      { id: 'opt4', text: template.opt4 },
+    ];
     az305QuestionsData.push({
       code: `AZ305-Q${qNum}`,
       title: `AZ-305 Architect Question ${i + 1}: ${template.title}`,
@@ -326,12 +345,7 @@ async function main() {
       explanation: template.exp,
       content: {
         prompt: `Question ${i + 1}: ${template.prompt}`,
-        options: [
-          { id: 'opt1', text: template.opt1, isCorrect: true },
-          { id: 'opt2', text: template.opt2 },
-          { id: 'opt3', text: template.opt3 },
-          { id: 'opt4', text: template.opt4 },
-        ],
+        options: shuffleArray(rawOptions),
       },
     });
   }
@@ -363,6 +377,12 @@ async function main() {
   for (let i = 0; i < 38; i++) {
     const qNum = String(i + 1).padStart(3, '0');
     const template = ai900Bank[i % ai900Bank.length];
+    const rawOptions = [
+      { id: 'opt1', text: template.opt1, isCorrect: true },
+      { id: 'opt2', text: template.opt2 },
+      { id: 'opt3', text: template.opt3 },
+      { id: 'opt4', text: template.opt4 },
+    ];
 
     ai900QuestionsData.push({
       code: `AI900-Q${qNum}`,
@@ -373,12 +393,7 @@ async function main() {
       explanation: template.exp,
       content: {
         prompt: `Question ${i + 1}: ${template.prompt}`,
-        options: [
-          { id: 'opt1', text: template.opt1, isCorrect: true },
-          { id: 'opt2', text: template.opt2 },
-          { id: 'opt3', text: template.opt3 },
-          { id: 'opt4', text: template.opt4 },
-        ],
+        options: shuffleArray(rawOptions), // Randomly shuffle option positions
       },
     });
   }
@@ -387,24 +402,30 @@ async function main() {
   // ==========================================
   // 6. AI-901 COMPLETE 18 QUESTIONS
   // ==========================================
+  const ai901Bank = [
+    { title: 'Model Catalog & Orchestration', prompt: 'In Azure AI Foundry, how do you evaluate model benchmark accuracy across multiple LLM endpoints?', opt1: 'Use Azure AI Foundry Model Catalog benchmarks and Prompt Flow evaluation metrics', opt2: 'Manual eye test', opt3: 'Disable evaluation pipelines', opt4: 'Use static text logs', exp: 'Model Catalog provides benchmark evaluation metrics for foundation models.' },
+  ];
+
   const ai901QuestionsData: any[] = [];
   for (let i = 0; i < 18; i++) {
     const qNum = String(i + 1).padStart(3, '0');
+    const template = ai901Bank[i % ai901Bank.length];
+    const rawOptions = [
+      { id: 'opt1', text: template.opt1, isCorrect: true },
+      { id: 'opt2', text: template.opt2 },
+      { id: 'opt3', text: template.opt3 },
+      { id: 'opt4', text: template.opt4 },
+    ];
     ai901QuestionsData.push({
       code: `AI901-Q${qNum}`,
-      title: `AI-901 AI Foundry Solutions Question ${i + 1}: Model Catalog & Orchestration`,
+      title: `AI-901 AI Foundry Solutions Question ${i + 1}: ${template.title}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
-      explanation: 'Azure AI Foundry and Prompt Flow DAG execution concept.',
+      explanation: template.exp,
       content: {
-        prompt: `Question ${i + 1}: In Azure AI Foundry, how do you evaluate model benchmark accuracy across multiple LLM endpoints?`,
-        options: [
-          { id: 'opt1', text: 'Use Azure AI Foundry Model Catalog benchmarks and Prompt Flow evaluation metrics', isCorrect: true },
-          { id: 'opt2', text: 'Manual eye test' },
-          { id: 'opt3', text: 'Disable evaluation pipelines' },
-          { id: 'opt4', text: 'Use static text logs' },
-        ],
+        prompt: `Question ${i + 1}: ${template.prompt}`,
+        options: shuffleArray(rawOptions),
       },
     });
   }
@@ -436,7 +457,7 @@ async function main() {
     });
 
     const sec = await prisma.examSection.create({
-      data: { examId: exam.id, title: `Section 1: Master Question Bank (${item.count} Items)`, orderIndex: 1 },
+      data: { examId: item.code, title: `Section 1: Master Question Bank (${item.count} Items)`, orderIndex: 1 },
     });
 
     let order = 1;
@@ -445,10 +466,10 @@ async function main() {
         data: { sectionId: sec.id, questionId: q.id, orderIndex: order++ },
       });
     }
-    console.log(`✅ Seeded ${item.code} with ${item.count} questions!`);
+    console.log(`✅ Seeded ${item.code} with ${item.count} questions and shuffled option positions!`);
   }
 
-  console.log('🎉 ALL 6 Certification Tracks Successfully Seeded with Full Question Banks!');
+  console.log('🎉 ALL 6 Certification Tracks Successfully Seeded with Shuffled Option Positions!');
 }
 
 main()
