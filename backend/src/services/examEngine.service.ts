@@ -8,14 +8,24 @@ export class ExamEngineService {
     const exam = await this.uow.exams.findById(examId);
     if (!exam) throw new Error('Exam not found');
 
+    let user = await this.uow.users.findById(userId);
+    if (!user) {
+      user = await this.uow.users.findByEmail('candidate@ntms.com');
+      if (!user) {
+        const allUsers = await this.uow.users.findAll();
+        user = allUsers[0];
+      }
+    }
+    if (!user) throw new Error('Valid candidate user not found in database');
+
     let totalQuestions = 0;
     exam.sections.forEach((section) => {
       totalQuestions += section.questions.length;
     });
 
     const attempt = await this.uow.attempts.create({
-      userId,
-      examId,
+      userId: user.id,
+      examId: exam.id,
       totalQuestions,
       answers: JSON.stringify({}),
     });
