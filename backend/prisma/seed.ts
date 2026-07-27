@@ -141,7 +141,7 @@ async function main() {
     { title: 'Management Tools - Azure Cloud Shell', prompt: 'Which browser-based command line interface accessible directly in the Azure Portal supports both Bash and PowerShell environments pre-authenticated to your account?', correct: 'Azure Cloud Shell', bad1: 'Azure CLI on local desktop', bad2: 'Azure PowerShell Module', bad3: 'Visual Studio Code Terminal', exp: 'Azure Cloud Shell provides an in-browser authenticated shell.' },
     { title: 'Disaster Recovery - Azure Site Recovery (ASR)', prompt: 'Which business continuity service replicates physical or virtual machine workloads to a secondary Azure region to provide automated failover during outages?', correct: 'Azure Site Recovery (ASR)', bad1: 'Azure Backup', bad2: 'Azure Storage Geo-Replication', bad3: 'Azure Migrate', exp: 'ASR orchestrates VM replication and disaster recovery failover.' },
     { title: 'File Shares - Azure Files', prompt: 'Which managed service provides enterprise SMB and NFS network file shares accessible simultaneously by cloud VMs and on-premises Windows/Linux servers?', correct: 'Azure Files', bad1: 'Azure Blob Storage', bad2: 'Azure Table Storage', bad3: 'Azure Managed Disks', exp: 'Azure Files offers fully managed cloud file shares over SMB/NFS.' },
-    { title: 'Organizing Resources - Azure Resource Tags', prompt: 'You need to categorize Azure spending by assigning Key:Value metadata tags (such as Department:Finance) to resources across subscriptions. What feature enables this?', correct: 'Azure Resource Tags', bad1: 'Azure Policy Rules', bad2: 'Management Groups', bad3: 'Resource Locks', bad3: 'Azure Advisor', exp: 'Tags store name-value pairs for billing and asset organization.' },
+    { title: 'Organizing Resources - Azure Resource Tags', prompt: 'You need to categorize Azure spending by assigning Key:Value metadata tags (such as Department:Finance) to resources across subscriptions. What feature enables this?', correct: 'Azure Resource Tags', bad1: 'Azure Policy Rules', bad2: 'Management Groups', bad3: 'Resource Locks', exp: 'Tags store name-value pairs for billing and asset organization.' },
     { title: 'Support Plans - Premier / Unified Support', prompt: 'Which Microsoft Azure Support Plan provides 24/7 technical support with sub-15-minute response times for critical business outages (Severity A)?', correct: 'Azure Premier / Unified Support Plan', bad1: 'Basic Support Plan', bad2: 'Developer Support Plan', bad3: 'Standard Support Plan', exp: 'Premier/Unified support offers sub-15-minute response for critical issues.' },
   ];
 
@@ -243,7 +243,6 @@ async function main() {
 
   // Create Exam Entities and Exam Sections
   const examsToCreate = [
-    { code: 'SC-200', title: 'Microsoft Security Operations Analyst (SC-200)', time: 150, seeded: seededSC200, count: seededSC200.length },
     { code: 'AI-900', title: 'Microsoft Azure AI Fundamentals (AI-900)', time: 60, seeded: seededAI900, count: seededAI900.length },
     { code: 'AZ-900', title: 'Microsoft Azure Fundamentals (AZ-900)', time: 60, seeded: seededAZ900, count: seededAZ900.length },
   ];
