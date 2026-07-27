@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with Drag & Drop Question Types...');
+  console.log('🌱 Starting NTMS Database Seeding with AZ-900 & Comprehensive Exam Tracks...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -49,12 +49,12 @@ async function main() {
     },
   });
 
-  const guestUser = await prisma.user.create({
+  const entraUser = await prisma.user.create({
     data: {
-      email: 'guest@ntms.com',
-      name: 'Guest User',
-      role: Role.GUEST,
-      passwordHash: 'hashed_password_guest_123',
+      email: 'sanjay@ntmsentra.onmicrosoft.com',
+      name: 'NTMS Admin (Sanjay Dubey)',
+      role: Role.ADMINISTRATOR,
+      entraId: 'entra-oid-1785128225225',
     },
   });
 
@@ -143,29 +143,182 @@ async function main() {
   await prisma.sectionQuestion.create({ data: { sectionId: secInt.id, questionId: qInterviewDD.id, orderIndex: 2 } });
 
   // ==========================================
-  // 2. AZ-900 EXAM TRACK
+  // 2. AZ-900 EXAM TRACK (FULL QUESTION BANK)
   // ==========================================
-  const qAZ900_1 = await prisma.question.create({
-    data: {
+  const az900QuestionsData = [
+    {
       code: 'AZ900-Q001',
       title: 'Azure Cloud Service Models (IaaS / PaaS / SaaS)',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
       explanation: 'IaaS gives maximum control over virtual network and operating system infrastructure.',
-      categoryId: catAzure.id,
-      content: JSON.stringify({
-        prompt: 'Which Azure cloud service model offers the highest level of flexibility and management control over your hardware resources?',
-        options: [
-          { id: 'opt1', text: 'Software as a Service (SaaS)' },
-          { id: 'opt2', text: 'Platform as a Service (PaaS)' },
-          { id: 'opt3', text: 'Infrastructure as a Service (IaaS)', isCorrect: true },
-          { id: 'opt4', text: 'Serverless Functions' },
-        ],
-      }),
+      prompt: 'Which Azure cloud service model offers the highest level of flexibility and management control over your hardware resources?',
+      options: [
+        { id: 'opt1', text: 'Software as a Service (SaaS)' },
+        { id: 'opt2', text: 'Platform as a Service (PaaS)' },
+        { id: 'opt3', text: 'Infrastructure as a Service (IaaS)', isCorrect: true },
+        { id: 'opt4', text: 'Serverless Functions' },
+      ],
     },
-  });
+    {
+      code: 'AZ900-Q002',
+      title: 'CapEx vs OpEx in Cloud Computing',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Public cloud computing transforms capital expenditure (CapEx) into operating expenditure (OpEx) with pay-as-you-go pricing.',
+      prompt: 'Which cloud computing model converts upfront capital expenditure (CapEx) into flexible operating expenditure (OpEx)?',
+      options: [
+        { id: 'opt1', text: 'Public Cloud', isCorrect: true },
+        { id: 'opt2', text: 'On-Premises Datacenter' },
+        { id: 'opt3', text: 'Private Cloud' },
+        { id: 'opt4', text: 'Local SAN Infrastructure' },
+      ],
+    },
+    {
+      code: 'AZ900-Q003',
+      title: 'Azure Availability Zones High Availability',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Availability Zones protect applications from physical datacenter failures within the same Azure region.',
+      prompt: 'What is the primary purpose of deploying resources across multiple Availability Zones in an Azure region?',
+      options: [
+        { id: 'opt1', text: 'To protect applications from physical datacenter outages', isCorrect: true },
+        { id: 'opt2', text: 'To decrease global network latency for international users' },
+        { id: 'opt3', text: 'To automate subscription billing limits' },
+        { id: 'opt4', text: 'To manage local DNS resolution' },
+      ],
+    },
+    {
+      code: 'AZ900-Q004',
+      title: 'Azure Functions Serverless Execution',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Functions is a serverless compute service that executes event-driven code without managing underlying servers.',
+      prompt: 'Your team needs to run code in response to events without managing any virtual machines or server infrastructure. Which service should you use?',
+      options: [
+        { id: 'opt1', text: 'Azure Functions', isCorrect: true },
+        { id: 'opt2', text: 'Azure Virtual Machines' },
+        { id: 'opt3', text: 'Azure Batch' },
+        { id: 'opt4', text: 'Azure Virtual Machine Scale Sets' },
+      ],
+    },
+    {
+      code: 'AZ900-Q005',
+      title: 'Azure Blob Storage Access Tiers',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Cool tier is optimized for storing data that is accessed infrequently and stored for at least 30 days.',
+      prompt: 'Which Azure Blob Storage access tier is optimized for storing data that is accessed infrequently and stored for at least 30 days?',
+      options: [
+        { id: 'opt1', text: 'Cool Access Tier', isCorrect: true },
+        { id: 'opt2', text: 'Hot Access Tier' },
+        { id: 'opt3', text: 'Archive Access Tier' },
+        { id: 'opt4', text: 'Premium Tier' },
+      ],
+    },
+    {
+      code: 'AZ900-Q006',
+      title: 'Microsoft Entra ID Identity Management',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Microsoft Entra ID provides cloud-based identity, single sign-on (SSO), and multi-factor authentication (MFA).',
+      prompt: 'Which Azure service provides cloud identity management, single sign-on (SSO), and multi-factor authentication (MFA)?',
+      options: [
+        { id: 'opt1', text: 'Microsoft Entra ID', isCorrect: true },
+        { id: 'opt2', text: 'Azure Key Vault' },
+        { id: 'opt3', text: 'Azure Firewall' },
+        { id: 'opt4', text: 'Network Security Group' },
+      ],
+    },
+    {
+      code: 'AZ900-Q007',
+      title: 'Azure Policy Governance Enforcements',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Policy enforces organizational standards and assesses compliance across Azure resources.',
+      prompt: 'You need to prevent developers from creating Virtual Machines of specific expensive SKU sizes in an Azure subscription. Which service should you use?',
+      options: [
+        { id: 'opt1', text: 'Azure Policy', isCorrect: true },
+        { id: 'opt2', text: 'Role-Based Access Control (RBAC)' },
+        { id: 'opt3', text: 'Resource Locks' },
+        { id: 'opt4', text: 'Azure Monitor' },
+      ],
+    },
+    {
+      code: 'AZ900-Q008',
+      title: 'Azure Advisor Cost & Security Optimization',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Advisor analyzes resource configurations and telemetry to offer recommendations on cost, performance, and security.',
+      prompt: 'Which Azure service provides personalized recommendations to optimize costs, enhance security, and improve performance?',
+      options: [
+        { id: 'opt1', text: 'Azure Advisor', isCorrect: true },
+        { id: 'opt2', text: 'Azure Service Health' },
+        { id: 'opt3', text: 'Azure Monitor' },
+        { id: 'opt4', text: 'Azure Cost Management' },
+      ],
+    },
+    {
+      code: 'AZ900-Q009',
+      title: 'Azure ExpressRoute Dedicated Connections',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'ExpressRoute extends on-premises networks into Microsoft cloud over a private connection without traversing public internet.',
+      prompt: 'Which Azure service provides a dedicated private connection between your on-premises datacenter and Azure without using public internet?',
+      options: [
+        { id: 'opt1', text: 'Azure ExpressRoute', isCorrect: true },
+        { id: 'opt2', text: 'Azure VPN Gateway' },
+        { id: 'opt3', text: 'VNet Peering' },
+        { id: 'opt4', text: 'Azure Traffic Manager' },
+      ],
+    },
+    {
+      code: 'AZ900-Q010',
+      title: 'Azure Key Vault Secrets & Certificate Management',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Key Vault securely stores secrets, passwords, database connection strings, and SSL certificates.',
+      prompt: 'Which Azure service is designed to securely store and manage application API keys, connection strings, and certificates?',
+      options: [
+        { id: 'opt1', text: 'Azure Key Vault', isCorrect: true },
+        { id: 'opt2', text: 'Azure Storage Account' },
+        { id: 'opt3', text: 'Azure Security Center' },
+        { id: 'opt4', text: 'Microsoft Entra ID' },
+      ],
+    },
+  ];
 
+  const seededAZ900Questions = [];
+  for (const qData of az900QuestionsData) {
+    const q = await prisma.question.create({
+      data: {
+        code: qData.code,
+        title: qData.title,
+        type: qData.type,
+        difficulty: qData.difficulty,
+        points: qData.points,
+        explanation: qData.explanation,
+        categoryId: catAzure.id,
+        content: JSON.stringify({
+          prompt: qData.prompt,
+          options: qData.options,
+        }),
+      },
+    });
+    seededAZ900Questions.push(q);
+  }
+
+  // Add Drag & Drop SLA question
   const qAZ900_DD = await prisma.question.create({
     data: {
       code: 'AZ900-DD01',
@@ -190,6 +343,7 @@ async function main() {
       }),
     },
   });
+  seededAZ900Questions.push(qAZ900_DD);
 
   const examAZ900 = await prisma.exam.create({
     data: {
@@ -206,10 +360,13 @@ async function main() {
   });
 
   const secAZ900 = await prisma.examSection.create({
-    data: { examId: examAZ900.id, title: 'Section 1: General Cloud Concepts & SLAs', orderIndex: 1 },
+    data: { examId: examAZ900.id, title: 'Section 1: General Cloud Concepts & Azure Services', orderIndex: 1 },
   });
-  await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: qAZ900_1.id, orderIndex: 1 } });
-  await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: qAZ900_DD.id, orderIndex: 2 } });
+
+  let order = 1;
+  for (const q of seededAZ900Questions) {
+    await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: q.id, orderIndex: order++ } });
+  }
 
   // ==========================================
   // 3. AZ-104 EXAM TRACK
@@ -418,12 +575,7 @@ async function main() {
   await prisma.sectionQuestion.create({ data: { sectionId: secResSpec.id, questionId: qResSpec1.id, orderIndex: 1 } });
   await prisma.sectionQuestion.create({ data: { sectionId: secResSpec.id, questionId: qResSpec_DD.id, orderIndex: 2 } });
 
-  console.log('✅ All 5 Exam Tracks updated with Drag & Drop Question Types:');
-  console.log('   1. INTERVIEW-QA (INT-QA-DD01: DevOps Architecture Drag & Drop)');
-  console.log('   2. AZ-900 (AZ900-DD01: Azure SLA Availability Drag & Drop)');
-  console.log('   3. AZ-104 (AZ104-DD01: Azure Networking Drag & Drop)');
-  console.log('   4. TF-ASSOC-003 (TF-DD01: Terraform HCL Blocks Drag & Drop)');
-  console.log('   5. AZ-RES-SPEC-01 (AZ-RES-DD01: Azure Storage Performance Drag & Drop)');
+  console.log(`✅ Seeded ${seededAZ900Questions.length} AZ-900 exam questions into AZ-900 track!`);
   console.log('🎉 NTMS Database Seeding Complete!');
 }
 
