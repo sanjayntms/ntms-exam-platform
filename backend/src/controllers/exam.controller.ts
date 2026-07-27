@@ -18,40 +18,44 @@ export class ExamController {
       const userId = req.user?.id;
       const role = req.user?.role;
 
+      // Fetch all currently OPEN proctor exam rooms
+      const openRooms = await prisma.examRoom.findMany({
+        where: { status: 'OPEN' },
+        select: { examId: true, roomCode: true, title: true },
+      });
+      const openRoomExamIds = new Set(openRooms.map((r) => r.examId));
+      const openRoomMap = new Map(openRooms.map((r) => [r.examId, r.roomCode]));
+
       // ADMINISTRATOR sees all exams as unlocked
       if (role === Role.ADMINISTRATOR) {
         const mappedExams = exams.map((exam) => ({
           ...exam,
           isUnlocked: true,
+          activeRoomCode: openRoomMap.get(exam.id) || null,
         }));
         return res.json(mappedExams);
       }
 
-      // Check per-student unlock and global unlock
+      let accessMap = new Map<string, boolean>();
       if (userId) {
         const accesses = await prisma.studentExamAccess.findMany({
           where: { userId },
         });
-        const accessMap = new Map(accesses.map((a) => [a.examId, a.isUnlocked]));
-
-        const mappedExams = exams.map((exam) => {
-          const isGloballyUnlocked = (exam as any).isGloballyUnlocked ?? false;
-          const isUserUnlocked = accessMap.get(exam.id) ?? false;
-
-          return {
-            ...exam,
-            isUnlocked: isGloballyUnlocked || isUserUnlocked,
-          };
-        });
-
-        return res.json(mappedExams);
+        accessMap = new Map(accesses.map((a) => [a.examId, a.isUnlocked]));
       }
 
-      // Default fallback for unauthenticated: check global unlock
-      const mappedExams = exams.map((exam) => ({
-        ...exam,
-        isUnlocked: (exam as any).isGloballyUnlocked ?? false,
-      }));
+      const mappedExams = exams.map((exam) => {
+        const isGloballyUnlocked = (exam as any).isGloballyUnlocked ?? false;
+        const isUserUnlocked = accessMap.get(exam.id) ?? false;
+        const hasOpenRoom = openRoomExamIds.has(exam.id);
+
+        return {
+          ...exam,
+          isUnlocked: isGloballyUnlocked || isUserUnlocked || hasOpenRoom,
+          activeRoomCode: openRoomMap.get(exam.id) || null,
+          unlockedByRoom: hasOpenRoom,
+        };
+      });
 
       return res.json(mappedExams);
     } catch (err: any) {
