@@ -38,7 +38,7 @@ export class AuthService {
         client_secret: config.azure.clientSecret,
         code: code,
         grant_type: 'authorization_code',
-        redirect_uri: redirectUri || 'https://40.81.226.111:3000/login',
+        redirect_uri: redirectUri || 'https://exam.ntmscloud.in/login',
       });
 
       const tokenRes = await fetch(tokenEndpoint, {
