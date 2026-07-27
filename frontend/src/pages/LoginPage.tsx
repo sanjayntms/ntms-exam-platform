@@ -12,11 +12,26 @@ export const LoginPage: React.FC = () => {
   const { loginLocal } = useAuth();
   const navigate = useNavigate();
 
-  // Parse Entra ID OAuth Redirect response token from URL Hash
+  // Parse Entra ID OAuth Redirect response token or code from URL
   useEffect(() => {
     const handleEntraRedirect = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const code = searchParams.get('code');
       const hash = window.location.hash;
-      if (hash.includes('id_token=')) {
+
+      if (code) {
+        setIsEntraLoading(true);
+        try {
+          const res = await api.post('/auth/entra', { code });
+          localStorage.setItem('ntms_token', res.data.token);
+          window.history.replaceState(null, '', window.location.pathname);
+          window.location.href = '/dashboard';
+        } catch (err: any) {
+          alert('Microsoft Entra ID Authentication Error: ' + (err.response?.data?.error || err.message));
+        } finally {
+          setIsEntraLoading(false);
+        }
+      } else if (hash.includes('id_token=')) {
         setIsEntraLoading(true);
         try {
           const params = new URLSearchParams(hash.substring(1));
@@ -25,7 +40,6 @@ export const LoginPage: React.FC = () => {
 
           const res = await api.post('/auth/entra', { idToken, accessToken });
           localStorage.setItem('ntms_token', res.data.token);
-          // Clear hash
           window.history.replaceState(null, '', window.location.pathname);
           window.location.href = '/dashboard';
         } catch (err: any) {

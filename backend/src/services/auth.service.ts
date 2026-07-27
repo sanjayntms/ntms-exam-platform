@@ -21,12 +21,45 @@ export class AuthService {
     return { token, user };
   }
 
-  async loginEntra(idToken: string, accessToken: string) {
-    // Decode claims from Entra ID JWT
-    const decoded: any = jwt.decode(idToken);
-    const email = decoded?.preferred_username || decoded?.email || 'entra_user@ntms.com';
-    const name = decoded?.name || 'Microsoft Entra User';
-    const oid = decoded?.oid || decoded?.sub || 'entra-oid-' + Date.now();
+  async loginEntra(idToken?: string, accessToken?: string, code?: string) {
+    let email = 'entra_user@ntms.com';
+    let name = 'Microsoft Entra User';
+    let oid = 'entra-oid-' + Date.now();
+
+    // If authorization code is provided, exchange code with Microsoft token endpoint
+    if (code) {
+      try {
+        const tokenEndpoint = `https://login.microsoftonline.com/${config.azure.tenantId}/oauth2/v2.0/token`;
+        const params = new URLSearchParams({
+          client_id: config.azure.clientId,
+          client_secret: config.azure.clientSecret,
+          code: code,
+          grant_type: 'authorization_code',
+          redirect_uri: 'http://40.81.226.111:3000',
+        });
+
+        const tokenRes = await fetch(tokenEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: params.toString(),
+        });
+
+        const tokenData: any = await tokenRes.json();
+        if (tokenData.id_token) {
+          const decoded: any = jwt.decode(tokenData.id_token);
+          email = decoded?.preferred_username || decoded?.email || email;
+          name = decoded?.name || name;
+          oid = decoded?.oid || decoded?.sub || oid;
+        }
+      } catch (err) {
+        console.error('Entra token exchange error:', err);
+      }
+    } else if (idToken) {
+      const decoded: any = jwt.decode(idToken);
+      email = decoded?.preferred_username || decoded?.email || email;
+      name = decoded?.name || name;
+      oid = decoded?.oid || decoded?.sub || oid;
+    }
 
     let user = await this.uow.users.findByEntraId(oid);
     if (!user) {
