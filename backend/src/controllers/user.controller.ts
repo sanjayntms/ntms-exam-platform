@@ -99,10 +99,16 @@ export class UserController {
   async lockAllExams(req: Request, res: Response) {
     try {
       const userId = req.params.id;
-      await prisma.studentExamAccess.updateMany({
-        where: { userId },
-        data: { isUnlocked: false },
-      });
+      const adminEmail = req.user?.email || 'admin';
+      const exams = await prisma.exam.findMany({ select: { id: true } });
+
+      for (const exam of exams) {
+        await prisma.studentExamAccess.upsert({
+          where: { userId_examId: { userId, examId: exam.id } },
+          update: { isUnlocked: false, unlockedBy: adminEmail, unlockedAt: new Date() },
+          create: { userId, examId: exam.id, isUnlocked: false, unlockedBy: adminEmail },
+        });
+      }
 
       return res.json({ message: 'All exams successfully LOCKED for student' });
     } catch (err: any) {

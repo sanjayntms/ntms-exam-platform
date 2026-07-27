@@ -95,7 +95,7 @@ export const UserManagementPage: React.FC = () => {
       const accessRes = await api.get(`/users/${selectedStudent.id}/access`);
       setAccessList(accessRes.data);
     } catch (err: any) {
-      alert('Error unlocking all exams');
+      alert('Error unlocking all exams: ' + (err.response?.data?.error || err.message));
     }
   };
 
@@ -106,7 +106,7 @@ export const UserManagementPage: React.FC = () => {
       const accessRes = await api.get(`/users/${selectedStudent.id}/access`);
       setAccessList(accessRes.data);
     } catch (err: any) {
-      alert('Error locking all exams');
+      alert('Error locking all exams: ' + (err.response?.data?.error || err.message));
     }
   };
 
