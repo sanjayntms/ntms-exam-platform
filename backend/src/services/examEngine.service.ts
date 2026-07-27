@@ -21,14 +21,14 @@ export class ExamEngineService {
 
     const effectiveRole = userRole || user.role;
 
-    // Validate per-student lock status if user is candidate
-    if (effectiveRole === Role.CANDIDATE) {
+    // Validate per-student lock status: ALL non-admin users default to LOCKED
+    if (effectiveRole !== Role.ADMINISTRATOR) {
       const access = await prisma.studentExamAccess.findUnique({
         where: { userId_examId: { userId: user.id, examId } },
       });
 
       if (!access || !access.isUnlocked) {
-        throw new Error('This exam is currently LOCKED for your account. Please request Admin (sanjay@ntmsentra.onmicrosoft.com) to unlock it.');
+        throw new Error('This exam is currently LOCKED for your account. Please ask Admin (sanjay@ntmsentra.onmicrosoft.com) to unlock it.');
       }
     }
 
