@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with AI-900 & AZ-900 Certification Tracks...');
+  console.log('🌱 Starting NTMS Database Seeding with 30 AI-900 Practice Questions...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -74,9 +74,10 @@ async function main() {
   });
 
   // ==========================================
-  // 1. AI-900 EXAM TRACK (NEW!)
+  // 1. AI-900 EXAM TRACK (30 COMPLETE QUESTIONS)
   // ==========================================
   const ai900QuestionsData = [
+    // --- RESPONSIBLE AI (Q001 - Q006) ---
     {
       code: 'AI900-Q001',
       title: 'Responsible AI - Fairness Principle',
@@ -109,11 +110,73 @@ async function main() {
     },
     {
       code: 'AI900-Q003',
+      title: 'Responsible AI - Reliability and Safety',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Reliability and Safety ensures AI systems operate dependably under unexpected conditions without causing harm.',
+      prompt: 'An autonomous self-driving car software system undergoes rigorous testing to handle severe rainstorms and unexpected road obstacles safely. Which Responsible AI principle does this demonstrate?',
+      options: [
+        { id: 'opt1', text: 'Reliability and Safety', isCorrect: true },
+        { id: 'opt2', text: 'Fairness' },
+        { id: 'opt3', text: 'Inclusiveness' },
+        { id: 'opt4', text: 'Transparency' },
+      ],
+    },
+    {
+      code: 'AI900-Q004',
+      title: 'Responsible AI - Privacy and Security',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Privacy and Security requires protecting personal data and securing AI models from unauthorized access.',
+      prompt: 'A medical AI application encrypts patient records and adheres to strict HIPAA compliance rules to prevent unauthorized data exposure. Which Responsible AI principle is being followed?',
+      options: [
+        { id: 'opt1', text: 'Privacy and Security', isCorrect: true },
+        { id: 'opt2', text: 'Fairness' },
+        { id: 'opt3', text: 'Accountability' },
+        { id: 'opt4', text: 'Transparency' },
+      ],
+    },
+    {
+      code: 'AI900-Q005',
+      title: 'Responsible AI - Inclusiveness',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Inclusiveness ensures AI solutions empower and bring value to all people regardless of physical ability or background.',
+      prompt: 'An AI voice assistant is designed with screen-reader support and multi-dialect voice recognition for users with physical impairments. Which Responsible AI principle is highlighted?',
+      options: [
+        { id: 'opt1', text: 'Inclusiveness', isCorrect: true },
+        { id: 'opt2', text: 'Transparency' },
+        { id: 'opt3', text: 'Accountability' },
+        { id: 'opt4', text: 'Fairness' },
+      ],
+    },
+    {
+      code: 'AI900-Q006',
+      title: 'Responsible AI - Transparency',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Transparency ensures that users understand how AI models arrive at decisions and recommendations.',
+      prompt: 'A healthcare diagnostic tool provides doctors with a clear explanation and confidence breakdown of why a specific diagnosis was suggested. Which Responsible AI principle is demonstrated?',
+      options: [
+        { id: 'opt1', text: 'Transparency', isCorrect: true },
+        { id: 'opt2', text: 'Reliability' },
+        { id: 'opt3', text: 'Privacy' },
+        { id: 'opt4', text: 'Inclusiveness' },
+      ],
+    },
+
+    // --- MACHINE LEARNING FUNDAMENTALS (Q007 - Q013) ---
+    {
+      code: 'AI900-Q007',
       title: 'Machine Learning - Regression Task',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
-      explanation: 'Regression algorithms predict continuous numerical values such as house prices or temperature.',
+      explanation: 'Regression algorithms predict continuous numeric values such as house prices or temperature.',
       prompt: 'You need to build a machine learning model to predict continuous numeric house prices based on square footage, location, and age. Which type of ML task should you use?',
       options: [
         { id: 'opt1', text: 'Regression', isCorrect: true },
@@ -123,28 +186,43 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q004',
-      title: 'Machine Learning - Classification Task',
+      code: 'AI900-Q008',
+      title: 'Machine Learning - Binary Classification Task',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
-      explanation: 'Classification algorithms categorize data into discrete classes or labels.',
-      prompt: 'An e-commerce company wants to automatically categorize customer email feedback into "Positive", "Neutral", or "Negative". Which ML task type is this?',
+      explanation: 'Binary classification predicts one of two possible mutually exclusive outcomes (e.g. Spam vs Not Spam).',
+      prompt: 'An email filter classifies incoming messages into exactly two categories: "Spam" or "Not Spam". Which machine learning task type is this?',
       options: [
-        { id: 'opt1', text: 'Multiclass Classification', isCorrect: true },
-        { id: 'opt2', text: 'Linear Regression' },
-        { id: 'opt3', text: 'K-Means Clustering' },
-        { id: 'opt4', text: 'Time Series Forecasting' },
+        { id: 'opt1', text: 'Binary Classification', isCorrect: true },
+        { id: 'opt2', text: 'Multiclass Classification' },
+        { id: 'opt3', text: 'Linear Regression' },
+        { id: 'opt4', text: 'Clustering' },
       ],
     },
     {
-      code: 'AI900-Q005',
-      title: 'Machine Learning - Clustering Task',
+      code: 'AI900-Q009',
+      title: 'Machine Learning - Multiclass Classification Task',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Multiclass classification categorizes data into three or more distinct classes.',
+      prompt: 'An e-commerce portal automatically routes customer support tickets into "Low", "Medium", "High", or "Urgent" priority queues. Which ML task type is used?',
+      options: [
+        { id: 'opt1', text: 'Multiclass Classification', isCorrect: true },
+        { id: 'opt2', text: 'Binary Classification' },
+        { id: 'opt3', text: 'Unsupervised Clustering' },
+        { id: 'opt4', text: 'Regression' },
+      ],
+    },
+    {
+      code: 'AI900-Q010',
+      title: 'Machine Learning - Unsupervised Clustering',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
-      explanation: 'Clustering is an unsupervised machine learning task that groups unlabeled data points with similar characteristics.',
-      prompt: 'You have customer purchase history data with no target labels. You want to group customers into distinct segments based on buying behavior. Which ML algorithm type is required?',
+      explanation: 'Clustering groups unlabeled data points with similar features into clusters without target training labels.',
+      prompt: 'You have customer purchase history data with no target labels. You want to group customers into distinct segments based on purchasing habits. Which ML algorithm type is required?',
       options: [
         { id: 'opt1', text: 'Unsupervised Clustering', isCorrect: true },
         { id: 'opt2', text: 'Supervised Classification' },
@@ -153,13 +231,28 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q006',
+      code: 'AI900-Q011',
+      title: 'Machine Learning - Anomaly Detection',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Anomaly detection identifies unusual events or patterns that deviate significantly from expected normal behavior.',
+      prompt: 'A bank monitors credit card transactions in real-time to flag unusual spending activity that deviates from typical customer behavior. Which ML capability is used?',
+      options: [
+        { id: 'opt1', text: 'Anomaly Detection', isCorrect: true },
+        { id: 'opt2', text: 'Image Classification' },
+        { id: 'opt3', text: 'Linear Regression' },
+        { id: 'opt4', text: 'Speech Synthesis' },
+      ],
+    },
+    {
+      code: 'AI900-Q012',
       title: 'Azure Automated Machine Learning (AutoML)',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
-      explanation: 'AutoML automates the iterative tasks of machine learning model development by testing multiple algorithms and hyperparameters.',
-      prompt: 'You want to build an optimal machine learning model without writing custom code by letting Azure automatically test multiple algorithms and hyperparameters. Which feature should you use?',
+      explanation: 'AutoML automates model development by systematically training and tuning multiple algorithms simultaneously.',
+      prompt: 'You want to train an optimal machine learning model without writing custom code by letting Azure automatically test multiple algorithms and hyperparameters. Which feature should you use?',
       options: [
         { id: 'opt1', text: 'Automated Machine Learning (AutoML)', isCorrect: true },
         { id: 'opt2', text: 'Azure Machine Learning Designer' },
@@ -168,7 +261,39 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q007',
+      code: 'AI900-Q013',
+      title: 'Azure Machine Learning Designer Visual Canvas',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure ML Designer provides a drag-and-drop visual interactive canvas to build, test, and deploy machine learning models.',
+      prompt: 'A data science team wants to construct an end-to-end machine learning workflow using a drag-and-drop visual interface. Which tool in Azure ML Studio should they use?',
+      options: [
+        { id: 'opt1', text: 'Azure Machine Learning Designer', isCorrect: true },
+        { id: 'opt2', text: 'Automated ML' },
+        { id: 'opt3', text: 'VS Code Extension' },
+        { id: 'opt4', text: 'Azure Data Factory' },
+      ],
+    },
+
+    // --- COMPUTER VISION (Q014 - Q019) ---
+    {
+      code: 'AI900-Q014',
+      title: 'Computer Vision - Image Classification',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Image classification assigns a main category or label to an entire image.',
+      prompt: 'A wildlife app categorizes an uploaded photo into a single general species label such as "Elephant" or "Giraffe". Which computer vision task is performed?',
+      options: [
+        { id: 'opt1', text: 'Image Classification', isCorrect: true },
+        { id: 'opt2', text: 'Object Detection' },
+        { id: 'opt3', text: 'OCR' },
+        { id: 'opt4', text: 'Semantic Segmentation' },
+      ],
+    },
+    {
+      code: 'AI900-Q015',
       title: 'Computer Vision - Object Detection',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
@@ -183,7 +308,22 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q008',
+      code: 'AI900-Q016',
+      title: 'Computer Vision - Semantic Segmentation',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Semantic segmentation classifies individual pixels in an image to delineate precise object boundaries.',
+      prompt: 'An autonomous vehicle camera system classifies every individual pixel in a camera feed to distinguish road surface pixels from sidewalk and obstacle pixels. Which vision technique is this?',
+      options: [
+        { id: 'opt1', text: 'Semantic Segmentation', isCorrect: true },
+        { id: 'opt2', text: 'Image Classification' },
+        { id: 'opt3', text: 'Optical Character Recognition' },
+        { id: 'opt4', text: 'Key Phrase Extraction' },
+      ],
+    },
+    {
+      code: 'AI900-Q017',
       title: 'Computer Vision - Optical Character Recognition (OCR)',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
@@ -198,8 +338,23 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q009',
-      title: 'Computer Vision - Custom Vision Service',
+      code: 'AI900-Q018',
+      title: 'Computer Vision - Azure AI Face API',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'The Face service provides facial detection, facial landmark location, and face verification capabilities.',
+      prompt: 'A security turnstile application analyzes camera feeds to verify employee identity by matching facial features against authorized employee photos. Which Azure service should you use?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Face API', isCorrect: true },
+        { id: 'opt2', text: 'Custom Vision' },
+        { id: 'opt3', text: 'Azure Form Recognizer' },
+        { id: 'opt4', text: 'Language Studio' },
+      ],
+    },
+    {
+      code: 'AI900-Q019',
+      title: 'Computer Vision - Azure AI Custom Vision',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
@@ -212,9 +367,41 @@ async function main() {
         { id: 'opt4', text: 'Azure Bot Service' },
       ],
     },
+
+    // --- NATURAL LANGUAGE PROCESSING & SPEECH (Q020 - Q026) ---
     {
-      code: 'AI900-Q010',
-      title: 'Natural Language Processing - Sentiment Analysis',
+      code: 'AI900-Q020',
+      title: 'NLP - Key Phrase Extraction',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Key Phrase Extraction identifies the main concepts and talking points in unformatted text.',
+      prompt: 'An organization needs to process thousands of customer survey responses and extract the main topic phrases discussed in each response. Which NLP feature should be used?',
+      options: [
+        { id: 'opt1', text: 'Key Phrase Extraction', isCorrect: true },
+        { id: 'opt2', text: 'Entity Recognition' },
+        { id: 'opt3', text: 'Sentiment Analysis' },
+        { id: 'opt4', text: 'Language Translation' },
+      ],
+    },
+    {
+      code: 'AI900-Q021',
+      title: 'NLP - Named Entity Recognition (NER)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Named Entity Recognition identifies entities such as people, locations, dates, and organizations in text.',
+      prompt: 'A news aggregation platform analyzes articles to identify and tag specific company names, executive names, and dates mentioned in the text. Which NLP feature does this?',
+      options: [
+        { id: 'opt1', text: 'Named Entity Recognition (NER)', isCorrect: true },
+        { id: 'opt2', text: 'Key Phrase Extraction' },
+        { id: 'opt3', text: 'Language Detection' },
+        { id: 'opt4', text: 'Speech Recognition' },
+      ],
+    },
+    {
+      code: 'AI900-Q022',
+      title: 'NLP - Sentiment Analysis',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
@@ -228,8 +415,38 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q011',
-      title: 'Azure Speech Service - Text-to-Speech Synthesis',
+      code: 'AI900-Q023',
+      title: 'NLP - Azure AI Translator Service',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure AI Translator translates text in real-time across more than 100 supported languages.',
+      prompt: 'A global website needs to automatically translate user comments from French and Spanish into English in real-time. Which Azure AI service should be implemented?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Translator', isCorrect: true },
+        { id: 'opt2', text: 'Azure AI Speech' },
+        { id: 'opt3', text: 'Language Studio' },
+        { id: 'opt4', text: 'Azure Bot Service' },
+      ],
+    },
+    {
+      code: 'AI900-Q024',
+      title: 'Speech Service - Speech-to-Text Recognition',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Speech Recognition transcribes spoken audio streams into real-time written text.',
+      prompt: 'A call center application transcribes live phone call audio into text transcripts for compliance auditing. Which feature of the Speech service is used?',
+      options: [
+        { id: 'opt1', text: 'Speech-to-Text (Speech Recognition)', isCorrect: true },
+        { id: 'opt2', text: 'Text-to-Speech (Speech Synthesis)' },
+        { id: 'opt3', text: 'Speaker Recognition' },
+        { id: 'opt4', text: 'Language Translation' },
+      ],
+    },
+    {
+      code: 'AI900-Q025',
+      title: 'Speech Service - Text-to-Speech Synthesis',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
       points: 1.0,
@@ -243,7 +460,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q012',
+      code: 'AI900-Q026',
       title: 'Conversational AI - Azure Bot Service',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
@@ -257,8 +474,10 @@ async function main() {
         { id: 'opt4', text: 'Azure Personalizer' },
       ],
     },
+
+    // --- GENERATIVE AI & SAFETY (Q027 - Q030) ---
     {
-      code: 'AI900-Q013',
+      code: 'AI900-Q027',
       title: 'Generative AI - Azure OpenAI Service',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -273,7 +492,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q014',
+      code: 'AI900-Q028',
       title: 'Generative AI - Prompt Engineering',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
@@ -285,6 +504,21 @@ async function main() {
         { id: 'opt2', text: 'Fine-Tuning' },
         { id: 'opt3', text: 'Hyperparameter Tuning' },
         { id: 'opt4', text: 'Supervised Training' },
+      ],
+    },
+    {
+      code: 'AI900-Q029',
+      title: 'Generative AI - Azure AI Content Safety',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure AI Content Safety detects and blocks harmful user-generated and AI-generated content (hate speech, violence, self-harm).',
+      prompt: 'An online platform uses generative AI. You need an automated safeguard to detect and block hate speech, violence, and harmful content in real-time prompts and responses. Which service should you integrate?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Content Safety', isCorrect: true },
+        { id: 'opt2', text: 'Azure Key Vault' },
+        { id: 'opt3', text: 'Azure Firewall' },
+        { id: 'opt4', text: 'Azure Monitor' },
       ],
     },
   ];
@@ -309,11 +543,11 @@ async function main() {
     seededAI900Questions.push(q);
   }
 
-  // Question 15: Interactive Drag & Drop Computer Vision Task
+  // Question 30: Interactive Drag & Drop Computer Vision Capability Question
   const qAI900_DD = await prisma.question.create({
     data: {
-      code: 'AI900-Q015',
-      title: 'Computer Vision Tasks Drag and Drop',
+      code: 'AI900-Q030',
+      title: 'Computer Vision Capabilities Drag and Drop',
       type: QuestionType.DRAG_AND_DROP,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 2.5,
@@ -342,7 +576,7 @@ async function main() {
       title: 'Microsoft Azure AI Fundamentals (AI-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of Artificial Intelligence, Machine Learning principles, Computer Vision, Natural Language Processing, and Generative AI.',
+      description: 'Demonstrate foundational knowledge of Artificial Intelligence, Machine Learning principles, Computer Vision, Natural Language Processing, and Generative AI with 30 practice questions.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -351,7 +585,7 @@ async function main() {
   });
 
   const secAI900 = await prisma.examSection.create({
-    data: { examId: examAI900.id, title: 'Section 1: AI Workloads, Computer Vision & Generative AI', orderIndex: 1 },
+    data: { examId: examAI900.id, title: 'Section 1: AI Workloads, Computer Vision, NLP & Generative AI', orderIndex: 1 },
   });
 
   let orderAI = 1;
@@ -453,7 +687,7 @@ async function main() {
     await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: q.id, orderIndex: orderAZ++ } });
   }
 
-  console.log(`✅ Successfully created AI-900 track with ${seededAI900Questions.length} AI practice questions!`);
+  console.log(`✅ Successfully seeded ALL ${seededAI900Questions.length} AI-900 practice questions into AI-900 track!`);
   console.log('🎉 NTMS Database Seeding Complete!');
 }
 
