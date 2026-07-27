@@ -2,17 +2,13 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const users = await prisma.user.findMany();
-  console.log('--- ALL USERS IN DB ---');
-  console.log(JSON.stringify(users, null, 2));
-
-  // Update any Entra ID user to NTMS Admin (Sanjay Dubey)
-  await prisma.user.updateMany({
+  // Update ALL Entra ID users in the database to Sanjay Dubey / NTMS Admin
+  const updated = await prisma.user.updateMany({
     where: {
       OR: [
-        { name: 'Microsoft Entra User' },
-        { email: { contains: 'entra' } },
         { entraId: { not: null } },
+        { email: { contains: 'entra' } },
+        { name: { contains: 'Entra' } },
       ],
     },
     data: {
@@ -21,7 +17,7 @@ async function main() {
     },
   });
 
-  console.log('✅ Updated Entra ID user profile name to NTMS Admin (Sanjay Dubey)!');
+  console.log(`✅ Updated ${updated.count} Entra ID user record(s) in DB to "NTMS Admin (Sanjay Dubey)"!`);
 }
 
 main().finally(() => prisma.$disconnect());
