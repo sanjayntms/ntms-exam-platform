@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with ALL 100 SC-200 Questions (Master Security Operations Analyst Bank) + All Certification Tracks...');
+  console.log('🌱 Starting NTMS Database Seeding with ALL 125 SC-200 Questions (Shaping Pixel + Master Security Operations Analyst Bank) + All Certification Tracks...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -87,7 +87,7 @@ async function main() {
   }
 
   // ==========================================
-  // 1. SC-200 COMPLETE 100 QUESTIONS MASTER BANK
+  // 1. SC-200 COMPLETE 125 QUESTIONS MASTER BANK
   // ==========================================
   const sc200QuestionsData: any[] = [];
 
@@ -144,7 +144,7 @@ async function main() {
     { title: 'Microsoft Sentinel - User and Entity Behavior Analytics (UEBA)', concept: 'UEBA constructs baseline behavioral profiles for users and IP entities to detect anomalous risk behavior.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Microsoft Security Copilot - Generative AI Security Incident Summary', concept: 'Microsoft Security Copilot synthesizes complex incident alerts and KQL scripts using natural language AI.', type: QuestionType.SINGLE_CHOICE },
 
-    // Part 2 (Questions 51 - 100 Advanced Video Bank)
+    // Part 2 (Questions 51 - 100)
     { title: 'Defender for Endpoint - Custom Response Actions via API', concept: 'Custom response actions leverage Defender for Endpoint REST APIs to run custom PowerShell scripts on isolated endpoints.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Defender for Identity - Kerberoasting Ticket Request Alerts', concept: 'Defender for Identity detects suspicious TGS requests targeting service accounts using RC4 encryption.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Defender for Identity - AS-REP Roasting Vulnerable Account Audit', concept: 'AS-REP Roasting targets accounts configured with "Do not require Kerberos preauthentication" disabled.', type: QuestionType.SINGLE_CHOICE },
@@ -185,16 +185,33 @@ async function main() {
     { title: 'Defender for Endpoint - Indicator of Compromise (IoC) File Hash Blocking', concept: 'Custom Indicators allow blocking execution of malicious file SHA256 hashes across all onboarded devices.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Defender for Endpoint - Network Protection Botnet C2 Blocking', concept: 'Network Protection blocks outbound connections to malicious IP addresses and C2 domain names.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Defender for Office 365 - Anti-Spam Outbound Pool Filter', concept: 'Outbound anti-spam policies restrict compromised internal mailboxes from sending spam externally.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'Defender for Cloud - Database Threat Protection SQL Injection Alerts', concept: 'Defender for Databases detects SQL injection attacks and unauthorized data exfiltration attempts.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'Microsoft Sentinel - Watchlist Lookup Enriched Threat Intelligence', concept: 'Watchlists perform fast lookup joins in KQL to enrich alert records with departmental context.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'KQL Query - Project-Away Hiding Unnecessary Telemetry Columns', concept: 'project-away removes specific noisy columns from query output to streamline analyst investigation views.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'KQL Function - Stratified Sample Log Subsampling', concept: 'sample operator returns a random representative subsample of log rows for fast query testing.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'Defender for Endpoint - Live Response Script Execution Policy', concept: 'Unsigned PowerShell script execution in Live Response requires explicit admin policy enablement.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'Defender for Office 365 - Threat Analytics Executive Dashboard', concept: 'Threat Analytics provides analyst reports on emerging ransomware strains and active mitigation guidance.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'Microsoft Sentinel - Incident Triage Automation Webhooks', concept: 'Automation rules trigger webhooks to integrate Sentinel incident alerts with ITSM ticketing platforms (ServiceNow).', type: QuestionType.SINGLE_CHOICE },
-    { title: 'KQL Query - Top 10 High Volume Noise Source Aggregation', concept: 'top 10 by EventCount desc identifies top bandwidth consuming syslog log forwarders.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'Microsoft Sentinel - Solution Package Content Hub Installs', concept: 'Content Hub provides out-of-the-box solution packages containing data connectors, analytic rules, and workbooks.', type: QuestionType.SINGLE_CHOICE },
-    { title: 'Microsoft Defender XDR Unified Portal RBAC Roles', concept: 'Unified Defender portal RBAC controls granular access across Defender for Endpoint, Office 365, and Identity.', type: QuestionType.SINGLE_CHOICE },
+
+    // Part 3 (Questions 101 - 125 Tech with Shaping Pixel Series)
+    { title: 'Microsoft Sentinel - ASIM Normalization Parsers (imAuthentication, imProcess)', concept: 'Advanced Security Information Model (ASIM) parsers normalize disparate log vendor schemas into unified query fields.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - NTLM Fallback Downgrade Attack Alerts', concept: 'Defender for Identity detects NTLM fallback authentication downgrades attempting to compromise Kerberos security.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud Apps - Malicious Browser Extension OAuth Revocation', concept: 'App Governance identifies high-risk OAuth apps requesting offline_access and revokes compromised tokens.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Office 365 - Automated Incident Response (AIR) Mailbox Purge', concept: 'AIR playbooks automatically isolate compromised mailboxes and trigger ZAP purge of malicious emails.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Search vs Union Query Performance Optimization', concept: 'Using union with explicit table names is significantly faster than unindexed search across all workspace tables.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Mv-Expand Unwrapping JSON Array File Hashes', concept: 'mv-expand expands multi-value JSON arrays of file hashes into individual rows for correlation.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Pack and Bag_Unpack Dynamic Column Parsing', concept: 'bag_unpack() expands dynamic property bags into distinct first-class columns for analytical filtering.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Automatic Device Grouping & Tagging', concept: 'Device Groups automatically assign RBAC remediation policies to endpoints based on registry tags and OS properties.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - Sensitive Account Tagging for Executive AD Objects', concept: 'Tagging C-suite user accounts as Sensitive prioritizes their alert scoring in Defender for Identity timeline.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud Apps - Discovered Apps Risk Score Threshold Customization', concept: 'Risk score thresholds customize weighting for encryption, compliance (GDPR), and legal factors for Shadow IT apps.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Office 365 - Priority Account Protection Dashboard', concept: 'Priority Account Protection provides tailored threat insights for high-profile executive mailboxes.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Azure Security Benchmark (ASB) Workbook Auditing', concept: 'ASB workbooks map Sentinel diagnostic logs against Microsoft cloud security benchmark controls.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Automation Rule Execution Order (Priority 1 to 100)', concept: 'Automation rules process in order of numerical priority, allowing early rules to stop processing subsequent rules.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Datetime_Diff Session Duration Analytics', concept: 'datetime_diff() calculates elapsed minutes between user logon and logoff events to spot persistent sessions.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Strcat and Substring Custom Alert Formatting', concept: 'strcat() concatenates text strings to format custom alert names generated by scheduled KQL rules.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Defender XDR - Multi-Tenant Security Operations Portal', concept: 'Multi-tenant management aggregates incident queues across multiple client Entra ID tenants into a single SOC view.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Content Hub Solution Package Deployment', concept: 'Content Hub solution packages deploy data connectors, analytic rules, and playbooks in a single click.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud - Hybrid On-Premises Server Onboarding via Azure Arc', concept: 'Azure Arc extends Defender for Cloud CWPP protections to physical on-premises Windows and Linux servers.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Security Copilot - Natural Language KQL Prompt Generation', concept: 'Security Copilot converts plain English requests into optimized Kusto Query Language threat hunting scripts.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Table Level Log Retention Configuration', concept: 'Table-level retention allows configuring different retention periods (e.g., 30 days vs 365 days) per log table.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Web Protection IP Reputation Filtering', concept: 'Web protection blocks network connections to untrusted domain names and IP addresses with low reputation scores.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - Directory Services Event Log ID 4768 / 4769 Audit', concept: 'Event ID 4768 (TGT request) and 4769 (TGS request) audit Kerberos ticket requests on Domain Controllers.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Data Ingestion Cost Management & Cap Limits', concept: 'Daily ingestion volume caps prevent unexpected billing spikes while notifying admins via action groups.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Top 5 Compromised Accounts Brute Force Aggregation', concept: 'top 5 by FailedLogons desc identifies accounts undergoing aggressive brute force password spraying.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender XDR Incident Triage & Automated Evidence Graph', concept: 'Automated evidence graph links compromised accounts, endpoints, and file hashes into a single incident chain.', type: QuestionType.SINGLE_CHOICE },
   ];
 
   for (let i = 0; i < sc200Topics.length; i++) {
@@ -287,7 +304,7 @@ async function main() {
       title: 'Microsoft Security Operations Analyst (SC-200)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Complete 100-Question Master Practice Exam for Microsoft Certified: Security Operations Analyst Associate (SC-200). Covers Defender XDR, Defender for Cloud, Microsoft Sentinel SIEM/SOAR, and KQL Threat Hunting.',
+      description: 'Complete 125-Question Master Practice Exam for Microsoft Certified: Security Operations Analyst Associate (SC-200). Covers Defender XDR, Defender for Cloud, Microsoft Sentinel SIEM/SOAR, and KQL Threat Hunting.',
       timeLimitMinutes: 150,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -296,7 +313,7 @@ async function main() {
   });
 
   const secSC200 = await prisma.examSection.create({
-    data: { examId: examSC200.id, title: 'Section 1: Master Security Operations Analyst & KQL Question Bank (100 Items)', orderIndex: 1 },
+    data: { examId: examSC200.id, title: 'Section 1: Master Security Operations Analyst & KQL Question Bank (125 Items)', orderIndex: 1 },
   });
 
   let o200 = 1;
