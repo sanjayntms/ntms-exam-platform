@@ -1,37 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Exam, ExamRoom } from '../types';
-import { useNavigate } from 'react-router-dom';
-import { Clock, Award, Play, Search, Lock, Unlock, ShieldAlert, DoorOpen, Plus, Globe, Check, X } from 'lucide-react';
-import { useExamSession } from '../context/ExamSessionContext';
 import { useAuth } from '../context/AuthContext';
+import { Search, Clock, Award, Shield, Lock, Unlock, Plus, DoorOpen, Users, AlertCircle, X, CheckCircle2 } from 'lucide-react';
 
 export const ExamListPage: React.FC = () => {
   const [exams, setExams] = useState<Exam[]>([]);
   const [rooms, setRooms] = useState<ExamRoom[]>([]);
-  const [search, setSearch] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
-  const [roomCodeInput, setRoomCodeInput] = useState<string>('');
-  const [joinLoading, setJoinLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [roomCodeInput, setRoomCodeInput] = useState('');
+  const [joinLoading, setJoinLoading] = useState(false);
+  const [joinMessage, setJoinMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  // Admin Exam Room Modal State
-  const [showRoomModal, setShowRoomModal] = useState<boolean>(false);
-  const [newRoomCode, setNewRoomCode] = useState<string>('');
-  const [newRoomTitle, setNewRoomTitle] = useState<string>('');
-  const [selectedExamId, setSelectedExamId] = useState<string>('');
+  // Admin Room Creation Modal State
+  const [showRoomModal, setShowRoomModal] = useState(false);
+  const [newRoomCode, setNewRoomCode] = useState('');
+  const [newRoomTitle, setNewRoomTitle] = useState('');
+  const [selectedExamId, setSelectedExamId] = useState('');
 
-  const navigate = useNavigate();
-  const { setExamSession } = useExamSession();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const fetchExamsAndRooms = async () => {
     try {
-      const [examRes, roomRes] = await Promise.all([
-        api.get('/exams'),
-        api.get('/rooms'),
-      ]);
-      setExams(examRes.data);
-      setRooms(roomRes.data);
+      const [examsRes, roomsRes] = await Promise.all([api.get('/exams'), api.get('/rooms')]);
+      setExams(examsRes.data);
+      setRooms(roomsRes.data);
+      if (examsRes.data.length > 0 && !selectedExamId) {
+        setSelectedExamId(examsRes.data[0].id);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -43,37 +42,33 @@ export const ExamListPage: React.FC = () => {
     fetchExamsAndRooms();
   }, []);
 
-  const handleStartExam = async (exam: Exam) => {
-    if (user?.role === 'CANDIDATE' && !exam.isUnlocked && !exam.isGloballyUnlocked) {
-      alert(`⚠️ Exam "${exam.code}" is currently LOCKED for your account.\n\nPlease enter an OPEN Exam Room Code or contact Admin (sanjay@ntmsentra.onmicrosoft.com) to request access unlock.`);
-      return;
-    }
-
+  const handleStartExam = async (examId: string) => {
     try {
-      const res = await api.post('/attempts/start', { examId: exam.id });
-      setExamSession(res.data.exam, res.data.attemptId);
-      navigate(`/exam-session/${res.data.attemptId}`);
+      const res = await api.post('/attempts/start', { examId });
+      navigate(`/exam/${res.data.attemptId}`);
     } catch (err: any) {
-      alert('Error starting exam attempt: ' + (err.response?.data?.error || err.message));
+      alert(err.response?.data?.error || 'Unable to start exam attempt.');
     }
   };
 
-  // Join Exam Room by Room Code
+  // Student Join Room by Code
   const handleJoinRoom = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!roomCodeInput.trim()) return;
-
     setJoinLoading(true);
+    setJoinMessage(null);
     try {
-      const res = await api.post('/rooms/join', { roomCode: roomCodeInput });
-      alert(`✅ ${res.data.message}`);
-
-      // Automatically launch exam session
-      const startRes = await api.post('/attempts/start', { examId: res.data.exam.id });
-      setExamSession(startRes.data.exam, startRes.data.attemptId);
-      navigate(`/exam-session/${startRes.data.attemptId}`);
+      const res = await api.post('/rooms/join', { roomCode: roomCodeInput.trim() });
+      setJoinMessage({ type: 'success', text: `Success: ${res.data.message} Launching exam...` });
+      fetchExamsAndRooms();
+      setTimeout(() => {
+        handleStartExam(res.data.exam.id);
+      }, 1200);
     } catch (err: any) {
-      alert('⚠️ Exam Room Error: ' + (err.response?.data?.error || err.message));
+      setJoinMessage({
+        type: 'error',
+        text: err.response?.data?.error || 'Failed to join Exam Room. Please check code with Admin.',
+      });
     } finally {
       setJoinLoading(false);
     }
@@ -89,7 +84,7 @@ export const ExamListPage: React.FC = () => {
     }
   };
 
-  // Admin Create New Exam Room
+  // Admin Create New Exam Room (Remains OPEN until manually closed by Admin)
   const handleCreateRoom = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -108,7 +103,7 @@ export const ExamListPage: React.FC = () => {
     }
   };
 
-  // Admin Toggle Room Status (OPEN <-> CLOSED)
+  // Admin Toggle Room Status (OPEN <-> CLOSED Manually)
   const handleToggleRoomStatus = async (roomId: string) => {
     try {
       await api.patch(`/rooms/${roomId}/toggle`);
@@ -185,6 +180,17 @@ export const ExamListPage: React.FC = () => {
             </button>
           </div>
         </form>
+
+        {joinMessage && (
+          <div
+            className={`p-3 rounded border text-xs font-mono flex items-center gap-2 ${
+              joinMessage.type === 'success' ? 'bg-emerald-50 text-emerald-900 border-emerald-300' : 'bg-rose-50 text-rose-900 border-rose-300'
+            }`}
+          >
+            {joinMessage.type === 'success' ? <CheckCircle2 className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
+            <span>{joinMessage.text}</span>
+          </div>
+        )}
       </div>
 
       {/* Active Exam Rooms Section */}
@@ -192,9 +198,9 @@ export const ExamListPage: React.FC = () => {
         <div className="bg-white border border-slate-300 rounded p-5 space-y-3 shadow-sm">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <DoorOpen className="w-4 h-4 text-emerald-700" /> Active Institutional Exam Rooms & Certification Halls
+              <DoorOpen className="w-4 h-4 text-emerald-700" /> Institutional Exam Rooms (Closed Manually by Admin Only)
             </h3>
-            <span className="text-[11px] font-mono text-slate-500 font-bold">{rooms.length} Rooms Configured</span>
+            <span className="text-[11px] font-mono text-slate-500 font-bold">{rooms.length} Rooms Active</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -211,12 +217,17 @@ export const ExamListPage: React.FC = () => {
                         : 'bg-rose-100 text-rose-900 border-rose-300'
                     }`}
                   >
-                    {r.status === 'OPEN' ? '🟢 ROOM OPEN' : '🔴 ROOM CLOSED'}
+                    {r.status === 'OPEN' ? '🟢 OPEN (Candidates Can Enter)' : '🔴 MANUALLY CLOSED'}
                   </span>
                 </div>
 
                 <h4 className="font-bold text-xs text-slate-900">{r.title}</h4>
                 <p className="text-[11px] text-slate-600 font-mono">Exam: {r.exam?.code} — {r.exam?.title}</p>
+                <p className="text-[10px] text-slate-500 italic">
+                  {r.status === 'OPEN'
+                    ? 'Room will stay OPEN continuously until Admin manually closes it.'
+                    : 'Room is currently locked. Admin must click Re-Open to grant access.'}
+                </p>
 
                 {user?.role === 'ADMINISTRATOR' && (
                   <div className="pt-2 border-t border-slate-200 flex justify-between items-center text-xs">
@@ -225,11 +236,11 @@ export const ExamListPage: React.FC = () => {
                       onClick={() => handleToggleRoomStatus(r.id)}
                       className={`px-3 py-1 rounded font-bold text-[11px] border transition-all ${
                         r.status === 'OPEN'
-                          ? 'bg-rose-100 text-rose-800 border-rose-300 hover:bg-rose-200'
-                          : 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200'
+                          ? 'bg-rose-600 hover:bg-rose-700 text-white border-rose-700 shadow-sm'
+                          : 'bg-emerald-700 hover:bg-emerald-800 text-white border-emerald-800 shadow-sm'
                       }`}
                     >
-                      {r.status === 'OPEN' ? 'Close Room' : 'Open Room'}
+                      {r.status === 'OPEN' ? '🔴 Close Room Manually' : '🟢 Re-Open Room'}
                     </button>
                   </div>
                 )}
@@ -258,77 +269,90 @@ export const ExamListPage: React.FC = () => {
                   <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-ntms-navy border border-sky-300">
                     {exam.vendor}
                   </span>
+
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-slate-600">{exam.code}</span>
+                    {user?.role === 'ADMINISTRATOR' && (
+                      <button
+                        onClick={() => handleToggleGlobalUnlock(exam.id)}
+                        className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded border transition-all flex items-center gap-1 ${
+                          isGloballyUnlocked
+                            ? 'bg-purple-100 text-purple-900 border-purple-300 hover:bg-purple-200'
+                            : 'bg-slate-200 text-slate-700 border-slate-300 hover:bg-slate-300'
+                        }`}
+                        title="Toggle 1-Click Global Unlock for all 30+ students"
+                      >
+                        {isGloballyUnlocked ? <Unlock className="w-3 h-3 text-purple-700" /> : <Lock className="w-3 h-3 text-slate-500" />}
+                        <span>{isGloballyUnlocked ? 'GLOBALLY UNLOCKED' : 'LOCK TRACK'}</span>
+                      </button>
+                    )}
+
                     <span
                       className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded flex items-center gap-1 border ${
                         canAccess
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                          : 'bg-rose-100 text-rose-800 border-rose-300'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-slate-100 text-slate-500 border-slate-300'
                       }`}
                     >
-                      {canAccess ? <Unlock className="w-3 h-3 text-emerald-600" /> : <Lock className="w-3 h-3 text-rose-600" />}
-                      {canAccess ? (isGloballyUnlocked ? 'GLOBAL UNLOCK' : 'UNLOCKED') : 'LOCKED'}
+                      {canAccess ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
+                      {canAccess ? 'UNLOCKED' : 'LOCKED'}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="font-bold text-base text-slate-900 leading-snug">{exam.title}</h3>
-                <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">{exam.description}</p>
+                <div>
+                  <h3 className="font-extrabold text-slate-900 text-base group-hover:text-ntms-blue transition-colors">
+                    {exam.title}
+                  </h3>
+                  <span className="text-xs font-mono text-slate-500 font-semibold">{exam.code}</span>
+                </div>
+
+                <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">{exam.description}</p>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 font-semibold">
+              <div className="space-y-4 pt-4 border-t border-slate-100">
+                <div className="flex items-center justify-between text-xs text-slate-600 font-mono">
                   <div className="flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-ntms-blue" />
+                    <Clock className="w-4 h-4 text-ntms-blue" />
                     <span>{exam.timeLimitMinutes} mins</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Award className="w-3.5 h-3.5 text-emerald-600" />
+                    <Award className="w-4 h-4 text-emerald-700" />
                     <span>Pass: {exam.passingScore}%</span>
                   </div>
                 </div>
 
-                {/* Admin Global Unlock Toggle Button */}
                 {user?.role === 'ADMINISTRATOR' && (
                   <button
-                    type="button"
                     onClick={() => handleToggleGlobalUnlock(exam.id)}
-                    className={`w-full py-1.5 rounded text-xs font-mono font-bold border transition-all flex items-center justify-center gap-1.5 ${
+                    className={`w-full py-1.5 rounded text-[11px] font-mono font-bold border transition-all flex items-center justify-center gap-1.5 ${
                       isGloballyUnlocked
-                        ? 'bg-emerald-100 text-emerald-900 border-emerald-300 hover:bg-emerald-200'
-                        : 'bg-purple-100 text-purple-900 border-purple-300 hover:bg-purple-200'
+                        ? 'bg-purple-50 text-purple-900 border-purple-300 hover:bg-purple-100'
+                        : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
                     }`}
                   >
-                    <Globe className="w-3.5 h-3.5" />
-                    {isGloballyUnlocked ? 'Global Unlock Active (Click to Lock)' : 'Globally Unlock for All Students'}
+                    <Shield className="w-3.5 h-3.5 text-purple-700" />
+                    <span>{isGloballyUnlocked ? '🌐 Globally Unlocked for All Students' : '🔒 Globally Unlock for All Students'}</span>
                   </button>
                 )}
 
-                {!canAccess ? (
-                  <div className="space-y-1.5">
-                    <button
-                      type="button"
-                      disabled
-                      className="w-full py-2.5 bg-slate-300 text-slate-600 cursor-not-allowed rounded font-bold text-xs flex items-center justify-center gap-2 border border-slate-400"
-                    >
-                      <Lock className="w-4 h-4 text-slate-600" />
-                      Locked (Enter Room Code)
-                    </button>
-                    <p className="text-[10px] font-mono text-center text-rose-700 font-semibold flex items-center justify-center gap-1">
-                      <ShieldAlert className="w-3 h-3" /> Ask Admin sanjay@ntmsentra.onmicrosoft.com for Room Code
-                    </p>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleStartExam(exam)}
-                    className="w-full py-2.5 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs transition-all shadow flex items-center justify-center gap-2"
-                  >
-                    <Play className="w-4 h-4 fill-white" />
-                    Launch Exam Engine
-                  </button>
-                )}
+                <button
+                  onClick={() => handleStartExam(exam.id)}
+                  disabled={!canAccess}
+                  className={`w-full py-2.5 rounded text-xs font-bold shadow flex items-center justify-center gap-2 transition-all ${
+                    canAccess
+                      ? 'bg-ntms-navy hover:bg-ntms-hoverBlue text-white'
+                      : 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300'
+                  }`}
+                >
+                  {canAccess ? (
+                    <>
+                      <span>Launch Exam Engine</span>
+                      <Shield className="w-4 h-4" />
+                    </>
+                  ) : (
+                    <span>Locked — Enter Room Code Above</span>
+                  )}
+                </button>
               </div>
             </div>
           );
@@ -337,45 +361,50 @@ export const ExamListPage: React.FC = () => {
 
       {/* Admin Create Exam Room Modal */}
       {showRoomModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-300 rounded p-6 w-full max-w-md space-y-4 shadow-xl">
-            <h3 className="text-base font-bold text-ntms-navy border-b border-slate-200 pb-3 flex items-center gap-2">
-              <DoorOpen className="w-5 h-5 text-emerald-700" /> Create Institutional Exam Room / Hall
-            </h3>
-            <form onSubmit={handleCreateRoom} className="space-y-4">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded border border-slate-300 max-w-md w-full p-6 space-y-5 shadow-2xl text-slate-900">
+            <div className="flex justify-between items-center border-b border-slate-200 pb-3">
+              <div className="flex items-center gap-2 text-ntms-navy">
+                <DoorOpen className="w-6 h-6 text-emerald-700" />
+                <h3 className="text-base font-bold">Create Institutional Exam Room / Hall</h3>
+              </div>
+              <button onClick={() => setShowRoomModal(false)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateRoom} className="space-y-4 text-xs font-medium">
               <div>
-                <label className="text-xs text-slate-700 font-bold block mb-1">Room Code (e.g. AZ900-HALL-A)</label>
+                <label className="block font-bold text-slate-700 mb-1">Room Code (e.g. AZ900-HALL-A)</label>
                 <input
                   type="text"
                   required
                   value={newRoomCode}
                   onChange={(e) => setNewRoomCode(e.target.value.toUpperCase())}
-                  placeholder="AZ900-HALL-A"
-                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-mono font-bold text-slate-900 focus:border-ntms-navy focus:outline-none uppercase tracking-wider"
+                  placeholder="e.g. AZ900-BATCH-1"
+                  className="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono font-bold uppercase focus:outline-none focus:border-ntms-navy"
                 />
               </div>
 
               <div>
-                <label className="text-xs text-slate-700 font-bold block mb-1">Room Title / Batch Name</label>
+                <label className="block font-bold text-slate-700 mb-1">Room Title / Batch Name</label>
                 <input
                   type="text"
                   required
                   value={newRoomTitle}
                   onChange={(e) => setNewRoomTitle(e.target.value)}
-                  placeholder="AZ-900 Morning Certification Hall"
-                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs text-slate-900 focus:border-ntms-navy focus:outline-none font-medium"
+                  placeholder="e.g. Morning Batch - 30 Students Testing Hall"
+                  className="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-900 focus:outline-none focus:border-ntms-navy"
                 />
               </div>
 
               <div>
-                <label className="text-xs text-slate-700 font-bold block mb-1">Target Exam Track</label>
+                <label className="block font-bold text-slate-700 mb-1">Target Exam Track</label>
                 <select
-                  required
                   value={selectedExamId}
                   onChange={(e) => setSelectedExamId(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs text-slate-900 focus:border-ntms-navy focus:outline-none font-mono"
+                  className="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-ntms-navy"
                 >
-                  <option value="">-- Select Exam Track --</option>
                   {exams.map((e) => (
                     <option key={e.id} value={e.id}>
                       {e.code} — {e.title}
@@ -384,17 +413,24 @@ export const ExamListPage: React.FC = () => {
                 </select>
               </div>
 
+              <div className="p-3 bg-sky-50 border border-sky-200 rounded text-slate-700 space-y-1">
+                <p className="font-bold text-[11px] text-ntms-navy">📌 Manual Admin Control Policy:</p>
+                <p className="text-[10px] leading-relaxed">
+                  Once created, this exam room will remain <strong>OPEN</strong> continuously for all students entering the room code until you manually click <strong>"🔴 Close Room Manually"</strong>.
+                </p>
+              </div>
+
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowRoomModal(false)}
-                  className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded text-xs font-bold"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-semibold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-xs font-bold shadow"
+                  className="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-bold shadow"
                 >
                   Create & Open Room
                 </button>
