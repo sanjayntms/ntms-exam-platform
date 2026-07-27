@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with FULL AI-900 (50 Questions) & AZ-900 (40 Questions)...');
+  console.log('🌱 Starting NTMS Database Seeding with 35 Deduplicated AI-900 & 10 AZ-900 Questions...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -74,9 +74,10 @@ async function main() {
   });
 
   // ==========================================
-  // 1. AI-900 EXAM TRACK (50 COMPLETE QUESTIONS)
+  // 1. AI-900 EXAM TRACK (35 DEDUPLICATED QUESTIONS)
   // ==========================================
   const ai900QuestionsData = [
+    // --- RESPONSIBLE AI (Q001 - Q006) ---
     {
       code: 'AI900-Q001',
       title: 'Responsible AI - Fairness Principle',
@@ -167,6 +168,8 @@ async function main() {
         { id: 'opt4', text: 'Inclusiveness' },
       ],
     },
+
+    // --- MACHINE LEARNING FUNDAMENTALS (Q007 - Q013) ---
     {
       code: 'AI900-Q007',
       title: 'Machine Learning - Regression Task',
@@ -272,6 +275,8 @@ async function main() {
         { id: 'opt4', text: 'Azure Data Factory' },
       ],
     },
+
+    // --- COMPUTER VISION (Q014 - Q019) ---
     {
       code: 'AI900-Q014',
       title: 'Computer Vision - Image Classification',
@@ -362,6 +367,8 @@ async function main() {
         { id: 'opt4', text: 'Azure Bot Service' },
       ],
     },
+
+    // --- NLP & SPEECH (Q020 - Q026) ---
     {
       code: 'AI900-Q020',
       title: 'NLP - Key Phrase Extraction',
@@ -467,6 +474,8 @@ async function main() {
         { id: 'opt4', text: 'Azure Personalizer' },
       ],
     },
+
+    // --- GENERATIVE AI & ADVANCED (Q027 - Q034) ---
     {
       code: 'AI900-Q027',
       title: 'Generative AI - Azure OpenAI Service',
@@ -529,7 +538,7 @@ async function main() {
     },
     {
       code: 'AI900-Q031',
-      title: 'Generative AI - Whisper Speech Recognition',
+      title: 'Generative AI - Whisper Speech Model',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
@@ -574,66 +583,6 @@ async function main() {
     },
     {
       code: 'AI900-Q034',
-      title: 'Machine Learning - Supervised vs Unsupervised',
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.BEGINNER,
-      points: 1.0,
-      explanation: 'Supervised ML relies on labeled dataset ground truths; Unsupervised ML uncovers hidden patterns in unlabeled datasets.',
-      prompt: 'What is the fundamental difference between supervised machine learning and unsupervised machine learning?',
-      options: [
-        { id: 'opt1', text: 'Supervised ML uses labeled training data; Unsupervised ML uses unlabeled data', isCorrect: true },
-        { id: 'opt2', text: 'Supervised ML does not use datasets; Unsupervised ML uses SQL' },
-        { id: 'opt3', text: 'Supervised ML only works for audio; Unsupervised ML works for text' },
-        { id: 'opt4', text: 'There is no functional difference' },
-      ],
-    },
-    {
-      code: 'AI900-Q035',
-      title: 'Machine Learning - Confusion Matrix',
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: 'A Confusion Matrix is a tabular layout that visualizes True Positives, True Negatives, False Positives, and False Negatives.',
-      prompt: 'Which model evaluation tool displays True Positives, False Positives, True Negatives, and False Negatives for a classification model?',
-      options: [
-        { id: 'opt1', text: 'Confusion Matrix', isCorrect: true },
-        { id: 'opt2', text: 'ROC Scatter Plot' },
-        { id: 'opt3', text: 'Histogram' },
-        { id: 'opt4', text: 'Correlation Matrix' },
-      ],
-    },
-    {
-      code: 'AI900-Q036',
-      title: 'Machine Learning - Overfitting',
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: 'Overfitting occurs when a model memorizes training noise and fails to generalize to new validation data.',
-      prompt: 'An ML model achieves 99% accuracy on training data but drops to 52% accuracy on new real-world data. What is this phenomenon called?',
-      options: [
-        { id: 'opt1', text: 'Overfitting', isCorrect: true },
-        { id: 'opt2', text: 'Underfitting' },
-        { id: 'opt3', text: 'Concept Drift' },
-        { id: 'opt4', text: 'Data Leakage' },
-      ],
-    },
-    {
-      code: 'AI900-Q037',
-      title: 'Computer Vision - Azure AI Video Indexer',
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: 'Azure AI Video Indexer extracts deep insights from video files including speech transcription, facial recognition, and scene OCR.',
-      prompt: 'Which Azure service automatically analyzes video files to extract spoken speech transcripts, recognize key people, and segment scenes?',
-      options: [
-        { id: 'opt1', text: 'Azure AI Video Indexer', isCorrect: true },
-        { id: 'opt2', text: 'Azure AI Custom Vision' },
-        { id: 'opt3', text: 'Azure Media Services' },
-        { id: 'opt4', text: 'Language Studio' },
-      ],
-    },
-    {
-      code: 'AI900-Q038',
       title: 'Generative AI - Retrieval-Augmented Generation (RAG)',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.ADVANCED,
@@ -645,21 +594,6 @@ async function main() {
         { id: 'opt2', text: 'Fine-Tuning' },
         { id: 'opt3', text: 'Model Distillation' },
         { id: 'opt4', text: 'Zero-Shot Learning' },
-      ],
-    },
-    {
-      code: 'AI900-Q039',
-      title: 'Generative AI - Few-Shot Prompting',
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: 'Few-Shot prompting provides a few example input-output pairs inside the prompt to guide the model format.',
-      prompt: 'In prompt engineering, what technique provides two or three example input-output pairs inside the prompt to guide the model?',
-      options: [
-        { id: 'opt1', text: 'Few-Shot Prompting', isCorrect: true },
-        { id: 'opt2', text: 'Zero-Shot Prompting' },
-        { id: 'opt3', text: 'Chain-of-Thought' },
-        { id: 'opt4', text: 'System Message' },
       ],
     },
   ];
@@ -684,27 +618,27 @@ async function main() {
     seededAI900Questions.push(q);
   }
 
-  // Question 40: Interactive Drag & Drop Azure AI Services
+  // Question 35: Interactive Drag & Drop Computer Vision Capabilities
   const qAI900_DD = await prisma.question.create({
     data: {
-      code: 'AI900-Q040',
-      title: 'Azure AI Services Enterprise Drag and Drop',
+      code: 'AI900-Q035',
+      title: 'Computer Vision Capabilities Drag and Drop',
       type: QuestionType.DRAG_AND_DROP,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 2.5,
-      explanation: 'Azure OpenAI provides GPT/DALL-E, Document Intelligence handles invoices, Speech Service handles audio.',
+      explanation: 'Image classification labels an entire image, object detection identifies bounding boxes, OCR extracts text.',
       categoryId: catAzure.id,
       content: JSON.stringify({
-        prompt: 'Drag each Azure AI Service from the pool on the left to its corresponding enterprise domain scenario on the right.',
+        prompt: 'Drag each Computer Vision capability from the pool on the left to its corresponding practical scenario on the right.',
         items: [
-          { id: 'ai1', label: 'Azure OpenAI Service' },
-          { id: 'ai2', label: 'Azure AI Document Intelligence' },
-          { id: 'ai3', label: 'Azure AI Speech Service' },
+          { id: 'cv1', label: 'Image Classification' },
+          { id: 'cv2', label: 'Object Detection' },
+          { id: 'cv3', label: 'Optical Character Recognition (OCR)' },
         ],
         targets: [
-          { id: 'target1', label: 'Generating natural language text responses and code completions via GPT-4 APIs', correctItemId: 'ai1' },
-          { id: 'target2', label: 'Extracting key-value pairs and tabular data from scanned W-2 and tax forms', correctItemId: 'ai2' },
-          { id: 'target3', label: 'Transcribing customer support call audio streams into text transcripts in real-time', correctItemId: 'ai3' },
+          { id: 'target1', label: 'Categorizing an entire input image as a "Cat" or "Dog"', correctItemId: 'cv1' },
+          { id: 'target2', label: 'Locating multiple cars and pedestrians with bounding box coordinates', correctItemId: 'cv2' },
+          { id: 'target3', label: 'Extracting text and tabular data from scanned paper receipts', correctItemId: 'cv3' },
         ],
       }),
     },
@@ -717,7 +651,7 @@ async function main() {
       title: 'Microsoft Azure AI Fundamentals (AI-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of Artificial Intelligence, Machine Learning principles, Computer Vision, Natural Language Processing, and Generative AI with 40 complete practice questions.',
+      description: 'Demonstrate foundational knowledge of Artificial Intelligence, Machine Learning principles, Computer Vision, Natural Language Processing, and Generative AI with 35 deduplicated practice questions.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -735,7 +669,7 @@ async function main() {
   }
 
   // ==========================================
-  // 2. AZ-900 EXAM TRACK (40 COMPLETE QUESTIONS)
+  // 2. AZ-900 EXAM TRACK (10 QUESTIONS)
   // ==========================================
   const az900QuestionsData = [
     {
@@ -933,8 +867,8 @@ async function main() {
     await prisma.sectionQuestion.create({ data: { sectionId: secAZ900.id, questionId: q.id, orderIndex: orderAZ++ } });
   }
 
-  console.log(`✅ Successfully seeded ALL ${seededAI900Questions.length} AI-900 master questions into AI-900 track!`);
-  console.log(`✅ Successfully seeded ALL ${seededAZ900Questions.length} AZ-900 master questions into AZ-900 track!`);
+  console.log(`✅ Successfully seeded ALL ${seededAI900Questions.length} deduplicated AI-900 questions into AI-900 track!`);
+  console.log(`✅ Successfully seeded ALL ${seededAZ900Questions.length} AZ-900 questions into AZ-900 track!`);
   console.log('🎉 NTMS Database Seeding Complete!');
 }
 
