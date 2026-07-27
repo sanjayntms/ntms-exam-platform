@@ -67,7 +67,7 @@ export class ExamEngineService {
       section.questions.forEach((sq) => {
         const q = sq.question;
         totalPossiblePoints += q.points;
-        const userAnswer = mergedAnswers[q.id];
+        const userAnswer = (mergedAnswers as any)[q.id];
 
         if (userAnswer) {
           const isCorrect = this.evaluateQuestionAnswer(q, userAnswer);
