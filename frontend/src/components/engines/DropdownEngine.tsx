@@ -28,7 +28,7 @@ export const DropdownEngine: React.FC<{ question: Question }> = ({ question }) =
             <select
               value={userDropdowns[d.id] || ''}
               onChange={(e) => handleSelect(d.id, e.target.value)}
-              className="w-full bg-white border border-slate-300 rounded p-2.5 text-sm text-slate-900 font-semibold focus:border-pearson-blue focus:outline-none shadow-sm"
+              className="w-full bg-white border border-slate-300 rounded p-2.5 text-sm text-slate-900 font-semibold focus:border-ntms-blue focus:outline-none shadow-sm"
             >
               <option value="">-- Select Choice --</option>
               {d.options?.map((opt: string) => (

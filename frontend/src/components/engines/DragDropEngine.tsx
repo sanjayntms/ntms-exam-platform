@@ -51,8 +51,8 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
         {/* Source Drag Pool */}
         <div className="bg-slate-50 p-4 rounded border border-slate-300 space-y-3 shadow-sm">
           <div className="flex justify-between items-center border-b border-slate-200 pb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-pearson-navy font-mono flex items-center gap-1.5">
-              <Move className="w-3.5 h-3.5 text-pearson-blue" /> Drag Items Pool
+            <span className="text-xs font-bold uppercase tracking-wider text-ntms-navy font-mono flex items-center gap-1.5">
+              <Move className="w-3.5 h-3.5 text-ntms-blue" /> Drag Items Pool
             </span>
             <span className="text-[10px] text-slate-500">Drag to target target on right</span>
           </div>
@@ -68,7 +68,7 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                   className={`p-3 rounded border text-xs font-bold font-mono cursor-grab active:cursor-grabbing transition-all flex items-center justify-between shadow-sm ${
                     isAssigned
                       ? 'bg-slate-200 border-slate-300 text-slate-500 opacity-60'
-                      : 'bg-white border-sky-300 text-pearson-navy hover:border-pearson-blue hover:shadow'
+                      : 'bg-white border-sky-300 text-ntms-navy hover:border-ntms-blue hover:shadow'
                   }`}
                 >
                   <span>{item.label}</span>
@@ -81,7 +81,7 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
 
         {/* Target Drop Zone */}
         <div className="bg-slate-50 p-4 rounded border border-slate-300 space-y-3 shadow-sm">
-          <div className="text-xs font-bold uppercase tracking-wider text-pearson-navy font-mono border-b border-slate-200 pb-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-ntms-navy font-mono border-b border-slate-200 pb-2">
             Target Drop Placeholders
           </div>
 
@@ -97,8 +97,8 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                   onDrop={(e) => handleDrop(e, target.id)}
                   className={`p-3 rounded border transition-all ${
                     assignedItem
-                      ? 'bg-sky-100/90 border-pearson-navy shadow-sm'
-                      : 'bg-white border-dashed border-slate-400 hover:border-pearson-blue'
+                      ? 'bg-sky-100/90 border-ntms-navy shadow-sm'
+                      : 'bg-white border-dashed border-slate-400 hover:border-ntms-blue'
                   }`}
                 >
                   <div className="text-xs font-bold text-slate-800 mb-1 flex justify-between items-center">
@@ -116,7 +116,7 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                   </div>
 
                   {assignedItem ? (
-                    <div className="p-2 bg-white rounded border border-pearson-blue text-xs font-bold font-mono text-pearson-navy flex items-center justify-between">
+                    <div className="p-2 bg-white rounded border border-ntms-blue text-xs font-bold font-mono text-ntms-navy flex items-center justify-between">
                       <span>{assignedItem.label}</span>
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     </div>
@@ -124,7 +124,7 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                     <select
                       value={userTargets[target.id] || ''}
                       onChange={(e) => handleAssign(target.id, e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-bold text-slate-700 focus:border-pearson-blue focus:outline-none font-mono"
+                      className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-bold text-slate-700 focus:border-ntms-blue focus:outline-none font-mono"
                     >
                       <option value="">-- Drag item here or select --</option>
                       {content.items?.map((item: any) => (

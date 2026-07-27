@@ -32,8 +32,8 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
                 onClick={() => updateQuestionAnswer(question.id, { selectedOptionId: opt.id })}
                 className={`flex-1 flex items-center gap-3.5 p-3.5 rounded border cursor-pointer transition-all ${
                   isSelected
-                    ? 'bg-sky-100/90 border-pearson-navy text-pearson-navy font-bold shadow-sm ring-2 ring-pearson-blue/40'
-                    : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-pearson-blue hover:bg-sky-50/50'
+                    ? 'bg-sky-100/90 border-ntms-navy text-ntms-navy font-bold shadow-sm ring-2 ring-ntms-blue/40'
+                    : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-ntms-blue hover:bg-sky-50/50'
                 } ${isStruck ? 'strikeout-text' : ''}`}
               >
                 <input
@@ -41,7 +41,7 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
                   name={`single_${question.id}`}
                   checked={isSelected}
                   onChange={() => {}}
-                  className="w-4 h-4 text-pearson-navy focus:ring-pearson-blue"
+                  className="w-4 h-4 text-ntms-navy focus:ring-ntms-blue"
                 />
                 <span className="text-sm leading-snug">{opt.text}</span>
               </label>

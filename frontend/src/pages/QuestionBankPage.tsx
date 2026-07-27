@@ -30,7 +30,7 @@ export const QuestionBankPage: React.FC = () => {
     <div className="space-y-6 font-sans">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded border border-slate-300 shadow-sm">
         <div>
-          <h2 className="text-lg font-bold text-pearson-navy tracking-tight">Question Bank Management</h2>
+          <h2 className="text-lg font-bold text-ntms-navy tracking-tight">Question Bank Management</h2>
           <p className="text-xs text-slate-600 mt-0.5">Authoring system supporting 16 item formats including Case Studies, Simulations & Labs</p>
         </div>
 
@@ -42,14 +42,14 @@ export const QuestionBankPage: React.FC = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search code or title..."
-              className="w-full bg-slate-50 border border-slate-300 rounded pl-9 pr-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-pearson-blue font-medium"
+              className="w-full bg-slate-50 border border-slate-300 rounded pl-9 pr-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-ntms-blue font-medium"
             />
           </div>
 
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded px-3 py-2 text-xs text-slate-800 font-semibold focus:outline-none focus:border-pearson-blue"
+            className="bg-slate-50 border border-slate-300 rounded px-3 py-2 text-xs text-slate-800 font-semibold focus:outline-none focus:border-ntms-blue"
           >
             <option value="">All Question Types</option>
             <option value="SINGLE_CHOICE">Single Choice</option>
@@ -79,7 +79,7 @@ export const QuestionBankPage: React.FC = () => {
           <tbody className="divide-y divide-slate-200">
             {filtered.map((q) => (
               <tr key={q.id} className="hover:bg-slate-50 transition-colors">
-                <td className="p-3.5 font-mono font-extrabold text-pearson-navy">{q.code}</td>
+                <td className="p-3.5 font-mono font-extrabold text-ntms-navy">{q.code}</td>
                 <td className="p-3.5 font-bold text-slate-900">{q.title}</td>
                 <td className="p-3.5 font-mono text-[11px]">
                   <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-300 text-slate-700 font-semibold">

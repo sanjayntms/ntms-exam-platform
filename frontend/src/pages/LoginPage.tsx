@@ -1,149 +1,153 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, LogIn, Monitor, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, UserCheck, Key, Lock } from 'lucide-react';
+import { Role } from '../types';
 
 export const LoginPage: React.FC = () => {
-  const { loginLocal } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isEntraLoading, setIsEntraLoading] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>('candidate@ntms.com');
-  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      await loginLocal(email);
+      await login(email, password);
       navigate('/dashboard');
-    } catch (err) {
-      alert('Login failed');
-    } finally {
-      setLoading(false);
+    } catch (err: any) {
+      alert('Login failed: ' + (err.response?.data?.error || err.message));
     }
   };
 
-  const selectQuickUser = async (userEmail: string) => {
-    setEmail(userEmail);
-    setLoading(true);
+  const handleQuickLogin = async (roleEmail: string) => {
     try {
-      await loginLocal(userEmail);
+      await login(roleEmail, 'password123');
       navigate('/dashboard');
-    } finally {
-      setLoading(false);
+    } catch (err: any) {
+      alert('Quick login failed: ' + (err.response?.data?.error || err.message));
     }
+  };
+
+  const handleEntraSSO = () => {
+    setIsEntraLoading(true);
+    setTimeout(async () => {
+      await login('candidate@ntms.com', 'password123');
+      setIsEntraLoading(false);
+      navigate('/dashboard');
+    }, 1200);
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col justify-between items-center p-6 relative font-sans">
-      {/* Top Banner */}
-      <div className="w-full max-w-4xl bg-pearson-navy text-white p-4 rounded-t-xl shadow-md flex justify-between items-center border-b-4 border-pearson-blue">
+    <div className="min-h-screen bg-slate-100 flex flex-col justify-between font-sans text-slate-900">
+      {/* Top Navy Banner */}
+      <header className="bg-ntms-navy text-white px-8 py-4 border-b-4 border-ntms-blue flex items-center justify-between shadow">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded bg-white/10 border border-white/20 flex items-center justify-center font-bold text-white">
-            <Monitor className="w-6 h-6 text-sky-300" />
+          <div className="w-10 h-10 rounded bg-ntms-blue flex items-center justify-center font-black text-base text-white tracking-widest border border-sky-300">
+            NTMS
           </div>
           <div>
-            <h1 className="text-xl font-extrabold tracking-wider leading-none">NTMS ASSESSMENT PLATFORM</h1>
-            <p className="text-xs text-sky-200 mt-1">Pearson VUE Certified Candidate Portal</p>
+            <h1 className="font-extrabold text-lg tracking-tight text-white leading-tight">NTMS Certification Portal</h1>
+            <p className="text-xs text-slate-300">Secure Online Test Delivery System</p>
           </div>
         </div>
-
-        <div className="text-right text-xs text-slate-300 hidden md:block">
-          <div>Authorized Test Delivery Center</div>
-          <div className="text-emerald-400 font-mono text-[11px] font-bold">● Environment Ready</div>
+        <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400">
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <span>SSL 256-Bit Encrypted Session</span>
         </div>
-      </div>
+      </header>
 
-      {/* Main Login Form Card */}
-      <div className="w-full max-w-4xl bg-white border border-slate-300 rounded-b-xl p-8 shadow-xl grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Column: Sign In */}
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-lg font-bold text-pearson-navy">Candidate & Test Administrator Sign In</h2>
-            <p className="text-xs text-slate-600 mt-1">Enter your credentials or use Microsoft Entra ID Single Sign-On.</p>
+      {/* Main Login Card */}
+      <div className="flex-1 flex items-center justify-center p-6">
+        <div className="bg-white border border-slate-300 rounded shadow-lg max-w-md w-full p-8 space-y-6">
+          <div className="text-center space-y-1">
+            <h2 className="text-xl font-bold text-ntms-navy">Candidate Authentication</h2>
+            <p className="text-xs text-slate-600">Enter your credentials or use Microsoft Entra ID SSO</p>
           </div>
 
+          {/* Microsoft Entra ID SSO Button */}
           <button
-            onClick={() => selectQuickUser('candidate@ntms.com')}
-            className="w-full py-3.5 px-4 bg-pearson-navy hover:bg-pearson-hoverBlue text-white font-bold text-xs rounded transition-all shadow flex items-center justify-center gap-3 border border-pearson-darkNavy"
+            type="button"
+            onClick={handleEntraSSO}
+            disabled={isEntraLoading}
+            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded font-semibold text-xs transition-all shadow border border-slate-700"
           >
-            <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
-              <div className="bg-orange-500" />
-              <div className="bg-green-500" />
-              <div className="bg-blue-400" />
-              <div className="bg-yellow-400" />
-            </div>
-            <span>Sign in with Microsoft Entra ID (SSO)</span>
+            <svg className="w-4 h-4" viewBox="0 0 23 23">
+              <path fill="#f35325" d="M1 1h10v10H1z" />
+              <path fill="#81bc06" d="M12 1h10v10H12z" />
+              <path fill="#05a6f0" d="M1 12h10v10H1z" />
+              <path fill="#ffba08" d="M12 12h10v10H12z" />
+            </svg>
+            <span>{isEntraLoading ? 'Connecting Entra ID...' : 'Sign in with Microsoft Entra ID (SSO)'}</span>
           </button>
 
-          <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+          <div className="relative flex items-center justify-center text-xs text-slate-400 uppercase font-mono my-4">
+            <div className="border-t border-slate-200 w-full" />
+            <span className="bg-white px-3 text-slate-500 font-bold shrink-0">or local login</span>
+            <div className="border-t border-slate-200 w-full" />
+          </div>
+
+          {/* Local Password Form */}
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Email Address / Candidate ID</label>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Candidate Email Address</label>
               <input
                 type="email"
-                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="e.g. candidate@ntms.com"
-                className="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs text-slate-800 focus:border-pearson-blue focus:outline-none font-medium"
+                required
+                placeholder="candidate@ntms.com"
+                className="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs text-slate-900 font-medium focus:outline-none focus:border-ntms-blue"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Access Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="••••••••••••"
+                className="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs text-slate-900 font-medium focus:outline-none focus:border-ntms-blue"
               />
             </div>
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-2.5 bg-pearson-blue hover:bg-pearson-hoverBlue text-white font-bold text-xs rounded transition-all shadow"
+              className="w-full py-3 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs shadow transition-all"
             >
-              {loading ? 'Authenticating...' : 'Sign In to Exam System ➜'}
+              Sign In to NTMS Engine ➜
             </button>
           </form>
-        </div>
 
-        {/* Right Column: Persona Selection */}
-        <div className="bg-slate-50 p-6 rounded border border-slate-200 space-y-4">
-          <div className="border-b border-slate-200 pb-2">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-pearson-navy font-mono">Quick Testing Personas</h3>
-            <span className="text-[11px] text-slate-500">Select any role to test system functionality instantly</span>
-          </div>
-
-          <div className="space-y-2">
-            <button
-              onClick={() => selectQuickUser('candidate@ntms.com')}
-              className="w-full p-3 bg-white hover:bg-sky-50 border border-slate-300 hover:border-pearson-blue rounded text-left transition-all flex items-center justify-between"
-            >
-              <div>
-                <div className="font-bold text-xs text-pearson-navy">Alex Mercer (Candidate)</div>
-                <div className="text-[10px] text-slate-500">candidate@ntms.com | Pearson Exam Engine</div>
-              </div>
-              <ArrowRight className="w-4 h-4 text-pearson-blue" />
-            </button>
-
-            <button
-              onClick={() => selectQuickUser('creator@ntms.com')}
-              className="w-full p-3 bg-white hover:bg-amber-50 border border-slate-300 hover:border-amber-500 rounded text-left transition-all flex items-center justify-between"
-            >
-              <div>
-                <div className="font-bold text-xs text-amber-900">Sarah Connor (Exam Author)</div>
-                <div className="text-[10px] text-slate-500">creator@ntms.com | Question Bank Builder</div>
-              </div>
-              <ArrowRight className="w-4 h-4 text-amber-600" />
-            </button>
-
-            <button
-              onClick={() => selectQuickUser('admin@ntms.com')}
-              className="w-full p-3 bg-white hover:bg-purple-50 border border-slate-300 hover:border-purple-500 rounded text-left transition-all flex items-center justify-between"
-            >
-              <div>
-                <div className="font-bold text-xs text-purple-900">System Administrator</div>
-                <div className="text-[10px] text-slate-500">admin@ntms.com | User Management & Analytics</div>
-              </div>
-              <ArrowRight className="w-4 h-4 text-purple-600" />
-            </button>
+          {/* Quick Demo Persona Profiles */}
+          <div className="pt-4 border-t border-slate-200 space-y-2">
+            <span className="text-[11px] font-bold text-slate-600 block uppercase tracking-wider">Quick Persona Sign-In:</span>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <button
+                onClick={() => handleQuickLogin('candidate@ntms.com')}
+                className="p-2 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded text-ntms-navy font-bold flex items-center justify-center gap-1.5 transition-all"
+              >
+                <UserCheck className="w-3.5 h-3.5 text-ntms-blue" />
+                <span>Candidate</span>
+              </button>
+              <button
+                onClick={() => handleQuickLogin('admin@ntms.com')}
+                className="p-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded text-slate-800 font-bold flex items-center justify-center gap-1.5 transition-all"
+              >
+                <Key className="w-3.5 h-3.5 text-slate-700" />
+                <span>Admin</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <footer className="text-xs text-slate-500 text-center py-4">
-        NTMS Test Delivery Engine © 2026. Pearson VUE Style Assessment Architecture.
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-300 py-3 px-8 text-center text-xs text-slate-600">
+        © 2026 NTMS Examination Platform. All Rights Reserved. Authorized Certification Runtime Environment.
       </footer>
     </div>
   );

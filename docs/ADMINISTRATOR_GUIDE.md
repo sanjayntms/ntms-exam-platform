@@ -13,6 +13,6 @@
 - Managing Case Studies, Simulations, and Hands-on Labs.
 
 ### 3. Candidate (`CANDIDATE`)
-- Taking certification exams in Pearson VUE / Microsoft style UI.
+- Taking certification exams in NTMS Test Delivery UI.
 - Utilizing built-in calculator, scratchpad notes, mark for review, and strikeout features.
 - Downloading scorecards and domain performance analysis.

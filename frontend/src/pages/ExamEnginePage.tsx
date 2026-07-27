@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import { useExamSession } from '../context/ExamSessionContext';
-import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
-import { Timer } from '../components/common/Timer';
 import { QuestionPalette } from '../components/common/QuestionPalette';
+import { Timer } from '../components/common/Timer';
 import { CalculatorModal } from '../components/common/CalculatorModal';
 import { ScratchpadModal } from '../components/common/ScratchpadModal';
-import { useAuth } from '../context/AuthContext';
-
-// Question Type Engines
 import { SingleChoiceEngine } from '../components/engines/SingleChoiceEngine';
 import { MultipleChoiceEngine } from '../components/engines/MultipleChoiceEngine';
 import { TrueFalseEngine } from '../components/engines/TrueFalseEngine';
@@ -24,253 +19,264 @@ import { SimulationEngine } from '../components/engines/SimulationEngine';
 import { LabEngine } from '../components/engines/LabEngine';
 import { CodeEditorEngine } from '../components/engines/CodeEditorEngine';
 import { EssayEngine } from '../components/engines/EssayEngine';
-
-import {
-  Calculator,
-  FileEdit,
-  Bookmark,
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Monitor,
-  HelpCircle,
-  Grid,
-  Highlighter,
-} from 'lucide-react';
+import { Flag, Calculator, FileText, LayoutGrid, ChevronLeft, ChevronRight, HelpCircle, AlertTriangle } from 'lucide-react';
+import { QuestionType } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 export const ExamEnginePage: React.FC = () => {
-  const navigate = useNavigate();
-  const { user } = useAuth();
   const {
     exam,
-    attemptId,
     currentQuestionIndex,
-    flatQuestions,
-    questionStates,
     setCurrentQuestionIndex,
+    questionStates,
     toggleMarkForReview,
-    setCalculatorOpen,
-    setScratchpadOpen,
+    finishExam,
   } = useExamSession();
 
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const [showItemMap, setShowItemMap] = useState<boolean>(false);
+  const [showPalette, setShowPalette] = useState(false);
+  const [showCalculator, setShowCalculator] = useState(false);
+  const [showScratchpad, setShowScratchpad] = useState(false);
+  const [showEndConfirm, setShowEndConfirm] = useState(false);
 
-  if (!exam || flatQuestions.length === 0) {
+  const navigate = useNavigate();
+
+  if (!exam) {
     return (
-      <div className="min-h-screen bg-slate-100 flex flex-col justify-center items-center text-slate-700 gap-4">
-        <Monitor className="w-12 h-12 text-pearson-navy animate-pulse" />
-        <p className="text-sm font-semibold">Initializing NTMS Exam Session...</p>
-        <button onClick={() => navigate('/exams')} className="text-xs text-pearson-blue underline">
-          Return to Exam Catalog
-        </button>
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center font-mono text-xs text-slate-600">
+        No active NTMS exam session loaded.
       </div>
     );
   }
 
-  const currentQ = flatQuestions[currentQuestionIndex];
-  const qState = questionStates[currentQ.id] || {};
+  const flatQuestions = exam.sections.flatMap((s) => s.questions);
+  const currentQuestion = flatQuestions[currentQuestionIndex];
+  const qState = currentQuestion ? questionStates[currentQuestion.id] || {} : {};
 
-  const handleFinalSubmit = async () => {
-    if (!confirm('Are you sure you want to finish and submit your exam?')) return;
-    setSubmitting(true);
-    try {
-      const allAnswers: Record<string, any> = {};
-      Object.keys(questionStates).forEach((k) => {
-        if (questionStates[k]?.answer) {
-          allAnswers[k] = questionStates[k].answer;
-        }
-      });
-
-      await api.post('/attempts/submit', {
-        attemptId,
-        answers: allAnswers,
-        isFinalSubmit: true,
-      });
-
+  const handleFinish = async () => {
+    const attemptId = await finishExam();
+    if (attemptId) {
       navigate(`/results/${attemptId}`);
-    } catch (err: any) {
-      alert('Error submitting exam: ' + err.message);
-    } finally {
-      setSubmitting(false);
     }
   };
 
-  const renderQuestionEngine = () => {
-    switch (currentQ.type) {
-      case 'SINGLE_CHOICE':
-        return <SingleChoiceEngine question={currentQ} />;
-      case 'MULTIPLE_CHOICE':
-        return <MultipleChoiceEngine question={currentQ} />;
-      case 'TRUE_FALSE':
-        return <TrueFalseEngine question={currentQ} />;
-      case 'DROPDOWN':
-        return <DropdownEngine question={currentQ} />;
-      case 'FILL_IN_BLANK':
-        return <FillBlankEngine question={currentQ} />;
-      case 'MATCHING':
-        return <MatchingEngine question={currentQ} />;
-      case 'DRAG_AND_DROP':
-        return <DragDropEngine question={currentQ} />;
-      case 'REORDER':
-        return <ReorderEngine question={currentQ} />;
-      case 'BUILD_LIST':
-        return <BuildListEngine question={currentQ} />;
-      case 'HOTSPOT':
-        return <HotspotEngine question={currentQ} />;
-      case 'CASE_STUDY':
-        return <CaseStudyEngine question={currentQ} />;
-      case 'SIMULATION':
-        return <SimulationEngine question={currentQ} />;
-      case 'LAB':
-        return <LabEngine question={currentQ} />;
-      case 'CODE_EDITOR':
-        return <CodeEditorEngine question={currentQ} />;
-      case 'ESSAY':
-        return <EssayEngine question={currentQ} />;
+  const renderEngine = () => {
+    if (!currentQuestion) return null;
+    switch (currentQuestion.type) {
+      case QuestionType.SINGLE_CHOICE:
+        return <SingleChoiceEngine question={currentQuestion} />;
+      case QuestionType.MULTIPLE_CHOICE:
+        return <MultipleChoiceEngine question={currentQuestion} />;
+      case QuestionType.TRUE_FALSE:
+        return <TrueFalseEngine question={currentQuestion} />;
+      case QuestionType.DROPDOWN:
+        return <DropdownEngine question={currentQuestion} />;
+      case QuestionType.FILL_IN_BLANK:
+        return <FillBlankEngine question={currentQuestion} />;
+      case QuestionType.MATCHING:
+        return <MatchingEngine question={currentQuestion} />;
+      case QuestionType.DRAG_AND_DROP:
+        return <DragDropEngine question={currentQuestion} />;
+      case QuestionType.REORDER:
+        return <ReorderEngine question={currentQuestion} />;
+      case QuestionType.BUILD_LIST:
+        return <BuildListEngine question={currentQuestion} />;
+      case QuestionType.HOTSPOT:
+        return <HotspotEngine question={currentQuestion} />;
+      case QuestionType.CASE_STUDY:
+        return <CaseStudyEngine question={currentQuestion} />;
+      case QuestionType.SIMULATION:
+        return <SimulationEngine question={currentQuestion} />;
+      case QuestionType.LAB:
+        return <LabEngine question={currentQuestion} />;
+      case QuestionType.CODE_EDITOR:
+        return <CodeEditorEngine question={currentQuestion} />;
+      case QuestionType.ESSAY:
+        return <EssayEngine question={currentQuestion} />;
       default:
-        return <SingleChoiceEngine question={currentQ} />;
+        return <SingleChoiceEngine question={currentQuestion} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col justify-between text-slate-800 font-sans selection:bg-pearson-navy selection:text-white">
-      {/* Pearson VUE Top Primary Header */}
-      <header className="bg-pearson-navy text-white px-6 py-2.5 flex items-center justify-between border-b-2 border-pearson-blue shadow-md">
+    <div className="min-h-screen bg-slate-100 flex flex-col justify-between font-sans text-slate-900 select-none">
+      {/* Top Header Bar */}
+      <header className="bg-ntms-navy text-white px-6 py-3 border-b-2 border-ntms-blue flex items-center justify-between shadow">
         <div className="flex items-center gap-4">
-          <div className="font-extrabold text-lg tracking-wider">NTMS</div>
-          <div className="h-6 w-px bg-white/20" />
-          <div className="flex flex-col">
-            <span className="font-bold text-sm text-white">{exam.title} ({exam.code})</span>
-            <span className="text-[11px] text-slate-300">Candidate: {user?.name || 'Candidate'} | ID: NTMS-894210</span>
+          <span className="font-black tracking-wider text-base text-sky-300">NTMS</span>
+          <div className="h-4 w-px bg-slate-600" />
+          <div>
+            <h1 className="font-bold text-sm leading-tight text-white">{exam.title}</h1>
+            <span className="text-[11px] text-slate-300 font-mono">
+              Candidate: Alex Mercer (Candidate) | ID: NTMS-894210
+            </span>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => alert('Instructions: Click Next to navigate. Mark questions for review if needed.')}
-            className="flex items-center gap-1.5 text-xs text-slate-200 hover:text-white"
-          >
-            <HelpCircle className="w-4 h-4 text-sky-300" />
-            <span>Help</span>
+          <button type="button" className="text-xs text-slate-300 hover:text-white flex items-center gap-1">
+            <HelpCircle className="w-4 h-4" /> Help
           </button>
-          <Timer />
+          <Timer initialMinutes={exam.timeLimitMinutes} onTimeExpired={handleFinish} />
         </div>
       </header>
 
-      {/* Pearson VUE Exam Action Toolbar */}
-      <div className="bg-slate-200 border-b border-slate-300 px-6 py-2 flex items-center justify-between shadow-inner">
-        <div className="flex items-center gap-3">
+      {/* Action Toolbar */}
+      <div className="bg-slate-200 border-b border-slate-300 px-6 py-2 flex justify-between items-center text-xs font-semibold">
+        <div className="flex gap-2">
           <button
-            onClick={() => toggleMarkForReview(currentQ.id)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded border text-xs font-bold transition-all ${
+            type="button"
+            onClick={() => currentQuestion && toggleMarkForReview(currentQuestion.id)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded border transition-all ${
               qState.isMarkedForReview
-                ? 'bg-amber-600 text-white border-amber-700 shadow-sm'
-                : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                ? 'bg-amber-500 text-white border-amber-600 font-bold shadow-sm'
+                : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
             }`}
           >
-            <Bookmark className={`w-4 h-4 ${qState.isMarkedForReview ? 'fill-white text-white' : 'text-amber-600'}`} />
-            <span>{qState.isMarkedForReview ? 'Marked for Review' : 'Mark for Review'}</span>
+            <Flag className="w-3.5 h-3.5" />
+            <span>Mark for Review</span>
           </button>
 
-          {exam.allowCalculator && (
-            <button
-              onClick={() => setCalculatorOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-semibold"
-            >
-              <Calculator className="w-4 h-4 text-pearson-blue" />
-              <span>Calculator</span>
-            </button>
-          )}
-
-          {exam.allowNotes && (
-            <button
-              onClick={() => setScratchpadOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-semibold"
-            >
-              <FileEdit className="w-4 h-4 text-emerald-600" />
-              <span>Scratchpad</span>
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => setShowCalculator(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
+          >
+            <Calculator className="w-3.5 h-3.5 text-ntms-blue" />
+            <span>Calculator</span>
+          </button>
 
           <button
-            onClick={() => setShowItemMap(!showItemMap)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-semibold"
+            type="button"
+            onClick={() => setShowScratchpad(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
           >
-            <Grid className="w-4 h-4 text-pearson-navy" />
+            <FileText className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Scratchpad</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowPalette(!showPalette)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
+          >
+            <LayoutGrid className="w-3.5 h-3.5 text-ntms-navy" />
             <span>Question Map</span>
           </button>
         </div>
 
-        <div className="font-mono text-xs font-bold text-slate-700">
-          Question <span className="text-pearson-navy text-sm font-extrabold">{currentQuestionIndex + 1}</span> of {flatQuestions.length}
+        <div className="font-mono text-xs text-slate-700 font-bold">
+          Question <strong className="text-ntms-navy">{currentQuestionIndex + 1}</strong> of {flatQuestions.length}
         </div>
       </div>
 
-      {/* Main Pearson Exam Canvas Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-        <div className={showItemMap ? 'lg:col-span-3 space-y-6' : 'lg:col-span-4 space-y-6'}>
-          {/* Main Question Panel */}
-          <div className="bg-white border border-slate-300 rounded-md p-6 space-y-4 shadow-sm">
-            <div className="flex justify-between items-center border-b border-slate-200 pb-3">
-              <span className="text-xs font-mono font-bold text-pearson-navy uppercase tracking-wider">
-                Question {currentQuestionIndex + 1} (Code: {currentQ.code})
+      {/* Main Question Display Area */}
+      <div className="flex-1 max-w-6xl w-full mx-auto p-6 flex gap-6 relative">
+        {/* Main Item Canvas */}
+        <main className="flex-1 bg-white border border-slate-300 rounded shadow-sm p-8 flex flex-col justify-between min-h-[520px]">
+          <div>
+            <div className="flex justify-between items-center border-b border-slate-200 pb-3 mb-6">
+              <span className="text-xs font-mono font-bold text-slate-600 uppercase tracking-wider">
+                QUESTION {currentQuestionIndex + 1} (CODE: {currentQuestion?.code})
               </span>
-              <span className="text-xs font-mono text-slate-600">
-                Type: <strong className="text-slate-900">{currentQ.type}</strong> | Points: <strong className="text-emerald-700">{currentQ.points}</strong>
-              </span>
+              <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
+                <span>Type: <strong className="text-slate-800 font-extrabold">{currentQuestion?.type}</strong></span>
+                <span>Points: <strong className="text-slate-800 font-extrabold">{currentQuestion?.points}</strong></span>
+              </div>
             </div>
 
-            <h2 className="text-base font-bold text-slate-900 tracking-tight">{currentQ.title}</h2>
-
-            {/* Active Question Engine */}
-            <div className="pt-2">{renderQuestionEngine()}</div>
+            <div className="space-y-6">
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight">{currentQuestion?.title}</h2>
+              {renderEngine()}
+            </div>
           </div>
-        </div>
+        </main>
 
-        {/* Question Palette Sidebar */}
-        {showItemMap && (
-          <div className="lg:col-span-1">
+        {/* Slide-out Question Item Map */}
+        {showPalette && (
+          <aside className="w-80 bg-white border border-slate-300 rounded p-4 shadow-lg shrink-0">
             <QuestionPalette />
-          </div>
+          </aside>
         )}
-      </main>
+      </div>
 
-      {/* Pearson VUE Navigation Control Footer */}
-      <footer className="bg-pearson-navy text-white px-6 py-3 flex items-center justify-between border-t-2 border-pearson-blue shadow-lg sticky bottom-0 z-30">
+      {/* Footer Navigation Controls */}
+      <footer className="bg-ntms-navy text-white px-6 py-3 border-t-2 border-ntms-blue flex items-center justify-between shadow">
         <button
+          type="button"
           onClick={() => setCurrentQuestionIndex(Math.max(0, currentQuestionIndex - 1))}
           disabled={currentQuestionIndex === 0}
-          className="flex items-center gap-2 px-5 py-2 rounded bg-white text-pearson-navy hover:bg-slate-100 disabled:opacity-40 font-bold text-xs shadow transition-all border border-slate-300"
+          className="flex items-center gap-1.5 px-5 py-2 rounded bg-ntms-blue hover:bg-ntms-hoverBlue disabled:opacity-30 disabled:hover:bg-ntms-blue text-white font-bold text-xs shadow transition-all"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Previous
+          <ChevronLeft className="w-4 h-4" />
+          <span>Previous</span>
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex gap-4">
           <button
-            onClick={handleFinalSubmit}
-            disabled={submitting}
-            className="flex items-center gap-2 px-6 py-2 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs shadow transition-all border border-amber-600"
+            type="button"
+            onClick={() => setShowPalette(!showPalette)}
+            className="px-4 py-2 rounded bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-600 transition-all"
           >
-            <CheckCircle2 className="w-4 h-4 text-slate-950" />
-            End Exam / Submit
+            Item Map
           </button>
 
-          <button
-            onClick={() => setCurrentQuestionIndex(Math.min(flatQuestions.length - 1, currentQuestionIndex + 1))}
-            disabled={currentQuestionIndex === flatQuestions.length - 1}
-            className="flex items-center gap-2 px-6 py-2 rounded bg-pearson-blue hover:bg-pearson-hoverBlue disabled:opacity-40 text-white font-bold text-xs shadow transition-all border border-sky-400"
-          >
-            Next
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          {currentQuestionIndex === flatQuestions.length - 1 ? (
+            <button
+              type="button"
+              onClick={() => setShowEndConfirm(true)}
+              className="px-6 py-2 rounded bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs shadow transition-all"
+            >
+              End Exam / Submit ➜
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setCurrentQuestionIndex(Math.min(flatQuestions.length - 1, currentQuestionIndex + 1))}
+              className="flex items-center gap-1.5 px-5 py-2 rounded bg-ntms-blue hover:bg-ntms-hoverBlue text-white font-bold text-xs shadow transition-all"
+            >
+              <span>Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </footer>
 
-      {/* Modals */}
-      <CalculatorModal />
-      <ScratchpadModal />
+      {/* Calculator Modal */}
+      {showCalculator && <CalculatorModal onClose={() => setShowCalculator(false)} />}
+
+      {/* Scratchpad Modal */}
+      {showScratchpad && <ScratchpadModal onClose={() => setShowScratchpad(false)} />}
+
+      {/* End Exam Confirmation Modal */}
+      {showEndConfirm && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded border border-slate-300 max-w-md w-full p-6 space-y-4 shadow-xl text-slate-900">
+            <div className="flex items-center gap-3 text-amber-600 border-b border-slate-200 pb-3">
+              <AlertTriangle className="w-6 h-6" />
+              <h3 className="text-base font-bold">Submit NTMS Exam Attempt?</h3>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Are you sure you want to finish and submit your exam attempt? You will not be able to change your answers after submission.
+            </p>
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowEndConfirm(false)}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-semibold text-xs"
+              >
+                Return to Exam
+              </button>
+              <button
+                type="button"
+                onClick={handleFinish}
+                className="px-5 py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs shadow"
+              >
+                Confirm & Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

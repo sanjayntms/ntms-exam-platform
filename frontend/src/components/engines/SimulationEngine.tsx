@@ -32,12 +32,12 @@ export const SimulationEngine: React.FC<{ question: Question }> = ({ question })
       {/* Simulation Header */}
       <div className="bg-slate-50 border border-slate-300 rounded p-4 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-pearson-navy text-white flex items-center justify-center font-bold text-xs font-mono">
+          <div className="w-8 h-8 rounded bg-ntms-navy text-white flex items-center justify-center font-bold text-xs font-mono">
             AZ
           </div>
           <div>
             <h3 className="font-bold text-sm text-slate-900">{sim.title}</h3>
-            <span className="text-xs text-pearson-blue font-mono font-bold">Interactive Azure Portal Simulation Mode</span>
+            <span className="text-xs text-ntms-blue font-mono font-bold">Interactive Azure Portal Simulation Mode</span>
           </div>
         </div>
         <button
@@ -52,7 +52,7 @@ export const SimulationEngine: React.FC<{ question: Question }> = ({ question })
 
       {/* Interactive Mock Azure Portal Interface */}
       <div className="bg-white border border-slate-300 rounded overflow-hidden shadow-sm">
-        <div className="bg-pearson-navy px-4 py-2 flex items-center justify-between text-xs text-white">
+        <div className="bg-ntms-navy px-4 py-2 flex items-center justify-between text-xs text-white">
           <div className="flex items-center gap-4">
             <span className="font-extrabold text-sky-300">Microsoft Azure</span>
             <span className="text-slate-400">|</span>
@@ -74,7 +74,7 @@ export const SimulationEngine: React.FC<{ question: Question }> = ({ question })
                   value={vmName}
                   onChange={(e) => setVmName(e.target.value)}
                   placeholder="e.g. vm-app-01"
-                  className="w-full bg-white border border-slate-300 rounded p-2 text-xs text-slate-900 font-mono font-semibold focus:border-pearson-blue focus:outline-none"
+                  className="w-full bg-white border border-slate-300 rounded p-2 text-xs text-slate-900 font-mono font-semibold focus:border-ntms-blue focus:outline-none"
                 />
               </div>
 
@@ -83,7 +83,7 @@ export const SimulationEngine: React.FC<{ question: Question }> = ({ question })
                 <select
                   value={resourceGroup}
                   onChange={(e) => setResourceGroup(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded p-2 text-xs text-slate-900 font-mono font-semibold focus:border-pearson-blue focus:outline-none"
+                  className="w-full bg-white border border-slate-300 rounded p-2 text-xs text-slate-900 font-mono font-semibold focus:border-ntms-blue focus:outline-none"
                 >
                   <option value="">-- Select Resource Group --</option>
                   <option value="rg-prod">rg-prod</option>
@@ -102,7 +102,7 @@ export const SimulationEngine: React.FC<{ question: Question }> = ({ question })
                   type="checkbox"
                   checked={openPort80}
                   onChange={(e) => setOpenPort80(e.target.checked)}
-                  className="rounded text-pearson-navy focus:ring-pearson-blue"
+                  className="rounded text-ntms-navy focus:ring-ntms-blue"
                 />
                 <span>HTTP (Port 80)</span>
               </label>
@@ -112,7 +112,7 @@ export const SimulationEngine: React.FC<{ question: Question }> = ({ question })
                   type="checkbox"
                   checked={openPort443}
                   onChange={(e) => setOpenPort443(e.target.checked)}
-                  className="rounded text-pearson-navy focus:ring-pearson-blue"
+                  className="rounded text-ntms-navy focus:ring-ntms-blue"
                 />
                 <span>HTTPS (Port 443)</span>
               </label>

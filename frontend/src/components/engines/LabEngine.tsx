@@ -27,8 +27,8 @@ export const LabEngine: React.FC<{ question: Question }> = ({ question }) => {
   return (
     <div className="space-y-6">
       <div className="bg-slate-50 p-4 rounded border border-slate-300 space-y-2">
-        <h3 className="font-bold text-sm text-pearson-navy flex items-center gap-2">
-          <Terminal className="w-4 h-4 text-pearson-blue" />
+        <h3 className="font-bold text-sm text-ntms-navy flex items-center gap-2">
+          <Terminal className="w-4 h-4 text-ntms-blue" />
           {lab.title}
         </h3>
         <p className="text-xs text-slate-700 leading-relaxed font-medium">{lab.scenario}</p>
@@ -48,7 +48,7 @@ export const LabEngine: React.FC<{ question: Question }> = ({ question }) => {
                 className={`w-full flex items-center gap-3 p-3 rounded border text-left text-xs transition-all ${
                   isDone
                     ? 'bg-emerald-100 border-emerald-400 text-emerald-950 font-bold shadow-sm'
-                    : 'bg-white border-slate-300 text-slate-800 hover:border-pearson-blue'
+                    : 'bg-white border-slate-300 text-slate-800 hover:border-ntms-blue'
                 }`}
               >
                 {isDone ? <CheckSquare className="w-4 h-4 text-emerald-700 shrink-0" /> : <Square className="w-4 h-4 text-slate-400 shrink-0" />}

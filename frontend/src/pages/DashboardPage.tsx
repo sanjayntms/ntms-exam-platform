@@ -23,7 +23,7 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="space-y-6 font-sans">
       {/* Welcome Banner */}
-      <div className="bg-pearson-navy text-white rounded-lg p-6 border-b-4 border-pearson-blue shadow-md relative overflow-hidden">
+      <div className="bg-ntms-navy text-white rounded-lg p-6 border-b-4 border-ntms-blue shadow-md relative overflow-hidden">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
           <div>
             <span className="text-[11px] font-mono uppercase tracking-widest text-sky-300 font-bold">
@@ -31,12 +31,12 @@ export const DashboardPage: React.FC = () => {
             </span>
             <h2 className="text-2xl font-extrabold text-white mt-1">Welcome, {user?.name}!</h2>
             <p className="text-xs text-slate-200 mt-1">
-              Pearson VUE style examination delivery environment initialized with Microsoft Entra ID authentication.
+              NTMS examination delivery environment initialized with Microsoft Entra ID authentication.
             </p>
           </div>
           <Link
             to="/exams"
-            className="px-5 py-2.5 bg-pearson-blue hover:bg-pearson-hoverBlue text-white rounded font-bold text-xs shadow transition-all shrink-0 border border-sky-400"
+            className="px-5 py-2.5 bg-ntms-blue hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs shadow transition-all shrink-0 border border-sky-400"
           >
             Launch Exam Catalog ➜
           </Link>
@@ -48,9 +48,9 @@ export const DashboardPage: React.FC = () => {
         <div className="bg-white p-5 rounded border border-slate-300 shadow-sm space-y-2">
           <div className="flex justify-between items-center text-slate-600">
             <span className="text-xs font-bold uppercase tracking-wider">Active Exams</span>
-            <BookOpen className="w-5 h-5 text-pearson-navy" />
+            <BookOpen className="w-5 h-5 text-ntms-navy" />
           </div>
-          <div className="text-3xl font-extrabold text-pearson-navy">{data?.stats?.totalExams || 5}</div>
+          <div className="text-3xl font-extrabold text-ntms-navy">{data?.stats?.totalExams || 5}</div>
           <span className="text-[11px] text-slate-500">Selected Exam Tracks</span>
         </div>
 
@@ -84,8 +84,8 @@ export const DashboardPage: React.FC = () => {
 
       {/* Featured Certification Tracks */}
       <div className="bg-white border border-slate-300 rounded p-6 space-y-4 shadow-sm">
-        <h3 className="text-base font-bold text-pearson-navy flex items-center gap-2">
-          <Monitor className="w-5 h-5 text-pearson-blue" />
+        <h3 className="text-base font-bold text-ntms-navy flex items-center gap-2">
+          <Monitor className="w-5 h-5 text-ntms-blue" />
           Available Exam Tracks
         </h3>
 
@@ -102,7 +102,7 @@ export const DashboardPage: React.FC = () => {
             </div>
             <Link
               to="/exams"
-              className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
+              className="w-full text-center py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
               Start Practice ➜
             </Link>
@@ -120,7 +120,7 @@ export const DashboardPage: React.FC = () => {
             </div>
             <Link
               to="/exams"
-              className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
+              className="w-full text-center py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
               Start Exam ➜
             </Link>
@@ -138,7 +138,7 @@ export const DashboardPage: React.FC = () => {
             </div>
             <Link
               to="/exams"
-              className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
+              className="w-full text-center py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
               Start Exam ➜
             </Link>
@@ -156,7 +156,7 @@ export const DashboardPage: React.FC = () => {
             </div>
             <Link
               to="/exams"
-              className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
+              className="w-full text-center py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
               Start Exam ➜
             </Link>
@@ -174,7 +174,7 @@ export const DashboardPage: React.FC = () => {
             </div>
             <Link
               to="/exams"
-              className="w-full text-center py-2 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
+              className="w-full text-center py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold transition-all shadow"
             >
               Start Exam ➜
             </Link>

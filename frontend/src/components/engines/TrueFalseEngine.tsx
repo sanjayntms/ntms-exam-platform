@@ -22,8 +22,8 @@ export const TrueFalseEngine: React.FC<{ question: Question }> = ({ question }) 
               onClick={() => updateQuestionAnswer(question.id, { isTrue: val })}
               className={`flex-1 py-4 px-6 rounded border text-center font-bold text-base transition-all ${
                 isSelected
-                  ? 'bg-pearson-navy border-pearson-darkNavy text-white shadow-md'
-                  : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-sky-50 hover:border-pearson-blue'
+                  ? 'bg-ntms-navy border-ntms-darkNavy text-white shadow-md'
+                  : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-sky-50 hover:border-ntms-blue'
               }`}
             >
               {val ? 'TRUE' : 'FALSE'}

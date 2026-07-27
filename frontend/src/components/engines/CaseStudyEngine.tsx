@@ -37,8 +37,8 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap ${
                 isActive
-                  ? 'border-pearson-navy text-pearson-navy bg-white shadow-sm'
-                  : 'border-transparent text-slate-600 hover:text-pearson-navy hover:bg-slate-200/60'
+                  ? 'border-ntms-navy text-ntms-navy bg-white shadow-sm'
+                  : 'border-transparent text-slate-600 hover:text-ntms-navy hover:bg-slate-200/60'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -52,7 +52,7 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
       <div className="bg-white p-6 rounded-b border border-slate-300 min-h-[300px] shadow-sm">
         {activeTab !== 'question' ? (
           <div className="prose max-w-none text-slate-900 text-sm leading-relaxed whitespace-pre-wrap">
-            <h3 className="text-base font-bold text-pearson-navy mb-2 capitalize">{activeTab} Details</h3>
+            <h3 className="text-base font-bold text-ntms-navy mb-2 capitalize">{activeTab} Details</h3>
             {tabs.find((t) => t.id === activeTab)?.content}
           </div>
         ) : (
@@ -68,8 +68,8 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
                     onClick={() => updateQuestionAnswer(question.id, { selectedOptionId: opt.id })}
                     className={`flex items-center gap-3 p-3.5 rounded border cursor-pointer transition-all ${
                       isSelected
-                        ? 'bg-sky-100/90 border-pearson-navy text-pearson-navy font-bold shadow-sm ring-2 ring-pearson-blue/40'
-                        : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-pearson-blue hover:bg-sky-50/50'
+                        ? 'bg-sky-100/90 border-ntms-navy text-ntms-navy font-bold shadow-sm ring-2 ring-ntms-blue/40'
+                        : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-ntms-blue hover:bg-sky-50/50'
                     }`}
                   >
                     <input
@@ -77,7 +77,7 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
                       name={`cs_${question.id}`}
                       checked={isSelected}
                       onChange={() => {}}
-                      className="w-4 h-4 text-pearson-navy focus:ring-pearson-blue"
+                      className="w-4 h-4 text-ntms-navy focus:ring-ntms-blue"
                     />
                     <span className="text-sm">{opt.text}</span>
                   </label>

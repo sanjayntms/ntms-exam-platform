@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { Exam } from '../types';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Clock, Award, Play, Search, Monitor } from 'lucide-react';
+import { Clock, Award, Play, Search } from 'lucide-react';
 import { useExamSession } from '../context/ExamSessionContext';
 
 export const ExamListPage: React.FC = () => {
@@ -44,8 +44,8 @@ export const ExamListPage: React.FC = () => {
     <div className="space-y-6 font-sans">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded border border-slate-300 shadow-sm">
         <div>
-          <h2 className="text-lg font-bold text-pearson-navy tracking-tight">NTMS Exam Catalog & Certification Tracks</h2>
-          <p className="text-xs text-slate-600 mt-0.5">Select a track below to launch Pearson VUE Test Delivery Engine</p>
+          <h2 className="text-lg font-bold text-ntms-navy tracking-tight">NTMS Exam Catalog & Certification Tracks</h2>
+          <p className="text-xs text-slate-600 mt-0.5">Select a track below to launch NTMS Test Delivery Engine</p>
         </div>
 
         <div className="relative w-full md:w-72">
@@ -55,7 +55,7 @@ export const ExamListPage: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search exam code or title..."
-            className="w-full bg-slate-50 border border-slate-300 rounded pl-9 pr-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-pearson-blue font-medium"
+            className="w-full bg-slate-50 border border-slate-300 rounded pl-9 pr-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-ntms-blue font-medium"
           />
         </div>
       </div>
@@ -64,11 +64,11 @@ export const ExamListPage: React.FC = () => {
         {filteredExams.map((exam) => (
           <div
             key={exam.id}
-            className="bg-white border border-slate-300 rounded p-6 flex flex-col justify-between hover:border-pearson-navy transition-all space-y-4 shadow-sm"
+            className="bg-white border border-slate-300 rounded p-6 flex flex-col justify-between hover:border-ntms-navy transition-all space-y-4 shadow-sm"
           >
             <div className="space-y-3">
               <div className="flex justify-between items-start">
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-pearson-navy border border-sky-300">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-ntms-navy border border-sky-300">
                   {exam.vendor}
                 </span>
                 <span className="text-xs font-mono font-bold text-slate-600">{exam.code}</span>
@@ -81,7 +81,7 @@ export const ExamListPage: React.FC = () => {
             <div className="space-y-4 pt-4 border-t border-slate-200">
               <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 font-semibold">
                 <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-pearson-blue" />
+                  <Clock className="w-3.5 h-3.5 text-ntms-blue" />
                   <span>{exam.timeLimitMinutes} mins</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -93,7 +93,7 @@ export const ExamListPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleStartExam(exam.id)}
-                className="w-full py-2.5 bg-pearson-navy hover:bg-pearson-hoverBlue text-white rounded font-bold text-xs transition-all shadow flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs transition-all shadow flex items-center justify-center gap-2"
               >
                 <Play className="w-4 h-4 fill-white" />
                 Launch Exam Engine

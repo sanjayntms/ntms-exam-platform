@@ -46,7 +46,7 @@ const ExamSessionLayout: React.FC<{ children: React.ReactNode }> = ({ children }
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-100 flex items-center justify-center text-slate-700 font-mono text-sm">
-        Loading Pearson VUE Exam Environment...
+        Loading NTMS Exam Environment...
       </div>
     );
   }
@@ -112,7 +112,7 @@ export const App: React.FC = () => {
                 }
               />
 
-              {/* Pearson VUE Dedicated Full-Screen Exam Session View */}
+              {/* NTMS Dedicated Full-Screen Exam Session View */}
               <Route
                 path="/exam-session/:attemptId"
                 element={

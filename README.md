@@ -1,12 +1,12 @@
 # NTMS Exam Platform
 
-An enterprise-grade, high-concurrency online examination platform built for commercial certification testing (Pearson VUE / Microsoft style).
+An enterprise-grade, high-concurrency online examination platform built for commercial certification testing.
 
 ![NTMS Exam Platform](https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200)
 
 ## Features
 
-- **Pearson VUE / Microsoft Style Exam Engine**: Question palette, timer, calculator, notes scratchpad, mark for review, strikeout text, and full auto-save.
+- **NTMS Certified Exam Engine**: Question palette, timer, calculator, notes scratchpad, mark for review, strikeout text, and full auto-save.
 - **16 Supported Question Formats**:
   1. Single Choice
   2. Multiple Choice

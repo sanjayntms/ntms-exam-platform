@@ -32,7 +32,7 @@ export const MatchingEngine: React.FC<{ question: Question }> = ({ question }) =
               <select
                 value={userPairs[pair.item] || ''}
                 onChange={(e) => handleMatch(pair.item, e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-semibold text-slate-900 focus:border-pearson-blue focus:outline-none"
+                className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-semibold text-slate-900 focus:border-ntms-blue focus:outline-none"
               >
                 <option value="">-- Select Target Match --</option>
                 {targets.map((t: any) => (

@@ -44,7 +44,7 @@ const swaggerDocument = {
   info: {
     title: 'NTMS Examination Platform REST API',
     version: '1.0.0',
-    description: 'Enterprise API for Pearson VUE / Microsoft style certification exams, case studies, simulations & labs.',
+    description: 'Enterprise API for NTMS commercial certification exams, case studies, simulations & labs.',
   },
   paths: {},
 };

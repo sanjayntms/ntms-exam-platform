@@ -35,7 +35,7 @@ export const ReorderEngine: React.FC<{ question: Question }> = ({ question }) =>
         {items.map((item, idx) => (
           <div key={item.id} className="flex items-center justify-between bg-white p-3.5 rounded border border-slate-300 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="w-6 h-6 rounded bg-pearson-navy text-white font-mono font-bold text-xs flex items-center justify-center">
+              <span className="w-6 h-6 rounded bg-ntms-navy text-white font-mono font-bold text-xs flex items-center justify-center">
                 {idx + 1}
               </span>
               <span className="text-sm font-semibold text-slate-800">{item.text}</span>

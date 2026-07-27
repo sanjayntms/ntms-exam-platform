@@ -30,7 +30,7 @@ export const FillBlankEngine: React.FC<{ question: Question }> = ({ question }) 
               value={userBlanks[b.id] || ''}
               onChange={(e) => handleInput(b.id, e.target.value)}
               placeholder="Type answer here..."
-              className="w-full bg-white border border-slate-300 rounded p-2.5 text-sm text-slate-900 font-mono font-semibold focus:border-pearson-blue focus:outline-none shadow-sm"
+              className="w-full bg-white border border-slate-300 rounded p-2.5 text-sm text-slate-900 font-mono font-semibold focus:border-ntms-blue focus:outline-none shadow-sm"
             />
           </div>
         ))}

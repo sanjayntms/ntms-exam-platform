@@ -8,25 +8,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        pearson: {
+        ntms: {
           navy: '#002B49',
-          darkNavy: '#001A2E',
+          darkNavy: '#001E33',
           blue: '#005B94',
-          hoverBlue: '#00436E',
+          hoverBlue: '#004673',
           lightBlue: '#E6F2F8',
           gold: '#D97706',
-          goldLight: '#FEF3C7',
-          grayBg: '#F3F4F6',
+          grayBg: '#F8FAFC',
           panelBg: '#FFFFFF',
           border: '#CBD5E1',
-          textDark: '#1E293B',
-          textMuted: '#64748B',
         },
       },
       fontFamily: {
         sans: ['Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
       },
     },
   },
   plugins: [],
-};
+}

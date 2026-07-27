@@ -2,7 +2,7 @@
   "name": "ntms-exam-platform",
   "version": "1.0.0",
   "private": true,
-  "description": "Enterprise-grade Azure-native Examination Platform (Pearson VUE / Microsoft style)",
+  "description": "Enterprise-grade Azure-native Examination Platform (NTMS Certification Engine)",
   "scripts": {
     "setup": "npm run setup:backend && npm run setup:frontend",
     "setup:backend": "cd backend && npm install && npx prisma db push && npm run seed",
@@ -18,7 +18,7 @@
     "exam-engine",
     "microsoft-entra",
     "azure-sql",
-    "pearson-vue",
+    "ntms-engine",
     "clean-architecture"
   ],
   "author": "NTMS Engineering",

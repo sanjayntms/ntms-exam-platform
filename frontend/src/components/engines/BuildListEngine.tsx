@@ -34,10 +34,10 @@ export const BuildListEngine: React.FC<{ question: Question }> = ({ question }) 
               key={item}
               type="button"
               onClick={() => add(item)}
-              className="w-full flex items-center justify-between p-3 rounded bg-white border border-slate-300 text-left text-xs font-semibold text-slate-800 hover:border-pearson-blue hover:bg-sky-50 shadow-sm transition-all"
+              className="w-full flex items-center justify-between p-3 rounded bg-white border border-slate-300 text-left text-xs font-semibold text-slate-800 hover:border-ntms-blue hover:bg-sky-50 shadow-sm transition-all"
             >
               <span>{item}</span>
-              <Plus className="w-4 h-4 text-pearson-blue" />
+              <Plus className="w-4 h-4 text-ntms-blue" />
             </button>
           ))}
         </div>
@@ -51,7 +51,7 @@ export const BuildListEngine: React.FC<{ question: Question }> = ({ question }) 
             </div>
           ) : (
             targetSequence.map((item, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 rounded bg-sky-100/90 border border-sky-300 text-xs font-bold text-pearson-navy shadow-sm">
+              <div key={idx} className="flex items-center justify-between p-3 rounded bg-sky-100/90 border border-sky-300 text-xs font-bold text-ntms-navy shadow-sm">
                 <span className="font-mono font-extrabold mr-2">{idx + 1}.</span>
                 <span className="flex-1">{item}</span>
                 <button type="button" onClick={() => remove(idx)} className="text-slate-500 hover:text-rose-700">
