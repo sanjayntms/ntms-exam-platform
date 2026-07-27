@@ -8,6 +8,10 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
   const content = JSON.parse(question.content || '{}');
   const selectedOptionId = qState.answer?.selectedOptionId;
 
+  const handleSelect = (optionId: string) => {
+    updateQuestionAnswer(question.id, { selectedOptionId: optionId });
+  };
+
   return (
     <div className="space-y-5">
       <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
@@ -28,8 +32,8 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
                 S
               </button>
 
-              <label
-                onClick={() => updateQuestionAnswer(question.id, { selectedOptionId: opt.id })}
+              <div
+                onClick={() => handleSelect(opt.id)}
                 className={`flex-1 flex items-center gap-3.5 p-3.5 rounded border cursor-pointer transition-all ${
                   isSelected
                     ? 'bg-sky-100/90 border-ntms-navy text-ntms-navy font-bold shadow-sm ring-2 ring-ntms-blue/40'
@@ -40,11 +44,11 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
                   type="radio"
                   name={`single_${question.id}`}
                   checked={isSelected}
-                  onChange={() => {}}
-                  className="w-4 h-4 text-ntms-navy focus:ring-ntms-blue"
+                  onChange={() => handleSelect(opt.id)}
+                  className="w-4 h-4 text-ntms-navy focus:ring-ntms-blue cursor-pointer"
                 />
                 <span className="text-sm leading-snug">{opt.text}</span>
-              </label>
+              </div>
             </div>
           );
         })}

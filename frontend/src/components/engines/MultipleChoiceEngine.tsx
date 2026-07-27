@@ -35,7 +35,7 @@ export const MultipleChoiceEngine: React.FC<{ question: Question }> = ({ questio
                 S
               </button>
 
-              <label
+              <div
                 onClick={() => handleToggle(opt.id)}
                 className={`flex-1 flex items-center gap-3.5 p-3.5 rounded border cursor-pointer transition-all ${
                   isSelected
@@ -46,11 +46,11 @@ export const MultipleChoiceEngine: React.FC<{ question: Question }> = ({ questio
                 <input
                   type="checkbox"
                   checked={isSelected}
-                  onChange={() => {}}
-                  className="w-4 h-4 rounded text-ntms-navy focus:ring-ntms-blue"
+                  onChange={() => handleToggle(opt.id)}
+                  className="w-4 h-4 rounded text-ntms-navy focus:ring-ntms-blue cursor-pointer"
                 />
                 <span className="text-sm leading-snug">{opt.text}</span>
-              </label>
+              </div>
             </div>
           );
         })}
