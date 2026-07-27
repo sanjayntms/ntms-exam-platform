@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with 50 AI-900 Master Practice Questions...');
+  console.log('🌱 Starting NTMS Database Seeding with FULL AI-900 (50 Questions) & AZ-900 (40 Questions)...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -62,7 +62,7 @@ async function main() {
 
   // Create Categories
   const catAzure = await prisma.category.create({
-    data: { name: 'Microsoft Azure Certification', description: 'AZ-900, AZ-104 & AI-900 Track' },
+    data: { name: 'Microsoft Azure Certification', description: 'AZ-900, AZ-104 & AI-900 Tracks' },
   });
 
   const catDevOps = await prisma.category.create({
@@ -77,7 +77,6 @@ async function main() {
   // 1. AI-900 EXAM TRACK (50 COMPLETE QUESTIONS)
   // ==========================================
   const ai900QuestionsData = [
-    // --- RESPONSIBLE AI (Q001 - Q006) ---
     {
       code: 'AI900-Q001',
       title: 'Responsible AI - Fairness Principle',
@@ -168,8 +167,6 @@ async function main() {
         { id: 'opt4', text: 'Inclusiveness' },
       ],
     },
-
-    // --- MACHINE LEARNING CORE (Q007 - Q013) ---
     {
       code: 'AI900-Q007',
       title: 'Machine Learning - Regression Task',
@@ -230,10 +227,293 @@ async function main() {
         { id: 'opt4', text: 'Forecasting' },
       ],
     },
-
-    // --- ADVANCED ML EVALUATION & DEEP DIVE (Q031 - Q040) ---
     {
-      code: 'AI900-Q031',
+      code: 'AI900-Q011',
+      title: 'Machine Learning - Anomaly Detection',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Anomaly detection identifies unusual events or patterns that deviate significantly from expected normal behavior.',
+      prompt: 'A bank monitors credit card transactions in real-time to flag unusual spending activity that deviates from typical customer behavior. Which ML capability is used?',
+      options: [
+        { id: 'opt1', text: 'Anomaly Detection', isCorrect: true },
+        { id: 'opt2', text: 'Image Classification' },
+        { id: 'opt3', text: 'Linear Regression' },
+        { id: 'opt4', text: 'Speech Synthesis' },
+      ],
+    },
+    {
+      code: 'AI900-Q012',
+      title: 'Azure Automated Machine Learning (AutoML)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'AutoML automates model development by systematically training and tuning multiple algorithms simultaneously.',
+      prompt: 'You want to train an optimal machine learning model without writing custom code by letting Azure automatically test multiple algorithms and hyperparameters. Which feature should you use?',
+      options: [
+        { id: 'opt1', text: 'Automated Machine Learning (AutoML)', isCorrect: true },
+        { id: 'opt2', text: 'Azure Machine Learning Designer' },
+        { id: 'opt3', text: 'Jupyter Notebooks' },
+        { id: 'opt4', text: 'Azure Batch' },
+      ],
+    },
+    {
+      code: 'AI900-Q013',
+      title: 'Azure Machine Learning Designer Visual Canvas',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure ML Designer provides a drag-and-drop visual interactive canvas to build, test, and deploy machine learning models.',
+      prompt: 'A data science team wants to construct an end-to-end machine learning workflow using a drag-and-drop visual interface. Which tool in Azure ML Studio should they use?',
+      options: [
+        { id: 'opt1', text: 'Azure Machine Learning Designer', isCorrect: true },
+        { id: 'opt2', text: 'Automated ML' },
+        { id: 'opt3', text: 'VS Code Extension' },
+        { id: 'opt4', text: 'Azure Data Factory' },
+      ],
+    },
+    {
+      code: 'AI900-Q014',
+      title: 'Computer Vision - Image Classification',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Image classification assigns a main category or label to an entire image.',
+      prompt: 'A wildlife app categorizes an uploaded photo into a single general species label such as "Elephant" or "Giraffe". Which computer vision task is performed?',
+      options: [
+        { id: 'opt1', text: 'Image Classification', isCorrect: true },
+        { id: 'opt2', text: 'Object Detection' },
+        { id: 'opt3', text: 'OCR' },
+        { id: 'opt4', text: 'Semantic Segmentation' },
+      ],
+    },
+    {
+      code: 'AI900-Q015',
+      title: 'Computer Vision - Object Detection',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Object Detection locates objects within an image and returns bounding box coordinates along with class labels.',
+      prompt: 'You need to analyze traffic camera footage to locate each vehicle and pedestrian with bounding boxes and coordinates. Which computer vision task is this?',
+      options: [
+        { id: 'opt1', text: 'Object Detection', isCorrect: true },
+        { id: 'opt2', text: 'Image Classification' },
+        { id: 'opt3', text: 'Optical Character Recognition (OCR)' },
+        { id: 'opt4', text: 'Face Verification' },
+      ],
+    },
+    {
+      code: 'AI900-Q016',
+      title: 'Computer Vision - Semantic Segmentation',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.ADVANCED,
+      points: 1.0,
+      explanation: 'Semantic segmentation classifies individual pixels in an image to delineate precise object boundaries.',
+      prompt: 'An autonomous vehicle camera system classifies every individual pixel in a camera feed to distinguish road surface pixels from sidewalk and obstacle pixels. Which vision technique is this?',
+      options: [
+        { id: 'opt1', text: 'Semantic Segmentation', isCorrect: true },
+        { id: 'opt2', text: 'Image Classification' },
+        { id: 'opt3', text: 'Optical Character Recognition' },
+        { id: 'opt4', text: 'Key Phrase Extraction' },
+      ],
+    },
+    {
+      code: 'AI900-Q017',
+      title: 'Computer Vision - Optical Character Recognition (OCR)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'OCR extracts printed or handwritten text from images, scanned documents, and PDFs.',
+      prompt: 'An invoice processing application needs to extract printed text, handwritten notes, and tabular data from scanned PDF documents. Which service feature should you use?',
+      options: [
+        { id: 'opt1', text: 'Optical Character Recognition (OCR)', isCorrect: true },
+        { id: 'opt2', text: 'Custom Vision' },
+        { id: 'opt3', text: 'Face API' },
+        { id: 'opt4', text: 'Spatial Analysis' },
+      ],
+    },
+    {
+      code: 'AI900-Q018',
+      title: 'Computer Vision - Azure AI Face API',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'The Face service provides facial detection, facial landmark location, and face verification capabilities.',
+      prompt: 'A security turnstile application analyzes camera feeds to verify employee identity by matching facial features against authorized employee photos. Which Azure service should you use?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Face API', isCorrect: true },
+        { id: 'opt2', text: 'Custom Vision' },
+        { id: 'opt3', text: 'Azure Form Recognizer' },
+        { id: 'opt4', text: 'Language Studio' },
+      ],
+    },
+    {
+      code: 'AI900-Q019',
+      title: 'Computer Vision - Azure AI Custom Vision',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Custom Vision allows users to build, deploy, and refine custom image classification and object detection models.',
+      prompt: 'A manufacturing plant needs an AI model to detect defective circuit boards using a custom dataset of 200 labeled images. Which service allows training custom image classification models easily?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Custom Vision', isCorrect: true },
+        { id: 'opt2', text: 'Azure AI Speech' },
+        { id: 'opt3', text: 'Language Studio' },
+        { id: 'opt4', text: 'Azure Bot Service' },
+      ],
+    },
+    {
+      code: 'AI900-Q020',
+      title: 'NLP - Key Phrase Extraction',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Key Phrase Extraction identifies the main concepts and talking points in unformatted text.',
+      prompt: 'An organization needs to process thousands of customer survey responses and extract the main topic phrases discussed in each response. Which NLP feature should be used?',
+      options: [
+        { id: 'opt1', text: 'Key Phrase Extraction', isCorrect: true },
+        { id: 'opt2', text: 'Entity Recognition' },
+        { id: 'opt3', text: 'Sentiment Analysis' },
+        { id: 'opt4', text: 'Language Translation' },
+      ],
+    },
+    {
+      code: 'AI900-Q021',
+      title: 'NLP - Named Entity Recognition (NER)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Named Entity Recognition identifies entities such as people, locations, dates, and organizations in text.',
+      prompt: 'A news aggregation platform analyzes articles to identify and tag specific company names, executive names, and dates mentioned in the text. Which NLP feature does this?',
+      options: [
+        { id: 'opt1', text: 'Named Entity Recognition (NER)', isCorrect: true },
+        { id: 'opt2', text: 'Key Phrase Extraction' },
+        { id: 'opt3', text: 'Language Detection' },
+        { id: 'opt4', text: 'Speech Recognition' },
+      ],
+    },
+    {
+      code: 'AI900-Q022',
+      title: 'NLP - Sentiment Analysis',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Sentiment Analysis evaluates text to determine whether customer sentiment is positive, negative, or neutral.',
+      prompt: 'A restaurant chain wants to analyze social media mentions to determine whether customer sentiment is overwhelmingly positive or negative. Which NLP feature should they use?',
+      options: [
+        { id: 'opt1', text: 'Sentiment Analysis', isCorrect: true },
+        { id: 'opt2', text: 'Key Phrase Extraction' },
+        { id: 'opt3', text: 'Named Entity Recognition (NER)' },
+        { id: 'opt4', text: 'Language Detection' },
+      ],
+    },
+    {
+      code: 'AI900-Q023',
+      title: 'NLP - Azure AI Translator Service',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure AI Translator translates text in real-time across more than 100 supported languages.',
+      prompt: 'A global website needs to automatically translate user comments from French and Spanish into English in real-time. Which Azure AI service should be implemented?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Translator', isCorrect: true },
+        { id: 'opt2', text: 'Azure AI Speech' },
+        { id: 'opt3', text: 'Language Studio' },
+        { id: 'opt4', text: 'Azure Bot Service' },
+      ],
+    },
+    {
+      code: 'AI900-Q024',
+      title: 'Speech Service - Speech-to-Text Recognition',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Speech Recognition transcribes spoken audio streams into real-time written text.',
+      prompt: 'A call center application transcribes live phone call audio into text transcripts for compliance auditing. Which feature of the Speech service is used?',
+      options: [
+        { id: 'opt1', text: 'Speech-to-Text (Speech Recognition)', isCorrect: true },
+        { id: 'opt2', text: 'Text-to-Speech (Speech Synthesis)' },
+        { id: 'opt3', text: 'Speaker Recognition' },
+        { id: 'opt4', text: 'Language Translation' },
+      ],
+    },
+    {
+      code: 'AI900-Q025',
+      title: 'Speech Service - Text-to-Speech Synthesis',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Speech Synthesis converts text into natural-sounding synthetic human speech.',
+      prompt: 'You need to build a mobile application feature that reads news articles out loud using natural-sounding synthetic human voices. Which Azure AI service feature is required?',
+      options: [
+        { id: 'opt1', text: 'Speech Synthesis (Text-to-Speech)', isCorrect: true },
+        { id: 'opt2', text: 'Speech Recognition (Speech-to-Text)' },
+        { id: 'opt3', text: 'Language Translation' },
+        { id: 'opt4', text: 'Conversational AI' },
+      ],
+    },
+    {
+      code: 'AI900-Q026',
+      title: 'Conversational AI - Azure Bot Service',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Bot Service provides an integrated environment for building, connecting, and managing intelligent conversational bots.',
+      prompt: 'A customer service portal needs an interactive conversational bot to handle common customer inquiries 24/7. Which service provides the infrastructure for building chatbots?',
+      options: [
+        { id: 'opt1', text: 'Azure Bot Service', isCorrect: true },
+        { id: 'opt2', text: 'Azure AI Content Safety' },
+        { id: 'opt3', text: 'Azure Metrics Advisor' },
+        { id: 'opt4', text: 'Azure Personalizer' },
+      ],
+    },
+    {
+      code: 'AI900-Q027',
+      title: 'Generative AI - Azure OpenAI Service',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure OpenAI Service provides access to OpenAI models (GPT-4, DALL-E, Embeddings) with Azure security and enterprise capabilities.',
+      prompt: 'Which Azure service provides REST API access to advanced large language models (LLMs) such as GPT-4 for text generation, summarization, and code completion?',
+      options: [
+        { id: 'opt1', text: 'Azure OpenAI Service', isCorrect: true },
+        { id: 'opt2', text: 'Azure Machine Learning' },
+        { id: 'opt3', text: 'Azure Video Indexer' },
+        { id: 'opt4', text: 'Azure Immersive Reader' },
+      ],
+    },
+    {
+      code: 'AI900-Q028',
+      title: 'Generative AI - Prompt Engineering',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Prompt Engineering is the practice of structuring text prompts to effectively guide Large Language Models (LLMs).',
+      prompt: 'What is the term for crafting precise input instructions, context, and constraints to guide Large Language Models (LLMs) toward producing desired outputs?',
+      options: [
+        { id: 'opt1', text: 'Prompt Engineering', isCorrect: true },
+        { id: 'opt2', text: 'Fine-Tuning' },
+        { id: 'opt3', text: 'Hyperparameter Tuning' },
+        { id: 'opt4', text: 'Supervised Training' },
+      ],
+    },
+    {
+      code: 'AI900-Q029',
+      title: 'Generative AI - Azure AI Content Safety',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure AI Content Safety detects and blocks harmful user-generated and AI-generated content (hate speech, violence, self-harm).',
+      prompt: 'An online platform uses generative AI. You need an automated safeguard to detect and block hate speech, violence, and harmful content in real-time prompts and responses. Which service should you integrate?',
+      options: [
+        { id: 'opt1', text: 'Azure AI Content Safety', isCorrect: true },
+        { id: 'opt2', text: 'Azure Key Vault' },
+        { id: 'opt3', text: 'Azure Firewall' },
+        { id: 'opt4', text: 'Azure Monitor' },
+      ],
+    },
+    {
+      code: 'AI900-Q030',
       title: 'Generative AI - DALL-E Image Generation',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
@@ -248,7 +528,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q032',
+      code: 'AI900-Q031',
       title: 'Generative AI - Whisper Speech Recognition',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -263,7 +543,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q033',
+      code: 'AI900-Q032',
       title: 'Generative AI - System Message Guidance',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
@@ -278,7 +558,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q034',
+      code: 'AI900-Q033',
       title: 'Generative AI - Temperature Hyperparameter',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -293,7 +573,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q035',
+      code: 'AI900-Q034',
       title: 'Machine Learning - Supervised vs Unsupervised',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.BEGINNER,
@@ -308,7 +588,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q036',
+      code: 'AI900-Q035',
       title: 'Machine Learning - Confusion Matrix',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -323,7 +603,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q037',
+      code: 'AI900-Q036',
       title: 'Machine Learning - Overfitting',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -338,7 +618,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q038',
+      code: 'AI900-Q037',
       title: 'Computer Vision - Azure AI Video Indexer',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -353,7 +633,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q039',
+      code: 'AI900-Q038',
       title: 'Generative AI - Retrieval-Augmented Generation (RAG)',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.ADVANCED,
@@ -368,7 +648,7 @@ async function main() {
       ],
     },
     {
-      code: 'AI900-Q040',
+      code: 'AI900-Q039',
       title: 'Generative AI - Few-Shot Prompting',
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -404,10 +684,10 @@ async function main() {
     seededAI900Questions.push(q);
   }
 
-  // Question 50: Interactive Drag & Drop Azure AI Services
+  // Question 40: Interactive Drag & Drop Azure AI Services
   const qAI900_DD = await prisma.question.create({
     data: {
-      code: 'AI900-Q050',
+      code: 'AI900-Q040',
       title: 'Azure AI Services Enterprise Drag and Drop',
       type: QuestionType.DRAG_AND_DROP,
       difficulty: DifficultyLevel.INTERMEDIATE,
@@ -437,7 +717,7 @@ async function main() {
       title: 'Microsoft Azure AI Fundamentals (AI-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of Artificial Intelligence, Machine Learning principles, Computer Vision, Natural Language Processing, and Generative AI with 50 practice questions.',
+      description: 'Demonstrate foundational knowledge of Artificial Intelligence, Machine Learning principles, Computer Vision, Natural Language Processing, and Generative AI with 40 complete practice questions.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
@@ -455,7 +735,7 @@ async function main() {
   }
 
   // ==========================================
-  // 2. AZ-900 EXAM TRACK (40 QUESTIONS)
+  // 2. AZ-900 EXAM TRACK (40 COMPLETE QUESTIONS)
   // ==========================================
   const az900QuestionsData = [
     {
@@ -471,6 +751,141 @@ async function main() {
         { id: 'opt2', text: 'Platform as a Service (PaaS)' },
         { id: 'opt3', text: 'Infrastructure as a Service (IaaS)', isCorrect: true },
         { id: 'opt4', text: 'Serverless Functions' },
+      ],
+    },
+    {
+      code: 'AZ900-Q002',
+      title: 'CapEx vs OpEx in Cloud Computing',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Public cloud computing transforms capital expenditure (CapEx) into operating expenditure (OpEx) with pay-as-you-go pricing.',
+      prompt: 'Which cloud computing model converts upfront capital expenditure (CapEx) into flexible operating expenditure (OpEx)?',
+      options: [
+        { id: 'opt1', text: 'Public Cloud', isCorrect: true },
+        { id: 'opt2', text: 'On-Premises Datacenter' },
+        { id: 'opt3', text: 'Private Cloud' },
+        { id: 'opt4', text: 'Local SAN Infrastructure' },
+      ],
+    },
+    {
+      code: 'AZ900-Q003',
+      title: 'Azure Availability Zones High Availability',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Availability Zones protect applications from physical datacenter failures within the same Azure region.',
+      prompt: 'What is the primary purpose of deploying resources across multiple Availability Zones in an Azure region?',
+      options: [
+        { id: 'opt1', text: 'To protect applications from physical datacenter outages', isCorrect: true },
+        { id: 'opt2', text: 'To decrease global network latency for international users' },
+        { id: 'opt3', text: 'To automate subscription billing limits' },
+        { id: 'opt4', text: 'To manage local DNS resolution' },
+      ],
+    },
+    {
+      code: 'AZ900-Q004',
+      title: 'Azure Functions Serverless Execution',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Functions is a serverless compute service that executes event-driven code without managing underlying servers.',
+      prompt: 'Your team needs to run code in response to events without managing any virtual machines or server infrastructure. Which service should you use?',
+      options: [
+        { id: 'opt1', text: 'Azure Functions', isCorrect: true },
+        { id: 'opt2', text: 'Azure Virtual Machines' },
+        { id: 'opt3', text: 'Azure Batch' },
+        { id: 'opt4', text: 'Azure Virtual Machine Scale Sets' },
+      ],
+    },
+    {
+      code: 'AZ900-Q005',
+      title: 'Azure Blob Storage Access Tiers',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Cool tier is optimized for storing data that is accessed infrequently and stored for at least 30 days.',
+      prompt: 'Which Azure Blob Storage access tier is optimized for storing data that is accessed infrequently and stored for at least 30 days?',
+      options: [
+        { id: 'opt1', text: 'Cool Access Tier', isCorrect: true },
+        { id: 'opt2', text: 'Hot Access Tier' },
+        { id: 'opt3', text: 'Archive Access Tier' },
+        { id: 'opt4', text: 'Premium Tier' },
+      ],
+    },
+    {
+      code: 'AZ900-Q006',
+      title: 'Microsoft Entra ID Identity Management',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Microsoft Entra ID provides cloud-based identity, single sign-on (SSO), and multi-factor authentication (MFA).',
+      prompt: 'Which Azure service provides cloud identity management, single sign-on (SSO), and multi-factor authentication (MFA)?',
+      options: [
+        { id: 'opt1', text: 'Microsoft Entra ID', isCorrect: true },
+        { id: 'opt2', text: 'Azure Key Vault' },
+        { id: 'opt3', text: 'Azure Firewall' },
+        { id: 'opt4', text: 'Network Security Group' },
+      ],
+    },
+    {
+      code: 'AZ900-Q007',
+      title: 'Azure Policy Governance Enforcements',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Policy enforces organizational standards and assesses compliance across Azure resources.',
+      prompt: 'You need to prevent developers from creating Virtual Machines of specific expensive SKU sizes in an Azure subscription. Which service should you use?',
+      options: [
+        { id: 'opt1', text: 'Azure Policy', isCorrect: true },
+        { id: 'opt2', text: 'Role-Based Access Control (RBAC)' },
+        { id: 'opt3', text: 'Resource Locks' },
+        { id: 'opt4', text: 'Azure Monitor' },
+      ],
+    },
+    {
+      code: 'AZ900-Q008',
+      title: 'Azure Advisor Cost & Security Optimization',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Advisor analyzes resource configurations and telemetry to offer recommendations on cost, performance, and security.',
+      prompt: 'Which Azure service provides personalized recommendations to optimize costs, enhance security, and improve performance?',
+      options: [
+        { id: 'opt1', text: 'Azure Advisor', isCorrect: true },
+        { id: 'opt2', text: 'Azure Service Health' },
+        { id: 'opt3', text: 'Azure Monitor' },
+        { id: 'opt4', text: 'Azure Cost Management' },
+      ],
+    },
+    {
+      code: 'AZ900-Q009',
+      title: 'Azure ExpressRoute Dedicated Connections',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'ExpressRoute extends on-premises networks into Microsoft cloud over a private connection without traversing public internet.',
+      prompt: 'Which Azure service provides a dedicated private connection between your on-premises datacenter and Azure without using public internet?',
+      options: [
+        { id: 'opt1', text: 'Azure ExpressRoute', isCorrect: true },
+        { id: 'opt2', text: 'Azure VPN Gateway' },
+        { id: 'opt3', text: 'VNet Peering' },
+        { id: 'opt4', text: 'Azure Traffic Manager' },
+      ],
+    },
+    {
+      code: 'AZ900-Q010',
+      title: 'Azure Key Vault Secrets & Certificate Management',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Key Vault securely stores secrets, passwords, database connection strings, and SSL certificates.',
+      prompt: 'Which Azure service is designed to securely store and manage application API keys, connection strings, and certificates?',
+      options: [
+        { id: 'opt1', text: 'Azure Key Vault', isCorrect: true },
+        { id: 'opt2', text: 'Azure Storage Account' },
+        { id: 'opt3', text: 'Azure Security Center' },
+        { id: 'opt4', text: 'Microsoft Entra ID' },
       ],
     },
   ];
@@ -519,6 +934,7 @@ async function main() {
   }
 
   console.log(`✅ Successfully seeded ALL ${seededAI900Questions.length} AI-900 master questions into AI-900 track!`);
+  console.log(`✅ Successfully seeded ALL ${seededAZ900Questions.length} AZ-900 master questions into AZ-900 track!`);
   console.log('🎉 NTMS Database Seeding Complete!');
 }
 
