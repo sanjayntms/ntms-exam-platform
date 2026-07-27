@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with ALL 6 Certification Tracks (SC-200, AZ-305, AZ-104, AI-901, AI-900, AZ-900)...');
+  console.log('🌱 Starting NTMS Database Seeding with ALL 100 SC-200 Questions (Master Security Operations Analyst Bank) + All Certification Tracks...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -87,11 +87,12 @@ async function main() {
   }
 
   // ==========================================
-  // 1. SC-200 EXAM TRACK (50 HIGH-YIELD SECURITY OPERATIONS ANALYST QUESTIONS)
+  // 1. SC-200 COMPLETE 100 QUESTIONS MASTER BANK
   // ==========================================
   const sc200QuestionsData: any[] = [];
 
   const sc200Topics = [
+    // Part 1 (Questions 1 - 50)
     { title: 'Defender for Endpoint - Live Response Remote Terminal', concept: 'Live Response enables security analysts to connect remotely to a compromised device terminal to collect forensics or isolate execution.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Defender for Identity - Honeytoken Account Monitoring', concept: 'Honeytoken accounts are decoy accounts configured in Active Directory to lure attackers conducting Kerberoasting or recon.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Defender for Cloud Apps - OAuth App Consent Policies', concept: 'OAuth app consent policies restrict risky third-party applications from gaining access to organizational data.', type: QuestionType.SINGLE_CHOICE },
@@ -142,6 +143,58 @@ async function main() {
     { title: 'Defender for Cloud - Regulatory Compliance Dashboard', concept: 'Regulatory Compliance dashboard benchmarks workloads against standards like ISO 27001, NIST, and SOC 2.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Microsoft Sentinel - User and Entity Behavior Analytics (UEBA)', concept: 'UEBA constructs baseline behavioral profiles for users and IP entities to detect anomalous risk behavior.', type: QuestionType.SINGLE_CHOICE },
     { title: 'Microsoft Security Copilot - Generative AI Security Incident Summary', concept: 'Microsoft Security Copilot synthesizes complex incident alerts and KQL scripts using natural language AI.', type: QuestionType.SINGLE_CHOICE },
+
+    // Part 2 (Questions 51 - 100 Advanced Video Bank)
+    { title: 'Defender for Endpoint - Custom Response Actions via API', concept: 'Custom response actions leverage Defender for Endpoint REST APIs to run custom PowerShell scripts on isolated endpoints.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - Kerberoasting Ticket Request Alerts', concept: 'Defender for Identity detects suspicious TGS requests targeting service accounts using RC4 encryption.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - AS-REP Roasting Vulnerable Account Audit', concept: 'AS-REP Roasting targets accounts configured with "Do not require Kerberos preauthentication" disabled.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - Pass-the-Hash (PtH) NTLM Theft Detection', concept: 'PtH attacks use stolen NTLM hashes to authenticate to network resources without knowing plaintext passwords.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud Apps - Sanctioned vs Unsanctioned App Governance', concept: 'Tagging an app as Unsanctioned automatically blocks traffic to it via Defender for Endpoint integration.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Office 365 - Attack Simulation Training Campaigns', concept: 'Attack Simulation Training launches simulated phishing campaigns to train end users and evaluate vulnerability.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Office 365 - Email Submission Analysis', concept: 'Admin Submissions allow security teams to submit false positive/negative emails to Microsoft for re-analysis.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud - Agentless Vulnerability Scanning for VMs', concept: 'Agentless scanning uses storage disk snapshots to inspect VM operating systems without installing guest agents.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud - Key Vault Secret Expiry Security Recommendations', concept: 'Defender for Cloud alerts when Key Vault secrets, keys, or certificates are expiring or exposed.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Syslog Forwarder (AMA) TLS Encryption', concept: 'Configuring syslog forwarders with TLS encryption (Port 6514) secures syslog data in transit.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Microsoft Entra ID Protection Connector', concept: 'Entra ID Protection connector ingests RiskyUsers and UserRiskEvents telemetry into Sentinel tables.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Analytics Rule Suppress Alert Duration', concept: 'Alert suppression prevents generating duplicate incidents for repeated identical alerts within a specified window.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Logic Apps Managed Identity Permissions', concept: 'Assigning a System-Assigned Managed Identity to Logic Apps ensures secure API calls to Sentinel without credentials.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Basic Logs vs Analytics Logs Tiering', concept: 'Basic Logs offer low-cost 8-day operational data ingestion for high-volume logs like NetFlow and Firewall.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL String Parsing - Extract_All Regex Matching', concept: 'extract_all() extracts all regex pattern matches from a raw text log into a dynamic JSON array.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL IP Parsing - IPv4_Is_In_Range Subnet Filtering', concept: 'ipv4_is_in_range() checks if a log IP address belongs to a specified CIDR IP subnet block.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Performance - Materialize Function Optimization', concept: 'materialize() caches tabular query results in memory to avoid evaluating expensive subqueries multiple times.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Union Operator - Searching Across Multiple Security Tables', concept: 'union SecurityEvent, SecurityAlert combines records from multiple log tables into a unified query stream.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Pivot Plugin - Aggregating Event Counts across Dimensions', concept: 'pivot plugin summarizes tabular data by rotating unique column values into horizontal dashboard headers.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - DeviceFileEvents Ransomware File Extension Hunting', concept: 'Querying DeviceFileEvents for mass file renames with suspicious extension patterns (.locked, .crypto).', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - DeviceNetworkEvents C2 Beaconing Analytics', concept: 'Analyzing network connection interval variance to detect automated Command & Control (C2) beaconing.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Potentially Unwanted Application (PUA) Protection', concept: 'PUA protection blocks download and installation of adware, torrent clients, and unauthorized utilities.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Web Content Filtering Policy', concept: 'Web Content Filtering blocks access to specific web categories (e.g. Adult, Gambling, High Risk) across endpoints.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Device Health & Compliance Reporting', concept: 'Device Health reporting identifies unpatched operating systems and outdated antivirus definition signatures.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - Skeleton Key Attack Detection', concept: 'Skeleton Key attacks inject a master password into LSASS memory on Domain Controllers.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Identity - DCShadow Rogue Domain Controller Detection', concept: 'DCShadow attacks register a rogue workstation as a temporary Domain Controller to inject malicious AD objects.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud Apps - IP Address Ranges Organization Subnets', concept: 'Configuring corporate IP address ranges prevents triggering false positive impossible travel alerts for internal VPNs.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Office 365 - Dynamic Delivery Attachment Detonation', concept: 'Dynamic Delivery delivers email text immediately while detonating attachments in a background sandbox.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud - Attack Path Analysis Graph Explorer', concept: 'Attack Path Analysis maps multi-hop attack paths linking exposed internet ports to high-value database assets.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud - Container Image Vulnerability Registry Scanning', concept: 'Registry scanning inspects container images stored in Azure Container Registry (ACR) for CVE vulnerabilities.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - CEF Connector Field Mapping', concept: 'CEF data connectors map syslog headers to standard CommonSecurityLog columns in Log Analytics.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Anomaly Rule Machine Learning Baseline', concept: 'Anomaly rules evaluate log baseline drift over 14-day rolling windows without threshold hardcoding.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Incident Comments & Forensic Notes', concept: 'Incident comments store investigator notes and audit logs of analyst triage actions.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Workspace Data Retention Policy Settings', concept: 'Workspace data retention can be configured up to 730 days (2 years) for active search tier.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Function - Arg_Min Timestamp Event Identification', concept: 'arg_min() identifies the earliest event record (e.g. initial access timestamp) in a threat timeline.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - SigninLogs Conditional Access Failure Hunting', concept: 'Filtering SigninLogs where ConditionalAccessStatus == "failure" to audit blocked login attempts.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - AuditLogs Entra ID Role Elevation Audit', concept: 'Querying AuditLogs for "Add member to role" operations to detect unauthorized privilege escalation.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Indicator of Compromise (IoC) File Hash Blocking', concept: 'Custom Indicators allow blocking execution of malicious file SHA256 hashes across all onboarded devices.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Network Protection Botnet C2 Blocking', concept: 'Network Protection blocks outbound connections to malicious IP addresses and C2 domain names.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Office 365 - Anti-Spam Outbound Pool Filter', concept: 'Outbound anti-spam policies restrict compromised internal mailboxes from sending spam externally.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Cloud - Database Threat Protection SQL Injection Alerts', concept: 'Defender for Databases detects SQL injection attacks and unauthorized data exfiltration attempts.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Watchlist Lookup Enriched Threat Intelligence', concept: 'Watchlists perform fast lookup joins in KQL to enrich alert records with departmental context.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Project-Away Hiding Unnecessary Telemetry Columns', concept: 'project-away removes specific noisy columns from query output to streamline analyst investigation views.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Function - Stratified Sample Log Subsampling', concept: 'sample operator returns a random representative subsample of log rows for fast query testing.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Endpoint - Live Response Script Execution Policy', concept: 'Unsigned PowerShell script execution in Live Response requires explicit admin policy enablement.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Defender for Office 365 - Threat Analytics Executive Dashboard', concept: 'Threat Analytics provides analyst reports on emerging ransomware strains and active mitigation guidance.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Incident Triage Automation Webhooks', concept: 'Automation rules trigger webhooks to integrate Sentinel incident alerts with ITSM ticketing platforms (ServiceNow).', type: QuestionType.SINGLE_CHOICE },
+    { title: 'KQL Query - Top 10 High Volume Noise Source Aggregation', concept: 'top 10 by EventCount desc identifies top bandwidth consuming syslog log forwarders.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Sentinel - Solution Package Content Hub Installs', concept: 'Content Hub provides out-of-the-box solution packages containing data connectors, analytic rules, and workbooks.', type: QuestionType.SINGLE_CHOICE },
+    { title: 'Microsoft Defender XDR Unified Portal RBAC Roles', concept: 'Unified Defender portal RBAC controls granular access across Defender for Endpoint, Office 365, and Identity.', type: QuestionType.SINGLE_CHOICE },
   ];
 
   for (let i = 0; i < sc200Topics.length; i++) {
@@ -234,8 +287,8 @@ async function main() {
       title: 'Microsoft Security Operations Analyst (SC-200)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate expertise in mitigating threats using Microsoft Defender XDR, Microsoft Sentinel SIEM/SOAR, and Kusto Query Language (KQL) with 50 practice questions including Drag-and-Drop, Sequence Reordering, and Checkboxes.',
-      timeLimitMinutes: 120,
+      description: 'Complete 100-Question Master Practice Exam for Microsoft Certified: Security Operations Analyst Associate (SC-200). Covers Defender XDR, Defender for Cloud, Microsoft Sentinel SIEM/SOAR, and KQL Threat Hunting.',
+      timeLimitMinutes: 150,
       passingScore: 70.0,
       creatorId: creatorUser.id,
       status: ExamStatus.PUBLISHED,
@@ -243,7 +296,7 @@ async function main() {
   });
 
   const secSC200 = await prisma.examSection.create({
-    data: { examId: examSC200.id, title: 'Section 1: Microsoft Defender XDR, Sentinel SIEM & KQL Threat Hunting', orderIndex: 1 },
+    data: { examId: examSC200.id, title: 'Section 1: Master Security Operations Analyst & KQL Question Bank (100 Items)', orderIndex: 1 },
   });
 
   let o200 = 1;
