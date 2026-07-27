@@ -22,6 +22,17 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// Root landing endpoint
+app.get('/', (req, res) => {
+  res.json({
+    name: 'NTMS Exam Platform Backend API',
+    status: 'ONLINE',
+    swagger: '/api-docs',
+    health: '/health',
+    message: 'Welcome to NTMS Exam Platform REST API server. For the Web Portal UI, access port 3000.',
+  });
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'HEALTHY', service: 'NTMS Exam Platform API', timestamp: new Date().toISOString() });
