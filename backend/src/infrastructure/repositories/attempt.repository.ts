@@ -52,7 +52,14 @@ export class AttemptRepository {
   }
 
   async update(id: string, data: Partial<ExamAttempt>) {
-    return this.prisma.examAttempt.update({ where: { id }, data });
+    return this.prisma.examAttempt.update({
+      where: { id },
+      data,
+      include: {
+        exam: { select: { id: true, title: true, code: true, vendor: true, passingScore: true } },
+        user: { select: { id: true, name: true, email: true } },
+      },
+    });
   }
 
   async findAll() {
