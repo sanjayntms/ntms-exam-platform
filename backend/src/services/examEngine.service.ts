@@ -21,14 +21,14 @@ export class ExamEngineService {
 
     const effectiveRole = userRole || user.role;
 
-    // Validate per-student lock status: ALL non-admin users default to LOCKED
-    if (effectiveRole !== Role.ADMINISTRATOR) {
+    // Validate lock status: ADMINISTRATOR or globally unlocked exams bypass lock checks
+    if (effectiveRole !== Role.ADMINISTRATOR && !(exam as any).isGloballyUnlocked) {
       const access = await prisma.studentExamAccess.findUnique({
         where: { userId_examId: { userId: user.id, examId } },
       });
 
       if (!access || !access.isUnlocked) {
-        throw new Error('This exam is currently LOCKED for your account. Please ask Admin (sanjay@ntmsentra.onmicrosoft.com) to unlock it.');
+        throw new Error('This exam is currently LOCKED for your account. Please enter an OPEN Exam Room Code or ask Admin (sanjay@ntmsentra.onmicrosoft.com) to unlock it.');
       }
     }
 

@@ -89,7 +89,20 @@ export interface Exam {
   allowCalculator: boolean;
   allowNotes: boolean;
   isUnlocked?: boolean;
+  isGloballyUnlocked?: boolean;
   sections: ExamSection[];
+}
+
+export interface ExamRoom {
+  id: string;
+  roomCode: string;
+  title: string;
+  examId: string;
+  status: 'OPEN' | 'CLOSED';
+  createdBy: string;
+  createdAt: string;
+  exam?: Exam;
+  _count?: { roomSessions: number };
 }
 
 export interface ExamAttempt {

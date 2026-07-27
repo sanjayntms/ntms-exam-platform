@@ -18,7 +18,7 @@ export class ExamController {
       const userId = req.user?.id;
       const role = req.user?.role;
 
-      // ADMINISTRATOR sees all exams as unlocked by default
+      // ADMINISTRATOR sees all exams as unlocked
       if (role === Role.ADMINISTRATOR) {
         const mappedExams = exams.map((exam) => ({
           ...exam,
@@ -27,25 +27,30 @@ export class ExamController {
         return res.json(mappedExams);
       }
 
-      // For all non-admin users/students, check StudentExamAccess table (default LOCKED = false)
+      // Check per-student unlock and global unlock
       if (userId) {
         const accesses = await prisma.studentExamAccess.findMany({
           where: { userId },
         });
         const accessMap = new Map(accesses.map((a) => [a.examId, a.isUnlocked]));
 
-        const mappedExams = exams.map((exam) => ({
-          ...exam,
-          isUnlocked: accessMap.get(exam.id) ?? false, // Defaults to FALSE (LOCKED)
-        }));
+        const mappedExams = exams.map((exam) => {
+          const isGloballyUnlocked = (exam as any).isGloballyUnlocked ?? false;
+          const isUserUnlocked = accessMap.get(exam.id) ?? false;
+
+          return {
+            ...exam,
+            isUnlocked: isGloballyUnlocked || isUserUnlocked,
+          };
+        });
 
         return res.json(mappedExams);
       }
 
-      // Default fallback for unauthenticated calls: ALL LOCKED
+      // Default fallback for unauthenticated: check global unlock
       const mappedExams = exams.map((exam) => ({
         ...exam,
-        isUnlocked: false,
+        isUnlocked: (exam as any).isGloballyUnlocked ?? false,
       }));
 
       return res.json(mappedExams);

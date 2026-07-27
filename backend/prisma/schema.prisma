@@ -22,6 +22,7 @@ model User {
   attempts     ExamAttempt[]
   auditLogs    AuditLog[]
   examAccess   StudentExamAccess[]
+  roomSessions RoomSession[]
 
   @@map("users")
 }
@@ -120,33 +121,64 @@ model Lab {
 }
 
 model Exam {
-  id                String      @id @default(uuid())
-  title             String
-  code              String      @unique
-  vendor            String      @default("MICROSOFT")
-  examType          String      @default("CERTIFICATION")
-  description       String?
-  instructions      String?
-  timeLimitMinutes  Int         @default(120)
-  passingScore      Float       @default(70.0)
-  isRandomized      Boolean     @default(true)
-  shuffleAnswers    Boolean     @default(true)
-  allowCalculator   Boolean     @default(true)
-  allowNotes        Boolean     @default(true)
-  negativeMarking   Boolean     @default(false)
-  partialMarking    Boolean     @default(true)
-  status            String      @default("PUBLISHED")
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  id                 String      @id @default(uuid())
+  title              String
+  code               String      @unique
+  vendor             String      @default("MICROSOFT")
+  examType           String      @default("CERTIFICATION")
+  description        String?
+  instructions       String?
+  timeLimitMinutes   Int         @default(120)
+  passingScore       Float       @default(70.0)
+  isRandomized       Boolean     @default(true)
+  shuffleAnswers     Boolean     @default(true)
+  allowCalculator    Boolean     @default(true)
+  allowNotes         Boolean     @default(true)
+  negativeMarking    Boolean     @default(false)
+  partialMarking     Boolean     @default(true)
+  isGloballyUnlocked Boolean     @default(false)
+  status             String      @default("PUBLISHED")
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
 
-  creatorId         String
-  creator           User        @relation("ExamCreator", fields: [creatorId], references: [id])
+  creatorId          String
+  creator            User        @relation("ExamCreator", fields: [creatorId], references: [id])
 
-  sections          ExamSection[]
-  attempts          ExamAttempt[]
-  studentAccess     StudentExamAccess[]
+  sections           ExamSection[]
+  attempts           ExamAttempt[]
+  studentAccess      StudentExamAccess[]
+  rooms              ExamRoom[]
 
   @@map("exams")
+}
+
+model ExamRoom {
+  id        String   @id @default(uuid())
+  roomCode  String   @unique
+  title     String
+  examId    String
+  status    String   @default("OPEN") // "OPEN" | "CLOSED"
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exam         Exam          @relation(fields: [examId], references: [id], onDelete: Cascade)
+  roomSessions RoomSession[]
+
+  @@map("exam_rooms")
+}
+
+model RoomSession {
+  id       String   @id @default(uuid())
+  roomId   String
+  userId   String
+  joinedAt DateTime @default(now())
+
+  room ExamRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@map("room_sessions")
 }
 
 model StudentExamAccess {

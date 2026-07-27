@@ -10,6 +10,7 @@ import { QuestionController } from '../controllers/question.controller.js';
 import { AttemptController } from '../controllers/attempt.controller.js';
 import { AnalyticsController } from '../controllers/analytics.controller.js';
 import { UserController } from '../controllers/user.controller.js';
+import { RoomController } from '../controllers/room.controller.js';
 import { authenticateJWT } from '../middleware/auth.middleware.js';
 import { authorizeRoles } from '../middleware/rbac.middleware.js';
 import { Role } from '../domain/types.js';
@@ -27,6 +28,7 @@ const questionCtrl = new QuestionController(uow);
 const attemptCtrl = new AttemptController(engineService, uow);
 const analyticsCtrl = new AnalyticsController(analyticsService);
 const userCtrl = new UserController(uow);
+const roomCtrl = new RoomController();
 
 // Auth Routes
 router.post('/auth/login', (req, res) => authCtrl.loginLocal(req, res));
@@ -38,6 +40,7 @@ router.post('/auth/logout', authenticateJWT, (req, res) => authCtrl.logout(req, 
 router.get('/exams', authenticateJWT, (req, res) => examCtrl.list(req, res));
 router.get('/exams/:id', (req, res) => examCtrl.getById(req, res));
 router.post('/exams', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR, Role.EXAM_CREATOR), (req, res) => examCtrl.create(req, res));
+router.patch('/exams/:examId/global-unlock', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => roomCtrl.toggleGlobalExamUnlock(req, res));
 
 // Question Routes
 router.get('/questions', (req, res) => questionCtrl.list(req, res));
@@ -49,6 +52,12 @@ router.post('/attempts/start', authenticateJWT, (req, res) => attemptCtrl.start(
 router.post('/attempts/submit', authenticateJWT, (req, res) => attemptCtrl.submit(req, res));
 router.get('/attempts/my', authenticateJWT, (req, res) => attemptCtrl.myAttempts(req, res));
 router.get('/attempts/:id', authenticateJWT, (req, res) => attemptCtrl.getById(req, res));
+
+// Exam Room Routes (School/College Exam Hall system)
+router.get('/rooms', authenticateJWT, (req, res) => roomCtrl.listRooms(req, res));
+router.post('/rooms', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => roomCtrl.createRoom(req, res));
+router.patch('/rooms/:roomId/toggle', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => roomCtrl.toggleRoomStatus(req, res));
+router.post('/rooms/join', authenticateJWT, (req, res) => roomCtrl.joinRoom(req, res));
 
 // Analytics Routes
 router.get('/analytics/dashboard', authenticateJWT, (req, res) => analyticsCtrl.dashboard(req, res));
