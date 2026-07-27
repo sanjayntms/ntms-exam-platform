@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Exam, ExamRoom } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { useExamSession } from '../context/ExamSessionContext';
 import { Search, Clock, Award, Shield, Lock, Unlock, Plus, DoorOpen, Users, AlertCircle, X, CheckCircle2 } from 'lucide-react';
 
 export const ExamListPage: React.FC = () => {
@@ -21,6 +22,7 @@ export const ExamListPage: React.FC = () => {
   const [selectedExamId, setSelectedExamId] = useState('');
 
   const { user } = useAuth();
+  const { setExamSession } = useExamSession();
   const navigate = useNavigate();
 
   const fetchExamsAndRooms = async () => {
@@ -45,7 +47,10 @@ export const ExamListPage: React.FC = () => {
   const handleStartExam = async (examId: string) => {
     try {
       const res = await api.post('/attempts/start', { examId });
-      navigate(`/exam/${res.data.attemptId}`);
+      if (res.data.exam && res.data.attemptId) {
+        setExamSession(res.data.exam, res.data.attemptId);
+      }
+      navigate(`/exam-session/${res.data.attemptId}`);
     } catch (err: any) {
       alert(err.response?.data?.error || 'Unable to start exam attempt.');
     }

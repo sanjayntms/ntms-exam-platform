@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useExamSession } from '../context/ExamSessionContext';
 import api from '../services/api';
 import { SingleChoiceEngine } from '../components/engines/SingleChoiceEngine';
@@ -24,6 +24,7 @@ import { ScratchpadModal } from '../components/common/ScratchpadModal';
 import { Flag, HelpCircle, Calculator, FileText, LayoutGrid, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 
 export const ExamEnginePage: React.FC = () => {
+  const { attemptId: urlAttemptId } = useParams();
   const {
     exam,
     attemptId,
@@ -34,18 +35,74 @@ export const ExamEnginePage: React.FC = () => {
     toggleMarkForReview,
     setCalculatorOpen,
     setScratchpadOpen,
+    setExamSession,
   } = useExamSession();
 
+  const [loadingAttempt, setLoadingAttempt] = useState(!exam);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [showPalette, setShowPalette] = useState(false);
   const [showEndConfirm, setShowEndConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
-  if (!exam) {
+  // Auto-fetch exam attempt from backend if not already loaded in context (e.g. direct link or refresh)
+  useEffect(() => {
+    const fetchAttemptData = async () => {
+      const targetAttemptId = urlAttemptId || attemptId;
+      if (!targetAttemptId) {
+        setLoadError('No active exam attempt ID provided.');
+        setLoadingAttempt(false);
+        return;
+      }
+
+      if (!exam || attemptId !== targetAttemptId) {
+        try {
+          setLoadingAttempt(true);
+          const res = await api.get(`/attempts/${targetAttemptId}`);
+          if (res.data && res.data.exam) {
+            setExamSession(res.data.exam, res.data.id);
+            setLoadError(null);
+          } else {
+            setLoadError('Failed to load exam details from attempt record.');
+          }
+        } catch (err: any) {
+          console.error(err);
+          setLoadError(err.response?.data?.error || 'Unable to load exam session from server.');
+        } finally {
+          setLoadingAttempt(false);
+        }
+      } else {
+        setLoadingAttempt(false);
+      }
+    };
+
+    fetchAttemptData();
+  }, [urlAttemptId, attemptId, exam]);
+
+  if (loadingAttempt) {
     return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center font-mono text-xs text-slate-600">
-        No active NTMS exam session loaded.
+      <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center font-mono text-xs text-slate-700 space-y-3">
+        <div className="w-8 h-8 border-4 border-ntms-navy border-t-transparent rounded-full animate-spin" />
+        <span>Loading NTMS Secure Computer-Based Test Delivery Engine...</span>
+      </div>
+    );
+  }
+
+  if (loadError || !exam) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center font-sans p-6 text-center space-y-4">
+        <div className="p-6 bg-white rounded border border-slate-300 max-w-md shadow-lg space-y-3 text-slate-900">
+          <AlertTriangle className="w-10 h-10 text-amber-600 mx-auto" />
+          <h3 className="text-base font-bold">Exam Session Load Warning</h3>
+          <p className="text-xs text-slate-600">{loadError || 'No active NTMS exam session loaded.'}</p>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="px-4 py-2 bg-ntms-navy text-white rounded text-xs font-bold shadow hover:bg-ntms-hoverBlue"
+          >
+            Return to Candidate Dashboard
+          </button>
+        </div>
       </div>
     );
   }
@@ -54,10 +111,10 @@ export const ExamEnginePage: React.FC = () => {
   const qState = currentQuestion ? questionStates[currentQuestion.id] || { isMarkedForReview: false, notes: '', answer: null, strikeouts: {} } : { isMarkedForReview: false, notes: '', answer: null, strikeouts: {} };
 
   const handleFinish = async () => {
-    if (!attemptId) return;
+    const targetAttemptId = urlAttemptId || attemptId;
+    if (!targetAttemptId) return;
     setIsSubmitting(true);
     try {
-      // Build answers dictionary from questionStates
       const answersMap: Record<string, any> = {};
       Object.keys(questionStates).forEach((qId) => {
         if (questionStates[qId]?.answer) {
@@ -65,17 +122,16 @@ export const ExamEnginePage: React.FC = () => {
         }
       });
 
-      // Submit attempt for final evaluation in backend ExamEngineService
       await api.post('/attempts/submit', {
-        attemptId,
+        attemptId: targetAttemptId,
         answers: answersMap,
         isFinalSubmit: true,
       });
 
-      navigate(`/results/${attemptId}`);
+      navigate(`/results/${targetAttemptId}`);
     } catch (err) {
       console.error('Error submitting exam attempt:', err);
-      navigate(`/results/${attemptId}`);
+      navigate(`/results/${targetAttemptId}`);
     } finally {
       setIsSubmitting(false);
     }
