@@ -8,20 +8,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        fluent: {
-          blue: '#0078D4',
-          blueDark: '#005A9E',
-          blueLight: '#2B88D8',
-          bgDark: '#111827',
-          cardDark: '#1F2937',
-          borderDark: '#374151',
-          azureHeader: '#002050',
+        pearson: {
+          navy: '#002B49',
+          darkNavy: '#001A2E',
+          blue: '#005B94',
+          hoverBlue: '#00436E',
+          lightBlue: '#E6F2F8',
+          gold: '#D97706',
+          goldLight: '#FEF3C7',
+          grayBg: '#F3F4F6',
+          panelBg: '#FFFFFF',
+          border: '#CBD5E1',
+          textDark: '#1E293B',
+          textMuted: '#64748B',
         },
       },
       fontFamily: {
-        sans: ['Segoe UI', 'Roboto', 'Helvetica Neue', 'sans-serif'],
+        sans: ['Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
       },
     },
   },
   plugins: [],
-}
+};

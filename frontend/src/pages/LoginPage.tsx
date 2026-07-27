@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, LogIn, Key, ArrowRight } from 'lucide-react';
+import { ShieldCheck, LogIn, Monitor, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { loginLocal } = useAuth();
@@ -34,78 +34,117 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-6 relative overflow-hidden">
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6 relative z-10 glass-panel">
-        <div className="flex flex-col items-center text-center space-y-3">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-sky-400 flex items-center justify-center shadow-lg shadow-blue-600/30">
-            <ShieldCheck className="w-8 h-8 text-white" />
+    <div className="min-h-screen bg-slate-100 flex flex-col justify-between items-center p-6 relative font-sans">
+      {/* Top Banner */}
+      <div className="w-full max-w-4xl bg-pearson-navy text-white p-4 rounded-t-xl shadow-md flex justify-between items-center border-b-4 border-pearson-blue">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded bg-white/10 border border-white/20 flex items-center justify-center font-bold text-white">
+            <Monitor className="w-6 h-6 text-sky-300" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">NTMS EXAM PLATFORM</h2>
-            <p className="text-xs text-slate-400 mt-1">Pearson VUE & Microsoft Certification Portal</p>
+            <h1 className="text-xl font-extrabold tracking-wider leading-none">NTMS ASSESSMENT PLATFORM</h1>
+            <p className="text-xs text-sky-200 mt-1">Pearson VUE Certified Candidate Portal</p>
           </div>
         </div>
 
-        {/* Microsoft Entra ID Login Button */}
-        <button
-          onClick={() => selectQuickUser('candidate@ntms.com')}
-          className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-3 border border-blue-400/30"
-        >
-          <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
-            <div className="bg-orange-500" />
-            <div className="bg-green-500" />
-            <div className="bg-blue-400" />
-            <div className="bg-yellow-400" />
-          </div>
-          <span>Sign in with Microsoft Entra ID</span>
-        </button>
-
-        <div className="relative flex py-2 items-center">
-          <div className="flex-grow border-t border-slate-800" />
-          <span className="flex-shrink mx-4 text-xs font-mono uppercase text-slate-500">Or Local Persona Login</span>
-          <div className="flex-grow border-t border-slate-800" />
+        <div className="text-right text-xs text-slate-300 hidden md:block">
+          <div>Authorized Test Delivery Center</div>
+          <div className="text-emerald-400 font-mono text-[11px] font-bold">● Environment Ready</div>
         </div>
+      </div>
 
-        {/* Quick Demo Role Selector */}
-        <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider font-mono">Select Testing Persona</label>
-          <div className="grid grid-cols-2 gap-2">
+      {/* Main Login Form Card */}
+      <div className="w-full max-w-4xl bg-white border border-slate-300 rounded-b-xl p-8 shadow-xl grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left Column: Sign In */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-lg font-bold text-pearson-navy">Candidate & Test Administrator Sign In</h2>
+            <p className="text-xs text-slate-600 mt-1">Enter your credentials or use Microsoft Entra ID Single Sign-On.</p>
+          </div>
+
+          <button
+            onClick={() => selectQuickUser('candidate@ntms.com')}
+            className="w-full py-3.5 px-4 bg-pearson-navy hover:bg-pearson-hoverBlue text-white font-bold text-xs rounded transition-all shadow flex items-center justify-center gap-3 border border-pearson-darkNavy"
+          >
+            <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
+              <div className="bg-orange-500" />
+              <div className="bg-green-500" />
+              <div className="bg-blue-400" />
+              <div className="bg-yellow-400" />
+            </div>
+            <span>Sign in with Microsoft Entra ID (SSO)</span>
+          </button>
+
+          <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+            <div>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Email Address / Candidate ID</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="e.g. candidate@ntms.com"
+                className="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs text-slate-800 focus:border-pearson-blue focus:outline-none font-medium"
+              />
+            </div>
+
             <button
-              onClick={() => selectQuickUser('admin@ntms.com')}
-              className="p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg text-left text-xs transition-all"
+              type="submit"
+              disabled={loading}
+              className="w-full py-2.5 bg-pearson-blue hover:bg-pearson-hoverBlue text-white font-bold text-xs rounded transition-all shadow"
             >
-              <div className="font-bold text-blue-400">Administrator</div>
-              <div className="text-[10px] text-slate-500">admin@ntms.com</div>
+              {loading ? 'Authenticating...' : 'Sign In to Exam System ➜'}
+            </button>
+          </form>
+        </div>
+
+        {/* Right Column: Persona Selection */}
+        <div className="bg-slate-50 p-6 rounded border border-slate-200 space-y-4">
+          <div className="border-b border-slate-200 pb-2">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-pearson-navy font-mono">Quick Testing Personas</h3>
+            <span className="text-[11px] text-slate-500">Select any role to test system functionality instantly</span>
+          </div>
+
+          <div className="space-y-2">
+            <button
+              onClick={() => selectQuickUser('candidate@ntms.com')}
+              className="w-full p-3 bg-white hover:bg-sky-50 border border-slate-300 hover:border-pearson-blue rounded text-left transition-all flex items-center justify-between"
+            >
+              <div>
+                <div className="font-bold text-xs text-pearson-navy">Alex Mercer (Candidate)</div>
+                <div className="text-[10px] text-slate-500">candidate@ntms.com | Pearson Exam Engine</div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-pearson-blue" />
             </button>
 
             <button
               onClick={() => selectQuickUser('creator@ntms.com')}
-              className="p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg text-left text-xs transition-all"
+              className="w-full p-3 bg-white hover:bg-amber-50 border border-slate-300 hover:border-amber-500 rounded text-left transition-all flex items-center justify-between"
             >
-              <div className="font-bold text-amber-400">Exam Creator</div>
-              <div className="text-[10px] text-slate-500">creator@ntms.com</div>
+              <div>
+                <div className="font-bold text-xs text-amber-900">Sarah Connor (Exam Author)</div>
+                <div className="text-[10px] text-slate-500">creator@ntms.com | Question Bank Builder</div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-amber-600" />
             </button>
 
             <button
-              onClick={() => selectQuickUser('candidate@ntms.com')}
-              className="p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg text-left text-xs transition-all"
+              onClick={() => selectQuickUser('admin@ntms.com')}
+              className="w-full p-3 bg-white hover:bg-purple-50 border border-slate-300 hover:border-purple-500 rounded text-left transition-all flex items-center justify-between"
             >
-              <div className="font-bold text-emerald-400">Candidate</div>
-              <div className="text-[10px] text-slate-500">candidate@ntms.com</div>
-            </button>
-
-            <button
-              onClick={() => selectQuickUser('guest@ntms.com')}
-              className="p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg text-left text-xs transition-all"
-            >
-              <div className="font-bold text-purple-400">Guest User</div>
-              <div className="text-[10px] text-slate-500">guest@ntms.com</div>
+              <div>
+                <div className="font-bold text-xs text-purple-900">System Administrator</div>
+                <div className="text-[10px] text-slate-500">admin@ntms.com | User Management & Analytics</div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-purple-600" />
             </button>
           </div>
         </div>
       </div>
+
+      <footer className="text-xs text-slate-500 text-center py-4">
+        NTMS Test Delivery Engine © 2026. Pearson VUE Style Assessment Architecture.
+      </footer>
     </div>
   );
 };

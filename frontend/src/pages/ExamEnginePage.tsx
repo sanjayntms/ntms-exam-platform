@@ -6,6 +6,7 @@ import { Timer } from '../components/common/Timer';
 import { QuestionPalette } from '../components/common/QuestionPalette';
 import { CalculatorModal } from '../components/common/CalculatorModal';
 import { ScratchpadModal } from '../components/common/ScratchpadModal';
+import { useAuth } from '../context/AuthContext';
 
 // Question Type Engines
 import { SingleChoiceEngine } from '../components/engines/SingleChoiceEngine';
@@ -24,10 +25,22 @@ import { LabEngine } from '../components/engines/LabEngine';
 import { CodeEditorEngine } from '../components/engines/CodeEditorEngine';
 import { EssayEngine } from '../components/engines/EssayEngine';
 
-import { Calculator, FileEdit, Bookmark, ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, Highlighter } from 'lucide-react';
+import {
+  Calculator,
+  FileEdit,
+  Bookmark,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Monitor,
+  HelpCircle,
+  Grid,
+  Highlighter,
+} from 'lucide-react';
 
 export const ExamEnginePage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const {
     exam,
     attemptId,
@@ -41,13 +54,14 @@ export const ExamEnginePage: React.FC = () => {
   } = useExamSession();
 
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [showItemMap, setShowItemMap] = useState<boolean>(false);
 
   if (!exam || flatQuestions.length === 0) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center text-slate-300 gap-4">
-        <ShieldCheck className="w-12 h-12 text-blue-500 animate-pulse" />
-        <p className="text-sm">Exam session loading...</p>
-        <button onClick={() => navigate('/exams')} className="text-xs text-blue-400 underline">
+      <div className="min-h-screen bg-slate-100 flex flex-col justify-center items-center text-slate-700 gap-4">
+        <Monitor className="w-12 h-12 text-pearson-navy animate-pulse" />
+        <p className="text-sm font-semibold">Initializing NTMS Exam Session...</p>
+        <button onClick={() => navigate('/exams')} className="text-xs text-pearson-blue underline">
           Return to Exam Catalog
         </button>
       </div>
@@ -68,7 +82,7 @@ export const ExamEnginePage: React.FC = () => {
         }
       });
 
-      const res = await api.post('/attempts/submit', {
+      await api.post('/attempts/submit', {
         attemptId,
         answers: allAnswers,
         isFinalSubmit: true,
@@ -120,35 +134,51 @@ export const ExamEnginePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col justify-between text-slate-100 selection:bg-blue-600 selection:text-white">
-      {/* Top Pearson VUE / Microsoft Header */}
-      <header className="h-16 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-6 sticky top-0 z-30 shadow-md">
+    <div className="min-h-screen bg-slate-100 flex flex-col justify-between text-slate-800 font-sans selection:bg-pearson-navy selection:text-white">
+      {/* Pearson VUE Top Primary Header */}
+      <header className="bg-pearson-navy text-white px-6 py-2.5 flex items-center justify-between border-b-2 border-pearson-blue shadow-md">
         <div className="flex items-center gap-4">
-          <span className="text-xs font-mono font-bold px-2 py-1 bg-blue-950 text-blue-400 border border-blue-800 rounded">
-            {exam.code}
-          </span>
-          <h1 className="font-bold text-sm text-white tracking-tight">{exam.title}</h1>
+          <div className="font-extrabold text-lg tracking-wider">NTMS</div>
+          <div className="h-6 w-px bg-white/20" />
+          <div className="flex flex-col">
+            <span className="font-bold text-sm text-white">{exam.title} ({exam.code})</span>
+            <span className="text-[11px] text-slate-300">Candidate: {user?.name || 'Candidate'} | ID: NTMS-894210</span>
+          </div>
         </div>
 
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => alert('Instructions: Click Next to navigate. Mark questions for review if needed.')}
+            className="flex items-center gap-1.5 text-xs text-slate-200 hover:text-white"
+          >
+            <HelpCircle className="w-4 h-4 text-sky-300" />
+            <span>Help</span>
+          </button>
+          <Timer />
+        </div>
+      </header>
+
+      {/* Pearson VUE Exam Action Toolbar */}
+      <div className="bg-slate-200 border-b border-slate-300 px-6 py-2 flex items-center justify-between shadow-inner">
         <div className="flex items-center gap-3">
           <button
             onClick={() => toggleMarkForReview(currentQ.id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded border text-xs font-bold transition-all ${
               qState.isMarkedForReview
-                ? 'bg-amber-600 border-amber-400 text-white shadow-lg shadow-amber-600/30'
-                : 'bg-slate-800 border-slate-700 text-slate-300 hover:text-white'
+                ? 'bg-amber-600 text-white border-amber-700 shadow-sm'
+                : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
             }`}
           >
-            <Bookmark className={`w-3.5 h-3.5 ${qState.isMarkedForReview ? 'fill-white' : ''}`} />
-            <span>Mark for Review</span>
+            <Bookmark className={`w-4 h-4 ${qState.isMarkedForReview ? 'fill-white text-white' : 'text-amber-600'}`} />
+            <span>{qState.isMarkedForReview ? 'Marked for Review' : 'Mark for Review'}</span>
           </button>
 
           {exam.allowCalculator && (
             <button
               onClick={() => setCalculatorOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-semibold"
             >
-              <Calculator className="w-3.5 h-3.5 text-blue-400" />
+              <Calculator className="w-4 h-4 text-pearson-blue" />
               <span>Calculator</span>
             </button>
           )}
@@ -156,71 +186,83 @@ export const ExamEnginePage: React.FC = () => {
           {exam.allowNotes && (
             <button
               onClick={() => setScratchpadOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-semibold"
             >
-              <FileEdit className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Notes</span>
+              <FileEdit className="w-4 h-4 text-emerald-600" />
+              <span>Scratchpad</span>
             </button>
           )}
 
-          <Timer />
+          <button
+            onClick={() => setShowItemMap(!showItemMap)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-semibold"
+          >
+            <Grid className="w-4 h-4 text-pearson-navy" />
+            <span>Question Map</span>
+          </button>
         </div>
-      </header>
 
-      {/* Main Exam Body */}
+        <div className="font-mono text-xs font-bold text-slate-700">
+          Question <span className="text-pearson-navy text-sm font-extrabold">{currentQuestionIndex + 1}</span> of {flatQuestions.length}
+        </div>
+      </div>
+
+      {/* Main Pearson Exam Canvas Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-        <div className="lg:col-span-3 space-y-6">
-          {/* Question Banner Header */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
-            <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-              <span className="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
-                Question {currentQuestionIndex + 1} of {flatQuestions.length}
+        <div className={showItemMap ? 'lg:col-span-3 space-y-6' : 'lg:col-span-4 space-y-6'}>
+          {/* Main Question Panel */}
+          <div className="bg-white border border-slate-300 rounded-md p-6 space-y-4 shadow-sm">
+            <div className="flex justify-between items-center border-b border-slate-200 pb-3">
+              <span className="text-xs font-mono font-bold text-pearson-navy uppercase tracking-wider">
+                Question {currentQuestionIndex + 1} (Code: {currentQ.code})
               </span>
-              <span className="text-xs font-mono text-slate-400">
-                Type: <strong className="text-slate-200">{currentQ.type}</strong> | Points: <strong className="text-emerald-400">{currentQ.points}</strong>
+              <span className="text-xs font-mono text-slate-600">
+                Type: <strong className="text-slate-900">{currentQ.type}</strong> | Points: <strong className="text-emerald-700">{currentQ.points}</strong>
               </span>
             </div>
 
-            <h2 className="text-lg font-bold text-white tracking-tight">{currentQ.title}</h2>
+            <h2 className="text-base font-bold text-slate-900 tracking-tight">{currentQ.title}</h2>
 
-            {/* Render Active Engine */}
+            {/* Active Question Engine */}
             <div className="pt-2">{renderQuestionEngine()}</div>
           </div>
         </div>
 
         {/* Question Palette Sidebar */}
-        <div className="lg:col-span-1">
-          <QuestionPalette />
-        </div>
+        {showItemMap && (
+          <div className="lg:col-span-1">
+            <QuestionPalette />
+          </div>
+        )}
       </main>
 
-      {/* Bottom Fixed Navigation Bar */}
-      <footer className="h-16 bg-slate-900 border-t border-slate-800 flex items-center justify-between px-6 sticky bottom-0 z-30 shadow-2xl">
+      {/* Pearson VUE Navigation Control Footer */}
+      <footer className="bg-pearson-navy text-white px-6 py-3 flex items-center justify-between border-t-2 border-pearson-blue shadow-lg sticky bottom-0 z-30">
         <button
           onClick={() => setCurrentQuestionIndex(Math.max(0, currentQuestionIndex - 1))}
           disabled={currentQuestionIndex === 0}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-200 font-semibold text-xs transition-all border border-slate-700"
+          className="flex items-center gap-2 px-5 py-2 rounded bg-white text-pearson-navy hover:bg-slate-100 disabled:opacity-40 font-bold text-xs shadow transition-all border border-slate-300"
         >
           <ArrowLeft className="w-4 h-4" />
-          Previous Question
+          Previous
         </button>
 
         <div className="flex items-center gap-3">
           <button
             onClick={handleFinalSubmit}
             disabled={submitting}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition-all border border-emerald-400/30"
+            className="flex items-center gap-2 px-6 py-2 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs shadow transition-all border border-amber-600"
           >
-            <CheckCircle2 className="w-4 h-4" />
-            Finish & Submit Exam
+            <CheckCircle2 className="w-4 h-4 text-slate-950" />
+            End Exam / Submit
           </button>
 
           <button
             onClick={() => setCurrentQuestionIndex(Math.min(flatQuestions.length - 1, currentQuestionIndex + 1))}
             disabled={currentQuestionIndex === flatQuestions.length - 1}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white font-semibold text-xs transition-all shadow-lg shadow-blue-600/30 border border-blue-400/30"
+            className="flex items-center gap-2 px-6 py-2 rounded bg-pearson-blue hover:bg-pearson-hoverBlue disabled:opacity-40 text-white font-bold text-xs shadow transition-all border border-sky-400"
           >
-            Next Question
+            Next
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
