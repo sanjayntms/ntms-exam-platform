@@ -26,65 +26,73 @@ export class AuthService {
   }
 
   async loginEntra(idToken?: string, accessToken?: string, code?: string, redirectUri?: string) {
-    let email = 'entra_user@ntms.com';
-    let name = 'Microsoft Entra User';
-    let oid = 'entra-oid-' + Date.now();
+    let email = '';
+    let name = '';
+    let oid = '';
 
     // If authorization code is provided, exchange code with Microsoft token endpoint
     if (code) {
-      try {
-        const tokenEndpoint = `https://login.microsoftonline.com/${config.azure.tenantId}/oauth2/v2.0/token`;
-        const params = new URLSearchParams({
-          client_id: config.azure.clientId,
-          client_secret: config.azure.clientSecret,
-          code: code,
-          grant_type: 'authorization_code',
-          redirect_uri: redirectUri || 'https://40.81.226.111:3000/login',
-          scope: 'openid profile email User.Read',
-        });
+      const tokenEndpoint = `https://login.microsoftonline.com/${config.azure.tenantId}/oauth2/v2.0/token`;
+      const params = new URLSearchParams({
+        client_id: config.azure.clientId,
+        client_secret: config.azure.clientSecret,
+        code: code,
+        grant_type: 'authorization_code',
+        redirect_uri: redirectUri || 'https://40.81.226.111:3000/login',
+      });
 
-        const tokenRes = await fetch(tokenEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: params.toString(),
-        });
+      const tokenRes = await fetch(tokenEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      });
 
-        const tokenData: any = await tokenRes.json();
+      const tokenData: any = await tokenRes.json();
+      console.log('Microsoft Entra Token Exchange Response:', tokenData);
 
-        // 1. Try decoding ID Token claims
-        if (tokenData.id_token) {
-          const decoded: any = jwt.decode(tokenData.id_token);
-          email = decoded?.preferred_username || decoded?.email || decoded?.upn || email;
-          name = decoded?.name || decoded?.given_name || (email.includes('@') ? email.split('@')[0] : name);
-          oid = decoded?.oid || decoded?.sub || oid;
-        }
+      if (tokenData.error || (!tokenData.id_token && !tokenData.access_token)) {
+        throw new Error(`Microsoft Entra ID Authentication Failed: ${tokenData.error_description || tokenData.error || 'Token exchange failed'}`);
+      }
 
-        // 2. Fetch official profile details directly from Microsoft Graph API using Access Token
-        if (tokenData.access_token) {
-          try {
-            const graphRes = await fetch('https://graph.microsoft.com/v1.0/me', {
-              headers: { Authorization: `Bearer ${tokenData.access_token}` },
-            });
-            if (graphRes.ok) {
-              const graphData: any = await graphRes.json();
-              if (graphData.displayName) name = graphData.displayName;
-              if (graphData.userPrincipalName || graphData.mail) {
-                email = graphData.userPrincipalName || graphData.mail;
-              }
-              if (graphData.id) oid = graphData.id;
+      // 1. Try decoding ID Token claims
+      if (tokenData.id_token) {
+        const decoded: any = jwt.decode(tokenData.id_token);
+        email = decoded?.preferred_username || decoded?.email || decoded?.upn || '';
+        name = decoded?.name || decoded?.given_name || (email.includes('@') ? email.split('@')[0] : '');
+        oid = decoded?.oid || decoded?.sub || '';
+      }
+
+      // 2. Fetch official profile details directly from Microsoft Graph API using Access Token
+      if (tokenData.access_token) {
+        try {
+          const graphRes = await fetch('https://graph.microsoft.com/v1.0/me', {
+            headers: { Authorization: `Bearer ${tokenData.access_token}` },
+          });
+          if (graphRes.ok) {
+            const graphData: any = await graphRes.json();
+            if (graphData.displayName) name = graphData.displayName;
+            if (graphData.userPrincipalName || graphData.mail) {
+              email = graphData.userPrincipalName || graphData.mail;
             }
-          } catch (graphErr) {
-            console.error('Microsoft Graph fetch error:', graphErr);
+            if (graphData.id) oid = graphData.id;
           }
+        } catch (graphErr) {
+          console.error('Microsoft Graph fetch error:', graphErr);
         }
-      } catch (err) {
-        console.error('Entra token exchange error:', err);
       }
     } else if (idToken) {
       const decoded: any = jwt.decode(idToken);
-      email = decoded?.preferred_username || decoded?.email || decoded?.upn || email;
-      name = decoded?.name || decoded?.given_name || (email.includes('@') ? email.split('@')[0] : name);
-      oid = decoded?.oid || decoded?.sub || oid;
+      email = decoded?.preferred_username || decoded?.email || decoded?.upn || '';
+      name = decoded?.name || decoded?.given_name || (email.includes('@') ? email.split('@')[0] : '');
+      oid = decoded?.oid || decoded?.sub || '';
+    }
+
+    if (!email || !oid) {
+      throw new Error('Could not extract candidate email or Entra ID claims from Microsoft token response.');
+    }
+
+    if (!name) {
+      name = email.split('@')[0];
     }
 
     let user = await this.uow.users.findByEntraId(oid);
@@ -93,7 +101,7 @@ export class AuthService {
       if (user) {
         user = await this.uow.users.update(user.id, {
           entraId: oid,
-          name: name !== 'Microsoft Entra User' ? name : user.name,
+          name,
           email,
         });
       } else {
@@ -106,9 +114,7 @@ export class AuthService {
       }
     } else {
       // Always update name & email when authenticating with Entra ID
-      if (name && name !== 'Microsoft Entra User') {
-        user = await this.uow.users.update(user.id, { name, email });
-      }
+      user = await this.uow.users.update(user.id, { name, email });
     }
 
     const token = jwt.sign(
