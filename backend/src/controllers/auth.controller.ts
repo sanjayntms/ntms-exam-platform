@@ -25,6 +25,14 @@ export class AuthController {
   }
 
   async me(req: Request, res: Response) {
-    return res.json({ user: req.user });
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: 'Unauthenticated' });
+      }
+      const freshUser = await this.authService.getUserById(req.user.id);
+      return res.json({ user: freshUser || req.user });
+    } catch (err: any) {
+      return res.json({ user: req.user });
+    }
   }
 }

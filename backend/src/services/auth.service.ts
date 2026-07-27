@@ -6,6 +6,10 @@ import { Role } from '../domain/types.js';
 export class AuthService {
   constructor(private uow: UnitOfWork) {}
 
+  async getUserById(id: string) {
+    return this.uow.users.findById(id);
+  }
+
   async loginLocal(email: string) {
     const user = await this.uow.users.findByEmail(email);
     if (!user) {
@@ -50,7 +54,6 @@ export class AuthService {
         // 1. Try decoding ID Token claims
         if (tokenData.id_token) {
           const decoded: any = jwt.decode(tokenData.id_token);
-          console.log('Decoded Entra ID Token Claims:', decoded);
           email = decoded?.preferred_username || decoded?.email || decoded?.upn || email;
           name = decoded?.name || decoded?.given_name || (email.includes('@') ? email.split('@')[0] : name);
           oid = decoded?.oid || decoded?.sub || oid;
@@ -64,7 +67,6 @@ export class AuthService {
             });
             if (graphRes.ok) {
               const graphData: any = await graphRes.json();
-              console.log('Microsoft Graph API Response:', graphData);
               if (graphData.displayName) name = graphData.displayName;
               if (graphData.userPrincipalName || graphData.mail) {
                 email = graphData.userPrincipalName || graphData.mail;
