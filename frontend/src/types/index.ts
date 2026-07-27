@@ -105,4 +105,5 @@ export interface ExamAttempt {
   passed: boolean;
   answers: string; // JSON object mapping questionId -> answer
   exam?: Exam;
+  user?: User;
 }
