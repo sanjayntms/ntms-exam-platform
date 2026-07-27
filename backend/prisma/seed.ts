@@ -277,7 +277,7 @@ async function main() {
       explanation: template.exp,
       content: {
         prompt: `Question ${i + 1}: ${template.prompt}`,
-        options: shuffleArray(rawOptions), // Randomly shuffle option order
+        options: shuffleArray(rawOptions), // Randomly shuffle option positions
       },
     });
   }
@@ -457,7 +457,7 @@ async function main() {
     });
 
     const sec = await prisma.examSection.create({
-      data: { examId: item.code, title: `Section 1: Master Question Bank (${item.count} Items)`, orderIndex: 1 },
+      data: { examId: exam.id, title: `Section 1: Master Question Bank (${item.count} Items)`, orderIndex: 1 },
     });
 
     let order = 1;
