@@ -19,21 +19,21 @@ export const HotspotEngine: React.FC<{ question: Question }> = ({ question }) =>
 
   return (
     <div className="space-y-6">
-      <p className="text-base text-slate-200 leading-relaxed">{content.prompt}</p>
+      <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
 
-      <div className="relative border border-slate-700 rounded-xl overflow-hidden cursor-crosshair group max-w-2xl mx-auto" onClick={handleClick}>
+      <div className="relative border border-slate-300 rounded overflow-hidden cursor-crosshair group max-w-2xl mx-auto shadow-sm" onClick={handleClick}>
         <img src={content.imageUrl} alt="Hotspot Target" className="w-full h-auto object-cover" />
 
         {coords && (
           <div
-            className="absolute w-8 h-8 rounded-full border-2 border-rose-500 bg-rose-500/30 -translate-x-1/2 -translate-y-1/2 animate-ping"
+            className="absolute w-8 h-8 rounded-full border-2 border-rose-600 bg-rose-500/30 -translate-x-1/2 -translate-y-1/2 animate-ping"
             style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
           />
         )}
 
         {coords && (
           <div
-            className="absolute w-6 h-6 rounded-full border-2 border-amber-400 bg-amber-500/80 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-amber-500/50 flex items-center justify-center font-bold text-[10px] text-black"
+            className="absolute w-6 h-6 rounded-full border-2 border-amber-500 bg-amber-400 -translate-x-1/2 -translate-y-1/2 shadow-lg flex items-center justify-center font-bold text-[11px] text-black"
             style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
           >
             ✕
@@ -41,8 +41,8 @@ export const HotspotEngine: React.FC<{ question: Question }> = ({ question }) =>
         )}
       </div>
 
-      <div className="text-center text-xs font-mono text-slate-400">
-        {coords ? `Selected Coordinates: X: ${coords.x}%, Y: ${coords.y}%` : 'Click anywhere on the image above to set your hotspot target.'}
+      <div className="text-center text-xs font-mono font-bold text-slate-700">
+        {coords ? `Selected Target Coordinates: X: ${coords.x}%, Y: ${coords.y}%` : 'Click anywhere on the diagram above to set your hotspot target.'}
       </div>
     </div>
   );

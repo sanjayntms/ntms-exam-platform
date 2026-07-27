@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Question } from '../../types';
 import { useExamSession } from '../../context/ExamSessionContext';
 import { ArrowUp, ArrowDown } from 'lucide-react';
@@ -29,16 +29,16 @@ export const ReorderEngine: React.FC<{ question: Question }> = ({ question }) =>
 
   return (
     <div className="space-y-6">
-      <p className="text-base text-slate-200 leading-relaxed">{content.prompt}</p>
+      <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
 
-      <div className="space-y-2 bg-slate-900/60 p-6 rounded-xl border border-slate-800">
+      <div className="space-y-2 bg-slate-50 p-6 rounded border border-slate-300">
         {items.map((item, idx) => (
-          <div key={item.id} className="flex items-center justify-between bg-slate-950 p-4 rounded-lg border border-slate-800">
+          <div key={item.id} className="flex items-center justify-between bg-white p-3.5 rounded border border-slate-300 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="w-6 h-6 rounded-full bg-blue-600/30 text-blue-400 font-mono font-bold text-xs flex items-center justify-center border border-blue-500/30">
+              <span className="w-6 h-6 rounded bg-pearson-navy text-white font-mono font-bold text-xs flex items-center justify-center">
                 {idx + 1}
               </span>
-              <span className="text-sm text-slate-200">{item.text}</span>
+              <span className="text-sm font-semibold text-slate-800">{item.text}</span>
             </div>
 
             <div className="flex gap-1">
@@ -46,7 +46,7 @@ export const ReorderEngine: React.FC<{ question: Question }> = ({ question }) =>
                 type="button"
                 onClick={() => move(idx, 'up')}
                 disabled={idx === 0}
-                className="p-2 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-30 text-slate-300"
+                className="p-1.5 rounded bg-slate-100 border border-slate-300 hover:bg-slate-200 disabled:opacity-30 text-slate-700"
               >
                 <ArrowUp className="w-4 h-4" />
               </button>
@@ -54,7 +54,7 @@ export const ReorderEngine: React.FC<{ question: Question }> = ({ question }) =>
                 type="button"
                 onClick={() => move(idx, 'down')}
                 disabled={idx === items.length - 1}
-                className="p-2 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-30 text-slate-300"
+                className="p-1.5 rounded bg-slate-100 border border-slate-300 hover:bg-slate-200 disabled:opacity-30 text-slate-700"
               >
                 <ArrowDown className="w-4 h-4" />
               </button>

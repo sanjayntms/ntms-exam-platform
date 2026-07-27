@@ -16,10 +16,10 @@ export const MultipleChoiceEngine: React.FC<{ question: Question }> = ({ questio
   };
 
   return (
-    <div className="space-y-4">
-      <p className="text-base text-slate-200 leading-relaxed">{content.prompt}</p>
+    <div className="space-y-5">
+      <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
 
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {content.options?.map((opt: any) => {
           const isSelected = selectedOptionIds.includes(opt.id);
           const isStruck = qState.strikeouts?.[opt.id];
@@ -29,7 +29,7 @@ export const MultipleChoiceEngine: React.FC<{ question: Question }> = ({ questio
               <button
                 type="button"
                 onClick={() => toggleStrikeout(question.id, opt.id)}
-                className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 hover:text-rose-400 hover:bg-slate-700"
+                className="text-[11px] font-bold font-mono px-2 py-1 rounded bg-slate-200 text-slate-600 hover:text-rose-700 hover:bg-rose-100 border border-slate-300 transition-colors"
                 title="Strikeout option"
               >
                 S
@@ -37,19 +37,19 @@ export const MultipleChoiceEngine: React.FC<{ question: Question }> = ({ questio
 
               <label
                 onClick={() => handleToggle(opt.id)}
-                className={`flex-1 flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+                className={`flex-1 flex items-center gap-3.5 p-3.5 rounded border cursor-pointer transition-all ${
                   isSelected
-                    ? 'bg-blue-600/20 border-blue-500 text-white font-medium shadow-lg shadow-blue-600/10'
-                    : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800/40'
+                    ? 'bg-sky-100/90 border-pearson-navy text-pearson-navy font-bold shadow-sm ring-2 ring-pearson-blue/40'
+                    : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-pearson-blue hover:bg-sky-50/50'
                 } ${isStruck ? 'strikeout-text' : ''}`}
               >
                 <input
                   type="checkbox"
                   checked={isSelected}
                   onChange={() => {}}
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
+                  className="w-4 h-4 rounded text-pearson-navy focus:ring-pearson-blue"
                 />
-                <span className="text-sm">{opt.text}</span>
+                <span className="text-sm leading-snug">{opt.text}</span>
               </label>
             </div>
           );

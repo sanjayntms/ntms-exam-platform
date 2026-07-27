@@ -13,7 +13,7 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
   const selectedOptionId = qState.answer?.selectedOptionId;
 
   if (!cs) {
-    return <div className="text-slate-400 text-sm">Case Study content loading...</div>;
+    return <div className="text-slate-500 text-sm">Case Study content loading...</div>;
   }
 
   const tabs = [
@@ -27,7 +27,7 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
   return (
     <div className="space-y-4">
       {/* Case Study Tab Header */}
-      <div className="flex border-b border-slate-800 overflow-x-auto bg-slate-900/80 rounded-t-xl">
+      <div className="flex border-b border-slate-300 overflow-x-auto bg-slate-100 rounded-t border-t border-x border-slate-300">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -35,10 +35,10 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap ${
+              className={`flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap ${
                 isActive
-                  ? 'border-blue-500 text-blue-400 bg-slate-800/80'
-                  : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
+                  ? 'border-pearson-navy text-pearson-navy bg-white shadow-sm'
+                  : 'border-transparent text-slate-600 hover:text-pearson-navy hover:bg-slate-200/60'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -49,15 +49,15 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
       </div>
 
       {/* Tab Panel Body */}
-      <div className="bg-slate-900/60 p-6 rounded-b-xl border border-slate-800 min-h-[300px]">
+      <div className="bg-white p-6 rounded-b border border-slate-300 min-h-[300px] shadow-sm">
         {activeTab !== 'question' ? (
-          <div className="prose prose-invert max-w-none text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">
-            <h3 className="text-base font-bold text-blue-400 mb-2 capitalize">{activeTab} Details</h3>
+          <div className="prose max-w-none text-slate-900 text-sm leading-relaxed whitespace-pre-wrap">
+            <h3 className="text-base font-bold text-pearson-navy mb-2 capitalize">{activeTab} Details</h3>
             {tabs.find((t) => t.id === activeTab)?.content}
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="text-base text-slate-100 font-medium">{content.prompt}</p>
+            <p className="text-base font-semibold text-slate-900 border-b border-slate-200 pb-3">{content.prompt}</p>
 
             <div className="space-y-2">
               {content.options?.map((opt: any) => {
@@ -66,10 +66,10 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
                   <label
                     key={opt.id}
                     onClick={() => updateQuestionAnswer(question.id, { selectedOptionId: opt.id })}
-                    className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex items-center gap-3 p-3.5 rounded border cursor-pointer transition-all ${
                       isSelected
-                        ? 'bg-blue-600/20 border-blue-500 text-white font-medium shadow-lg shadow-blue-600/10'
-                        : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
+                        ? 'bg-sky-100/90 border-pearson-navy text-pearson-navy font-bold shadow-sm ring-2 ring-pearson-blue/40'
+                        : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-pearson-blue hover:bg-sky-50/50'
                     }`}
                   >
                     <input
@@ -77,7 +77,7 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
                       name={`cs_${question.id}`}
                       checked={isSelected}
                       onChange={() => {}}
-                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                      className="w-4 h-4 text-pearson-navy focus:ring-pearson-blue"
                     />
                     <span className="text-sm">{opt.text}</span>
                   </label>

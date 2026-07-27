@@ -10,7 +10,7 @@ export const TrueFalseEngine: React.FC<{ question: Question }> = ({ question }) 
 
   return (
     <div className="space-y-6">
-      <p className="text-base text-slate-200 leading-relaxed">{content.prompt}</p>
+      <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
 
       <div className="flex gap-4">
         {[true, false].map((val) => {
@@ -20,10 +20,10 @@ export const TrueFalseEngine: React.FC<{ question: Question }> = ({ question }) 
               key={String(val)}
               type="button"
               onClick={() => updateQuestionAnswer(question.id, { isTrue: val })}
-              className={`flex-1 py-4 px-6 rounded-xl border text-center font-bold text-base transition-all ${
+              className={`flex-1 py-4 px-6 rounded border text-center font-bold text-base transition-all ${
                 isSelected
-                  ? 'bg-blue-600 border-blue-400 text-white shadow-lg shadow-blue-600/30'
-                  : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:border-slate-700'
+                  ? 'bg-pearson-navy border-pearson-darkNavy text-white shadow-md'
+                  : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-sky-50 hover:border-pearson-blue'
               }`}
             >
               {val ? 'TRUE' : 'FALSE'}

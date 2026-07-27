@@ -19,7 +19,7 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 font-mono text-sm">
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center text-slate-700 font-mono text-sm">
         Authenticating NTMS Session...
       </div>
     );
@@ -30,7 +30,7 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-slate-100 text-slate-900 font-sans">
       <Header />
       <div className="flex-1 flex overflow-hidden">
         <Sidebar />
@@ -38,6 +38,24 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
       </div>
     </div>
   );
+};
+
+const ExamSessionLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center text-slate-700 font-mono text-sm">
+        Loading Pearson VUE Exam Environment...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <div className="min-h-screen bg-slate-100 text-slate-900 font-sans">{children}</div>;
 };
 
 export const App: React.FC = () => {
@@ -94,13 +112,13 @@ export const App: React.FC = () => {
                 }
               />
 
-              {/* Pearson VUE Exam Engine Fullscreen View */}
+              {/* Pearson VUE Dedicated Full-Screen Exam Session View */}
               <Route
                 path="/exam-session/:attemptId"
                 element={
-                  <ProtectedLayout>
+                  <ExamSessionLayout>
                     <ExamEnginePage />
-                  </ProtectedLayout>
+                  </ExamSessionLayout>
                 }
               />
 

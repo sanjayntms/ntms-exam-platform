@@ -23,38 +23,38 @@ export const BuildListEngine: React.FC<{ question: Question }> = ({ question }) 
 
   return (
     <div className="space-y-6">
-      <p className="text-base text-slate-200 leading-relaxed">{content.prompt}</p>
+      <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Answer Pool */}
-        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
-          <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 font-mono">Available Principles Bank</div>
+        <div className="bg-slate-50 p-4 rounded border border-slate-300 space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">Available Principles Bank</div>
           {content.pool?.map((item: string) => (
             <button
               key={item}
               type="button"
               onClick={() => add(item)}
-              className="w-full flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800 text-left text-xs font-medium text-slate-300 hover:border-blue-500 hover:text-white transition-all"
+              className="w-full flex items-center justify-between p-3 rounded bg-white border border-slate-300 text-left text-xs font-semibold text-slate-800 hover:border-pearson-blue hover:bg-sky-50 shadow-sm transition-all"
             >
               <span>{item}</span>
-              <Plus className="w-4 h-4 text-blue-400" />
+              <Plus className="w-4 h-4 text-pearson-blue" />
             </button>
           ))}
         </div>
 
         {/* Selected Ordered Sequence */}
-        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
-          <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 font-mono">Constructed Sequence ({targetSequence.length})</div>
+        <div className="bg-slate-50 p-4 rounded border border-slate-300 space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">Constructed Sequence ({targetSequence.length})</div>
           {targetSequence.length === 0 ? (
-            <div className="p-6 text-center text-xs text-slate-500 italic border border-dashed border-slate-800 rounded-lg">
+            <div className="p-6 text-center text-xs text-slate-500 italic border border-dashed border-slate-300 rounded bg-white">
               Click elements from the bank on the left to build sequence
             </div>
           ) : (
             targetSequence.map((item, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-blue-950/40 border border-blue-600/40 text-xs text-blue-200">
-                <span className="font-mono font-bold mr-2">{idx + 1}.</span>
+              <div key={idx} className="flex items-center justify-between p-3 rounded bg-sky-100/90 border border-sky-300 text-xs font-bold text-pearson-navy shadow-sm">
+                <span className="font-mono font-extrabold mr-2">{idx + 1}.</span>
                 <span className="flex-1">{item}</span>
-                <button type="button" onClick={() => remove(idx)} className="text-slate-400 hover:text-rose-400">
+                <button type="button" onClick={() => remove(idx)} className="text-slate-500 hover:text-rose-700">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>

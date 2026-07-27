@@ -19,18 +19,18 @@ export const FillBlankEngine: React.FC<{ question: Question }> = ({ question }) 
 
   return (
     <div className="space-y-6">
-      <pre className="text-base text-slate-200 whitespace-pre-wrap font-sans leading-relaxed">{content.prompt}</pre>
+      <pre className="text-base font-semibold text-slate-900 whitespace-pre-wrap font-sans leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</pre>
 
-      <div className="space-y-4 bg-slate-900/60 p-6 rounded-xl border border-slate-800">
+      <div className="space-y-4 bg-slate-50 p-6 rounded border border-slate-300">
         {content.blanks?.map((b: any) => (
-          <div key={b.id} className="flex flex-col gap-2">
-            <label className="text-xs font-semibold uppercase text-slate-400 font-mono">{b.id}</label>
+          <div key={b.id} className="flex flex-col gap-1.5">
+            <label className="text-xs font-bold uppercase text-slate-700 font-mono">{b.id}</label>
             <input
               type="text"
               value={userBlanks[b.id] || ''}
               onChange={(e) => handleInput(b.id, e.target.value)}
               placeholder="Type answer here..."
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-sm text-slate-100 font-mono focus:border-blue-500 focus:outline-none"
+              className="w-full bg-white border border-slate-300 rounded p-2.5 text-sm text-slate-900 font-mono font-semibold focus:border-pearson-blue focus:outline-none shadow-sm"
             />
           </div>
         ))}
