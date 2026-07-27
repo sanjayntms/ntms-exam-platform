@@ -4,7 +4,7 @@ import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus }
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting NTMS Database Seeding with ALL Questions across AI-901 (15 Qs), AI-900 (35 Qs), and AZ-900 (30 Qs)...');
+  console.log('🌱 Starting NTMS Database Seeding with ALL Questions across AI-901 (15 Qs), AI-900 (35 Qs), and AZ-900 (40 Qs with ExamHeist)...');
 
   // Clean existing data
   await prisma.auditLog.deleteMany();
@@ -936,7 +936,7 @@ async function main() {
   }
 
   // ==========================================
-  // 3. AZ-900 EXAM TRACK (30 COMPLETE QUESTIONS)
+  // 3. AZ-900 EXAM TRACK (40 QUESTIONS - INCL. EXAMHEIST)
   // ==========================================
   const az900QuestionsData = [
     {
@@ -1374,6 +1374,142 @@ async function main() {
         { id: 'opt4', text: 'Azure Files' },
       ],
     },
+    // --- EXAMHEIST AZ-900 QUESTIONS ---
+    {
+      code: 'AZ900-Q031',
+      title: 'ExamHeist - Azure Support Plans Ticket Entitlements',
+      type: QuestionType.MULTIPLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Developer, Standard, and Professional Direct support plans allow submitting technical support requests. Basic plan only covers billing & account support.',
+      prompt: 'Which Azure support plans grant users the entitlement to submit technical support tickets directly to Microsoft engineers? (Select all that apply)',
+      options: [
+        { id: 'opt1', text: 'Developer Support Plan', isCorrect: true },
+        { id: 'opt2', text: 'Standard Support Plan', isCorrect: true },
+        { id: 'opt3', text: 'Professional Direct Support Plan', isCorrect: true },
+        { id: 'opt4', text: 'Basic Support Plan' },
+      ],
+    },
+    {
+      code: 'AZ900-Q032',
+      title: 'ExamHeist - Read-Access Geo-Redundant Storage (RA-GRS)',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'RA-GRS replicates data to a secondary geographic location and provides read-only access to secondary endpoints even when primary is healthy.',
+      prompt: 'Your organization has datacenters in New York and London. You require a storage solution that replicates data to a secondary geographic region while providing read-only access to the secondary location. Which storage option should you choose?',
+      options: [
+        { id: 'opt1', text: 'Read-Access Geo-Redundant Storage (RA-GRS)', isCorrect: true },
+        { id: 'opt2', text: 'Locally Redundant Storage (LRS)' },
+        { id: 'opt3', text: 'Zone-Redundant Storage (ZRS)' },
+        { id: 'opt4', text: 'Geo-Redundant Storage (GRS)' },
+      ],
+    },
+    {
+      code: 'AZ900-Q033',
+      title: 'ExamHeist - Azure Synapse Analytics Data Warehouse',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure Synapse Analytics brings together enterprise data warehousing and big data analytics.',
+      prompt: 'Which Azure analytics service brings together enterprise data warehousing and big data analytics for high-scale query processing over petabytes of data?',
+      options: [
+        { id: 'opt1', text: 'Azure Synapse Analytics', isCorrect: true },
+        { id: 'opt2', text: 'Azure Data Lake Storage' },
+        { id: 'opt3', text: 'Azure HDInsight' },
+        { id: 'opt4', text: 'Azure Stream Analytics' },
+      ],
+    },
+    {
+      code: 'AZ900-Q034',
+      title: 'ExamHeist - Azure TCO Calculator Savings Estimation',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'The TCO Calculator compares on-premises datacenter operational costs against cloud deployment costs.',
+      prompt: 'Before migrating on-premises physical servers to Azure, your finance team wants to estimate total financial savings over a 5-year period compared to running on-premises infrastructure. Which tool should you use?',
+      options: [
+        { id: 'opt1', text: 'Azure TCO Calculator', isCorrect: true },
+        { id: 'opt2', text: 'Azure Pricing Calculator' },
+        { id: 'opt3', text: 'Azure Cost Management' },
+        { id: 'opt4', text: 'Azure Advisor' },
+      ],
+    },
+    {
+      code: 'AZ900-Q035',
+      title: 'ExamHeist - Azure SLA Violation Financial Credits',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'If an Azure service fails to meet guaranteed SLA uptime, Microsoft issues service billing credits.',
+      prompt: 'What happens if an Azure service experiences downtime that breaches Microsoft\'s published Service Level Agreement (SLA)?',
+      options: [
+        { id: 'opt1', text: 'Microsoft provides financial credits applied to your billing invoice', isCorrect: true },
+        { id: 'opt2', text: 'Microsoft automatically upgrades your support tier to Professional Direct' },
+        { id: 'opt3', text: 'Microsoft refunds all historical charges in cash' },
+        { id: 'opt4', text: 'Microsoft grants free virtual machine instances' },
+      ],
+    },
+    {
+      code: 'AZ900-Q036',
+      title: 'ExamHeist - Azure Marketplace Deployable Assets',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Marketplace is an online store containing thousands of pre-configured software applications and images ready to deploy.',
+      prompt: 'Where can developers and IT administrators browse, purchase, and deploy thousands of pre-configured third-party software applications, VM images, and solution templates directly into Azure?',
+      options: [
+        { id: 'opt1', text: 'Azure Marketplace', isCorrect: true },
+        { id: 'opt2', text: 'Azure Artifacts' },
+        { id: 'opt3', text: 'Microsoft Store' },
+        { id: 'opt4', text: 'Azure App Service Plan' },
+      ],
+    },
+    {
+      code: 'AZ900-Q037',
+      title: 'ExamHeist - ARM Templates Declarative Automation',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'ARM templates & Bicep allow declaring infrastructure as code for consistent deployments.',
+      prompt: 'Which Azure feature allows you to define application infrastructure declaratively using JSON or Bicep code files for repeatable automated deployments?',
+      options: [
+        { id: 'opt1', text: 'ARM Templates / Bicep', isCorrect: true },
+        { id: 'opt2', text: 'Azure Automation Runbooks' },
+        { id: 'opt3', text: 'Azure Functions' },
+        { id: 'opt4', text: 'Azure Policy' },
+      ],
+    },
+    {
+      code: 'AZ900-Q038',
+      title: 'ExamHeist - Azure Cloud Shell Browser Terminal',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Cloud Shell is an interactive, browser-accessible terminal for managing Azure resources.',
+      prompt: 'Which browser-accessible, pre-configured terminal environment available directly within the Azure Portal allows you to run Azure CLI and PowerShell scripts without local setup?',
+      options: [
+        { id: 'opt1', text: 'Azure Cloud Shell', isCorrect: true },
+        { id: 'opt2', text: 'Azure Command Prompt' },
+        { id: 'opt3', text: 'Windows Terminal Server' },
+        { id: 'opt4', text: 'Azure Bastion' },
+      ],
+    },
+    {
+      code: 'AZ900-Q039',
+      title: 'ExamHeist - Azure DevTest Labs Auto-Shutdown Controls',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.INTERMEDIATE,
+      points: 1.0,
+      explanation: 'Azure DevTest Labs provides self-service test environments with automated auto-shutdown rules to control costs.',
+      prompt: 'A development team needs to quickly spin up disposable Virtual Machine testing environments on-demand with automated auto-shutdown rules to prevent unnecessary overnight billing. Which service is best suited?',
+      options: [
+        { id: 'opt1', text: 'Azure DevTest Labs', isCorrect: true },
+        { id: 'opt2', text: 'Azure Batch' },
+        { id: 'opt3', text: 'Virtual Machine Scale Sets' },
+        { id: 'opt4', text: 'Azure Automation' },
+      ],
+    },
   ];
 
   const seededAZ900Questions = [];
@@ -1422,13 +1558,36 @@ async function main() {
   });
   seededAZ900Questions.push(qAZ900_DD);
 
+  // Question 40: Storage Explorer GUI
+  const qAZ900_40 = await prisma.question.create({
+    data: {
+      code: 'AZ900-Q040',
+      title: 'ExamHeist - Azure Storage Explorer Desktop GUI Tool',
+      type: QuestionType.SINGLE_CHOICE,
+      difficulty: DifficultyLevel.BEGINNER,
+      points: 1.0,
+      explanation: 'Azure Storage Explorer is a standalone GUI desktop app for Windows, macOS, and Linux to manage Azure Storage items.',
+      categoryId: catAzure.id,
+      content: JSON.stringify({
+        prompt: 'Which standalone graphical desktop application allows administrators to easily inspect, upload, download, and manage Azure Blobs, Files, Queues, and Tables across Windows, macOS, and Linux?',
+        options: [
+          { id: 'opt1', text: 'Azure Storage Explorer', isCorrect: true },
+          { id: 'opt2', text: 'Azure Data Factory' },
+          { id: 'opt3', text: 'Azure Storage Sync' },
+          { id: 'opt4', text: 'AzCopy CLI' },
+        ],
+      }),
+    },
+  });
+  seededAZ900Questions.push(qAZ900_40);
+
   const examAZ900 = await prisma.exam.create({
     data: {
       code: 'AZ-900',
       title: 'Microsoft Azure Fundamentals (AZ-900)',
       vendor: ExamVendor.MICROSOFT,
       examType: ExamType.CERTIFICATION,
-      description: 'Demonstrate foundational knowledge of cloud concepts, Azure architecture, services, security, privacy, pricing, and SLAs with 30 deduplicated practice questions.',
+      description: 'Demonstrate foundational knowledge of cloud concepts, Azure architecture, services, security, privacy, pricing, and SLAs with 40 comprehensive practice questions.',
       timeLimitMinutes: 60,
       passingScore: 70.0,
       creatorId: creatorUser.id,
