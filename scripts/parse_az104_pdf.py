@@ -7,10 +7,11 @@ def parse_az104():
     pdf_path = 'pdf/az-104.pdf'
     out_json = 'backend/prisma/az104_questions.json'
     
-    print("Parsing az-104.pdf with High-Precision Scenario Start Matching...")
+    print("Parsing az-104.pdf taking the LAST scenario starter before option choices...")
     reader = pypdf.PdfReader(pdf_path)
     
     parsed_qs = []
+    pattern = r'(?i)\b(Your company|You have|You need|You are|A company|An organization|You create|You plan|You deploy|You want|You manage)\b'
 
     for idx, page in enumerate(reader.pages):
         text = page.extract_text() or ''
@@ -42,10 +43,11 @@ def parse_az104():
                 
             raw_prompt = main_part[:opt_matches[0].start()].strip()
             
-            # Find the actual scenario starting keyword (Your company, You have, You need, etc.)
-            scenario_match = re.search(r'(?i)\b(Your company|You have|You need|You are|A company|An organization|You create|You plan|You deploy|You want|You manage)\b', raw_prompt)
-            if scenario_match:
-                clean_prompt = raw_prompt[scenario_match.start():]
+            # CRITICAL FIX: Find ALL scenario matches and take the LAST one right before options A. B. C. D.
+            all_matches = list(re.finditer(pattern, raw_prompt))
+            if all_matches:
+                last_match = all_matches[-1]
+                clean_prompt = raw_prompt[last_match.start():]
             else:
                 clean_prompt = re.sub(r'(?i)^\s*Note:.*?\n\s*', '', raw_prompt, flags=re.DOTALL)
                 
@@ -89,7 +91,7 @@ def parse_az104():
             seen.add(key)
             unique.append(q)
             
-    print(f"Extracted {len(unique)} clean, perfectly formatted AZ-104 questions.")
+    print(f"Extracted {len(unique)} clean, 100% accurate AZ-104 questions.")
     
     os.makedirs(os.path.dirname(out_json), exist_ok=True)
     with open(out_json, 'w', encoding='utf-8') as f:

@@ -32,7 +32,7 @@
   },
   {
     "num": 2,
-    "prompt": "However, every question has a distinctive result. Establish if the solution satisfies the requirements. Your company has an Azure Active Directory (Azure AD) subscription. You want to implement an Azure AD conditional access policy. The policy must be configured to require members of the Global Administrators group to use Multi-Factor Authentication and an Azure AD-joined device when they connect to Azure AD from untrusted locations. Solution: You access the multi-factor authentication page to alter the user settings. Does the solution meet the goal?",
+    "prompt": "Your company has an Azure Active Directory (Azure AD) subscription. You want to implement an Azure AD conditional access policy. The policy must be configured to require members of the Global Administrators group to use Multi-Factor Authentication and an Azure AD-joined device when they connect to Azure AD from untrusted locations. Solution: You access the multi-factor authentication page to alter the user settings. Does the solution meet the goal?",
     "options": [
       {
         "id": "opt_A",
@@ -48,6 +48,63 @@
       }
     ],
     "explanation": "1- the best way to enforce MFA is by Conditional Access \n \n2- the device has to be identified by azure AD as A AD joined Device. \n \n3- the trusted ip must be configured."
+  },
+  {
+    "num": 6,
+    "prompt": "Your company makes use of Multi-Factor Authentication for when users are not in the office. The Per Authentication option has been configured as the usage model. After the acquisition of a smaller business and the addition of the new staff to Azure Active Directory (Azure AD) obtains a different company and adding the new employees to Azure Active Directory (Azure AD), you are informed that these employees should also make use of Multi-Factor Authentication. To achieve this, the Per Enabled User setting must be set for the usage model. Solution: You reconfigure the existing usage model via the Azure portal. Does the solution meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "Since it is not possible to change the usage model of an existing provider as it is right now, you have to create \na new one and reactivate your existing server with activation credentials from the new provider. \n \n\nhttps://365lab.net/2015/04/11/switch-usage-model-in-azure-multi-factor-authentication-server/"
+  },
+  {
+    "num": 7,
+    "prompt": "Your company's Azure solution makes use of Multi-Factor Authentication for when users are not in the office. The Per Authentication option has been configured as the usage model. After the acquisition of a smaller business and the addition of the new staff to Azure Active Directory (Azure AD) obtains a different company and adding the new employees to Azure Active Directory (Azure AD), you are informed that these employees should also make use of Multi-Factor Authentication. To achieve this, the Per Enabled User setting must be set for the usage model. Solution: You reconfigure the existing usage model via the Azure CLI. Does the solution meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "Since it is not possible to change the usage model of an existing provider as it is right now, you have to create \na new one and reactivate your existing server with activation credentials from the new provider. \n \n\nAnswer: D \nExplanation: \nIt specifically mentions clout-init.txt. This link https://docs.microsoft.com/en-us/azure/virtual- \nmachines/linux/using-cloud-init Seems to indicate that answ"
+  },
+  {
+    "num": 9,
+    "prompt": "Your company has an Azure Active Directory (Azure AD) tenant named weyland.com that is configured for hybrid coexistence with the on -premises Active Directory domain. You have a server named DirSync1 that is configured as a DirSync server. You create a new user account in the on-premise Active Directory. You now need to replicate the user information to Azure AD immediately. Solution: You run the Start-ADSyncSyncCycle -PolicyType Initial PowerShell cmdlet. Does the solution meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "NO Initial will perform a full sync and add the user account created but it will take time, \n \nDelta, will kick off a delta sync and bring only the last change, so it will be \"immediately\" and will fulfill the \nrequirements. \nhttps://365lab.net/2015/04/11/switch-usage-model-in-azure-multi-factor-authentication-server/"
   },
   {
     "num": 12,
@@ -81,6 +138,25 @@
     "explanation": "RA-GRS allows you to have higher read availability for your storage account by providing read only access to \nthe data replicated to the secondary location. Once you enable this feature, the secondary location may be \nused to achieve higher availability in the event the data is not available in the primary region. This is an \nopt-in feature which requires the storage account be geo-replicated. \n \n"
   },
   {
+    "num": 13,
+    "prompt": "Your company has an azure subscription that includes a storage account, a resource group, a blob container and a file share. A colleague named Jon Ross makes use of a solitary Azure Resource Manager (ARM) template to deploy a virtual machine and an additional Azure Storage account. You want to review the ARM template that was used by Jon Ross. Solution: You access the Virtual Machine blade. Does the solution meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "as questions talk about VM and storage account both which can only be reviewed at RG level. \nYou should use the Resource Group blade  \n\n \nhttps://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-export-template"
+  },
+  {
     "num": 18,
     "prompt": "Your company has an Azure subscription. You need to deploy a number of Azure virtual machines (VMs) using Azure Resource Manager (ARM) templates. You are required to make sure that the ARM template you configure allows for as many VMs as possible to remain Which of the following is the value that you should configure for the platformFaultDomainCount property? 10 Your company has three virtual machines (VMs) that are included in an availability set. You try to resize one of the VMs, which returns an allocation failure message. It is imperative that the VM is resized. Which of the following actions should you take?",
     "options": [
@@ -112,35 +188,42 @@
     "explanation": "If the VM you wish to resize is part of an availability set, then you must stop all VMs in the availability set \nbefore changing the size of any VM in the availability set. \nThe reason all VMs in the availability set must be stopped before performing the resize operation to a size that \nrequires different hardware is that all running VMs in the availability set must be using the same physical \nhar"
   },
   {
-    "num": 22,
-    "prompt": "Your company has an Azure Active Directory (Azure AD) tenant that is configured for hybrid coexistence with the on-premises Active Directory domain. You plan to deploy several new virtual machines (VMs) in Azure. The VMs will have the same operating system and custom software requirements. You configure a reference VM in the on-premise virtual environment. You then generalize the VM to create an image. You need to upload the image to Azure to ensure that it is available for selection when you create the new Azure VMs. Which PowerShell cmdlets should you use?",
+    "num": 24,
+    "prompt": "Your company's Azure subscription includes two Azure networks named VirtualNetworkA and VirtualNetworkB. VirtualNetworkA includes a VPN gateway that is configured to make use of static routing. Also, a site-to-site VPN connection exists between your company's on- premises network and VirtualNetworkA. You have configured a point-to-site VPN connection to VirtualNetworkA from a workstation running Windows 10. After configuring virtual network peering between VirtualNetworkA and VirtualNetworkB, you confirm that you are able to access VirtualNetworkB from the company's on-premises network. However, you find that you cannot establish a connection to VirtualNetworkB from the Windows 10 workstation. You have to make sure that a connection to VirtualNetworkB can be established from the Windows 10 workstation. Solution: You choose the Allow gateway transit setting on VirtualNetworkA. Does the solution meet the goal?",
     "options": [
       {
         "id": "opt_A",
         "letter": "A",
-        "text": "Add-AzVM",
+        "text": "Yes",
         "isCorrect": false
       },
       {
         "id": "opt_B",
         "letter": "B",
-        "text": "Add-AzVhd",
+        "text": "No",
         "isCorrect": true
-      },
-      {
-        "id": "opt_C",
-        "letter": "C",
-        "text": "Add-AzImage",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_D",
-        "letter": "D",
-        "text": "Add-AzImageDataDisk",
-        "isCorrect": false
       }
     ],
-    "explanation": "The Add-AzVhd cmdlet uploads on-premises virtual hard disks, in .vhd file format, to a blob storage account \nas fixed virtual hard disks.  \n \n\nhttps://docs.microsoft.com/en-us/azure/virtual-machines/windows/upload-generalized-managed \n \n \nExplanation: \nAfter you deploy a Virtual Machine you typically need to make some changes before it's ready to use. This is \nsomething you can do manually or you "
+    "explanation": ""
+  },
+  {
+    "num": 29,
+    "prompt": "Your company has a Microsoft SQL Server Always On availability group configured on their Azure virtual machines (VMs). You need to configure an Azure internal load balancer as a listener for the availability group. Solution: You set Session persistence to Client IP. Does the solution meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "FYI: Session persistence ensures that a client will remain connected to the same server throughout a session \nor period of time. Because load balancing may, by default, send users to unique servers each time they \nconnect, this can mean that complicated or repeated requests are slowed down. \n\n \nhttps://docs.microsoft.com/en-us/azure/virtual-machines/windows/sql/virtual-machines-windows-portal-sql-"
   },
   {
     "num": 31,
@@ -178,37 +261,6 @@
       }
     ],
     "explanation": "Specify a static internal IP for a previously created VM \nIf you want to set a static IP address for a VM that you previously created, you can do so by using the \nfollowing cmdlets. If you already set an IP address for the \nVM and you want to change it to a different IP address, you'll need to remove the existing static IP address \nbefore running these cmdlets. See the instructions below to remove"
-  },
-  {
-    "num": 32,
-    "prompt": "Your company has an Azure Active Directory (Azure AD) subscription. You need to deploy five virtual machines (VMs) to your company's virtual network subnet. The VMs will each have both a public and private IP address. Inbound and outbound security rules for all of these virtual machines must be identical. Which of the following is the least amount of network interfaces needed for this configuration?",
-    "options": [
-      {
-        "id": "opt_A",
-        "letter": "A",
-        "text": "5",
-        "isCorrect": true
-      },
-      {
-        "id": "opt_B",
-        "letter": "B",
-        "text": "10",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_C",
-        "letter": "C",
-        "text": "20",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_D",
-        "letter": "D",
-        "text": "40",
-        "isCorrect": false
-      }
-    ],
-    "explanation": "5 VM so 5 NIC Cards .we have public and private ip address set to them .however they needs same inbound \nand outbound rule so create NSG and attach to NIC and this req can be fulfilled 5 NIC hence 5 is right ans"
   },
   {
     "num": 34,
@@ -280,7 +332,7 @@
   },
   {
     "num": 38,
-    "prompt": "Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might n ot have a correct solution. After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen. You have an Azure Active Directory (Azure AD) tenant named contoso.com. You have a CSV file that contains the names and email addresses of 500 external users. You need to create a guest user account in contoso.com for each of the 500 external users. Solution: You create a PowerShell script that runs the New-AzureADUser cmdlet for each user. Does this meet the goal?",
+    "prompt": "You have an Azure Active Directory (Azure AD) tenant named contoso.com. You have a CSV file that contains the names and email addresses of 500 external users. You need to create a guest user account in contoso.com for each of the 500 external users. Solution: You create a PowerShell script that runs the New-AzureADUser cmdlet for each user. Does this meet the goal?",
     "options": [
       {
         "id": "opt_A",
@@ -327,6 +379,43 @@
       }
     ],
     "explanation": "Cluster administrators can configure Kubernetes role-based access control (Kubernetes RBAC) based on a \nuser's identity or directory group membership. Azure AD authentication is provided to AKS clusters with \nOpenID Connect. OpenID Connect is an identity layer built on top of the OAuth 2.0 protocol \nhttps://docs.microsoft.com/en -us/azure/aks/managed -aad \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "
+  },
+  {
+    "num": 45,
+    "prompt": "you create? Each correct answer presents a complete solution. NOTE: Each correct selection is worth one point.",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "a Microsoft 365 group that uses the Assigned membership type",
+        "isCorrect": true
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "a Security group that uses the Assigned membership type",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_C",
+        "letter": "C",
+        "text": "a Microsoft 365 group that uses the Dynamic User membership type",
+        "isCorrect": true
+      },
+      {
+        "id": "opt_D",
+        "letter": "D",
+        "text": "a Security group that uses the Dynamic User membership type",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_E",
+        "letter": "E",
+        "text": "a Security group that uses the Dynamic Device membership type",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "You can set expiration policy only for Office 365 groups in Azure Active Directory (Azure AD). \n \nNote: With the increase in usage of Office 365 Groups, administrators and users need a way to clean up \nunused groups. Expiration policies can help remove inactive groups from the system and make things cleaner. \nWhen a group expires, all of its associated services (the mailbox, Planner, SharePoint si"
   },
   {
     "num": 50,
@@ -478,35 +567,23 @@
     "explanation": "Has full access to all resources including the right to delegate access to others. \nNote: \nThere are several versions of this question in the exam. The question has two possible correct answers: \n✑ Assign User1 the User Access Administrator role for VNet1. \n✑ Assign User1 the Owner role for VNet1. \nOther incorrect answer options you may see on the exam include the following: \n✑ Assign User1 the Co"
   },
   {
-    "num": 58,
-    "prompt": "You have an Azure Active Directory (Azure AD) tenant named contosocloud.onmicrosoft.com. Your company has a public DNS zone for contoso.com. You add contoso.com as a custom domain name to Azure AD. You need to ensure that Azure can verify the domain name. Which type of DNS record should you create?",
+    "num": 60,
+    "prompt": "You have an Azure Directory (Azure AD) tenant named Adatum and an Azure Subscription named Subscription1. Adatum contains a group named Developers. Subscription1 contains a resource group named Dev. You need to provide the Developers group with the ability to create Azure logic apps in the Dev resource group. Solution: On Subscription1, you assign the Logic App Operator role to the Developers group. Does this meet the goal?",
     "options": [
       {
         "id": "opt_A",
         "letter": "A",
-        "text": "MX",
-        "isCorrect": true
+        "text": "Yes",
+        "isCorrect": false
       },
       {
         "id": "opt_B",
         "letter": "B",
-        "text": "NSEC",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_C",
-        "letter": "C",
-        "text": "PTR",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_D",
-        "letter": "D",
-        "text": "RRSIG",
-        "isCorrect": false
+        "text": "No",
+        "isCorrect": true
       }
     ],
-    "explanation": "To verify your custom domain name (example) \n1. Sign in to the Azure portal using a Global administrator account for the directory. \n2. Select Azure Active Directory, and then select Custom domain names. \n3. On the Fabrikam - Custom domain names page, select the custom domain name, Contoso. \n4. On the Contoso page, select Verify to make sure your custom domain is properly registered and is valid f"
+    "explanation": "You would need the Logic App Contributor role. \n \n\nhttps://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles   https://docs.microsoft.com/e \nn-us/azure/logic-apps/logic-apps-securing-a-logic-app \n \n \nAnswer: B \nExplanation: \nDevTest Labs User role only lets you connect, start, restart, and shutdown virtual machines in your Azure \nDevTest Labs. \nThe Logic App Contributor role "
   },
   {
     "num": 66,
@@ -538,6 +615,25 @@
       }
     ],
     "explanation": "You can move an app to another App Service plan, as long as the source plan and the target plan are in the \nsame resource group and geographical region. \nThe region in which your app runs is the region of the App Service plan it's in. However, you cannot change an \nApp Service plan's region.  \n \n\nhttps://docs.microsoft.com/en-us/azure/app-service/app-service-plan-manage"
+  },
+  {
+    "num": 74,
+    "prompt": "You need to ensure that an Azure Active Directory (Azure AD) user named Admin1 is assigned the required role to enable Traffic Analytics for an Azure subscription. Solution: You assign the Network Contributor role at the subscription level to Admin1. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": true
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Your account must meet one of the following to enable traffic analytics: \nYour account must have any one of the following Azure roles at the subscription scope: owner, contributor, \nreader, or network contributor.  \n \n\nhttps://docs.microsoft.com/en-us/azure/network-watcher/traffic-analytics-faq"
   },
   {
     "num": 77,
@@ -695,6 +791,62 @@
     "explanation": "Before you enable Azure AD over SMB for Azure file shares, make sure you have completed the following \nprerequisites: \n1. Select or create an Azure AD tenant. \n2. To support authentication  with Azure AD credentials,  you must enable Azure AD Domain Services for your \nAzure AD tenant.  \nEtc. \nNote: The Storage File Data SMB Share Elevated Contributor allows read, write, delete and modify NTFS \nper"
   },
   {
+    "num": 100,
+    "prompt": "You have an Azure subscription that contains the following users in an Azure Active Directory tenant named contoso.onmicrosoft.com: User1 creates a new Azure Active Directory tenant named external.contoso.onmicrosoft.com. You need to create new user accounts in external.contoso.onmicrosoft.com. Solution: You instruct User4 to create the user accounts. Does that meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No Solution: You instruct User2 to create the user accounts. Does that meet the goal? Yes",
+        "isCorrect": true
+      }
+    ],
+    "explanation": ""
+  },
+  {
+    "num": 104,
+    "prompt": "Which two actions can User1 perform? Each correct answer presents a complete solution. NOTE: Each correct selection is worth one point.",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Assign roles to User2 for storageacct1234.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "Upload blob data to storageacct1234.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt_C",
+        "letter": "C",
+        "text": "Modify the firewall of storageacct1234.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_D",
+        "letter": "D",
+        "text": "View blob data in storageacct1234.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt_E",
+        "letter": "E",
+        "text": "View file shares in storageacct1234.",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "Tried this in the Lab \n \nA. User1 cannot add role assignment (disabled) \n \nB. Worked - User1 can upload blob data \n \nC. Nope \n \nD. Worked - User1 can view blob data \n \nE. Error - The client '[email protected] does not have authorization to perform action \n'Microsoft.Storage/storageAccounts/listKeys/action'       over      scope \n'/subscriptions/ .... /resourceGroups/rg1/providers/Microsoft.Storage"
+  },
+  {
     "num": 105,
     "prompt": "You have an Azure App Services web app named App1. You plan to deploy App1 by using Web Deploy. You need to ensure that the developers of App1 can use their Azure AD credentials to deploy content to App1. The solution must use the principle of least privilege. What should you do?",
     "options": [
@@ -724,6 +876,25 @@
       }
     ],
     "explanation": "\"To secure app deployment from a local computer, Azure App Service supports two types of credentials for \nlocal Git deployment and FTP/S deployment. These credentials are not the same as your Azure subscription \ncredentials.\" \nhttps://learn.microsoft.com/en-us/azure/app-service/deploy-configure-credentials?tabs=cli    \nhttps://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-role"
+  },
+  {
+    "num": 107,
+    "prompt": "you need to create two custom roles named Role3 and Role4. Role3 will be an Azure Which roles can you clone to create the new roles? To answer, select the appropriate options in the answer area. You have an Azure Active Directory (Azure AD) tenant named contoso.com. You have a CSV file that contains the names and email addresses of 500 external users. You need to create a guest user account in contoso.com for each of the 500 external users. Solution: From Azure AD in the Azure portal, you use the Bulk invite users operation. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "The question states \"You have a CSV file that contains the names and email addresses of 500 external users.\" \nThis implies that the required fields (Email and Redirection URL)are missing from the .csv file. \nHere are the csv field pre-requisites that are needed for bulk upload of external users: \nhttps://learn.microsoft.com/en-us/azure/active-directory/external-identities/tutorial-bulk-invite#prer"
   },
   {
     "num": 110,
@@ -1228,6 +1399,44 @@
     "explanation": "Answer is C) a Desired State Configuration (DSC) extension \n \nTo ensure that NGINX is available on all the virtual machines in a virtual machine scale set, you can use the \nDesired State Configuration (DSC) extension. \nOption A (the Publish-AzVMDscConfiguration  cmdlet) is used to generate a configuration  file for DSC. \n \nOption B (Azure Application Insights) is a monitoring service that provides"
   },
   {
+    "num": 234,
+    "prompt": "You deploy an Azure Kubernetes Service (AKS) cluster named AKS1. You need to deploy a YAML file to AKS1. Solution: From Azure CLI, you run the kubectl client. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": true
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "To manage a Kubernetes cluster, use the Kubernetes command-line client, kubectl \nthen run \"kubectl apply -f azure-vote.yaml\" \n\n \nhttps://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough"
+  },
+  {
+    "num": 236,
+    "prompt": "You have an Azure virtual machine named VM1 that runs Windows Server 2016. You need to create an alert in Azure when more than two error events are logged to the System event log on VM1 within an hour. Solution: You create an Azure storage account and configure shared access signatures (SASs). You install the Microsoft Monitoring Agent on VM1. You create an alert in Azure Monitor and specify the storage account as the source. Does that meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "Instead: You create an Azure Log Analytics workspace and configure the data settings. You install the \nMicrosoft Monitoring Agent on VM1. You create an alert in  \nAzure Monitor and specify the Log Analytics workspace as the source. \n \n\nhttps://docs.microsoft.com/en-us/azure/azure-monitor/platform/agents-overview \n \n \n \nhttps://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough"
+  },
+  {
     "num": 241,
     "prompt": "You plan to automate the deployment of a virtual machine scale set that uses the Windows Server 2016 Datacenter image. You need to ensure that when the scale set virtual machines are provisioned, they have web server components installed. Which two actions should you perform? Each correct answer presents part of the solution. NOTE: Each correct selection is worth one point.",
     "options": [
@@ -1294,6 +1503,25 @@
       }
     ],
     "explanation": "The app must be running in the Standard, Premium, or Isolated tier in order for you to enable multiple \ndeployment slots. \nIf the app isn't already in the Standard, Premium, or Isolated tier, you receive a message that indicates the \nsupported tiers for enabling staged publishing. At this point, you have the option to select Upgrade and go to \nthe Scale tab of your app before continuing. \nScale up"
+  },
+  {
+    "num": 249,
+    "prompt": "You have an Azure virtual machine named VM1. VM1 was deployed by using a custom Azure Resource Manager template named ARM1.json. You receive a notification that VM1 will be affected by maintenance. You need to move VM1 to a different host immediately. Solution: From the Redeploy blade, you click Redeploy. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": true
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "When you redeploy a VM, it moves the VM to a new node within the Azure infrastructure and then powers it \nback on, retaining all your configuration options and associated resources. \n \n\nhttps://docs.microsoft.com/en-us/azure/virtual-machines/windows/redeploy-to-new-node \n \n \nYes \n \nAnswer: B \nExplanation: \n \n \n \n \nhttps://docs.microsoft.com/en-us/azure/virtual-machines/windows/redeploy-to-new-node"
   },
   {
     "num": 263,
@@ -1424,6 +1652,25 @@
       }
     ],
     "explanation": "Break down the question first: \n \n1. You already have a container and an AKS cluster for your app - so no need to \"create\" these. \n \n2. You have a container image named App1 already on your location machine, ready to be pushed\" to your \nAzure container.  \n3. What do you need to do first? \n \nTherefore the next thing to do is Push the container instant to your Azure Container registry using the Dock"
+  },
+  {
+    "num": 277,
+    "prompt": "You have an Azure subscription named Subscription1. Subscription1 contains a resource group named RG1. RG1 contains resources that were deployed by using templates. You need to view the date and time when the resources were created in RG1. Solution: From the RG1 blade, you click Automation script. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "From the RG1 blade, click Deployments.  You see a history of deployment for the resource group. \n \n\nhttps://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template-tutorial-create-first-te     \nmplate?tabs=azure-powershell"
   },
   {
     "num": 293,
@@ -1861,6 +2108,25 @@
     "explanation": "Status is Stopped (Deallocated).  \nThe DSC extension for Windows requires that the target virtual machine is able to communicate with Azure.  \nThe VM needs to be started. \n \n\nhttps://docs.microsoft.com/en -us/azure/virtual -machines/extensions/dsc -windows"
   },
   {
+    "num": 356,
+    "prompt": "You have an Azure subscription that contains the following resources: ✑ A virtual network that has a subnet named Subnet1 ✑ Two network security groups (NSGs) named NSG-VM1 and NSG-Subnet1 ✑ A virtual machine named VM1 that has the required Windows Server configurations to allow Remote Desktop connections NSG-Subnet1 has the default inbound security rules only. NSG-VM1 has the default inbound security rules and the following custom inbound security rule: ✑ Priority: 100 ✑ Source: Any ✑ Source port range: * ✑ Destination: * ✑ Destination port range: 3389 Protocol: UDP - ✑ Action: Allow VM1 has a public IP address and is connected to Subnet1. NSG-VM1 is associated to the network interface of VM1. NSG-Subnet1 is associated to Subnet1. You need to be able to establish Remote Desktop connections from the internet to VM1. Solution: You add an inbound security rule to NSG -Subnet1 that allows connections from the internet source to the VirtualNetwork destination for port range 3389 and uses the UDP protocol. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "The default port for RDP is TCP port 3389. A rule to permit RDP traffic must  be created automatically when  \nyou create your VM. \n \nNote on NSG-Subnet1: Azure routes network traffic between all subnets in a virtual network, by default. \n\nhttps://docs.microsoft.com/en -us/azure/virtual -machines/troubleshooting/troubleshoot -rdp-connection \n \n \n \n \nAnswer: A \nExplanation: \nThe answer is Yes. The m"
+  },
+  {
     "num": 358,
     "prompt": "You have a virtual network named VNet1 that has the configuration shown in the following exhibit. AZ-104 contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution. After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen. You have an Azure subscription that contains the following resources: ✑ A virtual network that has a subnet named Subnet1 ✑ Two network security groups (NSGs) named NSG-VM1 and NSG-Subnet1 ✑ A virtual machine named VM1 that has the required Windows Server configurations to allow Remote Desktop connections NSG-Subnet1 has the default inbound security rules only. NSG-VM1 has the default inbound security rules and the following custom inbound security rule: ✑ Priority: 100 ✑ Source: Any ✑ Source port range: * ✑ Destination: * ✑ Destination port range: 3389 ✑ Protocol: UDP ✑ Action: Allow VM1 has a public IP address and is connected to Subnet1. NSG-VM1 is associated to the network interface of VM1. NSG-Subnet1 is associated to Subnet1. You need to be able to establish Remote Desktop connections from the internet to VM1. Solution: You add an inbound security rule to NSG-Subnet1 and NSG-VM1 that allows connections from the internet source to the VirtualNetwork destination for port range 3389 and uses the TCP protocol. Does this meet the goal?",
     "options": [
@@ -1966,8 +2232,8 @@
     "explanation": "You can associate or dissociate a network security group from a network interface or subnet. \nThe NSG has the appropriate rule to block users from accessing the Internet. We just need to associate it with  \nSubnet1. \n \n\nhttps://docs.microsoft.com/en -us/azure/virtual -network/manage -network-security-group"
   },
   {
-    "num": 374,
-    "prompt": "You have an Azure subscription named Subscription1. Subscription1 contains a virtual machine named VM1. You have a computer named Computer1 that runs Windows 10. Computer1 is connected to the Internet. You add a network interface named vm1173 to VM1 as shown in the exhibit. (Click the Exhibit tab.) Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution. After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen. You have an Azure subscription that contains 10 virtual networks. The virtual networks are hosted in separate resource groups. Another administrator plans to create several network security groups (NSGs) in the subscription. You need to ensure that when an NSG is created, it automatically blocks TCP port 8080 between the virtual networks. Solution: You create a resource lock, and then you assign the lock to the subscription. Does this meet the goal?",
+    "num": 371,
+    "prompt": "You have a computer named Computer1 that has a point-to-site VPN connection to an Azure virtual network named VNet1. The point-to-site connection uses a self-signed certificate. From Azure, you download and install the VPN client configuration package on a computer named Computer2. You need to ensure that you can establish a point-to-site VPN connection to VNet1 from Computer2. Solution: You modify the Azure Active Directory (Azure AD) authentication policies. Does this meet the goal?",
     "options": [
       {
         "id": "opt_A",
@@ -1982,7 +2248,7 @@
         "isCorrect": true
       }
     ],
-    "explanation": "No \n \nYou need to use a custom policy definition, because there is not a built-in policy and Resource Lock is an \nirrelevant solution. \n \n\n \nhttps://docs.microsoft.com/en -us/azure/azure -policy/policy-definition \nhttps://docs.microsoft.com/en -us/azure/governance/policy/samples/built -in-policies \nhttps://docs.microsoft.com/en -us/azure/azure -resource-manager/management/lock -resources?tabs=json"
+    "explanation": "Instead export the client certificate from Computer1 and install the certificate on Computer2.  \nNote: \nEach client computer that connects to a VNet using Point-to-Site must have a client certificate installed. You \ngenerate a client certificate from the self -signed root certificate, and then export and install the client  \ncertificate. If the client certificate is not installed, authentication  "
   },
   {
     "num": 375,
@@ -2084,6 +2350,25 @@
     "explanation": "Adatum.com  is a public DNS zone. The Internet top level domain DNS servers need to know which DNS \nservers to direct DNS queries for adatum.com to. You configure this by configuring the name servers for  \nadatum.com at the domain registrar."
   },
   {
+    "num": 389,
+    "prompt": "You have an Azure subscription that contains the virtual machines shown in the following table. You deploy a load balancer that has the following configurations: ✑ Name: LB1 ✑ Type: Internal ✑ SKU: Standard ✑ Virtual network: VNET1 You need to ensure that you can add VM1 and VM2 to the backend pool of LB1. Solution: You create a Standard SKU public IP address, associate the address to the network interface of VM1, and then stop VM2. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "A Backend Pool configured by IP address has the following limitations:  \n✑ Standard load balancer only \n \n\nhttps://docs.microsoft.com/en -us/azure/load-balancer/backend -pool-management  \n \n \n \nAnswer: B \nExplanation: \nA Backend Pool configured by IP address has the following limitations:  \n✑ Standard load balancer only \n \n\nhttps://docs.microsoft.com/en -us/azure/load-balancer/backend -pool-manage"
+  },
+  {
     "num": 392,
     "prompt": "You have an Azure virtual machine named VM1. The network interface for VM1 is configured as shown in the exhibit. (Click the Exhibit tab.) You deploy a web server on VM1, and then create a secure website that is accessible by using the HTTPS protocol. VM1 is used as a web server only. You need to ensure that users can connect to the website from the Internet. What should you do?",
     "options": [
@@ -2113,6 +2398,44 @@
       }
     ],
     "explanation": "HTTPS uses port 443. \nRule2, with priority 500, denies HTTPS traffic. \nRule5, with priority changed  from 2000 to 401, would allow HTTPS traffic.  \nNote: Priority is a number between 100 and 4096. Rules are processed in priority order, with lower numbers  \nprocessed before higher numbers, because lower numbers have higher priority. Once traffic matches a rule, \nprocessing stops. As a result, any r"
+  },
+  {
+    "num": 393,
+    "prompt": "You have an Azure subscription that contains 10 virtual networks. The virtual networks are hosted in separate resource groups. Another administrator plans to create several network security groups (NSGs) in the subscription. You need to ensure that when an NSG is created, it automatically blocks TCP port 8080 between the virtual networks. Solution: From the Resource providers blade, you unregister the Microsoft.ClassicNetwork provide r. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "You should use a policy definition. \nResource policy definition used by Azure Policy enables you to establish conventions for resources in your  \norganization by describing when the policy is enforced and what effect to take. By defining conventions, you  \ncan control costs and more easily manage your resources. \n \n\nhttps://docs.microsoft.com/en -us/azure/azure -policy/policy-definition \n \n \n \n2. "
+  },
+  {
+    "num": 396,
+    "prompt": "You have an app named App1 that is installed on two Azure virtual machines named VM1 and VM2. Connections to App1 are managed by using an Azure Load Balancer. The effective network security configurations for VM2 are shown in the following exhibit. You discover that connections to App1 from 131.107.100.50 over TCP port 443 fail. You verify that the Load Balancer rules are configured correctly. You need to ensure that connections to App1 can be established successfully from 131.107.100.50 over TCP port 443. Solution: You create an inbound security rule that denies all traffic from the 131.107.100.50 source and has a cost of 64999. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "https://fastreroute.com/azure -network-security-groups-explained/"
   },
   {
     "num": 399,
@@ -2181,6 +2504,25 @@
       }
     ],
     "explanation": "C: A VPN gateway is used when creating a VPN connection to your on-premises network. \nRoute-based VPN devices use any-to-any (wildcard) traffic selectors, and let routing/forwarding  tables direct \ntraffic to different IPsec tunnels. It is typically built on router platforms where each IPsec tunnel is modeled \nas a network interface or VTI (virtual tunnel interface). \nE: Policy-based VPN devices u"
+  },
+  {
+    "num": 412,
+    "prompt": "You manage a virtual network named VNet1 that is hosted in the West US Azure region. VNet1 hosts two virtual machines named VM1 and VM2 that run Windows Server. You need to inspect all the network traffic from VM1 to VM2 for a period of three hours. Solution: From Azure Network Watcher, you create a connection monitor. Does this meet the goal?",
+    "options": [
+      {
+        "id": "opt_A",
+        "letter": "A",
+        "text": "Yes",
+        "isCorrect": false
+      },
+      {
+        "id": "opt_B",
+        "letter": "B",
+        "text": "No",
+        "isCorrect": true
+      }
+    ],
+    "explanation": "No. \n \nWe need to inspect all the network traffic \"from\" VM1 \"to\" VM2 and not between the 2 VMs. \n \nEven if we were using Connection monitor, this one would inspect only network traffic over a specific port.  \nAnd for a period of 3 hours, packet capture session time limit default value is 18000 seconds or 5 hours."
   },
   {
     "num": 417,
@@ -2264,37 +2606,6 @@
     "explanation": "The question  describes “the pods will use kubernet networking.”  \n \nTo provide network connectivity, AKS clusters can use kubenet (basic networking) or Azure CNI (advanced \nnetworking).  \nAzure Network Policies supports Azure CNI only. Calico Network Policies supports both Azure CNI (Windows \nServer 2019 and Linux) and kubenet (Linux). \n \nReference \n \nhttps://docs.microsoft.com/en -us/azure/aks/u"
   },
   {
-    "num": 428,
-    "prompt": "You have an Azure subscription that contains the virtual machines shown in the following table: AZ-104 VM1 and VM2 use public IP addresses. From Windows Server 2019 on VM1 and VM2, you allow inbound Remote Desktop connections. Subnet1 and Subnet2 are in a virtual network named VNET1. You have an Azure load balancer named LB1 that provides load balancing services for the virtual machines. You need to ensure that visitors are serviced by the same web server for each request. What should you configure?",
-    "options": [
-      {
-        "id": "opt_A",
-        "letter": "A",
-        "text": "Floating IP (direct server return) to Enabled",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_B",
-        "letter": "B",
-        "text": "Floating IP (direct server return) to Disabled",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_C",
-        "letter": "C",
-        "text": "a health probe",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_D",
-        "letter": "D",
-        "text": "Session persistence to Client IP and Protocol",
-        "isCorrect": true
-      }
-    ],
-    "explanation": "With Sticky Sessions when a client starts a session on one of your web servers, session stays on that specific \nserver. To configure An Azure Load-Balancer For \nSticky Sessions set Session persistence to Client IP. \nOn the following image you can see sticky session configuration:  \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nNote: \nThere are several versions of this question in the exam. The quest"
-  },
-  {
     "num": 430,
     "prompt": "You have an on-premises network that contains a database server named dbserver1. You have an Azure subscription. You plan to deploy three Azure virtual machines. Each virtual machine will be deployed to a separate availability zone. You need to configure an Azure VPN gateway for a site-to-site VPN. The solution must ensure that the virtual machines can connect to dbserver1. Which type of public IP address SKU and assignment should you use for the gateway?",
     "options": [
@@ -2349,31 +2660,6 @@
       }
     ],
     "explanation": "ErGw3Az supports FastPath. \nThe following table shows  the features supported  across each gateway type.  \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nNote: ExpressRoute  virtual network gateways can use the following SKUs: \nStandard - \nHighPerformance - \nUltraPerformance  - \nErGw1Az - \nErGw2Az - \nErGw3Az - \n\nhttps://docs.microsoft.com/en -us/azure/expressroute/expressroute -about-virtual-network-gateways"
-  },
-  {
-    "num": 436,
-    "prompt": "You have an Azure subscription that contains the following resources: ✑ A web app named webapp1 ✑ A virtual network named VNET1 You need to ensure that webapp1 can connect to Share1. What should you deploy? AZ-104",
-    "options": [
-      {
-        "id": "opt_A",
-        "letter": "A",
-        "text": "an Azure Application Gateway",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_B",
-        "letter": "B",
-        "text": "an Azure Active Directory (Azure AD) Application Proxy",
-        "isCorrect": false
-      },
-      {
-        "id": "opt_C",
-        "letter": "C",
-        "text": "an Azure Virtual Network Gateway",
-        "isCorrect": true
-      }
-    ],
-    "explanation": "Explanation: \nIP forwarding enables the virtual machine a network interface is attached to: \n✑ Receive network traffic not destined for one of the IP addresses assigned to any of the IP configurations  \nassigned to the network interface. \nSend network traffic with a different source IP address than the one assigned to one of a network interface's \nIP configurations.  \nThe setting must be enabled f"
   },
   {
     "num": 439,
