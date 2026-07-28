@@ -1,5 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus } from '../src/domain/types.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const prisma = new PrismaClient();
 
@@ -301,33 +307,57 @@ async function main() {
   const seededAZ305 = await seedTrack(az305QuestionsData, catAzure.id);
 
   // ==========================================
-  // 5. AZ-104 - UNIQUE QUESTIONS
+  // 5. AZ-104 - REAL EXAM QUESTIONS FROM PDF
   // ==========================================
-  const az104UniqueQuestions = [
-    { title: 'Identity - Azure AD SSPR', prompt: 'Enabling Self-Service Password Reset (SSPR) for corporate users requires which license?', correct: 'Azure AD Premium P1 or P2 License', bad1: 'Free Azure AD Tier', bad2: 'Office 365 E1', bad3: 'Basic License', exp: 'SSPR requires Azure AD Premium licensing.' },
-    { title: 'Storage - Shared Access Signatures (SAS)', prompt: 'Granting a partner temporary 2-hour read-only access to a Blob container without sharing storage keys uses what?', correct: 'Service Shared Access Signature (SAS)', bad1: 'Account Storage Key 1', bad2: 'Public Anonymous Access', bad3: 'Tenant Access ID', exp: 'SAS tokens provide delegated, time-bound access.' },
-  ];
-  const az104QuestionsData: any[] = [];
-  az104UniqueQuestions.forEach((q, idx) => {
-    const qNum = String(idx + 1).padStart(3, '0');
-    az104QuestionsData.push({
-      code: `AZ104-Q${qNum}`,
-      title: `Question ${idx + 1}`,
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: q.exp,
-      content: {
-        prompt: q.prompt,
-        options: shuffleArray([
-          { id: 'opt1', text: q.correct, isCorrect: true },
-          { id: 'opt2', text: q.bad1 },
-          { id: 'opt3', text: q.bad2 },
-          { id: 'opt4', text: q.bad3 },
-        ]),
-      },
+  let az104QuestionsData: any[] = [];
+  const az104JsonPath = path.join(__dirname, 'az104_questions.json');
+  if (fs.existsSync(az104JsonPath)) {
+    const rawAZ104 = JSON.parse(fs.readFileSync(az104JsonPath, 'utf-8'));
+    az104QuestionsData = rawAZ104.map((q: any, idx: number) => {
+      const qNum = String(idx + 1).padStart(3, '0');
+      return {
+        code: `AZ104-Q${qNum}`,
+        title: `Question ${idx + 1}`,
+        type: QuestionType.SINGLE_CHOICE,
+        difficulty: DifficultyLevel.INTERMEDIATE,
+        points: 1.0,
+        explanation: q.explanation || 'Refer to official Microsoft Azure Documentation.',
+        content: {
+          prompt: q.prompt,
+          options: shuffleArray(q.options.map((o: any, oIdx: number) => ({
+            id: `opt_${oIdx + 1}`,
+            text: o.text,
+            isCorrect: o.isCorrect,
+          }))),
+        },
+      };
     });
-  });
+  } else {
+    const az104UniqueQuestions = [
+      { title: 'Identity - Azure AD SSPR', prompt: 'Enabling Self-Service Password Reset (SSPR) for corporate users requires which license?', correct: 'Azure AD Premium P1 or P2 License', bad1: 'Free Azure AD Tier', bad2: 'Office 365 E1', bad3: 'Basic License', exp: 'SSPR requires Azure AD Premium licensing.' },
+      { title: 'Storage - Shared Access Signatures (SAS)', prompt: 'Granting a partner temporary 2-hour read-only access to a Blob container without sharing storage keys uses what?', correct: 'Service Shared Access Signature (SAS)', bad1: 'Account Storage Key 1', bad2: 'Public Anonymous Access', bad3: 'Tenant Access ID', exp: 'SAS tokens provide delegated, time-bound access.' },
+    ];
+    az104UniqueQuestions.forEach((q, idx) => {
+      const qNum = String(idx + 1).padStart(3, '0');
+      az104QuestionsData.push({
+        code: `AZ104-Q${qNum}`,
+        title: `Question ${idx + 1}`,
+        type: QuestionType.SINGLE_CHOICE,
+        difficulty: DifficultyLevel.INTERMEDIATE,
+        points: 1.0,
+        explanation: q.exp,
+        content: {
+          prompt: q.prompt,
+          options: shuffleArray([
+            { id: 'opt1', text: q.correct, isCorrect: true },
+            { id: 'opt2', text: q.bad1 },
+            { id: 'opt3', text: q.bad2 },
+            { id: 'opt4', text: q.bad3 },
+          ]),
+        },
+      });
+    });
+  }
   const seededAZ104 = await seedTrack(az104QuestionsData, catAzure.id);
 
   // ==========================================
