@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../services/api';
 import { Question, Exam } from '../types';
-import { Plus, Search, CheckCircle2, X, Edit3, Trash2, BookOpen, Layers } from 'lucide-react';
+import { Plus, Search, CheckCircle2, X, Edit3, Trash2, BookOpen, Layers, Filter, Check } from 'lucide-react';
 
 export const QuestionBankPage: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialExamId = searchParams.get('examId') || '';
+
   const [questions, setQuestions] = useState<Question[]>([]);
   const [exams, setExams] = useState<Exam[]>([]);
+  const [selectedExamId, setSelectedExamId] = useState<string>(initialExamId);
   const [filterType, setFilterType] = useState<string>('');
-  const [filterExamId, setFilterExamId] = useState<string>('');
   const [search, setSearch] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Modal State - Question Authoring / Editing
   const [showQModal, setShowQModal] = useState<boolean>(false);
@@ -20,7 +25,7 @@ export const QuestionBankPage: React.FC = () => {
   const [points, setPoints] = useState<number>(1);
   const [prompt, setPrompt] = useState<string>('');
   const [explanation, setExplanation] = useState<string>('');
-  const [selectedExamId, setSelectedExamId] = useState<string>('');
+  const [modalExamId, setModalExamId] = useState<string>('');
 
   // Options State
   const [optA, setOptA] = useState<string>('');
@@ -29,7 +34,7 @@ export const QuestionBankPage: React.FC = () => {
   const [optD, setOptD] = useState<string>('');
   const [correctOpt, setCorrectOpt] = useState<string>('optA');
 
-  // Modal State - Exam Builder (Create / Edit Exam Track)
+  // Modal State - Exam Builder
   const [showExamModal, setShowExamModal] = useState<boolean>(false);
   const [examCode, setExamCode] = useState<string>('');
   const [examTitle, setExamTitle] = useState<string>('');
@@ -38,19 +43,52 @@ export const QuestionBankPage: React.FC = () => {
   const [examPassingScore, setExamPassingScore] = useState<number>(700);
   const [examDescription, setExamDescription] = useState<string>('');
 
-  const fetchData = async () => {
+  const fetchExams = async () => {
     try {
-      const [qRes, eRes] = await Promise.all([api.get('/questions'), api.get('/exams')]);
-      setQuestions(qRes.data);
-      setExams(eRes.data);
+      const res = await api.get('/exams');
+      setExams(res.data);
     } catch (err) {
       console.error(err);
     }
   };
 
+  const fetchQuestions = async (examIdFilter?: string) => {
+    setLoading(true);
+    try {
+      const url = examIdFilter ? `/questions?examId=${examIdFilter}` : '/questions';
+      const res = await api.get(url);
+      setQuestions(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchExams();
   }, []);
+
+  useEffect(() => {
+    fetchQuestions(selectedExamId);
+    if (selectedExamId) {
+      setSearchParams({ examId: selectedExamId });
+    } else {
+      setSearchParams({});
+    }
+  }, [selectedExamId]);
+
+  const selectedExam = exams.find((e) => e.id === selectedExamId);
+
+  // Parse natural question number from code (e.g. AZ900-Q005 -> 5) or title (e.g. Question 5 -> 5)
+  const extractQuestionNumber = (q: Question & { orderIndex?: number }) => {
+    if (q.orderIndex && q.orderIndex < 900) return q.orderIndex;
+    const codeMatch = q.code?.match(/Q(\d+)/i);
+    if (codeMatch) return parseInt(codeMatch[1], 10);
+    const titleMatch = q.title?.match(/Question\s*(\d+)/i);
+    if (titleMatch) return parseInt(titleMatch[1], 10);
+    return 9999;
+  };
 
   const openCreateQuestionModal = () => {
     setEditingQuestionId(null);
@@ -66,11 +104,11 @@ export const QuestionBankPage: React.FC = () => {
     setOptC('');
     setOptD('');
     setCorrectOpt('optA');
-    setSelectedExamId(exams[0]?.id || '');
+    setModalExamId(selectedExamId || exams[0]?.id || '');
     setShowQModal(true);
   };
 
-  const openEditQuestionModal = (q: Question) => {
+  const openEditQuestionModal = (q: Question & { examId?: string }) => {
     setEditingQuestionId(q.id);
     setCode(q.code);
     setTitle(q.title);
@@ -78,6 +116,7 @@ export const QuestionBankPage: React.FC = () => {
     setDifficulty(q.difficulty);
     setPoints(q.points);
     setExplanation(q.explanation || '');
+    setModalExamId((q as any).examId || selectedExamId || '');
 
     let contentObj: any = {};
     try {
@@ -126,7 +165,7 @@ export const QuestionBankPage: React.FC = () => {
         points: Number(points),
         explanation,
         content: contentPayload,
-        examId: selectedExamId || undefined,
+        examId: modalExamId || undefined,
       };
 
       if (editingQuestionId) {
@@ -138,7 +177,7 @@ export const QuestionBankPage: React.FC = () => {
       }
 
       setShowQModal(false);
-      fetchData();
+      fetchQuestions(selectedExamId);
     } catch (err: any) {
       alert('Error saving question: ' + (err.response?.data?.error || err.message));
     }
@@ -149,7 +188,7 @@ export const QuestionBankPage: React.FC = () => {
     try {
       await api.delete(`/questions/${id}`);
       alert('✅ Question deleted successfully!');
-      fetchData();
+      fetchQuestions(selectedExamId);
     } catch (err: any) {
       alert('Error deleting question: ' + (err.response?.data?.error || err.message));
     }
@@ -158,7 +197,7 @@ export const QuestionBankPage: React.FC = () => {
   const handleCreateExam = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post('/exams', {
+      const res = await api.post('/exams', {
         code: examCode,
         title: examTitle,
         vendor: examVendor,
@@ -173,17 +212,24 @@ export const QuestionBankPage: React.FC = () => {
       setExamCode('');
       setExamTitle('');
       setExamDescription('');
-      fetchData();
+      fetchExams();
+      setSelectedExamId(res.data.id);
     } catch (err: any) {
       alert('Error building exam: ' + (err.response?.data?.error || err.message));
     }
   };
 
-  const filtered = questions.filter((q) => {
-    const matchesSearch = q.title.toLowerCase().includes(search.toLowerCase()) || q.code.toLowerCase().includes(search.toLowerCase());
-    const matchesType = filterType ? q.type === filterType : true;
-    return matchesSearch && matchesType;
-  });
+  // Filter and sort questions sequentially (Question 1, Question 2, Question 3...)
+  const filteredAndSorted = questions
+    .filter((q) => {
+      const matchesSearch =
+        q.title.toLowerCase().includes(search.toLowerCase()) ||
+        q.code.toLowerCase().includes(search.toLowerCase()) ||
+        (q.content && q.content.toLowerCase().includes(search.toLowerCase()));
+      const matchesType = filterType ? q.type === filterType : true;
+      return matchesSearch && matchesType;
+    })
+    .sort((a, b) => extractQuestionNumber(a) - extractQuestionNumber(b));
 
   return (
     <div className="space-y-6 font-sans">
@@ -192,9 +238,9 @@ export const QuestionBankPage: React.FC = () => {
         <div>
           <h2 className="text-lg font-bold text-ntms-navy tracking-tight flex items-center gap-2">
             <Layers className="w-5 h-5 text-ntms-blue" />
-            Exam Builder & Question Authoring System
+            Exam Question Bank & Q&A Authoring System
           </h2>
-          <p className="text-xs text-slate-600 mt-0.5">Author new exam tracks, edit questions & answer keys, and manage certification banks</p>
+          <p className="text-xs text-slate-600 mt-0.5">Author new exam tracks, edit questions & answer keys, and manage certification banks in sequential order</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
@@ -218,6 +264,55 @@ export const QuestionBankPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Exam Selection Tabs & Filter Bar */}
+      <div className="bg-white border border-slate-300 rounded p-4 space-y-3 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Filter className="w-4 h-4 text-ntms-blue" />
+            <h3 className="text-xs font-bold text-ntms-navy uppercase tracking-wider">Select Certification Exam Track:</h3>
+          </div>
+          {selectedExam && (
+            <span className="text-xs font-mono font-bold px-2.5 py-1 bg-sky-100 text-ntms-navy border border-sky-300 rounded">
+              {filteredAndSorted.length} Questions in {selectedExam.code}
+            </span>
+          )}
+        </div>
+
+        {/* Tab Buttons for Quick Exam Selection */}
+        <div className="flex flex-wrap gap-2 pt-1 border-t border-slate-100">
+          <button
+            type="button"
+            onClick={() => setSelectedExamId('')}
+            className={`px-3.5 py-1.5 rounded font-mono font-bold text-xs transition-all border ${
+              selectedExamId === ''
+                ? 'bg-ntms-navy text-white border-ntms-darkNavy shadow-sm ring-2 ring-ntms-blue/30'
+                : 'bg-slate-50 text-slate-700 border-slate-300 hover:bg-slate-100'
+            }`}
+          >
+            ALL EXAMS
+          </button>
+
+          {exams.map((ex) => {
+            const isSelected = selectedExamId === ex.id;
+            return (
+              <button
+                key={ex.id}
+                type="button"
+                onClick={() => setSelectedExamId(ex.id)}
+                className={`px-3.5 py-1.5 rounded font-mono font-bold text-xs transition-all flex items-center gap-1.5 border ${
+                  isSelected
+                    ? 'bg-ntms-navy text-white border-ntms-darkNavy shadow-sm ring-2 ring-ntms-blue/30'
+                    : 'bg-slate-50 text-slate-700 border-slate-300 hover:bg-sky-50 hover:border-ntms-blue'
+                }`}
+              >
+                {isSelected && <Check className="w-3.5 h-3.5 text-sky-300" />}
+                <span>{ex.code}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Filter and Search Bar */}
       <div className="flex flex-col md:flex-row items-center gap-3 bg-slate-50 p-4 rounded border border-slate-300">
         <div className="relative flex-1 w-full">
@@ -226,7 +321,7 @@ export const QuestionBankPage: React.FC = () => {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by code, title, or prompt..."
+            placeholder="Search by question code, title, or prompt..."
             className="w-full bg-white border border-slate-300 rounded pl-9 pr-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-ntms-blue font-medium"
           />
         </div>
@@ -245,13 +340,26 @@ export const QuestionBankPage: React.FC = () => {
         </select>
       </div>
 
+      {/* Sequence Header Info */}
+      {selectedExam && (
+        <div className="bg-sky-50 border border-sky-200 p-3 rounded text-xs text-sky-900 font-medium flex items-center justify-between">
+          <span>
+            📋 Managing Q&A for <strong>{selectedExam.code} - {selectedExam.title}</strong> in strict sequential order (1 to {filteredAndSorted.length}).
+          </span>
+          <span className="font-mono text-[11px] font-bold text-sky-800 bg-sky-200/60 px-2 py-0.5 rounded">
+            Sequential View Enabled
+          </span>
+        </div>
+      )}
+
       {/* Question Table */}
       <div className="bg-white border border-slate-300 rounded overflow-hidden shadow-sm">
         <table className="w-full text-left text-xs text-slate-800">
           <thead className="bg-slate-100 text-slate-700 font-mono text-[11px] uppercase border-b border-slate-300">
             <tr>
+              <th className="p-3.5 w-16 text-center">Seq #</th>
               <th className="p-3.5">Code</th>
-              <th className="p-3.5">Title / Prompt</th>
+              <th className="p-3.5">Question Title / Prompt</th>
               <th className="p-3.5">Type</th>
               <th className="p-3.5">Difficulty</th>
               <th className="p-3.5">Points</th>
@@ -259,56 +367,70 @@ export const QuestionBankPage: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200">
-            {filtered.length === 0 ? (
+            {loading ? (
               <tr>
-                <td colSpan={6} className="p-8 text-center text-slate-500 font-medium">
-                  No questions found. Click <strong>"Add Question to Exam"</strong> above to author new questions!
+                <td colSpan={7} className="p-8 text-center text-slate-500 font-bold">
+                  Loading exam questions in sequence...
+                </td>
+              </tr>
+            ) : filteredAndSorted.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="p-8 text-center text-slate-500 font-medium">
+                  No questions found for this selection. Click <strong>"Add Question to Exam"</strong> above to author new questions!
                 </td>
               </tr>
             ) : (
-              filtered.map((q) => (
-                <tr key={q.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="p-3.5 font-mono font-extrabold text-ntms-navy">{q.code}</td>
-                  <td className="p-3.5 font-bold text-slate-900 max-w-md truncate">{q.title}</td>
-                  <td className="p-3.5 font-mono text-[11px]">
-                    <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-300 text-slate-700 font-semibold">
-                      {q.type}
-                    </span>
-                  </td>
-                  <td className="p-3.5 font-mono text-[11px] uppercase">
-                    <span
-                      className={`px-2 py-0.5 rounded font-extrabold ${
-                        q.difficulty === 'EXPERT'
-                          ? 'bg-rose-100 text-rose-900 border border-rose-300'
-                          : q.difficulty === 'ADVANCED'
-                          ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                          : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                      }`}
-                    >
-                      {q.difficulty}
-                    </span>
-                  </td>
-                  <td className="p-3.5 font-mono font-bold text-slate-900">{q.points} pts</td>
-                  <td className="p-3.5 text-right space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => openEditQuestionModal(q)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-100 hover:bg-sky-200 text-ntms-navy border border-sky-300 rounded font-bold text-[11px] transition-colors"
-                      title="Edit Question & Answers"
-                    >
-                      <Edit3 className="w-3.5 h-3.5" /> Edit Q&A
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteQuestion(q.id, q.code)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 rounded font-bold text-[11px] transition-colors"
-                      title="Delete Question"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" /> Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
+              filteredAndSorted.map((q, idx) => {
+                const seqNum = extractQuestionNumber(q) !== 9999 ? extractQuestionNumber(q) : idx + 1;
+                return (
+                  <tr key={q.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 text-center font-mono font-extrabold text-ntms-blue bg-slate-50 border-r border-slate-200">
+                      #{seqNum}
+                    </td>
+                    <td className="p-3.5 font-mono font-extrabold text-ntms-navy">{q.code}</td>
+                    <td className="p-3.5 font-bold text-slate-900 max-w-md truncate">
+                      {q.title || `Question ${seqNum}`}
+                    </td>
+                    <td className="p-3.5 font-mono text-[11px]">
+                      <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-300 text-slate-700 font-semibold">
+                        {q.type}
+                      </span>
+                    </td>
+                    <td className="p-3.5 font-mono text-[11px] uppercase">
+                      <span
+                        className={`px-2 py-0.5 rounded font-extrabold ${
+                          q.difficulty === 'EXPERT'
+                            ? 'bg-rose-100 text-rose-900 border border-rose-300'
+                            : q.difficulty === 'ADVANCED'
+                            ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                            : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                        }`}
+                      >
+                        {q.difficulty}
+                      </span>
+                    </td>
+                    <td className="p-3.5 font-mono font-bold text-slate-900">{q.points} pts</td>
+                    <td className="p-3.5 text-right space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => openEditQuestionModal(q)}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-100 hover:bg-sky-200 text-ntms-navy border border-sky-300 rounded font-bold text-[11px] transition-colors"
+                        title="Edit Question & Answer Key"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" /> Edit Q&A
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteQuestion(q.id, q.code)}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 rounded font-bold text-[11px] transition-colors"
+                        title="Delete Question"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>
@@ -332,8 +454,8 @@ export const QuestionBankPage: React.FC = () => {
                 <div>
                   <label className="font-bold text-slate-700 block mb-1">Target Exam Track</label>
                   <select
-                    value={selectedExamId}
-                    onChange={(e) => setSelectedExamId(e.target.value)}
+                    value={modalExamId}
+                    onChange={(e) => setModalExamId(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-bold"
                   >
                     <option value="">-- General Question Bank --</option>
@@ -352,7 +474,7 @@ export const QuestionBankPage: React.FC = () => {
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     required
-                    placeholder="e.g. AZ104-Q005"
+                    placeholder="e.g. AZ900-Q005"
                     className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-semibold"
                   />
                 </div>

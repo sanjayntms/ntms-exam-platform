@@ -7,13 +7,74 @@ export class QuestionController {
 
   async list(req: Request, res: Response) {
     try {
-      const { type, difficulty, search } = req.query;
-      const questions = await this.uow.questions.findAll({
+      const { type, difficulty, search, examId } = req.query;
+
+      if (examId && typeof examId === 'string') {
+        const sectionQuestions = await prisma.sectionQuestion.findMany({
+          where: {
+            section: { examId },
+          },
+          include: {
+            question: true,
+            section: {
+              include: {
+                exam: true,
+              },
+            },
+          },
+          orderBy: { orderIndex: 'asc' },
+        });
+
+        const questions = sectionQuestions.map((sq) => ({
+          ...sq.question,
+          orderIndex: sq.orderIndex,
+          examId: sq.section.examId,
+          examCode: sq.section.exam.code,
+          examTitle: sq.section.exam.title,
+        }));
+
+        return res.json(questions);
+      }
+
+      // Fetch all questions and attach section/exam metadata if available
+      const allQuestions = await this.uow.questions.findAll({
         type: type as any,
         difficulty: difficulty as any,
         search: search as any,
       });
-      return res.json(questions);
+
+      const sectionQuestions = await prisma.sectionQuestion.findMany({
+        include: {
+          section: {
+            include: {
+              exam: true,
+            },
+          },
+        },
+      });
+
+      const sqMap = new Map<string, { examId: string; examCode: string; orderIndex: number }>();
+      sectionQuestions.forEach((sq) => {
+        if (!sqMap.has(sq.questionId)) {
+          sqMap.set(sq.questionId, {
+            examId: sq.section.examId,
+            examCode: sq.section.exam.code,
+            orderIndex: sq.orderIndex,
+          });
+        }
+      });
+
+      const mapped = allQuestions.map((q) => {
+        const meta = sqMap.get(q.id);
+        return {
+          ...q,
+          examId: meta?.examId || null,
+          examCode: meta?.examCode || null,
+          orderIndex: meta?.orderIndex || 999,
+        };
+      });
+
+      return res.json(mapped);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }

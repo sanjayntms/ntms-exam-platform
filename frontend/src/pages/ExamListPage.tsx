@@ -307,14 +307,25 @@ export const ExamListPage: React.FC = () => {
 
                   <div className="flex items-center gap-2">
                     {user?.role === 'ADMINISTRATOR' && (
-                      <button
-                        onClick={() => openEditExamModal(exam)}
-                        className="text-[10px] font-bold font-mono px-2 py-0.5 bg-sky-50 text-ntms-navy border border-sky-300 hover:bg-sky-100 rounded transition-all flex items-center gap-1"
-                        title="Edit Exam Track Details"
-                      >
-                        <Edit3 className="w-3 h-3 text-ntms-blue" />
-                        <span>EDIT TRACK</span>
-                      </button>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => navigate(`/questions?examId=${exam.id}`)}
+                          className="text-[10px] font-bold font-mono px-2 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-300 hover:bg-emerald-100 rounded transition-all flex items-center gap-1"
+                          title="Manage Questions & Answer Key in Sequence"
+                        >
+                          <Edit3 className="w-3 h-3 text-emerald-700" />
+                          <span>MANAGE Q&A</span>
+                        </button>
+
+                        <button
+                          onClick={() => openEditExamModal(exam)}
+                          className="text-[10px] font-bold font-mono px-2 py-0.5 bg-sky-50 text-ntms-navy border border-sky-300 hover:bg-sky-100 rounded transition-all flex items-center gap-1"
+                          title="Edit Exam Track Details"
+                        >
+                          <Edit3 className="w-3 h-3 text-ntms-blue" />
+                          <span>EDIT TRACK</span>
+                        </button>
+                      </div>
                     )}
 
                     <span
