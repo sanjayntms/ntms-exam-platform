@@ -1,0 +1,31 @@
+{
+  "num": 18,
+  "prompt": "Your company has an Azure subscription. You need to deploy a number of Azure virtual machines (VMs) using Azure Resource Manager (ARM) templates. You are required to make sure that the ARM template you configure allows for as many VMs as possible to remain Which of the following is the value that you should configure for the platformFaultDomainCount property? 10 Your company has three virtual machines (VMs) that are included in an availability set. You try to resize one of the VMs, which returns an allocation failure message. It is imperative that the VM is resized. Which of the following actions should you take?",
+  "options": [
+    {
+      "id": "opt_A",
+      "letter": "A",
+      "text": "You should only stop one of the VMs.",
+      "isCorrect": false
+    },
+    {
+      "id": "opt_B",
+      "letter": "B",
+      "text": "You should stop two of the VMs.",
+      "isCorrect": false
+    },
+    {
+      "id": "opt_C",
+      "letter": "C",
+      "text": "You should stop all three VMs.",
+      "isCorrect": true
+    },
+    {
+      "id": "opt_D",
+      "letter": "D",
+      "text": "You should remove the necessary VM from the availability set.",
+      "isCorrect": false
+    }
+  ],
+  "explanation": "If the VM you wish to resize is part of an availability set, then you must stop all VMs in the availability set \nbefore changing the size of any VM in the availability set. \nThe reason all VMs in the availability set must be stopped before performing the resize operation to a size that \nrequires different hardware is that all running VMs in the availability set must be using the same physical \nhar"
+}

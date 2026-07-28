@@ -1,0 +1,52 @@
+=== PAGE 9 ===
+Question: 17 
+  
+ 
+You need to make sure that your strategy allows for the virtual machines to be offline for the least amount of time 
+ 
+Which of the following is the action you should take FIRST? 
+ 
+Stop the VM that includes the data disk. 
+Stop the VM that the data disk must be attached to. 
+Detach the data disk. 
+Delete the VM that includes the data disk. 
+Answer: C 
+Explanation: 
+You can simply detach a data disk from one VM and attach it to the other VM without stopping either of the 
+ 
+Question: 18 
+Your company has an Azure subscription. 
+ 
+You need to deploy a number of Azure virtual machines (VMs) using Azure Resource Manager (ARM) templates. 
+ 
+You are required to make sure that the ARM template you configure allows for as many VMs as possible to remain 
+ 
+Which of the following is the value that you should configure for the platformFaultDomainCount property? 
+ 
+10 
+ 
+Your company has three virtual machines (VMs) that are included in an availability set.  
+You try to resize one of the VMs, which returns an allocation failure message. 
+It is imperative that the VM is resized. 
+Which of the following actions should you take? 
+ 
+A. You should only stop one of the VMs. 
+B. You should stop two of the VMs. 
+C. You should stop all three VMs. 
+D. You should remove the necessary VM from the availability set. 
+ 
+Answer: C 
+Explanation: 
+If the VM you wish to resize is part of an availability set, then you must stop all VMs in the availability set 
+before changing the size of any VM in the availability set. 
+The reason all VMs in the availability set must be stopped before performing the resize operation to a size that 
+requires different hardware is that all running VMs in the availability set must be using the same physical 
+hardware cluster. Therefore, if a change of physical hardware cluster is required to change the VM size then 
+all VMs must be first stopped and then restarted one-by-one to a different physical hardware clusters. 
+ 
+Reference: 
+https://azure.microsoft.com/es-es/blog/resize-virtual-machines/ 
+ 
+ 
+ 
+==================================================
