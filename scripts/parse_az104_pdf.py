@@ -7,14 +7,13 @@ def parse_az104():
     pdf_path = 'pdf/az-104.pdf'
     out_json = 'backend/prisma/az104_questions.json'
     
-    print("Parsing az-104.pdf with High-Precision Prompt Isolation...")
+    print("Parsing az-104.pdf with High-Precision Scenario Start Matching...")
     reader = pypdf.PdfReader(pdf_path)
     
     parsed_qs = []
 
     for idx, page in enumerate(reader.pages):
         text = page.extract_text() or ''
-        # Clean header noise
         text = re.sub(r'AZ-104\s+Actaul\s+Exam\s+Q&A.*', '', text, flags=re.IGNORECASE)
         
         q_splits = re.split(r'(?i)Question:\s*(\d+)', text)
@@ -42,18 +41,14 @@ def parse_az104():
                 continue
                 
             raw_prompt = main_part[:opt_matches[0].start()].strip()
-            lines = [l.strip() for l in raw_prompt.split('\n') if l.strip()]
             
-            # Find the line where the actual scenario starts
-            scenario_line_idx = 0
-            for l_idx, line in enumerate(lines):
-                if re.match(r'^(Your company|You have|You need|You are|A company|An organization|You create|You plan|You deploy|Note:)', line, re.I):
-                    scenario_line_idx = l_idx
-                    break
-                    
-            clean_lines = lines[scenario_line_idx:]
-            clean_prompt = ' '.join(clean_lines)
-            clean_prompt = re.sub(r'(?i)^\s*Note:.*?\.\s*', '', clean_prompt).strip()
+            # Find the actual scenario starting keyword (Your company, You have, You need, etc.)
+            scenario_match = re.search(r'(?i)\b(Your company|You have|You need|You are|A company|An organization|You create|You plan|You deploy|You want|You manage)\b', raw_prompt)
+            if scenario_match:
+                clean_prompt = raw_prompt[scenario_match.start():]
+            else:
+                clean_prompt = re.sub(r'(?i)^\s*Note:.*?\n\s*', '', raw_prompt, flags=re.DOTALL)
+                
             clean_prompt = ' '.join(clean_prompt.split())
             
             options = []
@@ -94,7 +89,7 @@ def parse_az104():
             seen.add(key)
             unique.append(q)
             
-    print(f"Extracted {len(unique)} clean, perfectly separated AZ-104 questions.")
+    print(f"Extracted {len(unique)} clean, perfectly formatted AZ-104 questions.")
     
     os.makedirs(os.path.dirname(out_json), exist_ok=True)
     with open(out_json, 'w', encoding='utf-8') as f:
