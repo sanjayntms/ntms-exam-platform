@@ -80,7 +80,44 @@ export class ExamController {
         ...req.body,
         creatorId,
       });
+
+      // Automatically create a default section for the new exam track
+      await prisma.examSection.create({
+        data: {
+          examId: exam.id,
+          title: 'Section 1: Main Assessment Section',
+          orderIndex: 1,
+        },
+      });
+
       return res.status(201).json(exam);
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const updated = await this.uow.exams.update(id, req.body);
+      return res.json(updated);
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      await prisma.examRoom.deleteMany({ where: { examId: id } });
+      await prisma.studentExamAccess.deleteMany({ where: { examId: id } });
+      const sections = await prisma.examSection.findMany({ where: { examId: id } });
+      for (const sec of sections) {
+        await prisma.sectionQuestion.deleteMany({ where: { sectionId: sec.id } });
+      }
+      await prisma.examSection.deleteMany({ where: { examId: id } });
+      await this.uow.exams.delete(id);
+      return res.json({ message: 'Exam track deleted successfully' });
     } catch (err: any) {
       return res.status(400).json({ error: err.message });
     }

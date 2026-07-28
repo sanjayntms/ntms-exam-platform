@@ -1,75 +1,181 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Question } from '../types';
-import { Plus, Search, CheckCircle2, X } from 'lucide-react';
+import { Question, Exam } from '../types';
+import { Plus, Search, CheckCircle2, X, Edit3, Trash2, BookOpen, Layers } from 'lucide-react';
 
 export const QuestionBankPage: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [exams, setExams] = useState<Exam[]>([]);
   const [filterType, setFilterType] = useState<string>('');
+  const [filterExamId, setFilterExamId] = useState<string>('');
   const [search, setSearch] = useState<string>('');
 
-  // Modal State
-  const [showModal, setShowModal] = useState<boolean>(false);
+  // Modal State - Question Authoring / Editing
+  const [showQModal, setShowQModal] = useState<boolean>(false);
+  const [editingQuestionId, setEditingQuestionId] = useState<string | null>(null);
   const [code, setCode] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [type, setType] = useState<string>('SINGLE_CHOICE');
   const [difficulty, setDifficulty] = useState<string>('INTERMEDIATE');
   const [points, setPoints] = useState<number>(1);
   const [prompt, setPrompt] = useState<string>('');
+  const [explanation, setExplanation] = useState<string>('');
+  const [selectedExamId, setSelectedExamId] = useState<string>('');
+
+  // Options State
   const [optA, setOptA] = useState<string>('');
   const [optB, setOptB] = useState<string>('');
   const [optC, setOptC] = useState<string>('');
   const [optD, setOptD] = useState<string>('');
   const [correctOpt, setCorrectOpt] = useState<string>('optA');
 
-  const fetchQuestions = async () => {
+  // Modal State - Exam Builder (Create / Edit Exam Track)
+  const [showExamModal, setShowExamModal] = useState<boolean>(false);
+  const [examCode, setExamCode] = useState<string>('');
+  const [examTitle, setExamTitle] = useState<string>('');
+  const [examVendor, setExamVendor] = useState<string>('MICROSOFT');
+  const [examDuration, setExamDuration] = useState<number>(120);
+  const [examPassingScore, setExamPassingScore] = useState<number>(700);
+  const [examDescription, setExamDescription] = useState<string>('');
+
+  const fetchData = async () => {
     try {
-      const res = await api.get('/questions');
-      setQuestions(res.data);
+      const [qRes, eRes] = await Promise.all([api.get('/questions'), api.get('/exams')]);
+      setQuestions(qRes.data);
+      setExams(eRes.data);
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchQuestions();
+    fetchData();
   }, []);
 
-  const handleCreateQuestion = async (e: React.FormEvent) => {
+  const openCreateQuestionModal = () => {
+    setEditingQuestionId(null);
+    setCode(`Q-${Math.floor(1000 + Math.random() * 9000)}`);
+    setTitle('');
+    setType('SINGLE_CHOICE');
+    setDifficulty('INTERMEDIATE');
+    setPoints(1);
+    setPrompt('');
+    setExplanation('');
+    setOptA('');
+    setOptB('');
+    setOptC('');
+    setOptD('');
+    setCorrectOpt('optA');
+    setSelectedExamId(exams[0]?.id || '');
+    setShowQModal(true);
+  };
+
+  const openEditQuestionModal = (q: Question) => {
+    setEditingQuestionId(q.id);
+    setCode(q.code);
+    setTitle(q.title);
+    setType(q.type);
+    setDifficulty(q.difficulty);
+    setPoints(q.points);
+    setExplanation(q.explanation || '');
+
+    let contentObj: any = {};
+    try {
+      contentObj = JSON.parse(q.content || '{}');
+    } catch (e) {
+      contentObj = {};
+    }
+
+    setPrompt(contentObj.prompt || q.title);
+    const opts = contentObj.options || [];
+
+    setOptA(opts[0]?.text || '');
+    setOptB(opts[1]?.text || '');
+    setOptC(opts[2]?.text || '');
+    setOptD(opts[3]?.text || '');
+
+    const correctIndex = opts.findIndex((o: any) => o.isCorrect);
+    if (correctIndex === 1) setCorrectOpt('optB');
+    else if (correctIndex === 2) setCorrectOpt('optC');
+    else if (correctIndex === 3) setCorrectOpt('optD');
+    else setCorrectOpt('optA');
+
+    setShowQModal(true);
+  };
+
+  const handleSaveQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const optionsList = [
+        { id: 'optA', text: optA, isCorrect: correctOpt === 'optA' },
+        { id: 'optB', text: optB, isCorrect: correctOpt === 'optB' },
+        { id: 'optC', text: optC, isCorrect: correctOpt === 'optC' },
+        { id: 'optD', text: optD, isCorrect: correctOpt === 'optD' },
+      ].filter((o) => o.text.trim().length > 0);
+
       const contentPayload = JSON.stringify({
         prompt,
-        options: [
-          { id: 'optA', text: optA, isCorrect: correctOpt === 'optA' },
-          { id: 'optB', text: optB, isCorrect: correctOpt === 'optB' },
-          { id: 'optC', text: optC, isCorrect: correctOpt === 'optC' },
-          { id: 'optD', text: optD, isCorrect: correctOpt === 'optD' },
-        ].filter((o) => o.text.trim().length > 0),
+        options: optionsList,
       });
 
-      await api.post('/questions', {
+      const payload = {
         code,
-        title,
+        title: title || prompt.substring(0, 40) + '...',
         type,
         difficulty,
         points: Number(points),
+        explanation,
         content: contentPayload,
-      });
+        examId: selectedExamId || undefined,
+      };
 
-      alert('✅ New Question Created Successfully!');
-      setShowModal(false);
-      // Reset form
-      setCode('');
-      setTitle('');
-      setPrompt('');
-      setOptA('');
-      setOptB('');
-      setOptC('');
-      setOptD('');
-      fetchQuestions();
+      if (editingQuestionId) {
+        await api.put(`/questions/${editingQuestionId}`, payload);
+        alert('✅ Question & Answers Updated Successfully!');
+      } else {
+        await api.post('/questions', payload);
+        alert('✅ New Question Created & Added to Exam!');
+      }
+
+      setShowQModal(false);
+      fetchData();
     } catch (err: any) {
-      alert('Error creating question: ' + (err.response?.data?.error || err.message));
+      alert('Error saving question: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  const handleDeleteQuestion = async (id: string, code: string) => {
+    if (!window.confirm(`Are you sure you want to delete question "${code}"?`)) return;
+    try {
+      await api.delete(`/questions/${id}`);
+      alert('✅ Question deleted successfully!');
+      fetchData();
+    } catch (err: any) {
+      alert('Error deleting question: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  const handleCreateExam = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/exams', {
+        code: examCode,
+        title: examTitle,
+        vendor: examVendor,
+        type: 'PRACTICE',
+        status: 'PUBLISHED',
+        durationMinutes: Number(examDuration),
+        passingScore: Number(examPassingScore),
+        description: examDescription,
+      });
+      alert('✅ New Exam Track Built & Published Successfully!');
+      setShowExamModal(false);
+      setExamCode('');
+      setExamTitle('');
+      setExamDescription('');
+      fetchData();
+    } catch (err: any) {
+      alert('Error building exam: ' + (err.response?.data?.error || err.message));
     }
   };
 
@@ -81,47 +187,62 @@ export const QuestionBankPage: React.FC = () => {
 
   return (
     <div className="space-y-6 font-sans">
+      {/* Top Banner & Control Bar */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded border border-slate-300 shadow-sm">
         <div>
-          <h2 className="text-lg font-bold text-ntms-navy tracking-tight">Question Bank System</h2>
-          <p className="text-xs text-slate-600 mt-0.5">Authoring system supporting 16 item formats including Case Studies, Simulations & Labs</p>
+          <h2 className="text-lg font-bold text-ntms-navy tracking-tight flex items-center gap-2">
+            <Layers className="w-5 h-5 text-ntms-blue" />
+            Exam Builder & Question Authoring System
+          </h2>
+          <p className="text-xs text-slate-600 mt-0.5">Author new exam tracks, edit questions & answer keys, and manage certification banks</p>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
-          <div className="relative flex-1 md:w-56">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search code or title..."
-              className="w-full bg-slate-50 border border-slate-300 rounded pl-9 pr-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-ntms-blue font-medium"
-            />
-          </div>
-
-          <select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded px-3 py-2 text-xs text-slate-800 font-semibold focus:outline-none focus:border-ntms-blue"
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <button
+            type="button"
+            onClick={() => setShowExamModal(true)}
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-bold text-xs shadow transition-all"
           >
-            <option value="">All Question Types</option>
-            <option value="SINGLE_CHOICE">Single Choice</option>
-            <option value="MULTIPLE_CHOICE">Multiple Choice</option>
-            <option value="DRAG_AND_DROP">Drag & Drop</option>
-            <option value="CASE_STUDY">Case Study</option>
-            <option value="SIMULATION">Simulation</option>
-            <option value="LAB">Lab</option>
-          </select>
+            <BookOpen className="w-4 h-4" />
+            <span>Build New Exam Track</span>
+          </button>
 
           <button
             type="button"
-            onClick={() => setShowModal(true)}
+            onClick={openCreateQuestionModal}
             className="flex items-center gap-1.5 px-4 py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold text-xs shadow transition-all shrink-0"
           >
             <Plus className="w-4 h-4" />
-            <span>Create Question</span>
+            <span>Add Question to Exam</span>
           </button>
         </div>
+      </div>
+
+      {/* Filter and Search Bar */}
+      <div className="flex flex-col md:flex-row items-center gap-3 bg-slate-50 p-4 rounded border border-slate-300">
+        <div className="relative flex-1 w-full">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by code, title, or prompt..."
+            className="w-full bg-white border border-slate-300 rounded pl-9 pr-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-ntms-blue font-medium"
+          />
+        </div>
+
+        <select
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+          className="bg-white border border-slate-300 rounded px-3 py-2 text-xs text-slate-800 font-semibold focus:outline-none focus:border-ntms-blue w-full md:w-48"
+        >
+          <option value="">All Question Types</option>
+          <option value="SINGLE_CHOICE">Single Choice</option>
+          <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+          <option value="TRUE_FALSE">True / False</option>
+          <option value="DRAG_AND_DROP">Drag & Drop</option>
+          <option value="CASE_STUDY">Case Study</option>
+        </select>
       </div>
 
       {/* Question Table */}
@@ -130,61 +251,100 @@ export const QuestionBankPage: React.FC = () => {
           <thead className="bg-slate-100 text-slate-700 font-mono text-[11px] uppercase border-b border-slate-300">
             <tr>
               <th className="p-3.5">Code</th>
-              <th className="p-3.5">Title</th>
+              <th className="p-3.5">Title / Prompt</th>
               <th className="p-3.5">Type</th>
               <th className="p-3.5">Difficulty</th>
               <th className="p-3.5">Points</th>
-              <th className="p-3.5 text-right">Status</th>
+              <th className="p-3.5 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200">
-            {filtered.map((q) => (
-              <tr key={q.id} className="hover:bg-slate-50 transition-colors">
-                <td className="p-3.5 font-mono font-extrabold text-ntms-navy">{q.code}</td>
-                <td className="p-3.5 font-bold text-slate-900">{q.title}</td>
-                <td className="p-3.5 font-mono text-[11px]">
-                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-300 text-slate-700 font-semibold">
-                    {q.type}
-                  </span>
-                </td>
-                <td className="p-3.5 font-mono text-[11px] uppercase">
-                  <span
-                    className={`px-2 py-0.5 rounded font-extrabold ${
-                      q.difficulty === 'EXPERT'
-                        ? 'bg-rose-100 text-rose-900 border border-rose-300'
-                        : q.difficulty === 'ADVANCED'
-                        ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                        : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                    }`}
-                  >
-                    {q.difficulty}
-                  </span>
-                </td>
-                <td className="p-3.5 font-mono font-bold text-slate-900">{q.points} pts</td>
-                <td className="p-3.5 text-right">
-                  <span className="inline-flex items-center gap-1 text-emerald-700 font-mono text-[11px] font-bold">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Approved
-                  </span>
+            {filtered.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="p-8 text-center text-slate-500 font-medium">
+                  No questions found. Click <strong>"Add Question to Exam"</strong> above to author new questions!
                 </td>
               </tr>
-            ))}
+            ) : (
+              filtered.map((q) => (
+                <tr key={q.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="p-3.5 font-mono font-extrabold text-ntms-navy">{q.code}</td>
+                  <td className="p-3.5 font-bold text-slate-900 max-w-md truncate">{q.title}</td>
+                  <td className="p-3.5 font-mono text-[11px]">
+                    <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-300 text-slate-700 font-semibold">
+                      {q.type}
+                    </span>
+                  </td>
+                  <td className="p-3.5 font-mono text-[11px] uppercase">
+                    <span
+                      className={`px-2 py-0.5 rounded font-extrabold ${
+                        q.difficulty === 'EXPERT'
+                          ? 'bg-rose-100 text-rose-900 border border-rose-300'
+                          : q.difficulty === 'ADVANCED'
+                          ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                          : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                      }`}
+                    >
+                      {q.difficulty}
+                    </span>
+                  </td>
+                  <td className="p-3.5 font-mono font-bold text-slate-900">{q.points} pts</td>
+                  <td className="p-3.5 text-right space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => openEditQuestionModal(q)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-100 hover:bg-sky-200 text-ntms-navy border border-sky-300 rounded font-bold text-[11px] transition-colors"
+                      title="Edit Question & Answers"
+                    >
+                      <Edit3 className="w-3.5 h-3.5" /> Edit Q&A
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteQuestion(q.id, q.code)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 rounded font-bold text-[11px] transition-colors"
+                      title="Delete Question"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* Create New Question Authoring Modal */}
-      {showModal && (
+      {/* Modal - Author / Edit Question & Answers */}
+      {showQModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded border border-slate-300 max-w-xl w-full p-6 space-y-4 shadow-xl text-slate-900 overflow-y-auto max-h-[90vh]">
+          <div className="bg-white rounded border border-slate-300 max-w-2xl w-full p-6 space-y-4 shadow-xl text-slate-900 overflow-y-auto max-h-[90vh]">
             <div className="flex justify-between items-center border-b border-slate-200 pb-3">
-              <h3 className="text-base font-bold text-ntms-navy">Author New Exam Question</h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-700">
+              <h3 className="text-base font-bold text-ntms-navy">
+                {editingQuestionId ? '✏️ Edit Question & Answer Key' : '➕ Author New Exam Question'}
+              </h3>
+              <button onClick={() => setShowQModal(false)} className="text-slate-400 hover:text-slate-700">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateQuestion} className="space-y-4 text-xs">
+            <form onSubmit={handleSaveQuestion} className="space-y-4 text-xs">
               <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Target Exam Track</label>
+                  <select
+                    value={selectedExamId}
+                    onChange={(e) => setSelectedExamId(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-bold"
+                  >
+                    <option value="">-- General Question Bank --</option>
+                    {exams.map((ex) => (
+                      <option key={ex.id} value={ex.id}>
+                        {ex.code} - {ex.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <div>
                   <label className="font-bold text-slate-700 block mb-1">Question Code</label>
                   <input
@@ -196,23 +356,11 @@ export const QuestionBankPage: React.FC = () => {
                     className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-semibold"
                   />
                 </div>
-
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Question Title</label>
-                  <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    placeholder="e.g. Azure VNet Peering Routing"
-                    className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-semibold"
-                  />
-                </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="font-bold text-slate-700 block mb-1">Type</label>
+                  <label className="font-bold text-slate-700 block mb-1">Question Type</label>
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value)}
@@ -222,6 +370,7 @@ export const QuestionBankPage: React.FC = () => {
                     <option value="MULTIPLE_CHOICE">Multiple Choice</option>
                     <option value="TRUE_FALSE">True / False</option>
                     <option value="DRAG_AND_DROP">Drag & Drop</option>
+                    <option value="CASE_STUDY">Case Study</option>
                   </select>
                 </div>
 
@@ -259,21 +408,24 @@ export const QuestionBankPage: React.FC = () => {
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   required
-                  placeholder="Type the full question prompt here..."
-                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-semibold resize-none"
+                  placeholder="Type the full scenario or question prompt here..."
+                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-medium resize-none"
                 />
               </div>
 
+              {/* Options & Correct Answer Selector */}
               <div className="space-y-2 border-t border-slate-200 pt-3">
-                <label className="font-bold text-slate-700 block">Answer Choices & Correct Answer</label>
+                <label className="font-bold text-slate-700 block">Answer Options & Correct Key (Select Radio Button for Correct Answer)</label>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <input
                       type="radio"
-                      name="correct"
+                      name="correctChoice"
                       checked={correctOpt === 'optA'}
                       onChange={() => setCorrectOpt('optA')}
+                      className="w-4 h-4 text-ntms-navy cursor-pointer"
                     />
+                    <span className="font-mono font-bold text-slate-700 w-6">A.</span>
                     <input
                       type="text"
                       value={optA}
@@ -287,10 +439,12 @@ export const QuestionBankPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <input
                       type="radio"
-                      name="correct"
+                      name="correctChoice"
                       checked={correctOpt === 'optB'}
                       onChange={() => setCorrectOpt('optB')}
+                      className="w-4 h-4 text-ntms-navy cursor-pointer"
                     />
+                    <span className="font-mono font-bold text-slate-700 w-6">B.</span>
                     <input
                       type="text"
                       value={optB}
@@ -304,10 +458,12 @@ export const QuestionBankPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <input
                       type="radio"
-                      name="correct"
+                      name="correctChoice"
                       checked={correctOpt === 'optC'}
                       onChange={() => setCorrectOpt('optC')}
+                      className="w-4 h-4 text-ntms-navy cursor-pointer"
                     />
+                    <span className="font-mono font-bold text-slate-700 w-6">C.</span>
                     <input
                       type="text"
                       value={optC}
@@ -320,10 +476,12 @@ export const QuestionBankPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <input
                       type="radio"
-                      name="correct"
+                      name="correctChoice"
                       checked={correctOpt === 'optD'}
                       onChange={() => setCorrectOpt('optD')}
+                      className="w-4 h-4 text-ntms-navy cursor-pointer"
                     />
+                    <span className="font-mono font-bold text-slate-700 w-6">D.</span>
                     <input
                       type="text"
                       value={optD}
@@ -335,10 +493,21 @@ export const QuestionBankPage: React.FC = () => {
                 </div>
               </div>
 
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">Answer Explanation & Official Rationale</label>
+                <textarea
+                  rows={2}
+                  value={explanation}
+                  onChange={(e) => setExplanation(e.target.value)}
+                  placeholder="Provide explanation or documentation references..."
+                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-medium resize-none"
+                />
+              </div>
+
               <div className="flex justify-end gap-3 border-t border-slate-200 pt-3">
                 <button
                   type="button"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setShowQModal(false)}
                   className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-semibold"
                 >
                   Cancel
@@ -347,7 +516,114 @@ export const QuestionBankPage: React.FC = () => {
                   type="submit"
                   className="px-5 py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded font-bold shadow"
                 >
-                  Save Question ➜
+                  Save Question & Key ➜
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal - Build New Exam Track */}
+      {showExamModal && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded border border-slate-300 max-w-lg w-full p-6 space-y-4 shadow-xl text-slate-900">
+            <div className="flex justify-between items-center border-b border-slate-200 pb-3">
+              <h3 className="text-base font-bold text-ntms-navy">Build & Publish New Exam Track</h3>
+              <button onClick={() => setShowExamModal(false)} className="text-slate-400 hover:text-slate-700">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateExam} className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Exam Code</label>
+                  <input
+                    type="text"
+                    value={examCode}
+                    onChange={(e) => setExamCode(e.target.value)}
+                    required
+                    placeholder="e.g. DP-900"
+                    className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Vendor</label>
+                  <select
+                    value={examVendor}
+                    onChange={(e) => setExamVendor(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-bold"
+                  >
+                    <option value="MICROSOFT">Microsoft</option>
+                    <option value="AWS">Amazon Web Services</option>
+                    <option value="CISCO">Cisco</option>
+                    <option value="COMPTIA">CompTIA</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">Exam Title</label>
+                <input
+                  type="text"
+                  value={examTitle}
+                  onChange={(e) => setExamTitle(e.target.value)}
+                  required
+                  placeholder="e.g. Microsoft Azure Data Fundamentals"
+                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-bold"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Duration (Minutes)</label>
+                  <input
+                    type="number"
+                    value={examDuration}
+                    onChange={(e) => setExamDuration(Number(e.target.value))}
+                    required
+                    className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Passing Score (Scale 1000)</label>
+                  <input
+                    type="number"
+                    value={examPassingScore}
+                    onChange={(e) => setExamPassingScore(Number(e.target.value))}
+                    required
+                    className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-bold"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">Description</label>
+                <textarea
+                  rows={3}
+                  value={examDescription}
+                  onChange={(e) => setExamDescription(e.target.value)}
+                  placeholder="Describe certification objectives and audience..."
+                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-medium resize-none"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 border-t border-slate-200 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setShowExamModal(false)}
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-bold shadow"
+                >
+                  Build & Publish Exam Track ➜
                 </button>
               </div>
             </form>

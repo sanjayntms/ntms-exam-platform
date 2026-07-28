@@ -40,12 +40,16 @@ router.post('/auth/logout', authenticateJWT, (req, res) => authCtrl.logout(req, 
 router.get('/exams', authenticateJWT, (req, res) => examCtrl.list(req, res));
 router.get('/exams/:id', (req, res) => examCtrl.getById(req, res));
 router.post('/exams', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR, Role.EXAM_CREATOR), (req, res) => examCtrl.create(req, res));
+router.put('/exams/:id', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR, Role.EXAM_CREATOR), (req, res) => examCtrl.update(req, res));
+router.delete('/exams/:id', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => examCtrl.delete(req, res));
 router.patch('/exams/:examId/global-unlock', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => roomCtrl.toggleGlobalExamUnlock(req, res));
 
 // Question Routes
 router.get('/questions', (req, res) => questionCtrl.list(req, res));
 router.get('/questions/:id', (req, res) => questionCtrl.getById(req, res));
 router.post('/questions', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR, Role.EXAM_CREATOR), (req, res) => questionCtrl.create(req, res));
+router.put('/questions/:id', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR, Role.EXAM_CREATOR), (req, res) => questionCtrl.update(req, res));
+router.delete('/questions/:id', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => questionCtrl.delete(req, res));
 
 // Attempt / Exam Engine Routes
 router.post('/attempts/start', authenticateJWT, (req, res) => attemptCtrl.start(req, res));
