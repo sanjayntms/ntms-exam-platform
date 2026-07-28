@@ -9,8 +9,8 @@ export class AttemptController {
     try {
       const userId = req.user?.id || 'candidate';
       const userRole = req.user?.role;
-      const { examId } = req.body;
-      const session = await this.engineService.startExamAttempt(userId, examId, userRole);
+      const { examId, roomId } = req.body;
+      const session = await this.engineService.startExamAttempt(userId, examId, userRole, roomId);
       return res.status(201).json(session);
     } catch (err: any) {
       return res.status(400).json({ error: err.message });
@@ -31,7 +31,29 @@ export class AttemptController {
     try {
       const attempt = await this.uow.attempts.findById(req.params.id);
       if (!attempt) return res.status(404).json({ error: 'Attempt not found' });
-      return res.json(attempt);
+
+      // Determine allowReview status for candidate
+      let allowReview = true;
+      const roomId = (attempt as any).roomId;
+      if (roomId) {
+        const room = await prisma.examRoom.findUnique({ where: { id: roomId } });
+        if (room) {
+          allowReview = room.allowReview;
+        }
+      } else {
+        const activeRoom = await prisma.examRoom.findFirst({
+          where: { examId: attempt.examId },
+          orderBy: { createdAt: 'desc' },
+        });
+        if (activeRoom) {
+          allowReview = activeRoom.allowReview;
+        }
+      }
+
+      return res.json({
+        ...attempt,
+        allowReview,
+      });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }

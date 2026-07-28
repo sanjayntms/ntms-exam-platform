@@ -2,7 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { ExamAttempt } from '../types';
-import { ArrowLeft, Printer, ShieldCheck, CheckCircle2, XCircle, FileQuestion, CheckCircle, HelpCircle } from 'lucide-react';
+import {
+  ArrowLeft,
+  Printer,
+  ShieldCheck,
+  CheckCircle2,
+  XCircle,
+  FileQuestion,
+  CheckCircle,
+  HelpCircle,
+  Eye,
+  Lock,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+  Filter,
+} from 'lucide-react';
 
 interface DomainBreakdown {
   domain: string;
@@ -13,6 +28,8 @@ interface DomainBreakdown {
 export const ExamResultsPage: React.FC = () => {
   const { attemptId } = useParams();
   const [attempt, setAttempt] = useState<ExamAttempt | null>(null);
+  const [showReview, setShowReview] = useState(false);
+  const [reviewFilter, setReviewFilter] = useState<'ALL' | 'CORRECT' | 'INCORRECT' | 'UNANSWERED'>('ALL');
 
   useEffect(() => {
     const fetchAttempt = async () => {
@@ -39,6 +56,63 @@ export const ExamResultsPage: React.FC = () => {
   const rawAnswersObj = attempt.answers ? JSON.parse(attempt.answers) : {};
   const answeredCount = Object.keys(rawAnswersObj).length;
   const unansweredCount = Math.max(0, totalQuestions - answeredCount);
+  const allowReview = attempt.allowReview !== false;
+
+  // Flatten all questions from all sections in order for candidate review
+  const allQuestions: Array<{
+    number: number;
+    question: any;
+    userAnswer: any;
+    isCorrect: boolean;
+    isAnswered: boolean;
+  }> = [];
+
+  if (attempt.exam && attempt.exam.sections) {
+    let qIndex = 1;
+    attempt.exam.sections.forEach((sec) => {
+      sec.questions.forEach((sq) => {
+        const q = sq.question;
+        const uAns = rawAnswersObj[q.id];
+        const isAnswered = uAns !== undefined && uAns !== null;
+
+        let isCorrect = false;
+        if (isAnswered) {
+          try {
+            const content = typeof q.content === 'string' ? JSON.parse(q.content) : q.content;
+            if (q.type === 'SINGLE_CHOICE' || q.type === 'CASE_STUDY') {
+              const correctOpt = content.options?.find((o: any) => o.isCorrect);
+              isCorrect = uAns?.selectedOptionId === correctOpt?.id;
+            } else if (q.type === 'MULTIPLE_CHOICE') {
+              const correctIds = content.options?.filter((o: any) => o.isCorrect).map((o: any) => o.id).sort();
+              const userSelectedIds = (uAns?.selectedOptionIds || []).sort();
+              isCorrect = JSON.stringify(correctIds) === JSON.stringify(userSelectedIds);
+            } else if (q.type === 'TRUE_FALSE') {
+              isCorrect = uAns?.isTrue === content.isTrueCorrect;
+            } else {
+              isCorrect = true;
+            }
+          } catch {
+            isCorrect = false;
+          }
+        }
+
+        allQuestions.push({
+          number: qIndex++,
+          question: q,
+          userAnswer: uAns,
+          isCorrect,
+          isAnswered,
+        });
+      });
+    });
+  }
+
+  const filteredQuestions = allQuestions.filter((item) => {
+    if (reviewFilter === 'CORRECT') return item.isAnswered && item.isCorrect;
+    if (reviewFilter === 'INCORRECT') return item.isAnswered && !item.isCorrect;
+    if (reviewFilter === 'UNANSWERED') return !item.isAnswered;
+    return true;
+  });
 
   // Calculate REAL Domain Performance Breakdown based on Exam Track and Actual Score
   const getDomainBreakdown = (): DomainBreakdown[] => {
@@ -98,11 +172,9 @@ export const ExamResultsPage: React.FC = () => {
       ];
     }
 
-    // Calculate real domain percentages strictly based on raw candidate score
     return domains.map((domain, idx) => {
       let domainPct = 0;
       if (rawPct > 0) {
-        // Variance around real score for domain distribution
         const variance = (idx % 2 === 0 ? 1 : -1) * ((idx * 3) % 5);
         domainPct = Math.min(100, Math.max(0, Math.round(rawPct + variance)));
       }
@@ -128,7 +200,7 @@ export const ExamResultsPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6 font-sans pb-12">
       {/* Action Bar (Hidden on Print) */}
-      <div className="flex justify-between items-center print:hidden">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-3 print:hidden">
         <Link
           to="/dashboard"
           className="flex items-center gap-2 text-xs text-ntms-navy font-bold hover:text-ntms-blue font-mono"
@@ -136,13 +208,40 @@ export const ExamResultsPage: React.FC = () => {
           <ArrowLeft className="w-4 h-4" /> Return to Candidate Dashboard
         </Link>
 
-        <button
-          onClick={handlePrint}
-          className="flex items-center gap-2 px-4 py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold shadow transition-all"
-        >
-          <Printer className="w-4 h-4" /> Print / Save Official Score Report (PDF)
-        </button>
+        <div className="flex items-center gap-2">
+          {allowReview && (
+            <button
+              onClick={() => setShowReview(!showReview)}
+              className={`flex items-center gap-2 px-4 py-2 rounded text-xs font-bold shadow transition-all ${
+                showReview
+                  ? 'bg-purple-700 text-white hover:bg-purple-800'
+                  : 'bg-purple-100 text-purple-900 hover:bg-purple-200 border border-purple-300'
+              }`}
+            >
+              <Eye className="w-4 h-4" />
+              <span>{showReview ? 'Hide Question Review' : '🔍 Review Exam Questions & Explanations'}</span>
+            </button>
+          )}
+
+          <button
+            onClick={handlePrint}
+            className="flex items-center gap-2 px-4 py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold shadow transition-all"
+          >
+            <Printer className="w-4 h-4" /> Print Score Report (PDF)
+          </button>
+        </div>
       </div>
+
+      {/* Candidate Review Locked Disclaimer Banner */}
+      {!allowReview && (
+        <div className="bg-amber-50 border border-amber-300 rounded p-4 flex items-center gap-3 text-xs text-amber-900 print:hidden">
+          <Lock className="w-5 h-5 text-amber-700 shrink-0" />
+          <div>
+            <strong className="block font-bold">Question-by-Question Review Locked</strong>
+            <span>Detailed question answer keys & explanations are currently disabled by the Administrator for this Exam Room.</span>
+          </div>
+        </div>
+      )}
 
       {/* Official Score Report Paper */}
       <div className="bg-white rounded border border-slate-300 p-8 space-y-6 shadow-xl text-slate-900 print:shadow-none print:border-none print:m-0 print:p-0 print:w-full">
@@ -254,6 +353,18 @@ export const ExamResultsPage: React.FC = () => {
               <span className="text-base font-extrabold text-amber-700">{unansweredCount}</span>
             </div>
           </div>
+
+          {allowReview && (
+            <div className="pt-2 border-t border-slate-200 flex justify-end print:hidden">
+              <button
+                onClick={() => setShowReview(!showReview)}
+                className="text-xs font-bold text-purple-800 hover:text-purple-950 flex items-center gap-1.5"
+              >
+                <Eye className="w-4 h-4" />
+                <span>{showReview ? 'Hide Question Review ▲' : 'Review Questions & Answer Explanations ▼'}</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Score Scale Bar */}
@@ -344,6 +455,157 @@ export const ExamResultsPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Interactive Candidate Question & Answer Review Section */}
+      {allowReview && showReview && (
+        <div className="bg-white rounded border border-purple-300 p-6 space-y-6 shadow-xl print:hidden">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-4">
+            <div>
+              <h2 className="text-base font-extrabold text-purple-950 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-purple-700" /> Candidate Exam Question & Explanation Review
+              </h2>
+              <p className="text-xs text-slate-600">Review your submitted choices alongside correct answer keys and detailed explanations.</p>
+            </div>
+
+            {/* Filter Tabs */}
+            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded border border-slate-300 text-xs font-mono font-bold">
+              <button
+                onClick={() => setReviewFilter('ALL')}
+                className={`px-3 py-1 rounded transition-all ${reviewFilter === 'ALL' ? 'bg-purple-700 text-white shadow' : 'text-slate-700 hover:bg-slate-200'}`}
+              >
+                ALL ({allQuestions.length})
+              </button>
+              <button
+                onClick={() => setReviewFilter('CORRECT')}
+                className={`px-3 py-1 rounded transition-all ${reviewFilter === 'CORRECT' ? 'bg-emerald-600 text-white shadow' : 'text-slate-700 hover:bg-slate-200'}`}
+              >
+                CORRECT ({correctCount})
+              </button>
+              <button
+                onClick={() => setReviewFilter('INCORRECT')}
+                className={`px-3 py-1 rounded transition-all ${reviewFilter === 'INCORRECT' ? 'bg-rose-600 text-white shadow' : 'text-slate-700 hover:bg-slate-200'}`}
+              >
+                INCORRECT ({answeredCount - correctCount})
+              </button>
+              <button
+                onClick={() => setReviewFilter('UNANSWERED')}
+                className={`px-3 py-1 rounded transition-all ${reviewFilter === 'UNANSWERED' ? 'bg-amber-600 text-white shadow' : 'text-slate-700 hover:bg-slate-200'}`}
+              >
+                SKIPPED ({unansweredCount})
+              </button>
+            </div>
+          </div>
+
+          {/* Question Review List */}
+          <div className="space-y-6">
+            {filteredQuestions.map((item) => {
+              const q = item.question;
+              const content = typeof q.content === 'string' ? JSON.parse(q.content) : q.content;
+              const options = content.options || [];
+
+              let candidateOptId: string | null = null;
+              if (item.userAnswer) {
+                candidateOptId = item.userAnswer.selectedOptionId || (item.userAnswer.selectedOptionIds ? item.userAnswer.selectedOptionIds[0] : null);
+              }
+
+              return (
+                <div
+                  key={q.id}
+                  className={`p-5 rounded border space-y-4 transition-all ${
+                    item.isAnswered
+                      ? item.isCorrect
+                        ? 'bg-emerald-50/40 border-emerald-300'
+                        : 'bg-rose-50/40 border-rose-300'
+                      : 'bg-amber-50/40 border-amber-300'
+                  }`}
+                >
+                  {/* Question Header Badge Bar */}
+                  <div className="flex justify-between items-center text-xs font-mono font-bold">
+                    <span className="text-slate-900 text-sm font-extrabold">Question #{item.number}</span>
+
+                    <div className="flex items-center gap-2">
+                      <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-300 text-[10px]">
+                        {q.code || q.type}
+                      </span>
+
+                      {item.isAnswered ? (
+                        item.isCorrect ? (
+                          <span className="bg-emerald-600 text-white px-2.5 py-0.5 rounded flex items-center gap-1 text-[10px]">
+                            <CheckCircle2 className="w-3 h-3" /> CORRECT (+{q.points} pt)
+                          </span>
+                        ) : (
+                          <span className="bg-rose-600 text-white px-2.5 py-0.5 rounded flex items-center gap-1 text-[10px]">
+                            <XCircle className="w-3 h-3" /> INCORRECT (0 pt)
+                          </span>
+                        )
+                      ) : (
+                        <span className="bg-amber-600 text-white px-2.5 py-0.5 rounded flex items-center gap-1 text-[10px]">
+                          ⚠️ SKIPPED / UNANSWERED
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Question Scenario Prompt */}
+                  <div className="text-slate-900 text-xs font-semibold leading-relaxed">
+                    {q.title}
+                  </div>
+
+                  {/* Options List with Color Highlights */}
+                  {options.length > 0 && (
+                    <div className="space-y-2 text-xs">
+                      {options.map((opt: any) => {
+                        const isCandidateChoice = candidateOptId === opt.id || (item.userAnswer?.selectedOptionIds || []).includes(opt.id);
+                        const isCorrectKey = opt.isCorrect;
+
+                        let style = 'bg-white border-slate-200 text-slate-800';
+                        if (isCorrectKey) {
+                          style = 'bg-emerald-100 border-emerald-400 text-emerald-950 font-bold shadow-sm';
+                        } else if (isCandidateChoice && !isCorrectKey) {
+                          style = 'bg-rose-100 border-rose-400 text-rose-950 font-bold';
+                        }
+
+                        return (
+                          <div key={opt.id} className={`p-3 rounded border flex items-center justify-between gap-3 ${style}`}>
+                            <div className="flex items-center gap-2.5">
+                              <span className="font-mono font-extrabold w-5">{opt.letter || opt.id.slice(-1).toUpperCase()}.</span>
+                              <span>{opt.text}</span>
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0 font-mono text-[10px]">
+                              {isCandidateChoice && (
+                                <span className={`px-2 py-0.5 rounded font-bold ${isCorrectKey ? 'bg-emerald-700 text-white' : 'bg-rose-700 text-white'}`}>
+                                  YOUR CHOICE
+                                </span>
+                              )}
+                              {isCorrectKey && (
+                                <span className="bg-emerald-700 text-white px-2 py-0.5 rounded font-bold flex items-center gap-1">
+                                  ✓ CORRECT ANSWER
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Detailed Explanation Box */}
+                  {q.explanation && (
+                    <div className="bg-sky-50/80 border border-sky-300 rounded p-4 text-xs space-y-1.5 text-sky-950">
+                      <div className="flex items-center gap-1.5 font-bold text-ntms-navy text-[11px] uppercase tracking-wide">
+                        <HelpCircle className="w-4 h-4 text-ntms-blue" />
+                        <span>Explanation & Answer Key Rationale</span>
+                      </div>
+                      <p className="leading-relaxed whitespace-pre-line text-slate-800 font-medium">{q.explanation}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

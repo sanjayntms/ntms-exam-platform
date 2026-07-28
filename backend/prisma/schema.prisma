@@ -153,17 +153,19 @@ model Exam {
 }
 
 model ExamRoom {
-  id        String   @id @default(uuid())
-  roomCode  String   @unique
-  title     String
-  examId    String
-  status    String   @default("OPEN") // "OPEN" | "CLOSED"
-  createdBy String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String        @id @default(uuid())
+  roomCode    String        @unique
+  title       String
+  examId      String
+  status      String        @default("OPEN") // "OPEN" | "CLOSED"
+  allowReview Boolean       @default(true)
+  createdBy   String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   exam         Exam          @relation(fields: [examId], references: [id], onDelete: Cascade)
   roomSessions RoomSession[]
+  attempts     ExamAttempt[]
 
   @@map("exam_rooms")
 }
@@ -225,6 +227,7 @@ model ExamAttempt {
   id               String        @id @default(uuid())
   userId           String
   examId           String
+  roomId           String?
   status           String        @default("IN_PROGRESS")
   startedAt        DateTime      @default(now())
   completedAt      DateTime?
@@ -238,6 +241,7 @@ model ExamAttempt {
 
   user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   exam             Exam          @relation(fields: [examId], references: [id], onDelete: Cascade)
+  room             ExamRoom?     @relation(fields: [roomId], references: [id], onDelete: SetNull)
 
   @@map("exam_attempts")
 }

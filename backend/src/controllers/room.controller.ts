@@ -21,7 +21,7 @@ export class RoomController {
   // Create a new proctor exam room
   async createRoom(req: Request, res: Response) {
     try {
-      const { roomCode, title, examId, status } = req.body;
+      const { roomCode, title, examId, status, allowReview } = req.body;
       const createdBy = req.user?.email || 'admin';
 
       const existing = await prisma.examRoom.findUnique({ where: { roomCode } });
@@ -35,6 +35,7 @@ export class RoomController {
           title,
           examId,
           status: status || 'OPEN',
+          allowReview: allowReview !== undefined ? Boolean(allowReview) : true,
           createdBy,
         },
         include: { exam: { select: { id: true, code: true, title: true } } },
@@ -57,6 +58,25 @@ export class RoomController {
       const updated = await prisma.examRoom.update({
         where: { id: roomId },
         data: { status: newStatus },
+        include: { exam: { select: { id: true, code: true, title: true } } },
+      });
+
+      return res.json(updated);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  // Toggle Allow Candidate Answer Review for Room
+  async toggleAllowReview(req: Request, res: Response) {
+    try {
+      const { roomId } = req.params;
+      const room = await prisma.examRoom.findUnique({ where: { id: roomId } });
+      if (!room) return res.status(404).json({ error: 'Exam Room not found' });
+
+      const updated = await prisma.examRoom.update({
+        where: { id: roomId },
+        data: { allowReview: !room.allowReview },
         include: { exam: { select: { id: true, code: true, title: true } } },
       });
 

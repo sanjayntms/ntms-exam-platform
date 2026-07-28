@@ -20,6 +20,7 @@ export const ExamListPage: React.FC = () => {
   const [newRoomCode, setNewRoomCode] = useState('');
   const [newRoomTitle, setNewRoomTitle] = useState('');
   const [selectedExamId, setSelectedExamId] = useState('');
+  const [newRoomAllowReview, setNewRoomAllowReview] = useState(true);
 
   // Admin Edit Exam Track Modal State
   const [showEditExamModal, setShowEditExamModal] = useState(false);
@@ -108,11 +109,13 @@ export const ExamListPage: React.FC = () => {
         title: newRoomTitle,
         examId: selectedExamId,
         status: 'OPEN',
+        allowReview: newRoomAllowReview,
       });
       alert('✅ Exam Room Created & Exam Unlocked Automatically for Candidates!');
       setShowRoomModal(false);
       setNewRoomCode('');
       setNewRoomTitle('');
+      setNewRoomAllowReview(true);
       fetchExamsAndRooms();
     } catch (err: any) {
       alert('Error creating room: ' + (err.response?.data?.error || err.message));
@@ -125,6 +128,15 @@ export const ExamListPage: React.FC = () => {
       fetchExamsAndRooms();
     } catch (err: any) {
       alert('Error updating room status: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  const handleToggleAllowReview = async (roomId: string) => {
+    try {
+      await api.patch(`/rooms/${roomId}/allow-review`);
+      fetchExamsAndRooms();
+    } catch (err: any) {
+      alert('Error toggling candidate review: ' + (err.response?.data?.error || err.message));
     }
   };
 
@@ -240,8 +252,8 @@ export const ExamListPage: React.FC = () => {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {rooms.map((room) => (
-              <div key={room.id} className="p-3 bg-slate-50 border border-slate-200 rounded flex items-center justify-between">
-                <div>
+              <div key={room.id} className="p-3 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between space-y-2">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-bold text-xs text-ntms-navy bg-sky-100 px-2 py-0.5 rounded border border-sky-300">
                       {room.roomCode}
@@ -250,18 +262,39 @@ export const ExamListPage: React.FC = () => {
                       {room.status}
                     </span>
                   </div>
-                  <p className="text-xs font-bold text-slate-800 mt-1">{room.title}</p>
-                </div>
 
-                {user?.role === 'ADMINISTRATOR' && (
-                  <button
-                    onClick={() => handleToggleRoomStatus(room.id)}
-                    className={`px-3 py-1 text-[11px] font-bold rounded border transition-colors ${
-                      room.status === 'OPEN' ? 'bg-rose-100 hover:bg-rose-200 text-rose-800 border-rose-300' : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border-emerald-300'
+                  <span
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                      room.allowReview !== false ? 'bg-purple-50 text-purple-800 border-purple-300' : 'bg-amber-50 text-amber-800 border-amber-300'
                     }`}
                   >
-                    {room.status === 'OPEN' ? '🔴 Close Room Manually' : '🟢 Re-Open Room'}
-                  </button>
+                    {room.allowReview !== false ? '👁 Review Allowed' : '🔒 Review Locked'}
+                  </span>
+                </div>
+
+                <p className="text-xs font-bold text-slate-800">{room.title}</p>
+
+                {user?.role === 'ADMINISTRATOR' && (
+                  <div className="flex items-center gap-2 pt-1 border-t border-slate-200">
+                    <button
+                      onClick={() => handleToggleRoomStatus(room.id)}
+                      className={`flex-1 px-2 py-1 text-[10px] font-bold rounded border transition-colors ${
+                        room.status === 'OPEN' ? 'bg-rose-100 hover:bg-rose-200 text-rose-800 border-rose-300' : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border-emerald-300'
+                      }`}
+                    >
+                      {room.status === 'OPEN' ? '🔴 Close Room' : '🟢 Re-Open Room'}
+                    </button>
+
+                    <button
+                      onClick={() => handleToggleAllowReview(room.id)}
+                      className={`flex-1 px-2 py-1 text-[10px] font-bold rounded border transition-colors ${
+                        room.allowReview !== false ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300' : 'bg-purple-100 hover:bg-purple-200 text-purple-900 border-purple-300'
+                      }`}
+                      title="Toggle Candidate Question/Answer Review"
+                    >
+                      {room.allowReview !== false ? '🔒 Lock Review' : '👁 Allow Review'}
+                    </button>
+                  </div>
                 )}
               </div>
             ))}
@@ -445,6 +478,19 @@ export const ExamListPage: React.FC = () => {
                   required
                   placeholder="e.g. Exam Hall 101 - Morning Shift"
                   className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-bold"
+                />
+              </div>
+
+              <div className="bg-purple-50 border border-purple-200 rounded p-3 flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-purple-950 text-xs block">Allow Candidate Exam Review</span>
+                  <span className="text-[10px] text-purple-700 block">Candidates can view question-by-question answer keys & explanations after submitting exam</span>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={newRoomAllowReview}
+                  onChange={(e) => setNewRoomAllowReview(e.target.checked)}
+                  className="w-4 h-4 accent-purple-600 rounded cursor-pointer"
                 />
               </div>
 

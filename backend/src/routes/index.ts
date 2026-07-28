@@ -61,6 +61,7 @@ router.get('/attempts/:id', authenticateJWT, (req, res) => attemptCtrl.getById(r
 router.get('/rooms', authenticateJWT, (req, res) => roomCtrl.listRooms(req, res));
 router.post('/rooms', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => roomCtrl.createRoom(req, res));
 router.patch('/rooms/:roomId/toggle', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => roomCtrl.toggleRoomStatus(req, res));
+router.patch('/rooms/:roomId/allow-review', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => roomCtrl.toggleAllowReview(req, res));
 router.post('/rooms/join', authenticateJWT, (req, res) => roomCtrl.joinRoom(req, res));
 
 // Analytics Routes

@@ -99,6 +99,7 @@ export interface ExamRoom {
   title: string;
   examId: string;
   status: 'OPEN' | 'CLOSED';
+  allowReview?: boolean;
   createdBy: string;
   createdAt: string;
   exam?: Exam;
@@ -109,6 +110,7 @@ export interface ExamAttempt {
   id: string;
   userId: string;
   examId: string;
+  roomId?: string | null;
   status: 'IN_PROGRESS' | 'EVALUATED';
   startedAt: string;
   completedAt?: string;
@@ -118,6 +120,7 @@ export interface ExamAttempt {
   totalQuestions: number;
   passed: boolean;
   answers: string; // JSON object mapping questionId -> answer
+  allowReview?: boolean;
   exam?: Exam;
   user?: User;
 }

@@ -5,7 +5,7 @@ import { prisma } from '../infrastructure/database.js';
 export class ExamEngineService {
   constructor(private uow: UnitOfWork) {}
 
-  async startExamAttempt(userId: string, examId: string, userRole?: string) {
+  async startExamAttempt(userId: string, examId: string, userRole?: string, roomId?: string) {
     const exam = await this.uow.exams.findById(examId);
     if (!exam) throw new Error('Exam not found');
 
@@ -20,15 +20,19 @@ export class ExamEngineService {
     if (!user) throw new Error('Valid candidate user not found in database');
 
     const effectiveRole = userRole || user.role;
+    let targetRoomId = roomId;
 
     // Validate lock status:
     // ADMINISTRATOR, globally unlocked exams, or exams with an active OPEN Exam Room bypass lock checks automatically
     if (effectiveRole !== Role.ADMINISTRATOR && !(exam as any).isGloballyUnlocked) {
       const openRoom = await prisma.examRoom.findFirst({
         where: { examId, status: 'OPEN' },
+        orderBy: { createdAt: 'desc' },
       });
 
-      if (!openRoom) {
+      if (openRoom) {
+        targetRoomId = openRoom.id;
+      } else {
         const access = await prisma.studentExamAccess.findUnique({
           where: { userId_examId: { userId: user.id, examId } },
         });
@@ -37,6 +41,12 @@ export class ExamEngineService {
           throw new Error('This exam track is currently LOCKED. Please ask Admin (sanjay@ntmsentra.onmicrosoft.com) to open an Exam Room for this track.');
         }
       }
+    } else if (!targetRoomId) {
+      const openRoom = await prisma.examRoom.findFirst({
+        where: { examId, status: 'OPEN' },
+        orderBy: { createdAt: 'desc' },
+      });
+      if (openRoom) targetRoomId = openRoom.id;
     }
 
     let totalQuestions = 0;
@@ -47,9 +57,10 @@ export class ExamEngineService {
     const attempt = await this.uow.attempts.create({
       userId: user.id,
       examId: exam.id,
+      roomId: targetRoomId || null,
       totalQuestions,
       answers: JSON.stringify({}),
-    });
+    } as any);
 
     return {
       attemptId: attempt.id,
