@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ExamEngineService } from '../services/examEngine.service.js';
 import { UnitOfWork } from '../infrastructure/repositories/unitOfWork.js';
+import { prisma } from '../infrastructure/database.js';
 
 export class AttemptController {
   constructor(private engineService: ExamEngineService, private uow: UnitOfWork) {}
@@ -63,6 +64,78 @@ export class AttemptController {
     try {
       const userId = req.user?.id || 'candidate';
       const attempts = await this.uow.attempts.findByUser(userId);
+      return res.json(attempts);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  // Admin Search & Filter Candidate Exam Records
+  async adminSearchAttempts(req: Request, res: Response) {
+    try {
+      const { search, examId, startDate, endDate, resultState, minScore, maxScore } = req.query;
+
+      const where: any = {};
+
+      // Exam Track filter
+      if (examId && examId !== 'ALL') {
+        where.examId = String(examId);
+      }
+
+      // Result State filter
+      if (resultState === 'PASSED') {
+        where.passed = true;
+      } else if (resultState === 'FAILED') {
+        where.passed = false;
+      }
+
+      // Date Range filter (Custom Start and End Date)
+      if (startDate || endDate) {
+        where.startedAt = {};
+        if (startDate && startDate !== '') {
+          where.startedAt.gte = new Date(String(startDate));
+        }
+        if (endDate && endDate !== '') {
+          const end = new Date(String(endDate));
+          end.setHours(23, 59, 59, 999);
+          where.startedAt.lte = end;
+        }
+      }
+
+      // Score / Marks filter
+      if ((minScore !== undefined && minScore !== '') || (maxScore !== undefined && maxScore !== '')) {
+        where.scorePercentage = {};
+        if (minScore !== undefined && minScore !== '') {
+          where.scorePercentage.gte = parseFloat(String(minScore));
+        }
+        if (maxScore !== undefined && maxScore !== '') {
+          where.scorePercentage.lte = parseFloat(String(maxScore));
+        }
+      }
+
+      // Name / Username / Verification ID text search
+      if (search && String(search).trim()) {
+        const q = String(search).trim();
+        where.OR = [
+          { candidateName: { contains: q } },
+          { user: { name: { contains: q } } },
+          { user: { email: { contains: q } } },
+          { id: { contains: q } },
+          { exam: { code: { contains: q } } },
+          { exam: { title: { contains: q } } },
+        ];
+      }
+
+      const attempts = await prisma.examAttempt.findMany({
+        where,
+        include: {
+          user: { select: { id: true, name: true, email: true, role: true } },
+          exam: { select: { id: true, code: true, title: true, vendor: true, passingScore: true } },
+          room: { select: { id: true, roomCode: true, title: true } },
+        },
+        orderBy: { startedAt: 'desc' },
+      });
+
       return res.json(attempts);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
