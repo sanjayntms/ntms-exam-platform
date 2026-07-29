@@ -449,8 +449,6 @@ async function main() {
             type: q.type as any,
             difficulty: 'INTERMEDIATE',
             points: 1.0,
-            examId: subExam.id,
-            sectionId: subSec.id,
             content: JSON.stringify({
               prompt: q.prompt,
               explanation: `Official HashiCorp Terraform explanation for ${q.code}.`,
