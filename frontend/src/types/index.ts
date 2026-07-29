@@ -71,6 +71,7 @@ export interface ExamSection {
   title: string;
   instructions?: string;
   orderIndex: number;
+  weightPercentage?: number;
   questions: {
     orderIndex: number;
     question: Question;
@@ -86,6 +87,7 @@ export interface Exam {
   instructions?: string;
   timeLimitMinutes: number;
   passingScore: number;
+  totalQuestionsConfig?: number;
   allowCalculator: boolean;
   allowNotes: boolean;
   isUnlocked?: boolean;
@@ -120,6 +122,7 @@ export interface ExamAttempt {
   totalQuestions: number;
   passed: boolean;
   answers: string; // JSON object mapping questionId -> answer
+  sectionScores?: string; // JSON array of normalized section score breakdown
   allowReview?: boolean;
   exam?: Exam;
   user?: User;
