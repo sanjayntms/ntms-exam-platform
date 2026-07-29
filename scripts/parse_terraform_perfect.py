@@ -10,6 +10,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 def clean_text(text):
     if not text:
         return ''
+    # Remove null bytes
+    text = text.replace('\x00', '').replace('\u0000', '')
     # Remove combining diacritics / strikethrough artifacts
     text = re.sub(r'[\u0300-\u036f]', '', text)
     # Fix common OCR artifacts
