@@ -156,8 +156,8 @@ async function main() {
       list.push({
         code: `${prefix}-Q${qNum}`,
         title: q.title || `Question ${idx + 1}`,
-        type: QuestionType.SINGLE_CHOICE,
-        difficulty: DifficultyLevel.INTERMEDIATE,
+        type: 'SINGLE_CHOICE',
+        difficulty: 'INTERMEDIATE',
         points: 1.0,
         explanation: q.exp || 'Refer to official Azure documentation.',
         content: {
