@@ -319,8 +319,19 @@ export const ExamListPage: React.FC = () => {
       </div>
 
       {/* Main Exam Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredExams.map((exam) => {
+      {filteredExams.length === 0 ? (
+        <div className="bg-slate-50 border border-slate-300 rounded p-8 text-center space-y-3 shadow-sm">
+          <div className="w-12 h-12 rounded-full bg-sky-100 text-ntms-navy mx-auto flex items-center justify-center font-bold">
+            <Lock className="w-6 h-6 text-ntms-blue" />
+          </div>
+          <h4 className="text-sm font-extrabold text-slate-900">No Exam Track Currently Launched for Your Room</h4>
+          <p className="text-xs text-slate-600 max-w-md mx-auto">
+            Please enter your live Proctoring Exam Room Code above (provided by your Administrator/Instructor) to unlock and access your assigned examination track.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredExams.map((exam) => {
           const isGloballyUnlocked = exam.isGloballyUnlocked;
           const isUserUnlocked = exam.isUnlocked;
           const canAccess = user?.role === 'ADMINISTRATOR' || isGloballyUnlocked || isUserUnlocked;
@@ -429,6 +440,7 @@ export const ExamListPage: React.FC = () => {
           );
         })}
       </div>
+      )}
 
       {/* Modal - Admin Create Room */}
       {showRoomModal && (

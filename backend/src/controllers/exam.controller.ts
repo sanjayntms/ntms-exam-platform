@@ -57,7 +57,9 @@ export class ExamController {
         };
       });
 
-      return res.json(mappedExams);
+      // CANDIDATES only see launched / allowed exams for their room or session
+      const candidateExams = mappedExams.filter((exam) => exam.isUnlocked);
+      return res.json(candidateExams);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
