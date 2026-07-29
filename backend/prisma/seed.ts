@@ -348,7 +348,142 @@ async function main() {
     console.log(`✅ Seeded ${item.code} with ${item.seeded.length} questions!`);
   }
 
-  console.log('🎉 ALL Certification Tracks Successfully Seeded with Dynamic Weighting & 25+ AZ-305 Questions!');
+  // Seed HashiCorp Terraform 7 Domain Sub-Exams & Parent Exam Track
+  const tfJsonPath = path.join(__dirname, 'terraform_parsed_all.json');
+  if (fs.existsSync(tfJsonPath)) {
+    console.log('📦 Seeding HashiCorp Terraform 7 Domain Sub-Exams & Parent Certification Track...');
+    const tfDomains = JSON.parse(fs.readFileSync(tfJsonPath, 'utf-8'));
+
+    const catHashiCorp = await prisma.category.create({
+      data: { name: 'HashiCorp Certified', description: 'Infrastructure as Code Certification Questions' },
+    });
+
+    // Parent Terraform Exam Track
+    const parentTfExam = await prisma.exam.create({
+      data: {
+        code: 'TERRAFORM',
+        title: 'HashiCorp Certified: Terraform Associate (003)',
+        vendor: 'HASHICORP',
+        examType: 'CERTIFICATION',
+        description: 'Complete HashiCorp Certified: Terraform Associate (003) parent certification exam covering all 7 official HashiCorp Terraform domains (170 Questions total).',
+        timeLimitMinutes: 120,
+        passingScore: 70.0,
+        totalQuestionsConfig: 50,
+        creatorId: creatorUser.id,
+        status: 'PUBLISHED',
+        isGloballyUnlocked: true,
+      },
+    });
+
+    // Parent Room
+    await prisma.examRoom.create({
+      data: {
+        roomCode: 'HALL-TERRAFORM',
+        title: 'HashiCorp Terraform Complete Certification Hall',
+        examId: parentTfExam.id,
+        status: 'OPEN',
+        allowReview: true,
+        createdBy: creatorUser.email,
+      },
+    });
+
+    let domainIdx = 1;
+    for (const d of tfDomains) {
+      const { domain_code, exam_code, domain_title, questions } = d;
+
+      // 1. Create Sub-Exam Track with Lock/Unlock & Dedicated Room
+      const subExam = await prisma.exam.create({
+        data: {
+          code: exam_code,
+          title: `HashiCorp Terraform ${domain_code}: ${domain_title.split(':').pop()?.trim()}`,
+          vendor: 'HASHICORP',
+          examType: 'CERTIFICATION',
+          description: `Dedicated domain sub-exam for HashiCorp Terraform ${domain_title} containing exactly ${questions.length} domain questions.`,
+          timeLimitMinutes: 60,
+          passingScore: 70.0,
+          totalQuestionsConfig: questions.length,
+          creatorId: creatorUser.id,
+          status: 'PUBLISHED',
+          isGloballyUnlocked: true,
+        },
+      });
+
+      // 2. Create Sub-Exam Dedicated Room
+      const roomCode = `HALL-TF-${domain_code}`;
+      await prisma.examRoom.create({
+        data: {
+          roomCode,
+          title: `HashiCorp Terraform ${domain_code} Proctored Hall`,
+          examId: subExam.id,
+          status: 'OPEN',
+          allowReview: true,
+          createdBy: creatorUser.email,
+        },
+      });
+
+      // 3. Create Sub-Exam Section & Parent Section
+      const subSec = await prisma.examSection.create({
+        data: {
+          examId: subExam.id,
+          title: domain_title,
+          orderIndex: 1,
+          weightPercentage: 100.0,
+        },
+      });
+
+      const parentSec = await prisma.examSection.create({
+        data: {
+          examId: parentTfExam.id,
+          title: domain_title,
+          orderIndex: domainIdx++,
+          weightPercentage: Number(((questions.length / 170) * 100).toFixed(1)),
+        },
+      });
+
+      let qOrder = 1;
+      for (const q of questions) {
+        const question = await prisma.question.create({
+          data: {
+            code: q.code,
+            title: q.prompt.substring(0, 120),
+            type: q.type as any,
+            difficulty: 'INTERMEDIATE',
+            points: 1.0,
+            status: 'PUBLISHED',
+            categoryId: catHashiCorp.id,
+            examId: subExam.id,
+            sectionId: subSec.id,
+            content: JSON.stringify({
+              prompt: q.prompt,
+              explanation: `Official HashiCorp Terraform explanation for ${q.code}.`,
+            }),
+            options: {
+              create: q.options.map((o: any, oIdx: number) => ({
+                text: o.text,
+                isCorrect: o.isCorrect,
+                orderIndex: oIdx + 1,
+                key: o.key,
+              })),
+            },
+          },
+        });
+
+        // Link question to sub-exam section
+        await prisma.sectionQuestion.create({
+          data: { sectionId: subSec.id, questionId: question.id, orderIndex: qOrder },
+        });
+
+        // Link question to parent exam section
+        await prisma.sectionQuestion.create({
+          data: { sectionId: parentSec.id, questionId: question.id, orderIndex: qOrder++ },
+        });
+      }
+
+      console.log(`✅ Seeded ${exam_code} (${domain_code}) with ${questions.length} questions & Room ${roomCode}`);
+    }
+  }
+
+  console.log('🎉 ALL Certification Tracks & HashiCorp Terraform 7 Domain Sub-Exams Successfully Seeded!');
 }
 
 main()

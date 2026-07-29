@@ -1,0 +1,4386 @@
+[
+  {
+    "domain_code": "D-1",
+    "exam_code": "TERRAFORM-D1",
+    "domain_title": "Domain 1: Understand Infrastructure as Code (IaC) Concepts",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "What are some advantages of using Infrast ucture as Code in an organization? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D1-Q001"
+      },
+      {
+        "number": 2,
+        "prompt": "Which of the following statements is the most accurate about the Te rafo m language?",
+        "options": [],
+        "code": "TERRAFORM-D1-Q002"
+      },
+      {
+        "number": 3,
+        "prompt": "A development team is deciding between two deployment strategies: either using Te rafo m to provision new infrast ucture for each deployment or provisioning base infrast ucture once and updating it with configuration changes. Which of the following are advantages of the immutable infrast ucture patte n? (select three) 0/0 IaC code can be used to manage infrast ucture on multiple cloud platfo ms.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 IaC allows you to save your configurations in version control, enabling safe collaboration on infrast ucture.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 IaC uses a human-readable configuration language to help you w ite infrast ucture code quickly.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 IaC is w itten as an imperative approach, where specific commands need to be executed in the co rect order.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m is an immutable, imperative, Infrast ucture as Code configuration management language based on HashiCorp Configuration Language, or optionally JSON.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m is a mutable, imperative, Infrast ucture as Code provisioning language based on HashiCorp Configuration Language, or optionally YAML.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m is an immutable, declarative Infrast ucture as Code language based on HashiCorp Configuration Language or JSON.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m is a mutable, declarative, Infrast ucture as Code configuration management language based on HashiCorp Configuration Language, or optionally JSON.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 requires less storage space since infrast ucture definitions are smaller than application a tifacts",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 eliminates configuration d ift since se vers are never modified after initial provisioning",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 eliminates the need for configuration management tools in the deployment pipeline",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 reduces the isk of inconsistent environments resulting from configuration updates over time",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 simplifies rollback procedures by deploying previous infrast ucture versions rather than reve ting changes",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D1-Q003"
+      },
+      {
+        "number": 4,
+        "prompt": "Which of the following are advantages of using Infrast ucture as Code ԞIaCԟ compared to traditional infrast ucture management approaches? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D1-Q004"
+      },
+      {
+        "number": 5,
+        "prompt": "A sta tup needs to deploy its application across AWS, Google Cloud, and an on-premises VMware environment. Which advantages does Te rafo m provide for this multi-cloud setup? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D1-Q005"
+      },
+      {
+        "number": 6,
+        "prompt": "Why is using a single tool like Te rafo m for multi-cloud deployments more beneficial than using separate tools and workflows for each cloud? 0/0 the same configuration can be consistently applied across multiple environments",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Infrast ucture as Code eliminates human e rors in infrast ucture management",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 infrast ucture configurations can be versioned and stored in source control reposito ies",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 it requires less initial setup time than using cloud provider UI consoles",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 IaC tools automatically optimize infrast ucture costs without human inte vention",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 teams can review and collaborate on infrast ucture changes before they are applied",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 automatically replicate all resources from one cloud to another cloud",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 w ite infrast ucture configurations in one consistent language ԞHCLԟ for all providers",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 use the same commands (init, plan, apply) regardless of the target platfo m",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 conve t existing CloudFo mation templates directly into ARM templates",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 eliminate the need for provider-specific authentication and credentials",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 manage dependencies between resources across different cloud providers",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 It eliminates the need for cloud-specific credentials, since a single token works across all providers by default.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 It automatically migrates existing resources provisioned from other tools into Te rafo m without refacto ing.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 It provides a common workflow and reusable modules, enabling consistent CI/CD and policy across clouds.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 It guarantees identical resource types and APIs across all clouds, eliminating any provider- specific differences.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D1-Q006"
+      },
+      {
+        "number": 7,
+        "prompt": "What sets Infrast ucture as Code ԞIaCԟ apa t from managing infrast ucture directly instead of making raw API calls or executing CLI commands?",
+        "options": [],
+        "code": "TERRAFORM-D1-Q007"
+      },
+      {
+        "number": 8,
+        "prompt": "What are the advantages of using Infrast ucture as Code?",
+        "options": [],
+        "code": "TERRAFORM-D1-Q008"
+      },
+      {
+        "number": 9,
+        "prompt": "What benefits would you see by using a multi-cloud and provider-agnostic tool like Te rafo m? (select two)",
+        "options": [],
+        "code": "TERRAFORM-D1-Q009"
+      },
+      {
+        "number": 10,
+        "prompt": "Management wants to understand how adopting Infrast ucture as Code with Te rafo m differs from your cu rent method of using the console and CLI to deploy and manage infrast ucture. Which statement co rectly identifies a major difference? 0/0 Te rafo m keeps infrast ucture logic in version control to ensure operations remain imperative and un step-by-step.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m uses declarative configuration to desc ibe the desired end state and generates a plan of action before applying changes.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m guarantees that resources consistently reflect the desired state by automatically updating them as needed.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m replaces provider APIs with its own protocol, removing the need to authenticate to each cloud.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Infrast ucture as Code is easily repeatable, allowing the user to reuse code to deploy similar yet different resources.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Infrast ucture as Code enables users to automate a manual task for easier deployment.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Infrast ucture as Code gives the user the ability to recreate an infrast ucture for disaster recove y scena ios",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Infrast ucture as Code provides configuration consistency and standardization among deployments.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Infrast ucture as Code is relatively easy to lea n and w ite, regardless of a use 's p ior coding expe ience.",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "0/0 Removes the need for provider-specific credentials or authentication flows.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Delivers a consistent declarative workflow and language across providers and hype visors.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Reduces operational overhead by allowing teams to lea n and gove n a single tool across all environments.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Programmatically standardizes p icing and usage models across all cloud platfo ms.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Infrast ucture as Code eliminates the need for cloud provider APIs since all infrast ucture is declared in code.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Infrast ucture as Code only works with immutable infrast ucture patte ns, while manual approaches suppo t both mutable and immutable infrast ucture.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Infrast ucture as Code allows infrast ucture to be desc ibed using a configuration syntax that can be versioned, reused, and shared.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Infrast ucture as Code requires all resources to be created through APIs instead of UI consoles, while Te rafo m can work with both approaches.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D1-Q010"
+      },
+      {
+        "number": 11,
+        "prompt": "Your team manages long-lived VMs with a configuration management tool, but d ift and rollbacks are frequent. You’re evaluating alte natives. Which option best reflects an IaC advantage over traditional configuration management?",
+        "options": [],
+        "code": "TERRAFORM-D1-Q011"
+      },
+      {
+        "number": 12,
+        "prompt": "Which characte istics are commonly associated with Infrast ucture as Code ԞIaCԟ workflows?",
+        "options": [],
+        "code": "TERRAFORM-D1-Q012"
+      },
+      {
+        "number": 13,
+        "prompt": "Your organization uses Chef to configure application settings and install software packages on existing se vers. The DevOps team is evaluating whether to adopt Te rafo m alongside Chef. Which statement best explains how Infrast ucture as Code tools, like Te rafo m, differ from configuration management tools? 0/0 IaC isn't useful in this scena io. Standardize on imperative sc ipts to un identical steps on each se ver du ing scheduled maintenance windows.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Use configuration management to provision resources and IaC to patch resources while keeping the same mutable se vers and workflows.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Maintain configuration management for se vers and expo t the cu rent VMs as golden images once configurations have converged.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Using declarative IaC and immutable infrast ucture allows you to define the desired state in code, easily replace resources, and version eve ything.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 managing and provisioning infrast ucture using machine-readable definitions stored in version control.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 a tool that automatically resolves production incidents without requi ing human inte vention.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 a GUI workflow for creating cloud resources via wizards.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 a methodology where infrast ucture changes are requested via se vice tickets and applied manually.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Infrast ucture as Code tools focus on provisioning and managing the lifecycle of infrast ucture resources, while configuration management tools focus on installing and managing software on existing se vers.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Infrast ucture as Code tools can only create cloud resources and vi tual machines, while configuration management tools can create both cloud and on-premises resources, including physical hardware.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Infrast ucture as Code tools use agentless architectures to communicate with cloud providers, while configuration management tools always require agents to be installed on target systems.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Infrast ucture as Code tools use imperative programming models to define step-by-step infrast ucture changes, while configuration management tools use declarative models for desired state.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D1-Q013"
+      },
+      {
+        "number": 14,
+        "prompt": "Sanjay has w itten a single Te rafo m configuration and wants to use it to deploy resources for his organization. Which statements about this configuration can be t ue? (select three) 0/0 Each provider requires a separate configuration file since a single configuration cannot declare more than one provider.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Its state can be stored in one cloud’s remote backend while it provisions resources in another.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 The selected backend dete mines resource creation, so sto ing state in Azure limits it to only provisioning Azure resources.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 The same configuration can deploy QA and Staging by supplying different va iable values or files",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 It can manage resources across multiple cloud providers in the same un when both providers are configured.",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D1-Q014"
+      }
+    ]
+  },
+  {
+    "domain_code": "D-2",
+    "exam_code": "TERRAFORM-D2",
+    "domain_title": "Domain 2: Understand Terraform Purpose & Provider Plugins",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "In Te rafo m, how can a dependency on a provider be established? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D2-Q001"
+      },
+      {
+        "number": 2,
+        "prompt": "You added resources from a new provider to an existing configuration and the next te rafo m plan results in an e ror regarding the provider. What should you do first?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q002"
+      },
+      {
+        "number": 3,
+        "prompt": "You configure two aws providers in the same module, as shown below, and Te rafo m retu ns E ror: Duplicate provider configuration and says to set an additional argument for alte native configurations. Which argument must you add to the second provider block so both can be used? provider \"aws\" { region = \"us-east-1\" } provider \"aws\" { region = \"ap-south-1\" } 0/0 Adding the provide ’s documentation URL as a comment in the Te rafo m code.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Existence of any provider plugins found locally in the working directo y.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Using a resource or data block that belongs to that provider in the configuration.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Decla ing a provider block in the configuration, including any required version constraints.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Having existing resource instances for that provider recorded in the cu rent state.",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "0/0 since a new provider has been introduced, te rafo m validate should be un to download the new plugin and ve ify the config",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 since a new provider has been introduced, adding it to required_providers is sufficient and unning te rafo m init isn’t needed",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 you can't mix resources from different providers within the same configuration file, so Hen y should create a module for the new resource and reference it from the main configuration",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 since a new provider has been introduced,  te rafo m init needs to be un to download the new plugin",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 version",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 profile",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 alias",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 locals",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D2-Q003"
+      },
+      {
+        "number": 4,
+        "prompt": "Your team is discussing why Te rafo m maintains a state file. Which of the following are valid reasons why Te rafo m requires state? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D2-Q004"
+      },
+      {
+        "number": 5,
+        "prompt": "You are reviewing Te rafo m code from a colleague and discover a .te rafo m directo y. What is the purpose of this directo y?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q005"
+      },
+      {
+        "number": 6,
+        "prompt": "You un te rafo m init in a new working directo y. The output shows Te rafo m downloading the aws and time provider plugins. On this machine, where does Te rafo m store those provider plugins?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q006"
+      },
+      {
+        "number": 7,
+        "prompt": "How do you specify which provider Te rafo m should install for a configuration? 0/0 enc ypt sensitive data in your configuration files",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 improve pe fo mance by caching resource att ibutes",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 map real-world resources to your Te rafo m configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 validate provider credentials before applying changes",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 automatically fix HCL configuration syntax e rors",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 track metadata such as resource dependencies",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 The .te rafo m directo y contains the validated Te rafo m configuration and plan files used du ing te rafo m apply.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 The .te rafo m directo y is where Te rafo m saves local state files and state backups by default.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The .te rafo m directo y stores Te rafo m’s local working data, including installed provider and module plugins, backend metadata, and state lock info mation.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 The .te rafo m directo y holds cached provider credentials and sensitive va iables used for authentication.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 The .te rafo m/plugins directo y in the cu rent working directo y",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 The .te rafo m.d directo y in the cu rent working directo y",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The .te rafo m/providers directo y in the cu rent working directo y",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 /etc/te rafo m/plugins",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Define the provider in required_providers and add a matching provider block in the configuration.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Run te rafo m apply first so Te rafo m can detect and install the co rect provider automatically.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Set the provider name in a va iable and pass it with -var when unning te rafo m init.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Download the provider bina y and place it in the working directo y with your Te rafo m configuration files.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D2-Q007"
+      },
+      {
+        "number": 8,
+        "prompt": "Why should a user specify provider version constraints in their Te rafo m configuration?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q008"
+      },
+      {
+        "number": 9,
+        "prompt": "Which of the following is considered a Te rafo m plugin?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q009"
+      },
+      {
+        "number": 10,
+        "prompt": "You un te rafo m plan in a workspace that has existing infrast ucture. Te rafo m shows that it will update 3 resources, create 2 new resources, and destroy 1 resource. How does Te rafo m dete mine what changes need to be made?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q010"
+      },
+      {
+        "number": 11,
+        "prompt": "T ue or False? Multiple providers can be declared within a single Te rafo m configuration file.",
+        "options": [],
+        "code": "TERRAFORM-D2-Q011"
+      },
+      {
+        "number": 12,
+        "prompt": "Before a new Te rafo m provider can be used in a configuration, what steps are required? (select two) 0/0 to remove older versions of the provider",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 roviders are released on a separate schedule from Te rafo m itself; therefore, a newer version could introduce breaking changes",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 to ensure that the provider version matches the version of Te rafo m you are using",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 to match the version number of your application being deployed via Te rafo m",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 module",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 backend",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 provider",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 va iable",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m uses specific cloud provider se vices to identify resources that have d ifted",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m compares the desired state in the configuration with the cu rent state in the state file to build the plan",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m reads the previous plan output file and applies any changes that weren't completed",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m que ies the cloud provider APIs to discover all resources and compares them to the configuration file",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 Declare and configure the provider in the configuration with the required arguments.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Initialize the working directo y using te rafo m init to download and install the provider.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Add the provider name and configuration to \" te rafo m.tfvars \". te rafo m.tfvars and pass it with -var .",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Run te rafo m validate to compile the configuration and fetch the plugin from the Te rafo m regist y.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D2-Q012"
+      },
+      {
+        "number": 13,
+        "prompt": "Which of the following best desc ibes a Te rafo m provider?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q013"
+      },
+      {
+        "number": 14,
+        "prompt": "In the top-level te rafo m block, which setting specifies a provide ’s source and version constraints?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q014"
+      },
+      {
+        "number": 15,
+        "prompt": "A provider alias is used for what purpose in a Te rafo m configuration file?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q015"
+      },
+      {
+        "number": 16,
+        "prompt": "Your team wants Te rafo m to manage a new SaaS with just a REST API. Which Te rafo m component defines resource schemas, manages authentication and interactions with the API, and provides resources and data sources for configurations?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q016"
+      },
+      {
+        "number": 17,
+        "prompt": "You have a Te rafo m configuration file defining resources to deploy on VMware, yet there is no related state file. You have successfully un te rafo m init already. What happens when you un a te rafo m apply? 0/0 a plugin that Te rafo m uses to translate the API interactions with the se vice or provider",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 desc ibes an infrast ucture object, such as a vi tual network, compute instance, or other components",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 se ves as a parameter for a Te rafo m module that allows a module to be customized",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 a container for multiple resources that are used together",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 required_providers",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 backend",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 required_version",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 provider",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 sha ing a provider configuration from a child module back to the root",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 defining multiple configurations of the same provider and binding resources to them",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 to signify what resources should be deployed to a ce tain cloud provider",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 selecting the default workspace for a provider du ing planning",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m backend",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m provider",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m module",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m will produce an e ror since there is no state file",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 All existing infrast ucture on VMware will be deleted, and the resources defined in the configuration file will be created.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Since there is no state file associated with this configuration file, the defined resources will not be created on the VMware infrast ucture.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m will create the resources defined in the configuration file and w ite a new state file.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D2-Q017"
+      },
+      {
+        "number": 18,
+        "prompt": "Given the example code below, where will S3 buckets named logs and operations be created? provider \"aws\" { region = \"us-east-1\" } provider \"aws\" { alias = \"west\" region = \"us-west-2\" } provider \"aws\" { alias = \"eu\" region = \"eu-west-2\" } resource \"aws_s3_bucket\" \"logs\" { <bucket arguments> } resource \"aws_s3_bucket\" \"operations\" { provider = aws.west <bucket arguments> } resource \"aws_s3_bucket\" \"config\" { provider = aws.eu <bucket arguments> }",
+        "options": [],
+        "code": "TERRAFORM-D2-Q018"
+      },
+      {
+        "number": 19,
+        "prompt": "A project is using version 6.0.2 of the hashicorp/aws provider. The configuration's version constraint is set to ~> 6.0.0. Two newer versions are available, 6.0.5 and 6.1.0. What is the effect of unning te rafo m init -upgrade<? 0/0 Neither bucket will be created since provider is not a valid argument for a resource block",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 logs: us-east-1 operations: us-west-2",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 logswill not be created since no provider was indicated operations: us-west-2",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 The command will fail because a provider is already installed.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 It will keep version 6.0.2 because the constraint isn't applicable to the latest version of the provider.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 It will use the ~> 6.0.0 version constraint and install the latest hashicorp/aws provider, version 6.1.0.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 It will install the newest provider version that matches the ~> 6.0.0 constraint, which is 6.0.5.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D2-Q019"
+      },
+      {
+        "number": 20,
+        "prompt": "What are the p ima y benefits of Te rafo m state? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D2-Q020"
+      },
+      {
+        "number": 21,
+        "prompt": "Which statements desc ibe the key benefits that Te rafo m providers offer to users? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D2-Q021"
+      },
+      {
+        "number": 22,
+        "prompt": "You must ensure Te rafo m always installs the same Azure provider release du ing initialization. Which configuration co rectly pins the provider? 0/0 allows Te rafo m to automatically update your infrast ucture in real-time by continuously monito ing your cloud provider for changes without needing to un a plan or apply",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 tracks the cu rent state of your infrast ucture, enabling it to understand what resources exist and need to change",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 maintains relationships between resources, helping Te rafo m understand dependencies and ensure proper resource orde ing",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 allows multiple team members to collaborate safely by tracking who is making changes and preventing concu rent modifications",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Manage storage, enc yption, and locking of Te rafo m state files across remote backends and workspaces.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Extend Te rafo m via a plugin model so new se vices/features can ship without changing Te rafo m Core",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Abstract the target platfo m’s API behind a consistent resource/data-source schema and lifecycle",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Enable one workflow to manage resources across many platfo ms by plugging in different providers",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 data \"azure m\" { source = \"hashicorp/azure m\" version = \"4.51.0\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 required_providers { azure m = { source = \"hashicorp/azure m\" version = \"4.51.0\" } }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m { required_providers { azure m = { source = \"hashicorp/azure m\" version = \"4.51.0\" } } }",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D2-Q022"
+      },
+      {
+        "number": 23,
+        "prompt": "You need to deploy resources across two different Azure subsc iptions in the same Te rafo m configuration. How do you configure Te rafo m to handle this?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q023"
+      },
+      {
+        "number": 24,
+        "prompt": "One of your team members manually deleted an EC2 instance through the AWS console that Te rafo m was managing. What happens when you un te rafo m plan?",
+        "options": [],
+        "code": "TERRAFORM-D2-Q024"
+      },
+      {
+        "number": 25,
+        "prompt": "T ue or False? In most cases, you can migrate Te rafo m state between suppo ted backends at any time, even after unning your first te rafo m apply. 0/0 Use the default provider for one account and modules for the second Azure account to deploy resources.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Create two separate Te rafo m configurations in different directo ies, one for each account.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Define multiple provider blocks with different alias att ibutes and reference them in resources.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Install two different versions of the Azure provider using version constraints and point each one to a different provider.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m removes the missing instance from the state file automatically",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m detects the missing instance and shows that it will recreate the resource",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m fails with an e ror saying the missing resource cannot be found",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m ignores the missing instance and shows no changes needed",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D2-Q025"
+      }
+    ]
+  },
+  {
+    "domain_code": "D-3",
+    "exam_code": "TERRAFORM-D3",
+    "domain_title": "Domain 3: Interact with Terraform CLI & Core Workflow",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "You have a Te rafo m project with multiple subdirecto ies: dev, staging, and prod. Each directo y contains a separate Te rafo m configuration for each different environment. Before deploying resources, where do you need to un te rafo m init?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q001"
+      },
+      {
+        "number": 2,
+        "prompt": "T ue or False? By default, the te rafo m destroy command will prompt the user for confi mation before proceeding.",
+        "options": [],
+        "code": "TERRAFORM-D3-Q002"
+      },
+      {
+        "number": 3,
+        "prompt": "Aside from traditional code reviews, which Te rafo m command provides an oppo tunity for team members to review each othe 's work before deployment?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q003"
+      },
+      {
+        "number": 4,
+        "prompt": "Which Te rafo m command checks modules, att ibute names, and value types to ensure the configuration is syntactically valid and inte nally consistent? 0/0 Only in the root directo y to initialize all environments at once.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Only in prod since production requires initialization, but dev and staging can share the configuration.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 In each directo y (dev, staging, and prod) since each is a separate working directo y.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 In any one of the directo ies, then copy the .te rafo m folder to the other directo ies.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 te rafo m output",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m plan",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m fo mat",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m show",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q004"
+      },
+      {
+        "number": 5,
+        "prompt": "You have split a large module into multiple .tf files and rea ranged several resource blocks without changing any arguments or references. What impact should this have when unning a te rafo m plan",
+        "options": [],
+        "code": "TERRAFORM-D3-Q005"
+      },
+      {
+        "number": 6,
+        "prompt": "After creating several new Te rafo m configurations, you want to quickly fo mat the files without editing each one manually. How can you update all the files at once?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q006"
+      },
+      {
+        "number": 7,
+        "prompt": "What happens when a te rafo m applycommand is executed? 0/0 Multiple changes. Providers decide the order based on when blocks appear in the configuration, which may change the plan",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Minor changes. Te rafo m plans resources in the order files are read, so moving blocks to different .tf files can slightly reorder actions.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Significant changes. Te rafo m tracks each resource’s location within each .tf file, so moving blocks can t igger replacements.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 No changes. Block order doesn’t affect the plan because Te rafo m parses all .tf files in a module together du ing execution.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m init",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m fmt",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m refresh",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 the backend is initialized and the working directo y is prepped",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 creates the execution plan for the deployment of resources",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 applies the changes required in the target infrast ucture in order to reach the desired configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 reconciles the state Te rafo m knows about with the real-world infrast ucture",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q007"
+      },
+      {
+        "number": 8,
+        "prompt": "You have an existing Google Cloud Storage bucket that was created manually. You want to b ing it under Te rafo m management using a mode n config-d iven approach, so you add the following configuration: impo t { to = google_storage_bucket.data_lake id = \"bk-existing-bucket\" } resource \"google_storage_bucket\" \"data_lake\" { name   = \"bk-existing-bucket\" location = \"US\" }",
+        "options": [],
+        "code": "TERRAFORM-D3-Q008"
+      },
+      {
+        "number": 9,
+        "prompt": "Which of the following actions are pe fo med du ing a te rafo m init? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D3-Q009"
+      },
+      {
+        "number": 10,
+        "prompt": "Your team wants to enforce consistent fo matting across all Te rafo m files before merging code into the main branch. You're setting up a CI/CD pipeline and need a command that checks whether files are properly fo matted without making changes. Which command should you use? 0/0 un te rafo m apply -impo t-only to impo t without other changes",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 un te rafo m init followed by te rafo m impo t",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 un te rafo m plan followed by te rafo m apply to impo t the resource",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 un te rafo m impo t google_storage_bucket.data_lake bk-existing-bucket",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 initializes the backend configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 downloads the providers/plugins required to execute the configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 provisions the declared resources in your configuration",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 downloads the required modules referenced in the configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m fmt -check",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m fmt -validate",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m fmt -diff",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m validate -fo mat",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q010"
+      },
+      {
+        "number": 11,
+        "prompt": "Your organization manages a Google Cloud project with 50 resources across multiple se vices. You need to decommission only the Cloud SQL database instance and its backup policy while keeping all other infrast ucture unning. What is the most approp iate approach?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q011"
+      },
+      {
+        "number": 12,
+        "prompt": "What is the purpose of Te rafo m’s dependency graph?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q012"
+      },
+      {
+        "number": 13,
+        "prompt": "Your team's change management process requires that all Te rafo m changes be reviewed and approved before execution. You un te rafo m plan -out=bk- project.tfplan and send the output for review. After approval is granted two hours later, what command should you un to execute the exact changes that were reviewed?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q013"
+      },
+      {
+        "number": 14,
+        "prompt": "Which Te rafo m command will force a resource to be destroyed and recreated even if there are no configuration changes that would require it? 0/0 Add two removed blocks to your configuration, pointing to each of the Cloud SQL database and the backup policy",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Remove the database and backup resource blocks from your configuration, then un te rafo m apply.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Run te rafo m destroy to remove all resources, then un te rafo m apply to recreate eve ything except the database",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Run te rafo m destroy - target=google_sql_database_instance.main - target=google_sql_backup_ un.policy",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 lets providers decide orde ing, relying on cloud APIs to handle dependencies",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 builds a graph of dependencies to pe fo m create/update/destroy operations from it",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 so ts resources by type and name and builds a visual graph from them for create operations",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 executes resources in the order .tf files appear, ensu ing predictable uns",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 un `te rafo m apply` to apply the latest configuration changes since Te rafo m automatically executes the last plan",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 un `te rafo m apply bk- project.tfplan ` to execute the saved plan",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 un `te rafo m apply -auto-approve` to skip the confi mation prompt",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 un `te rafo m plan` again to ve ify no d ift occu red, then un `te rafo m apply",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m apply -refresh-only",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m destroy",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m apply -replace=<address>",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m fmt",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q014"
+      },
+      {
+        "number": 15,
+        "prompt": "What is the .te rafo m.lock.hcl file and when does Te rafo m create or modify it?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q015"
+      },
+      {
+        "number": 16,
+        "prompt": "After executing a te rafo m plan in your working directo y, you notice that a resource has a tilde (~) next to it. What does this indicate?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q016"
+      },
+      {
+        "number": 17,
+        "prompt": "What are the three core steps that make up the Te rafo m workflow? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D3-Q017"
+      },
+      {
+        "number": 18,
+        "prompt": "You're refacto ing a large Te rafo m configuration, splitting a monolithic file into multiple smaller files and reorganizing resource blocks. Before unning te rafo m plan, what's the fastest way to ve ify you didn't introduce any syntax e rors du ing the refacto ing? 0/0 The .te rafo m.lock.hcl file is a concu rency lock to prevent simultaneous uns. It is created or updated eve y time you un a te rafo m plan",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 The .te rafo m.lock.hcl file contains backend connection and credentials settings. It is created or updated eve y time you modify the backend",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The .te rafo m.lock.hcl file is a dependency lock file used by Te rafo m. It is created or updated eve y time you un te rafo m init.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 The .te rafo m.lock.hcl file is a state snapshot used by Te rafo m. It is created or updated eve y time you un te rafo m apply",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 the resource will be updated in place",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m can't dete mine how to proceed due to a problem with the state file",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 the resource will be destroyed and recreated",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 the resource will be created",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 W ite - Author infrast ucture as code.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Apply - Provision reproducible infrast ucture.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Validate - Ve ify the syntax and inte nal consistency",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Destroy - Deprovision and remove all infrast ucture resources",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Plan - Preview changes before applying.",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "0/0 un te rafo m plan",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 un te rafo m validate",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 un te rafo m fmt -recursive",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 un te rafo m init",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q018"
+      },
+      {
+        "number": 19,
+        "prompt": "You've completed w iting your Te rafo m configuration and un te rafo m plan. The output shows +/- 4 resources , indicating that some resources are being destroyed and recreated. Before you un te rafo m apply, which actions should you take? (select two)",
+        "options": [],
+        "code": "TERRAFORM-D3-Q019"
+      },
+      {
+        "number": 20,
+        "prompt": "What function does the te rafo m init -upgrade command pe fo m?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q020"
+      },
+      {
+        "number": 21,
+        "prompt": "You have three test VMs unning on a new cluster, and you un te rafo m destroy to remove them. However, Te rafo m only removes two of the vi tual machines, leaving one vi tual machine still unning. Why would Te rafo m only remove two of the three vi tual machines?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q021"
+      },
+      {
+        "number": 22,
+        "prompt": "T ue or False? Te rafo m requires you to un a te rafo m plan before applying the configuration with te rafo m apply. 0/0 check if the resources being replaced will cause downtime or data loss",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 un te rafo m apply since the plan has already validated the configuration",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 review which resources are being replaced and understand why Te rafo m is forcing replacement",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 un te rafo m init -upgrade to ensure you have the latest provider versions",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 un te rafo m validate to confi m the plan is co rect",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 update all previously installed plugins and modules to the newest version that complies with the configuration’s version constraints",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 upgrades the backend to the latest suppo ted version",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 upgrades the Te rafo m configuration file(s) to use the referenced Te rafo m version",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 upgrades all of the referenced modules and providers to the latest version of Te rafo m",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 The vSphere provider credentials are invalid, and therefore, Te rafo m cannot reach the third vi tual machine",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m can only delete a maximum of 2 resources per te rafo m destroy un.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The remaining vi tual machine was not created by Te rafo m; therefore, Te rafo m is unaware of it and cannot destroy it.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 The last vi tual machine was tagged with vSphere tags to prevent it from being deleted.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q022"
+      },
+      {
+        "number": 23,
+        "prompt": "You refactored a module and renamed a resource as shown in the code example below. When unning te rafo m plan, Te rafo m wants to destroy aws_s3_bucket.logs and create aws_s3_bucket.app_logs. How can you make this a config-d iven change so Te rafo m will update state to the new address without replacing it? # ORIGINAL resource \"aws_s3_bucket\" \"logs\" {} # UPDATED resource \"aws_s3_bucket\" \"app_logs\" {}",
+        "options": [],
+        "code": "TERRAFORM-D3-Q023"
+      },
+      {
+        "number": 24,
+        "prompt": "What built-in tool or command can you use to easily fo mat Te rafo m code to meet the recommended canonical fo matting and style?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q024"
+      },
+      {
+        "number": 25,
+        "prompt": "A developer w ites a new Te rafo m configuration to create a vi tual machine. They un te rafo m validate and it repo ts \"Success! The configuration is valid.\" However, when the developer uns te rafo m apply, the command fails with an e ror stating that the instance_type does not exist. Why did te rafo m validate not detect this e ror? 0/0 add an impo t block with the to and id arguments in your configuration to indicate the change to Te rafo m",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 un a te rafo m apply -replace=\" aws_s3_bucket.logs \" before unning te rafo m apply again",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 remove the old resource from the configuration file before unning te rafo m apply again",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 add a moved block to indicate the address change directly in your configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m fmt",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m refresh",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 The develope 's API credentials were not configured, so validate skipped the provider check.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 The developer must un te rafo m plan first, as validate only checks va iable definitions.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The te rafo m validate command requires an -auto-approve flag to check for provider-level e rors.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 The te rafo m validate command checks for syntactic co rectness but does not communicate with the provide 's API to validate resource-specific values.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q025"
+      },
+      {
+        "number": 26,
+        "prompt": "You have a Te rafo m workspace managing Azure infrast ucture as shown in the exhibit below. You un te rafo m destroy. In what order will Te rafo m destroy these resources? resource \"azure m_resource_group\" \"main\" { name   = \"production-bk\" location = \"East US\" } resource \"azure m_vi tual_network\" \"main\" { name        = \"prod-bk-vnet\" resource_group_name = azure m_resource_group.main.name location      = azure m_resource_group.main.location address_space    = [\"172.16.0.0/16\"] } resource \"azure m_subnet\" \"main\" { name         = \"prod-bk-subnet\" resource_group_name = azure m_resource_group.main.name vi tual_network_name = azure m_vi tual_network.main.name address_prefixes   = [\"172.16.67.0/24\"] }",
+        "options": [],
+        "code": "TERRAFORM-D3-Q026"
+      },
+      {
+        "number": 27,
+        "prompt": "A developer has a valid Te rafo m configuration and has already successfully initialized the working directo y. Assuming the developer approves the execution plan, which of the following actions will the te rafo m apply command pe fo m? (select two) 0/0 Te rafo m will follow the dependency chain: subnet, vi tual network, resource group",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m will destroy them alphabetically by resource type: vi tual network, subnet, resource group",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m will follow the order they appear in the configuration: resource group, vi tual network, subnet",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m will destroy all three resources simultaneously due to Te rafo m's default parallelism configuration",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Update the state file to match the changes made to the infrast ucture du ing the execution.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Create, update, or delete infrast ucture in the target environment based on the changes specified in your Te rafo m files.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Downloads and installs the required provider plugins and modules referenced in the configuration.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m recreates all the infrast ucture defined in the configuration file",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q027"
+      },
+      {
+        "number": 28,
+        "prompt": "You’ve updated a production load balancer using Te rafo m. Before making changes, you must (a) preview the exact set of actions as a d y un and (b) ensure that the same reviewed actions are applied later without d ift. Which commands meet both requirements?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q028"
+      },
+      {
+        "number": 29,
+        "prompt": "When unning the te rafo m validate command, which issue will be brought to your attention?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q029"
+      },
+      {
+        "number": 30,
+        "prompt": "You're working on a Te rafo m project deploying VMware workloads. You now need to add a public DNS record in Amazon Route53, so you add an aws provider block to your configuration file. After saving the file, what should you do next?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q030"
+      },
+      {
+        "number": 31,
+        "prompt": "After unning te rafo m init in a new working directo y, Pooja wants a d y un that saves the result for a later apply without creating resources. You un te rafo m plan -out=thomas",
+        "options": [],
+        "code": "TERRAFORM-D3-Q031"
+      },
+      {
+        "number": 32,
+        "prompt": "You clone a Te rafo m repo, adjust a va iable, and immediately un te rafo m apply. The command fails before planning, complaining about missing provider plugins. Which core workflow step should have happened first? 0/0 te rafo m plan - out=lb.tfplan → te rafo m apply -auto-approve",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 te rafo m fmt -check → te rafo m plan -refresh-only",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m plan - out=lb.tfplan → te rafo m apply lb.tfplan",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m validate → te rafo m apply",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 there is no existing state file for the configuration",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 there is configuration d ift within the managed infrast ucture",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 parameters inside of a resource block are not lined up with spaces",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 a va iable is being used in a resource block but has not been declared",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 un te rafo m validate to ensure the provider syntax is co rect",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 un te rafo m plan to validate the new DNS record will be created as needed",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 un te rafo m init to download the newly required AWS provider",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 un te rafo m apply since providers are downloaded automatically du ing apply",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 Run te rafo m init to set up the working directo y and install providers.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Run te rafo m fmt to standardize files so planning can continue.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Run te rafo m graph to review dependencies before any planning.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q032"
+      },
+      {
+        "number": 33,
+        "prompt": "You must destroy and recreate only one database se ver managed by Te rafo m without editing the configuration. Which command should you un?",
+        "options": [],
+        "code": "TERRAFORM-D3-Q033"
+      },
+      {
+        "number": 34,
+        "prompt": "Which CLI commands will completely tear down and delete all resources that Te rafo m manages in the cu rent workspace? (select two)",
+        "options": [],
+        "code": "TERRAFORM-D3-Q034"
+      },
+      {
+        "number": 35,
+        "prompt": "Your team has a CI/CD pipeline that uns te rafo m fmt -check, then te rafo m init, te rafo m validate, and finally te rafo m plan. A developer commits code with a typo in an argument name and w ites instance_typo instead of instance_type. At which stage will the pipeline catch this e ror? 0/0 te rafo m plan -destroy=\"aws_instance.database\"",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 te rafo m apply -target=\"aws_instance.database\"",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m destroy -target=\"aws_instance.database\"",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m apply -replace=\"aws_instance.database\"",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m destroy",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m plan -destroy",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m apply -destroy",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m apply -delete",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m fmt -check",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m init",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m plan",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D3-Q035"
+      }
+    ]
+  },
+  {
+    "domain_code": "D-4",
+    "exam_code": "TERRAFORM-D4",
+    "domain_title": "Domain 4: Interact with Terraform Modules & Dependencies",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "Your colleague provided the code snippet below and is looking for assistance in identifying the implicit dependency. What is the implicit dependency in this code? resource \"aws_eip\" \"public_ip\" { vpc   = t ue instance = aws_instance.web_se ver.id } resource \"aws_instance\" \"web_se ve \" { ami      = \"ami-502b7f631\" instance_type = \" t2.micro \" depends_on  = [aws_s3_bucket.company_data] }",
+        "options": [],
+        "code": "TERRAFORM-D4-Q001"
+      },
+      {
+        "number": 2,
+        "prompt": "When assigning a value to a Te rafo m input va iable through an environment va iable, which prefix st ing is necessa y?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q002"
+      },
+      {
+        "number": 3,
+        "prompt": "Which statements about sensitive data and Te rafo m state are co rect? (select two) 0/0 The EC2 instance labeled web_se ver",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 The AMI used for the EC2 instance",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The S3 bucket labeled company_data",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 The EIP with an id of eip-2757f631",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 TF_VAR_VALUE",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 TF_ENV_VAR_name",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 TF_VAR_",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 TF_ENV_",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Marking a va iable sensitive = t ue does not prevent it from being w itten to state.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Sensitive outputs are never stored in state, only displayed at apply time.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The state file can contain sensitive values in plaintext by default.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Using local state automatically enc ypts secrets on disk without extra steps",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q003"
+      },
+      {
+        "number": 4,
+        "prompt": "Which of the following va iable declarations will cause Te rafo m to retu n a type e ror before apply? 0/0 va iable \"enabled\" { desc iption = \"Decide whether to enable the feature\" type        = bool default     = t ue }",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 va iable \"names\" { desc iption = \"List of user names\" type        = list(st ing) default     = {} }",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 va iable \"tags\" { desc iption = \"Map of resource tags\" type        = map(st ing) default     = { Environment = \"prod\" Owner       = \"platfo m-team\" } }",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 va iable \"instance_count\" { desc iption = \"Number of instances to create\" type        = number default     = 3 }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q004"
+      },
+      {
+        "number": 5,
+        "prompt": "T ue or False? In the configuration below, the aws_volume_attachment.attach_data resource has an implicit dependency on both the instance and the volume. resource \"aws_instance\" \"app_core\" { ami        = \"ami-0c55b159cbfafe1f0\" instance_type   = \" t3.micro \" availability_zone = \"ca-central-1a\" tags = { Owner = \"btk-platfo m\", Env = \"pr0d-east\" } } resource \"aws_ebs_volume\" \"data_pr0d_east\" { availability_zone = \"ca-central-1a\" size       = 10 } resource \"aws_volume_attachment\" \"attach_data\" { device_name = \"/dev/xvdf\" volume_id  = aws_ebs_volume.data_pr0d_east.id instance_id = aws_instance.app_core.id }",
+        "options": [],
+        "code": "TERRAFORM-D4-Q005"
+      },
+      {
+        "number": 6,
+        "prompt": "Your team is building a reusable Te rafo m module for web se vers. The module must always create exactly two instances, and you want Te rafo m to fail if a caller t ies to use any other value du ing plan or apply. Which approach should you use to enforce this requirement? 0/0 T ue T 0/0 False",
+        "options": [
+          {
+            "key": "F",
+            "text": "0/0 Add a validation block that checks the va iable equals 2 and provides an e ror message if it does not.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Use the count meta-argument in resource blocks to force the creation of two instances regardless of the va iable value.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Set the va iable’s default to 2 within the va iables.tf file",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Rely on Te rafo m’s number type constraint and document the requirement in the README",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q006"
+      },
+      {
+        "number": 7,
+        "prompt": "You're deploying AWS infrast ucture and w iting the configuration as shown below. What does the reference aws_vpc.main.id in the subnet configuration accomplish? resource \"aws_vpc\" \"main\" { cidr_block = \"10.5.0.0/16\" tags = { Name = \"production-vpc\" } } resource \"aws_subnet\" \"public\" { vpc_id   = aws_vpc.main.id cidr_block = \"10.5.2.0/24\" tags = { Name = \"bk-public-subnet\" } } 0/0 it creates a data source that que ies AWS for the VPC info mation",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 it ret ieves the VPC's ID and creates an implicit dependency",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 it copies the VPC's CIDR block to use in the subnet configuration",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 it validates that the VPC name matches the subnet's requirements",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q007"
+      },
+      {
+        "number": 8,
+        "prompt": "Which code snippet would enable you to que y info mation about existing resources and use that info mation within your Te rafo m configuration?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q008"
+      },
+      {
+        "number": 9,
+        "prompt": "Which statement best desc ibes a Te rafo m data source? 0/0 module \"deploy-bk-se vers\" { source  = \"./modules/app-cluste \" se vers = 5 }",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 locals { se vice_name = \"fo um\" owner        = \"Community Team\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 data \"aws_ami\" \"btk-app\" { most_recent = t ue owners      = [\"self\"] filter { name   = \"tag:Owne \" values = [\"btk-platfo m\"] } }",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 resource \"aws_instance\" \"web\" { ami           = \"ami-502abc4e6b1ab\" instance_type = \" m6g.xlarge \" }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 a local cache that stores computed values between uns to speed up te rafo m apply",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 a read-only const uct that que ies provider APIs and retu ns att ibutes for use elsewhere in the configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 a mechanism for persisting va iable defaults into state so they can be reused by other workspaces",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 a reusable package that defines multiple resources and outputs to be instantiated by other configurations",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q009"
+      },
+      {
+        "number": 10,
+        "prompt": "Your configuration includes a validation block in a va iable, as shown in the exhibit below. A user sets instance_count = 15. When does Te rafo m repo t the validation e ror? va iable \"instance_count\" { type = number validation { condition   = var.instance_count > 0 && var.instance_count <= 10 e ror_message = \"Instance count must be between 1 and 10.\" } }",
+        "options": [],
+        "code": "TERRAFORM-D4-Q010"
+      },
+      {
+        "number": 11,
+        "prompt": "What is preventing you from producing a plan based on the e ror below? $ te rafo m plan Planning failed. Te rafo m encountered an e ror while generating this plan. ╷ │ E ror: Invalid value for va iable │ │ on va iables.tf line 7Ք │ 7 Ք va iable \"cluster_endpoint\" { │ ├──────────────── │ │ var.cluster_endpoint is \"\" │ │ var.create_cluster is false │ │ You must specify a value for cluster_endpoint if create_cluster is false. 0/0 The validation passes because 15 is a valid number type as defined in the va iable block",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Du ing te rafo m init, when the configuration is first loaded",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Du ing te rafo m apply, when Te rafo m attempts to create the instances",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Du ing te rafo m validate or te rafo m plan, before attempting to create any resources",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Provider authentication has failed du ing the state refresh step, so Te rafo m cannot read the cu rent state and stops before building the execution plan.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 A precondition on a resource referencing cluster_endpoint failed after the plan is computed, so Te rafo m abo ts even though planning initially succeeded.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 A validation block on cluster_endpoint requires a non-empty value when create_cluster=false, so input evaluation failed and Te rafo m cannot produce a plan.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 The cluster_endpoint va iable was declared as a number, but a st ing was provided, causing a type mismatch that prevents Te rafo m from generating a plan.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q011"
+      },
+      {
+        "number": 12,
+        "prompt": "In the example code below, what order will Te rafo m create these resources? resource \"google_compute_instance\" \"web\" { name     = \"btk-web-1\" machine_type = \"e2-micro\" zone     = \"us-central1-a\" boot_disk { initialize_params { image = \"debian-cloud/debian-11\" } } network_inte face { network = \"default\" access_config {} } } resource \"google_compute_attached_disk\" \"data\" { instance = google_compute_instance.web.name disk   = var.existing_disk }",
+        "options": [],
+        "code": "TERRAFORM-D4-Q012"
+      },
+      {
+        "number": 13,
+        "prompt": "T ue or False? Marking an output as sensitive does not prevent its value from being stored in the Te rafo m state file.",
+        "options": [],
+        "code": "TERRAFORM-D4-Q013"
+      },
+      {
+        "number": 14,
+        "prompt": "Your company has a centralized network team that manages all Azure Vi tual Networks. Your application team needs to deploy vi tual machines into the prod-network VNet, which the network team created. What is the co rect approach in your Te rafo m configuration? 0/0 Te rafo m will create them in file order, based on the block that appears first in the .tf file",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 First - google_compute_instance.web Second - google_compute_attached_disk.data",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m will create these in parallel since, by default, parallelism is set to 10 resources",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 First - google_compute_attached_disk.data Second - google_compute_instance.web",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 contact the network team to add a depends_on relationship between their VNet and your VMs",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 create a new resource block for the VNet with the same name, then create your VM resources",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 use a data block to reference the existing VNet, then create your VM resources that use att ibutes from the data source",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 use a resource block to impo t the existing VNet into your state, then create your VM resources",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q014"
+      },
+      {
+        "number": 15,
+        "prompt": "A module creates VMs with the vSphere provider. It includes arguments such as datastore = \"DS1\", network_label = \"VM Network\", and a folder = \"Dev/Apps\". You need the same module to work in Lab, QA, and Prod vCenter environments without code changes. What is the most approp iate change to enable the reuse of this module?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q015"
+      },
+      {
+        "number": 16,
+        "prompt": "Which of the following options co rectly demonstrates the HCL syntax for assigning a value to a va iable declared with the type map(st ing)?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q016"
+      },
+      {
+        "number": 17,
+        "prompt": "T ue or False? Te rafo m can only manage dependencies between resources if the depends_on argument is explicitly set for the dependent resources. 0/0 Conve t the hard-coded values to input va iables and provide environment-specific settings via tfvars or va iable sets at plan/apply.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Create outputs for these values and reference them from a second “ove ide” module that uns after the first.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Add preconditions that fail when the environment differs, forcing operators to update the file when switching sites.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Put the values in locals and commit separate branches per environment so the module references different locals.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 default = { \"environment\" = \"production\", \"c itical\"    = t ue }",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 default = [ { environment = \"production\", owner = \"dev-team\" }, { environment = \"staging\",    owner = \"qa-team\"  }, ]",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 default [ \"environment\" = \"production\", \"owne \"       = \"dev-team\" ]",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 default = { \"environment\" = \"production\", \"owne \"       = \"dev-team\" }",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q017"
+      },
+      {
+        "number": 18,
+        "prompt": "You have a SQL Database that's cu rently in production with live data. You need to change the database's p icing tier, but the change requires destroying and recreating the database. You want to ensure the new database is created before the old one is destroyed to avoid downtime. What should you add to your resource configuration?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q018"
+      },
+      {
+        "number": 19,
+        "prompt": "What type of file can be used to set explicit values for the cu rent working directo y that will ove ide the default va iable values?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q019"
+      },
+      {
+        "number": 20,
+        "prompt": "You have an existing VPC in your account and have added the data block to your configuration, as shown below. How would you reference the id of the VPC? data \"aws_vpc\" \"production\" { tags = { Name = \"prod\" } }",
+        "options": [],
+        "code": "TERRAFORM-D4-Q020"
+      },
+      {
+        "number": 21,
+        "prompt": "Your team deployed an Azure SQL Database last week. Now you need to create a new web app that connects to this database. The database's connection st ing is automatically generated by Azure du ing deployment. How should you pass the connection st ing to your web app resource in Te rafo m? 0/0 add a lifecycle block with prevent_destroy = t ue",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 add a count argument set to 2 to create both databases",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 add a lifecycle block with create_before_destroy = t ue",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 add a depends_on argument pointing to the new database",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 .tf file",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 .tfvars file",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 .tfstate file",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 .tmpl file",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 var.vpc_id",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 data.aws_vpc.production.vpc.id",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 data.aws_vpc.production.id",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 aws_vpc.production.id",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 un te rafo m output after creating the database, copy the value, and hardcode it in the web app",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 create a va iable and manually set the connection st ing value",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 reference the database resource's connection st ing att ibute in the web app configuration",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 use a data source to que y Azure for all connection st ings, then select the co rect one",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q021"
+      },
+      {
+        "number": 22,
+        "prompt": "Your company uns a tag management bot that updates resource tags after creation. You deploy an instance with tags, and you want Te rafo m to ignore any future tag changes made by the bot while still conside ing tags at create time. Which lifecycle configuration meets the requirement?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q022"
+      },
+      {
+        "number": 23,
+        "prompt": "Given the configuration below, which expression co rectly references the EC2 instance created for the frontend application? resource \"aws_instance\" \"svc_apps\" { for_each = { \"auth\"   = \"secu ity\" \"billing\" = \"finance\" \"frontend\" = \"ui\" \"worke \"  = \"batch\" } ... } 0/0 lifecycle { ignore_changes = [tags] }",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 lifecycle { ignore_changes = [tags[\"droid\"]] }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 lifecycle { replace_t iggered_by = [ aws_iam_role.bot ] }",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 lifecycle { create_before_destroy = t ue }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 aws_instance.svc_apps.frontend",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 aws_instance[\"svc_apps\"][\"frontend\"]",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 aws_instance.svc_apps[2 ԡ",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 aws_instance.svc_apps[\"frontend\"]",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q023"
+      },
+      {
+        "number": 24,
+        "prompt": "You need to launch an EC2 instance into the existing subnet of your production VPC and rest ict SSH to the VPC CIDR. You add the following data sources as shown below. Which snippets co rectly use the retu ned att ibutes from these data sources in your configuration? (select two) data \"aws_vpc\" \"prod\" { tags = { Name = \"bk-prod\" } } data \"aws_subnet\" \"app\" { filter { name  = \"tag:Tie \" values = [\"bk-app\"] } vpc_id = data.aws_vpc.prod.id } 0/0 resource \"aws_instance\" \"web\" { ami      = data.aws_ami.al2.id instance_type = \" t3.micro \" subnet_id   = data.aws_subnet.app.id }",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 resource \"aws_secu ity_group\" \"ssh\" { name   = \"ssh\" vpc_id = data.aws_vpc ingress { from_po t   = 22 to_po t     = 22 protocol    = \"tcp\" cidr_blocks = aws_vpc.cidr_blocks.data } }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 resource \"aws_secu ity_group\" \"ssh\" { name   = \"ssh\" vpc_id = data.aws_vpc.prod.id ingress { from_po t   = 22 to_po t     = 22 protocol    = \"tcp\" cidr_blocks = [ data.aws_vpc.prod.cidr_block ] } }",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 resource \"aws_instance\" \"web\" { ami           = \" data.aws_ami.al2.id \" instance_type = \" t3.micro \" subnet_id     = \"$ Ԣ data.aws_subnet.app.id }\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q024"
+      },
+      {
+        "number": 25,
+        "prompt": "Your team deployed an Azure SQL Database using Te rafo m and needs to share the connection st ing with the application team. You create an output block with the sensitive flag set to t ue. However, a team member repo ts that they can still see the connection st ing when unning te rafo m show. Why does this happen?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q025"
+      },
+      {
+        "number": 26,
+        "prompt": "You have a resource in your public cloud that was deployed manually, but you want to reference its att ibutes throughout your configuration without hardcoding values. How can you achieve this?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q026"
+      },
+      {
+        "number": 27,
+        "prompt": "You're creating three GCP Compute Engine instances that must be placed in the same subnet. The subnet was created by another resource in your configuration. What's the co rect approach to ensure all three instances use the same subnet? 0/0 The connection st ing needs to be enc ypted separately using a KMS key before the sensitive flag works.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 The team member has admin p ivileges which bypass the sensitive flag rest ictions.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The sensitive flag needs to be set at the resource level instead of in the output block.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 The sensitive flag only prevents the value from appea ing in the CLI output, but it is still stored in plain text in the state file.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Create a new va iable block within your configuration. Add the resource ID as the default value and reference the va iable using var.<name> throughout your configuration as needed.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Create a new resource block that matches the exact configuration of the existing resource. Run a te rafo m apply to impo t the resource. Use the available expo ted att ibutes of that resource throughout your configuration as needed",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Run a te rafo m state list to find the resource ID of the resource you need the att ibutes from. Reference that resource ID throughout your configuration to get the expo ted att ibutes as needed.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Add a data block to your configuration to que y the existing resource. Use the available expo ted att ibutes of that resource type as needed throughout your configuration to get the values you need.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 use a data source for each instance to que y the subnet by name",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 create three separate subnet resources with the same name and reference each one individually",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 hardcode the subnet ID after creating it with te rafo m apply",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 reference the subnet ID att ibute in each instance's network inte face block",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q027"
+      },
+      {
+        "number": 28,
+        "prompt": "Given the va iable below, which expression retu ns the st ing r2d2? va iable \"robots\" { type  = list(st ing) default = [\"ja vis\", \"data\", \"r2d2\", \"ultron\", \"glaDOS\"] }",
+        "options": [],
+        "code": "TERRAFORM-D4-Q028"
+      },
+      {
+        "number": 29,
+        "prompt": "T ue or False? The te rafo m graph command can be used to generate a visual representation of a configuration or execution plan.",
+        "options": [],
+        "code": "TERRAFORM-D4-Q029"
+      },
+      {
+        "number": 30,
+        "prompt": "In your Te rafo m configuration, you have created a te rafo m.tfvars file that sets the value of a va iable named region to us-central1. You also have a default value on the va iable block, setting it to us-east1. Which value takes effect?",
+        "options": [],
+        "code": "TERRAFORM-D4-Q030"
+      },
+      {
+        "number": 31,
+        "prompt": "Your AWS infrast ucture configuration deploys a load balancer and several EC2 instances. Your secu ity team wants to audit which resources were created and obtain their IDs for documentation. You're deciding whether to add output blocks to your configuration. What is the p ima y benefit of using output blocks for this purpose? 0/0 var.list.robots Ԡ2ԡ",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 var.default.robots [\"r2d2\"]",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 var.robots Ԡ3ԡ",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 var.robots Ԡ2ԡ",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 us-east1",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 the plan/apply will fail since the value is set in multiple places",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 us-central1",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 output blocks provide a way to expose specific resource att ibutes for use without requi ing others to parse the entire state file.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 output blocks enc ypt the resource IDs to prevent unautho ized access.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 output blocks automatically generate documentation files that can be shared with the secu ity team",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 output blocks are required for Te rafo m to track the resources in the state file.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q031"
+      },
+      {
+        "number": 32,
+        "prompt": "What va iable type is represented by a pair of curly braces {} containing a se ies of key/value pairs? 0/0 numbers and booleans",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 maps and objects",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 lists and tuples",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 st ings and sets",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D4-Q032"
+      }
+    ]
+  },
+  {
+    "domain_code": "D-5",
+    "exam_code": "TERRAFORM-D5",
+    "domain_title": "Domain 5: Manage Terraform State & Backends",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "You're invoking a module that creates a subnet. The root load balancer module requires that subnet’s ID. How should you expose the ID and pass it to the load balancer module? modules/subnets: resource \"aws_subnet\" \"bk\" { vpc_id   = aws_vpc.bk.id cidr_block = var.subnet_cidr tags = { Name = \"BK Subnet\" } }",
+        "options": [],
+        "code": "TERRAFORM-D5-Q001"
+      },
+      {
+        "number": 2,
+        "prompt": "You added a new module block to an existing Te rafo m configuration to reuse infrast ucture code from a remote source. What do you need to do so that Te rafo m downloads the module and makes it available in your working directo y? 0/0 declare a local in the root module and set it to aws_subnet.subnets.id from the child.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 move the subnet and load balancer resource blocks into the main configuration file so they can easily be referenced",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 references to resources that are created within a module cannot be used within other modules",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 add an output block to the subnet module and pass the value for the load balancer module using module.subnets.subnet_id",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Add the module to required_providers so Te rafo m knows to install it.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Run te rafo m plan so Te rafo m can fetch the module before creating resources.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Run te rafo m init to install the module into the cu rent working directo y.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Copy the module into the .te rafo m/modules/downloads directo y so Te rafo m can find it.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q002"
+      },
+      {
+        "number": 3,
+        "prompt": "You are calling a child module named network from your root module. In your root module, you attempt to reference the VPC ID as displayed below. When you un te rafo m plan, Te rafo m retu ns an e ror that vpc_id is not a valid att ibute for module.network. What is the most likely cause of this e ror? resource \"aws_subnet\" \"p ima y_core\" { vpc_id   = module.network.vpc_id cidr_block = \"10.5.0.0/23\" }",
+        "options": [],
+        "code": "TERRAFORM-D5-Q003"
+      },
+      {
+        "number": 4,
+        "prompt": "You're using a module from the Te rafo m regist y for your infrast ucture. When defining the configuration, is it necessa y to specify a version argument in the module block? 0/0 Module outputs can only be referenced du ing apply, not du ing plan, so the reference is premature.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 You must declare vpc_id as a va iable in the root module before you can read it from a child module.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The network module did not define an output block that expo ts the VPC ID, resulting in the e ror.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 The root module must use a data block to read the VPC ID instead of referencing module values directly.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 No, Te rafo m automatically pins to the first version you initialize with and uses it pe manently",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Yes, but only for public regist y modules - p ivate regist y modules don't suppo t version constraints",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 No, the version argument is optional, but it is recommended to ensure consistent and reproducible deployments",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Yes, the version argument is always required for regist y modules, or Te rafo m will retu n an e ror",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q004"
+      },
+      {
+        "number": 5,
+        "prompt": "You are pe fo ming a code review of a colleague's Te rafo m code and see the following code. Where is this module stored? module \"vault-aws-tgw\" { source = \"te rafo m-aws-modules/transit-gateway/aws\" version = \"3.0.3\" client_id   = var.bk_client hvn_id     = resource \"aws_subnet\" \"p ima y_core\" { vpc_id   = module.network.vpc_id cidr_block = \"10.5.0.0/23\" } route_table_id = var. tb_id }",
+        "options": [],
+        "code": "TERRAFORM-D5-Q005"
+      },
+      {
+        "number": 6,
+        "prompt": "In a Te rafo m module block that sources a module from a regist y, why should you include the version argument? 0/0 in a local file under a directo y named te rafo m-aws-modules/transit-gateway/aws",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 in an HCP Te rafo m p ivate regist y",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 the Te rafo m public regist y",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 a local code reposito y on your network",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 to lock down the version of Te rafo m that can be used with the module",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 to lock provider versions used inside the child module",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 to set the required Te rafo m CLI version for the workspace",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 to pin a specific module release and avoid unexpected upgrades",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q006"
+      },
+      {
+        "number": 7,
+        "prompt": "Your root module calls a database module that outputs the connection st ing. It then calls a webapp module that needs this connection st ing. How do you co rectly pass the database connection st ing from the database module to the webapp module? 0/0 module \"database\" { source = \"./modules/database\" name   = \"prod-db\" } module \"webapp\" { source            = \"./modules/webapp\" db_connection_str = output.database.connection_st ing }",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 module \"database\" { source = \"./modules/database\" name   = \"prod-db\" output \"connection_st ing\" { to = module.webapp } } module \"webapp\" { source = \"./modules/webapp\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 module \"database\" { source = \"./modules/database\" name   = \"prod-db\" } module \"webapp\" { source            = \"./modules/webapp\" db_connection_str = module.database.connection_st ing }",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 module \"database\" { source = \"./modules/database\" name   = \"prod-db\" } module \"webapp\" { source            = \"./modules/webapp\" db_connection_str = var.database.connection_st ing }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q007"
+      },
+      {
+        "number": 8,
+        "prompt": "In the following Te rafo m code, what do  name, cidr, and azs represent, and what purpose do they se ve? module \"vpc\" { source = \"te rafo m-aws-modules/vpc/aws\" version = \"5.0.2\" name        = var.vpc_name cidr        = var.vpc_cidr_block azs        = var.vpc_azs tags        = merge(var.vpc_tags, { Owner    = \"btk-platfo m\" Environment = \"pr0d-east\" }) }",
+        "options": [],
+        "code": "TERRAFORM-D5-Q008"
+      },
+      {
+        "number": 9,
+        "prompt": "You discovered a module on the Te rafo m Regist y that will provision the resources you need. What other info mation can you find on the Te rafo m Regist y to help you quickly use this module? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D5-Q009"
+      },
+      {
+        "number": 10,
+        "prompt": "You are reviewing the following Te rafo m configuration in main.tf. Which statements about this configuration are co rect? (select two) module \"se vers\" { source = \"./modules/btk-cluste \" se vers = 5 } 0/0 the value of these va iables will be obtained from values created within the child module",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 these are the outputs that the child module will retu n",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 these are module-specific inputs that are passed into the child module used for resource creation",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 these are where the va iable declarations are created so Te rafo m is aware of these va iables within the calling module",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 required input va iables",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 a list of outputs",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 a download button to quickly get the module code",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 dependencies to use the module",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m will download btk-cluster from the public regist y when unning te rafo m init",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 the argument se vers must be declared as an output in the child module.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 btk-cluster refers to a local child module on disk",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 main.tf is the root (calling) module",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q010"
+      },
+      {
+        "number": 11,
+        "prompt": "In the snippet below, where does the value for vpc_secu ity_group_ids come from? module \"ec2_instances\" { source = \"te rafo m-aws-modules/ec2-instance/aws\" version = \"4.3.0\" name      = \"pr0d-east-app\" instance_count = 2 ami       = \"ami-0c5204531f799e5 Ե2\" instance_type  = \" module \"se vers\" { source = \"./modules/btk-cluste \" se vers = 5 } \" vpc_secu ity_group_ids = [ module \"se vers\" { source = \"./modules/btk-cluste \" se vers = 5 } ] subnet_id       = module \"se vers\" { source = \"./modules/btk-cluste \" se vers = 5 } Ԡ0ԡ tags = { Owner = \"btk-platfo m\", Env = \"pr0d-east\" } }",
+        "options": [],
+        "code": "TERRAFORM-D5-Q011"
+      },
+      {
+        "number": 12,
+        "prompt": "You maintain an existing Te rafo m configuration that uses a public module pinned to a specific version. A new minor version 5.3.0 of the module is available, and you want your configuration to use it. What steps are required to update the module version safely? (select two) module \"compute\" { source = \"azure/compute/azure m\" version = \"5.2.0\" # …module inputs… } 0/0 from a va iable likely declared in a .tfvars file being passed to the module",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 the output of another module",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 an environment va iable being used du ing a te rafo m apply",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 the Te rafo m public regist y",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 update the version argument to allow 5.3.0 using version = \"~> 5.2.0\"",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 delete the .te rafo m.lock.hcl file so Te rafo m will fetch the latest module",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 un te rafo m init -upgrade to download the new module version",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 update the version argument to allow 5.3.0 using version = \"~> 5.3.0\"",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q012"
+      },
+      {
+        "number": 13,
+        "prompt": "A root module includes several va iables in te rafo m.tfvars. You add a child module as shown below. What values can the child module access by default? module \"web\" { source = \"./modules/web\" }",
+        "options": [],
+        "code": "TERRAFORM-D5-Q013"
+      },
+      {
+        "number": 14,
+        "prompt": "You have a root module that calls the child module modules/web. In modules/web/main.tf , a developer added name = \"$ Ԣ var.env }-app\". What is the co rect way to make this work?",
+        "options": [],
+        "code": "TERRAFORM-D5-Q014"
+      },
+      {
+        "number": 15,
+        "prompt": "You have a root module with a va iable defined, as shown in the exhibit below. Inside a child module, you w ite name = var.environment as pa t of an expression when creating a resource. What will happen when you un te rafo m plan? va iable \"environment\" { default = \"production\" } module \"web\" { source = \"./modules/web\" } 0/0 All of the root va iables from te rafo m.tfvars since children inhe it parent va iable values automatically.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Only values passed to it via the module block since root va iables are not automatically accessible inside the module.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Only values that are defined as outputs in the root module since outputs are always available to children in the same un.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Any root va iables, as long as they are defined by a locals block, since locals are global across the configuration.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Define locals { env = var.env } in the root module since child modules inhe it locals automatically",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Declare va iable \"env\" {} in the child module and pass it from root using env = var.env",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Reference the parent directly: name = \"$ Ԣ parent.var.env }-app\" in the child module to read the value",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Use the te rafo m workspace command in the child module to replace the need for var.env",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m will prompt you to enter a value for the environment va iable",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 The child module will automatically inhe it the environment va iable from the root module",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The child module will use the default value production from the root module",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m will retu n an e ror stating that var.environment is not declared in the child module",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q015"
+      },
+      {
+        "number": 16,
+        "prompt": "Your configuration uses a module stored on a p ivate regist y that is configured with this version argument: version = \"~> 3.2.0\". The regist y has versions 3.2.0, 3.2.5, 3.3.0, and 4.0.0 available for this module. Which version will Te rafo m download du ing te rafo m init?",
+        "options": [],
+        "code": "TERRAFORM-D5-Q016"
+      },
+      {
+        "number": 17,
+        "prompt": "You want to use a VPC module you found on the Te rafo m Public Regist y in your configuration. Which module block co rectly references this regist y module? 0/0 4.0.0",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 3.3.0",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 3.2.5",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 3.2.0",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 module \"vpc\" { regist y = \"te rafo m-aws-modules/vpc/aws\" version  = \"5.1.0\" name = \"my-vpc\" cidr = \"10.0.0.0/16\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 module \"vpc\" { module_source = \" regist y.te rafo m.io/te rafo m-aws-modules/vpc \" name = \"my-vpc\" cidr = \"10.0.0.0/16\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 module \"vpc\" { source  = \"te rafo m-aws-modules/vpc/aws\" version = \"5.1.0\" name = \"my-vpc\" cidr = \"10.0.0.0/16\" }",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 module \"vpc\" { source = \" regist y.te rafo m.io/v5.1.0/modules/te rafo m-aws-modules/vpc/aws \" name = \"my-vpc\" cidr = \"10.0.0.0/16\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q017"
+      },
+      {
+        "number": 18,
+        "prompt": "Which statements most accurately desc ibe the benefits of using modules in Te rafo m? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D5-Q018"
+      },
+      {
+        "number": 19,
+        "prompt": "Rigby must add the source for a Te rafo m module before using it. The team is ok with using either the public Te rafo m Regist y or a Git reposito y at a specific tag. Which configurations can Te rafo m use to successfully download the module without any additional setup? (select two) module \"consul\" { ... } 0/0 suppo t version pinning/constraints to control upgrades and maintain compatibility",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 helps with zero-downtime updates when application versions change",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 promote reuse and standardization of infrast ucture patte ns",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 eliminate the need to declare providers or resources in the root module",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 can be sourced locally or remotely (e.g., VCS, regist y, HTTPԟ",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "0/0 module \"consul\" { source = \" regist y.te rafo m.io/hashicorp/consul/aws?ref=v0.1.0 \" }",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 module \"consul\" { source = \" github.com/hashicorp/te rafo m-aws-consul?ref=v0.1.0 \" }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 module \"consul\" { source  = \"hashicorp/consul/aws\" version = \"0.1.0\" }",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 module \"consul\" { source  = \" regist y.te rafo m.io/hashicorp/consul/0.1.0 \" version = \"0.1.0\" }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 module \"consul\" { source = \" github.com/hashicorp/te rafo m-aws-consul.git?ref=v0.1.0 \" }",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q019"
+      },
+      {
+        "number": 20,
+        "prompt": "You have declared a va iable named db_connection_st ing inside of the app module. However, when you un a te rafo m apply, you get the following e ror message: E ror: Reference to undeclared input va iable on main.tf line 35 Ք 4 Ք db_path = var.db_connection_st ing An input va iable with the name \"db_connection_st ing\" has not been declared. This va iable can be declared with a va iable \"db_connection_st ing\" {} block. Why would you receive such an e ror?",
+        "options": [],
+        "code": "TERRAFORM-D5-Q020"
+      },
+      {
+        "number": 21,
+        "prompt": "By default, where does Te rafo m download and store modules referenced in a configuration? 0/0 an output block was not created in the module, and therefore the va iable cannot be referenced",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 since the va iable was declared within the module, it cannot be referenced outside of the module",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 the va iable should be referenced as var.module.app.db_connection_st ing",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 input va iables are not referenced using the var prefix",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 in the /downloads directo y for the user unning the te rafo m init",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 in a /modules directo y in the cu rent working directo y",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 in the .te rafo m/modules subdirecto y in the cu rent working directo y",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 in the /tmp directo y on the machine executing Te rafo m",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q021"
+      },
+      {
+        "number": 22,
+        "prompt": "You have developed a module named web that creates a public DNS record for a load balancer. You want to provide an output in the CLI so that you can simply click the URL and access the application after unning te rafo m apply. What code snippets would satisfy these requirements? (select two)",
+        "options": [],
+        "code": "TERRAFORM-D5-Q022"
+      },
+      {
+        "number": 23,
+        "prompt": "T ue or False? You can specify multiple version constraints for a single module by using the version argument multiple times in the module block, such as version = \">= 1.0.0\" and version = \"< 2.0.0\".",
+        "options": [],
+        "code": "TERRAFORM-D5-Q023"
+      },
+      {
+        "number": 24,
+        "prompt": "After successfully deploying resources for your test application, you decide to share it with users to gather feedback. You add a new module block to create a DNS record. What command do you need to un before Te rafo m can create the new resource? 0/0 Add this to the root module in the outputs.tf file: output \"website_url\" { value = \"https://$ Ԣ module.web.public_dns } Ք8080/index.html \" }",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Add this to the root module in the outputs.tf file: output \"website_url\" { value = \"https://${public_dns} Ք8080/index.html \" }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Add this to the root module inside the module block: module \"web\" { # ... output \"public_dns\" { value = aws_lb.web.dns_name } }",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Add this to the root module in the outputs.tf file: output \"website_url\" { value = \"https://$ Ԣ module.web.outputs.public_dns } Ք8080/index.html \" }",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Add this to the /modules/web/outputs.tf file: output \"public_dns\" { desc iption = \"DNS name of the web load balance \" value       = aws_lb.web.dns_name }",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m plan",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m output",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m init",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q024"
+      },
+      {
+        "number": 25,
+        "prompt": "You need to use a public Azure vi tual network module from the Te rafo m regist y, keep it on a 5.x release, and pass name and address_space inputs from va iables. Which module block meets all requirements? 0/0 module \"vnet\" { source        = \"Azure/network/azure m\" version       = \">= 5.0\" name          = \" var.name \" address_space = \"var.address_space\" }",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 module \"vnet\" { source        = \" github.com/Azure/te rafo m-azure m-network \" version       = \"~> 5.0\" name          = var.address_space address_space = var.name }",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 module \"vnet\" { source         = \"./modules/network\" version        = \"~> 5.0\" name           = var.name address_space  = var.address_space }",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 module \"vnet\" { source        = \"Azure/network/azure m\" version       = \"~> 5.0\" name          = var.name address_space = var.address_space }",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D5-Q025"
+      }
+    ]
+  },
+  {
+    "domain_code": "D-6",
+    "exam_code": "TERRAFORM-D6",
+    "domain_title": "Domain 6: Understand Terraform Cloud & Enterprise Features",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "Why is state locking necessa y when using a remote backend?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q001"
+      },
+      {
+        "number": 2,
+        "prompt": "You are using a local backend and accidentally delete the te rafo m.tfstate file for your workspace. What is the most se ious consequence?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q002"
+      },
+      {
+        "number": 3,
+        "prompt": "In Te rafo m, what does “d ift” mean in the context of a workspace’s state? 0/0 enc ypts the state file at rest and in transit du ing all Te rafo m operations to ensure the secu ity of sensitive values",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 prevents concu rent uns from w iting to the same state at the same time to avoid state co uption.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 automatically roll back pa tial changes if an apply fails on any targeted resource to improve cost savings",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 make plans and applies faster by caching state data on the backend se ver for Te rafo m to access",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m will be required to recreate the missing state file by reading values from va iables and outputs in the configuration.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m can no longer track the resources it manages, so the next plan or apply might attempt to create duplicate resources.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m will require you to switch to using a remote backend until a new local state file is created manually.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m will need to download the last good state file from the provider API and can then continue managing the resources no mally.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 The backend was migrated, but the state contents remained exactly the same",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Provider versions were upgraded but no resources or state values changed at all.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 The configuration files were refactored and now use different argument orde ing.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Real infrast ucture has changed outside Te rafo m and no longer matches the desired state.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q003"
+      },
+      {
+        "number": 4,
+        "prompt": "Why should users not commit the te rafo m.tfstate file to version control? (select two)",
+        "options": [],
+        "code": "TERRAFORM-D6-Q004"
+      },
+      {
+        "number": 5,
+        "prompt": "A resource was changed manually outside of Te rafo m. You don't want to make any changes yet, but you want to see how the state would be updated to match the cu rent real-world values. Which command should you un?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q005"
+      },
+      {
+        "number": 6,
+        "prompt": "You've decided to change your backend configuration from S3 to HCP Te rafo m. After updating the backend block, you un te rafo m init. Which flag should you use to reconfigure the backend without copying the existing state?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q006"
+      },
+      {
+        "number": 7,
+        "prompt": "Which statements accurately desc ibe tradeoffs between local and remote Te rafo m state? (select two) 0/0 Committing the file to version control prevents Te rafo m from reading it to properly manage state.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 State can include plaintext secrets and detailed resource data and commit histo y can expose them.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Sto ing state in Git prevents you from safely updating infrast ucture by reve ting a resource change.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 VCS provides no state locking, so concu rent uns can cause conflicting commits and co upt state.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m apply -refresh-only",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m plan -refresh-only",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m init -migrate-state",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m init -force-copy",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m init -reconfigure",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Remote state centralizes storage with enc yption, locking, and access policies for collaboration.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Local state is best for multi-user teams because changes are automatically merged by Te rafo m.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Local state is simple and works offline, but lacks shared access, locking, and org-level controls.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Remote state removes the need to secure state files since they never contain sensitive values.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q007"
+      },
+      {
+        "number": 8,
+        "prompt": "You're configu ing an S3 backend for your Te rafo m project. You want to keep sensitive values, such as the bucket name and region, out of version control while keeping other backend configuration in your code. Which approach co rectly implements pa tial backend configuration?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q008"
+      },
+      {
+        "number": 9,
+        "prompt": "You’re moving a project to a remote backend so the state is stored in Amazon S3. How do you co rectly configure and initialize the backend?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q009"
+      },
+      {
+        "number": 10,
+        "prompt": "Which of the following Te rafo m files should be ignored by Git when committing code to a repo?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q010"
+      },
+      {
+        "number": 11,
+        "prompt": "T ue or False? After successfully applying a moved block to refactor your resources, you should immediately remove the moved block from your configuration to keep your code clean. 0/0 create a separate backends.tf file with the sensitive values and add it to .gitignore",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 store all backend configuration in te rafo m.tfvars since it suppo ts backend settings and add it to .gitignore",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 create and define your own environment va iables TF_BACKEND_BUCKET and TF_BACKEND_REGION to pass the bucket and region values",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 define the backend block with only the type, then pass the bucket and region values using -backend-config flag du ing te rafo m init",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Define the S3 backend in the te rafo m block using a backend block - un te rafo m init to migrate your local state.",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Create the S3 bucket using resource blocks and reference them from the backend using va iables - un te rafo m apply to migrate the backend.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Put the backend block inside a module and set the arguments using input va iables - un te rafo m plan which will migrate state.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Set TF_INPUT and TF_DATA_DIR environment va iables and un te rafo m init - Te rafo m will create the backend and move the state automatically.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m.tfstate",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 outputs.tf",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m.tf",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 .te rafo m.lock.hcl",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q011"
+      },
+      {
+        "number": 12,
+        "prompt": "You have created a brand-new Te rafo m repo that has no backend block. After successfully unning your first te rafo m apply, where does Te rafo m store state by default?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q012"
+      },
+      {
+        "number": 13,
+        "prompt": "T ue or False? All remote backends in Te rafo m suppo t state locking by default, so you never need to wo y about concu rent modifications when using any remote backend.",
+        "options": [],
+        "code": "TERRAFORM-D6-Q013"
+      },
+      {
+        "number": 14,
+        "prompt": "You're compa ing local state versus remote state backends for your team's infrast ucture. Which statements below co rectly desc ibe the key differences or tradeoffs between these approaches? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D6-Q014"
+      },
+      {
+        "number": 15,
+        "prompt": "You’re using the local backend. In the cu rent workspace, te rafo m.tfstate was accidentally deleted, but the configuration is unchanged. You un te rafo m plan. Which statements are t ue? (select three) 0/0 in the cu rent working directo y in a file named te rafo m.tfstate",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 in a tempora y OS directo y in a file name with a randomly created filename",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 in the directo y $HOME/.te rafo m/state/ in a file named te rafo m.tfstate",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 in an S3 bucket found under the module path in a file that matches the project name",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 Remote backends typically provide enc yption at rest and access controls for state data, while local state secu ity depends entirely on filesystem pe missions",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Local state suppo ts more Te rafo m providers than remote backends because it has direct filesystem access",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Remote backends provide centralized state access for team collaboration, while local state requires manual file sha ing between team members",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Local state is simple to set up with no additional infrast ucture required, while remote backends require configuration and maintenance of backend se vices",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 Local state automatically provides enc yption at rest and in transit, while remote backends store eve ything in plaintext by default",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 Previous te rafo m output values are still available.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m destroy cannot identify any resources to destroy until state is restored",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m will t y to create previously managed resources.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 State locking will prevent the plan from unning until the state is restored.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Data sources may still read remote systems du ing planning, but they do not fix the resource state.",
+            "isCorrect": true
+          },
+          {
+            "key": "E",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q015"
+      },
+      {
+        "number": 16,
+        "prompt": "After unning te rafo m apply and provisioning new infrast ucture, a team member accidentally deletes the te rafo m.tfstate file from the remote directo y. What happens when you un te rafo m plan?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q016"
+      },
+      {
+        "number": 17,
+        "prompt": "T ue or False? A remote backend configuration is required for using Te rafo m.",
+        "options": [],
+        "code": "TERRAFORM-D6-Q017"
+      },
+      {
+        "number": 18,
+        "prompt": "Which operations will update your Te rafo m state? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D6-Q018"
+      },
+      {
+        "number": 19,
+        "prompt": "You're w iting a backend configuration block for S3. Which of the following can be defined directly inside the backend block? 0/0 Te rafo m will show an e ror and refuse to un until the state file is manually restored",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m will restore from the backup state file (.te rafo m.tfstate.backup ) and continue working no mally",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m will show that it needs to create all resources as new because it has no record of existing infrast ucture.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m will automatically recover the state by que ying the provider APIs to rebuild state info mation",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 te rafo m fmt",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m destroy",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m plan",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m impo t",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m graph",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 te rafo m apply",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 values like bucket name, key, and region, plus any computed values from a locals block",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 values like bucket name, key, and region, as well as any resource outputs using data source lookups",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 values like bucket name, key, and region, but not computed values or va iables",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 alues like bucket name, key, and region, plus any Te rafo m va iable using var.va iable_name syntax",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q019"
+      },
+      {
+        "number": 20,
+        "prompt": "Two DevOps engineers have un te rafo m apply at the same time against the same workspace that uses a remote backend. What are the co rect outcomes? (select two)",
+        "options": [],
+        "code": "TERRAFORM-D6-Q020"
+      },
+      {
+        "number": 21,
+        "prompt": "You open the te rafo m.tfstate file in a text editor to inspect it. What fo mat is the file, and what type of info mation does it contain?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q021"
+      },
+      {
+        "number": 22,
+        "prompt": "All your infrast ucture is managed by Te rafo m, but engineers occasionally make small updates directly on the target platfo m. Which Te rafo m command can identify changes to the actual infrast ucture and reflect them in the Te rafo m state?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q022"
+      },
+      {
+        "number": 23,
+        "prompt": "You are configu ing remote state and must keep backend credentials out of both the .te rafo m directo y and any saved plan files. Which method will meet this requirement? 0/0 If the backend does not suppo t locking, the state file could become co upted.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 If the backend suppo ts locking, the first te rafo m apply will lock the file for changes, preventing the second user from unning the apply.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 All remote backends enforce locking, so only one apply can ever un at a time.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Since Te rafo m automatically merges concu rent state updates, both will succeed without conflict.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 SON fo mat containing resource metadata, att ibutes, dependencies, and potentially sensitive values in plaintext",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 Enc ypted bina y fo mat that requires the te rafo m show command to dec ypt and view the contents",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 YAML fo mat containing detailed info mation on resource IDs and types but sensitive data is hashed",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 HCL fo mat that mi rors your configuration file st ucture with additional computed att ibutes",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m apply -refresh-only",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m validate",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m graph",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m show",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 add your secrets in te rafo m.tfvars and pass -var-file when unning plan/apply",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 supply the credentials using environment va iables on the machine executing plan/apply",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 add secrets in the provider block and configure a .gitignore to exclude that file",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 pass secrets with -backend- config=secrets.hcl",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q023"
+      },
+      {
+        "number": 24,
+        "prompt": "You un a standard te rafo m plan (without any flags) on your configuration. Du ing the planning phase, what does Te rafo m do with the cu rent state?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q024"
+      },
+      {
+        "number": 25,
+        "prompt": "You have recently un te rafo m apply successfully using the local backend. You notice Te rafo m has created a new file called te rafo m.tfstate.backup in your working directo y. What is the purpose of this file?",
+        "options": [],
+        "code": "TERRAFORM-D6-Q025"
+      },
+      {
+        "number": 26,
+        "prompt": "Assuming default settings, which statement best desc ibes how the local backend is used? 0/0 Te rafo m skips state refresh entirely unless you explicitly use the -refresh=t ue flag",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Te rafo m automatically que ies the real infrast ucture to refresh state data before generating the plan, but doesn't save the refreshed state to the file",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m que ies real infrast ucture and w ites the refreshed state to te rafo m.tfstate before showing the plan",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m only reads from the existing state file without needing to que y the real infrast ucture",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 It contains the previous state before the most recent apply, allowing manual recove y if the cu rent state becomes co upted",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 It's automatically used by Te rafo m to roll back changes if an apply operation fails",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 It's an enc ypted copy of te rafo m.tfstate used for disaster recove y that requires a dec yption key",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 It's a compressed archive of all histo ical state versions created du ing the project lifecycle",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 The local backend requires an S3 bucket or similar cloud-based storage for state locking.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 The local backend enables remote collaboration out of the box.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m automatically enc ypts state at rest when using the local backend.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Te rafo m w ites state to a file named te rafo m.tfstate in the cu rent working directo y.",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q026"
+      },
+      {
+        "number": 27,
+        "prompt": "You have decided to move your state file to an Amazon S3 remote backend. You configure Te rafo m as shown below. What command should be un in order to complete the state migration while copying the existing state to the new backend? te rafo m { backend \"s3\" { bucket = \"tf-state-bucket\" key  = \"te rafo m/krausen/\" region = \"ap-south-1\" } } 0/0 te rafo m plan -refresh=false",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 te rafo m apply -refresh-only",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m state show",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m init -migrate-state",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D6-Q027"
+      }
+    ]
+  },
+  {
+    "domain_code": "D-7",
+    "exam_code": "TERRAFORM-D7",
+    "domain_title": "Domain 7: Perform Advanced Terraform Operations & Import",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "You deployed resources using the CLI, but want to sta t managing them with Te rafo m moving fo ward. What steps are required to sta t managing resources with Te rafo m without impacting the resources themselves? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D7-Q001"
+      },
+      {
+        "number": 2,
+        "prompt": "A colleague asks what the difference is between te rafo m show and te rafo m state show. What is the co rect explanation? (select three)",
+        "options": [],
+        "code": "TERRAFORM-D7-Q002"
+      },
+      {
+        "number": 3,
+        "prompt": "Some of your production resources were created manually in the Azure po tal. The company requires all production resources to be managed through Te rafo m. What should you do to b ing those existing resources under Te rafo m management without dis upting them? 0/0 add impo t blocks mapping each address to its real ID",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 un te rafo m apply to recreate all resources from Te rafo m",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 un a te rafo m apply -refresh-state to let Te rafo m adopt the resources into state",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 w ite Te rafo m resource blocks that match the existing settings",
+            "isCorrect": true
+          },
+          {
+            "key": "D",
+            "text": "0/0 define data sources for all of the existing resources",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 un te rafo m apply to impo t them in state with no changes",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 te rafo m state show requires you to specify a resource address to view that specific resource",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m show displays the entire state file without requi ing any additional arguments",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m show is useful when you want a complete ove view of all managed infrast ucture",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m state show can display multiple resources by separating them with commas",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m state show automatically fo mats its output as JSON for machine parsing",
+            "isCorrect": false
+          },
+          {
+            "key": "E",
+            "text": "0/0 te rafo m show only displays resources that have pending changes",
+            "isCorrect": false
+          },
+          {
+            "key": "F",
+            "text": "0/0 Rew ite the Te rafo m configuration file to deploy new resources, un a te rafo m apply, and migrate users to the newly deployed resources. Manually delete the other resources.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Run a te rafo m get to ret ieve other resources that are not under Te rafo m management.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Use the impo t block to impo t the existing resources under Te rafo m management.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 resources created outside of Te rafo m cannot be managed by Te rafo m",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D7-Q003"
+      },
+      {
+        "number": 4,
+        "prompt": "Avishkar deployed multiple VMs outside the Te rafo m workflow, and now your team is unsure which VM is managed by Te rafo m. What approach would best help you identify the Te rafo m-managed VM without making any changes to the infrast ucture?",
+        "options": [],
+        "code": "TERRAFORM-D7-Q004"
+      },
+      {
+        "number": 5,
+        "prompt": "Your team has been using Te rafo m to manage infrast ucture. A colleague manually created a database in the console for urgent troubleshooting and testing. The database is now needed pe manently as pa t of your production environment. What is the p ima y reason to use Te rafo m impo t in this situation?",
+        "options": [],
+        "code": "TERRAFORM-D7-Q005"
+      },
+      {
+        "number": 6,
+        "prompt": "Your team manages infrast ucture across multiple AWS regions using Te rafo m. You want to see a complete list of all resources cu rently tracked in your Te rafo m state file, but don't need the detailed att ibutes of each resource. Which command should you use? 0/0 Use Te rafo m state commands te rafo m state show to match the tracked VM’s ID with the list of active VMs.",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 Update your Te rafo m configuration to reference each VM ID and un te rafo m plan to see which resource shows no changes.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Delete eve y VM that isn’t clearly documented, assuming any missing VM will be recreated by Te rafo m.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 Use the provide ’s CLI or API to label all VMs, then rely on Te rafo m to ove w ite any unlabeled instances.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 To automatically generate optimized Te rafo m code that improves the database's pe fo mance settings.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 To b ing the database under Te rafo m management so future changes can be tracked and managed through your IaC workflow.",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 To validate that the manually created database meets your organization's secu ity compliance requirements.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 To create a backup of the database configuration in case the manual console settings are lost.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 te rafo m show",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m state list",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m output",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m state show",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D7-Q006"
+      },
+      {
+        "number": 7,
+        "prompt": "You want to sta t managing resources that were not o iginally provisioned through infrast ucture as code. Before you can impo t the resources, what must you do before unning the te rafo m impo t command?",
+        "options": [],
+        "code": "TERRAFORM-D7-Q007"
+      },
+      {
+        "number": 8,
+        "prompt": "Your teammate wants you to use te rafo m impo t to b ing an existing Google Cloud Storage bucket under Te rafo m management. They expected that after unning the impo t, the Te rafo m configuration file would automatically be populated with all the bucket's cu rent settings, but it wasn't. What should you tell your teammate about Te rafo m's impo t functionality?",
+        "options": [],
+        "code": "TERRAFORM-D7-Q008"
+      },
+      {
+        "number": 9,
+        "prompt": "After adding an impo t block to your configuration, you see the e ror as shown below. What steps must be taken first to manage this EC2 instance using Te rafo m? $ te rafo m apply E ror: resource address \"aws_instance.web_app_42\" does not exist in the configuration. 0/0 update the Te rafo m configuration file to include new resource blocks that match the resources you want to impo t",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 modify the Te rafo m state file to add the new resources so Te rafo m will have a record of the resources to be managed",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 add impo t blocks to the configuration to indicate what resources you want to b ing under Te rafo m management",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 un te rafo m apply -refresh-only to ensure that the state file has the latest info mation for existing resources.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 Te rafo m impo t automatically generates a complete resource block with all cu rent settings, but it needs to be pasted into the config file.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 Impo t will fail unless you also include the --generate-config flag to create the configuration automatically.",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Impo ting only adds the resource to Te rafo m state and you need to add the resource block to match the existing bucket settings.",
+            "isCorrect": true
+          },
+          {
+            "key": "C",
+            "text": "0/0 You forgot to add the impo t block to the configuration so Te rafo m will automatically generate the configuration.",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 add a lifecycle { ignore_changes = all } block to bypass the e ror and allow the impo t to succeed.",
+            "isCorrect": false
+          },
+          {
+            "key": "A",
+            "text": "0/0 create a data \"aws_instance\" block to read the configuration of the existing resource to enable Te rafo m to sta t managing it",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 Te rafo m cannot manage resources that were provisioned outside of the core Te rafo m workflow.",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 create a new resource block in your configuration for the aws_instance resource in the Te rafo m configuration file",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D7-Q009"
+      },
+      {
+        "number": 10,
+        "prompt": "You are reviewing a Te rafo m workspace set up by another team member. You want to quickly count the number of resources cu rently being managed without scrolling through pages of detailed configuration and att ibute info mation. Which command is most approp iate for this task?",
+        "options": [],
+        "code": "TERRAFORM-D7-Q010"
+      },
+      {
+        "number": 11,
+        "prompt": "T ue or False? After successfully impo ting an existing resource using an impo t block and unning te rafo m apply, you can immediately delete the impo t block from your configuration file without affecting Te rafo m's ability to manage the resource.",
+        "options": [],
+        "code": "TERRAFORM-D7-Q011"
+      },
+      {
+        "number": 12,
+        "prompt": "Sunil needs to gather detailed info mation about an EC2 instance that he deployed earlier in the day. What command can Sunil use to view this detailed info mation? 0/0 te rafo m state list",
+        "options": [
+          {
+            "key": "A",
+            "text": "0/0 te rafo m show",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m state show",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m state -count",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "0/0 T ue T 0/0 False",
+            "isCorrect": true
+          },
+          {
+            "key": "F",
+            "text": "0/0 te rafo m state show aws_instance.frontend",
+            "isCorrect": true
+          },
+          {
+            "key": "A",
+            "text": "0/0 te rafo m state list",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
+            "text": "0/0 te rafo m show aws_instance.frontend",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "0/0 te rafo m providers schema aws_instance.frontend",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "",
+            "isCorrect": false
+          }
+        ],
+        "code": "TERRAFORM-D7-Q012"
+      }
+    ]
+  }
+]
