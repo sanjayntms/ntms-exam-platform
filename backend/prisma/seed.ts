@@ -449,18 +449,17 @@ async function main() {
             type: q.type as any,
             difficulty: 'INTERMEDIATE',
             points: 1.0,
+            explanation: `Official HashiCorp Terraform explanation for ${q.code}.`,
             content: JSON.stringify({
               prompt: q.prompt,
               explanation: `Official HashiCorp Terraform explanation for ${q.code}.`,
-            }),
-            options: {
-              create: q.options.map((o: any, oIdx: number) => ({
+              options: q.options.map((o: any, oIdx: number) => ({
+                id: `opt-${oIdx + 1}`,
                 text: o.text,
                 isCorrect: o.isCorrect,
-                orderIndex: oIdx + 1,
                 key: o.key,
               })),
-            },
+            }),
           },
         });
 
