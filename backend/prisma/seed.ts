@@ -125,8 +125,8 @@ async function main() {
       list.push({
         code: `${codePrefix}-Q${qNum}`,
         title: q.title,
-        type: QuestionType.SINGLE_CHOICE,
-        difficulty: DifficultyLevel.ADVANCED,
+        type: 'SINGLE_CHOICE',
+        difficulty: 'ADVANCED',
         points: 1.0,
         explanation: q.exp,
         content: {
