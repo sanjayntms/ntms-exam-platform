@@ -5,6 +5,7 @@ import { BookOpen, Award, Users, TrendingUp, Monitor, History, CheckCircle2, Doo
 import { Link, useNavigate } from 'react-router-dom';
 
 export const DashboardPage: React.FC = () => {
+  const { user } = useAuth();
   const [data, setData] = useState<any>(null);
   const [myAttempts, setMyAttempts] = useState<any[]>([]);
   const [activeExams, setActiveExams] = useState<any[]>([]);
