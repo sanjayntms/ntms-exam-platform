@@ -1,49 +1,72 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { LogOut, ShieldCheck, UserCheck, Key, Mail, Fingerprint, Award, X, ExternalLink } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { LogOut, ShieldCheck, UserCheck, Key, Mail, Fingerprint, Award, X, Menu, LayoutDashboard, BookOpen, FileQuestion, BarChart3, Users } from 'lucide-react';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 
 export const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const navItems = [
+    { to: '/dashboard', label: 'Candidate Dashboard', icon: LayoutDashboard },
+    { to: '/exams', label: 'Exam Catalog & Tracks', icon: BookOpen },
+    { to: '/questions', label: 'Question Bank System', icon: FileQuestion },
+    { to: '/analytics', label: 'Analytics & Score Reports', icon: BarChart3 },
+  ];
+
+  if (user?.role === 'ADMINISTRATOR') {
+    navItems.push({ to: '/users', label: 'User & Role Controls', icon: Users });
+  }
 
   return (
     <>
-      <header className="h-16 bg-ntms-navy text-white flex items-center justify-between px-6 sticky top-0 z-40 shadow-md border-b-2 border-ntms-blue">
-        {/* Platform Title */}
-        <Link to="/dashboard" className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded bg-ntms-blue flex items-center justify-center font-black text-sm text-white tracking-widest shadow border border-sky-400">
-            NTMS
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-base text-white tracking-tight">NTMS</span>
-              <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-sky-950 text-sky-300 font-mono border border-sky-800">
-                Test Delivery Engine
-              </span>
+      <header className="h-16 bg-ntms-navy text-white flex items-center justify-between px-4 md:px-6 sticky top-0 z-40 shadow-md border-b-2 border-ntms-blue">
+        {/* Mobile Hamburger Toggle & Title */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded transition-colors"
+            title="Toggle mobile menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+
+          <Link to="/dashboard" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded bg-ntms-blue flex items-center justify-center font-black text-xs md:text-sm text-white tracking-widest shadow border border-sky-400">
+              NTMS
             </div>
-            <span className="text-[11px] text-slate-300 tracking-wide">NTMS Certified Exam Platform</span>
-          </div>
-        </Link>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-sm md:text-base text-white tracking-tight">NTMS</span>
+                <span className="text-[9px] md:text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-sky-950 text-sky-300 font-mono border border-sky-800">
+                  Test Delivery
+                </span>
+              </div>
+              <span className="text-[10px] md:text-[11px] text-slate-300 tracking-wide hidden sm:inline">NTMS Certified Exam Platform</span>
+            </div>
+          </Link>
+        </div>
 
         {/* Candidate Session Info Badge */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           {user && (
             <button
               type="button"
               onClick={() => setShowProfileModal(true)}
-              className="flex items-center gap-3 bg-ntms-darkNavy hover:bg-slate-800 px-3.5 py-1.5 rounded border border-slate-700 hover:border-sky-400 shadow-inner transition-all text-left cursor-pointer group"
+              className="flex items-center gap-2.5 bg-ntms-darkNavy hover:bg-slate-800 px-2.5 md:px-3.5 py-1.5 rounded border border-slate-700 hover:border-sky-400 shadow-inner transition-all text-left cursor-pointer group"
               title="Click to view candidate information"
             >
-              <div className="w-7 h-7 rounded bg-ntms-blue text-white flex items-center justify-center font-bold text-xs group-hover:scale-105 transition-transform">
+              <div className="w-6 h-6 md:w-7 md:h-7 rounded bg-ntms-blue text-white flex items-center justify-center font-bold text-xs group-hover:scale-105 transition-transform shrink-0">
                 {user.name.charAt(0)}
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-bold text-white leading-tight group-hover:text-sky-300 transition-colors">
+                <span className="text-xs font-bold text-white leading-tight group-hover:text-sky-300 transition-colors max-w-[100px] sm:max-w-none truncate">
                   {user.name}
                 </span>
-                <span className="text-[10px] text-slate-300 font-mono">
+                <span className="text-[9px] md:text-[10px] text-slate-300 font-mono hidden sm:inline">
                   ID: NTMS-{user.id ? user.id.substring(0, 6).toUpperCase() : '894201'} |{' '}
                   <span className="text-emerald-400 font-bold uppercase">{user.role}</span>
                 </span>
@@ -60,6 +83,37 @@ export const Header: React.FC = () => {
           </button>
         </div>
       </header>
+
+      {/* Mobile Slide-Down Navigation Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-slate-900 border-b-2 border-ntms-blue p-4 space-y-2 sticky top-16 z-30 shadow-xl font-sans text-xs">
+          <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-2">
+            Test Navigation Menu
+          </div>
+          <div className="grid grid-cols-1 gap-1.5">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3.5 py-2.5 rounded font-bold transition-all ${
+                      isActive
+                        ? 'bg-ntms-blue text-white shadow-sm'
+                        : 'text-slate-200 hover:bg-slate-800'
+                    }`
+                  }
+                >
+                  <Icon className="w-4 h-4 text-sky-400" />
+                  <span>{item.label}</span>
+                </NavLink>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Candidate Complete Profile Modal */}
       {showProfileModal && user && (

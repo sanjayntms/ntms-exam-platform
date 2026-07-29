@@ -178,46 +178,44 @@ export const ExamEnginePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col justify-between font-sans text-slate-900 select-none">
       {/* Top Header Bar */}
-      <header className="bg-ntms-navy text-white px-6 py-3 border-b-2 border-ntms-blue flex items-center justify-between shadow">
-        <div className="flex items-center gap-4">
-          <span className="font-black tracking-wider text-base text-sky-300">NTMS</span>
-          <div className="h-4 w-px bg-slate-600" />
+      <header className="bg-ntms-navy text-white px-3 md:px-6 py-2.5 md:py-3 border-b-2 border-ntms-blue flex items-center justify-between shadow">
+        <div className="flex items-center gap-2.5 md:gap-4">
+          <span className="font-black tracking-wider text-sm md:text-base text-sky-300">NTMS</span>
+          <div className="h-4 w-px bg-slate-600 hidden sm:block" />
           <div>
-            <h1 className="font-bold text-sm leading-tight text-white">{exam.title}</h1>
-            <span className="text-[11px] text-slate-300 font-mono">
-              Candidate: Alex Mercer (Candidate) | ID: NTMS-894210
+            <h1 className="font-bold text-xs md:text-sm leading-tight text-white line-clamp-1">{exam.title}</h1>
+            <span className="text-[10px] md:text-[11px] text-slate-300 font-mono hidden sm:inline">
+              Candidate Examination Hall Session
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <button type="button" className="text-xs text-slate-300 hover:text-white flex items-center gap-1">
-            <HelpCircle className="w-4 h-4" /> Help
-          </button>
+        <div className="flex items-center gap-3">
           <Timer />
         </div>
       </header>
 
       {/* Action Toolbar */}
-      <div className="bg-slate-200 border-b border-slate-300 px-6 py-2 flex justify-between items-center text-xs font-semibold">
-        <div className="flex gap-2">
+      <div className="bg-slate-200 border-b border-slate-300 px-3 md:px-6 py-2 flex flex-wrap justify-between items-center text-xs font-semibold gap-2">
+        <div className="flex flex-wrap gap-1.5 md:gap-2">
           <button
             type="button"
             onClick={() => currentQuestion && toggleMarkForReview(currentQuestion.id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded border transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded border transition-all text-xs ${
               qState.isMarkedForReview
                 ? 'bg-amber-500 text-white border-amber-600 font-bold shadow-sm'
                 : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
             }`}
           >
             <Flag className="w-3.5 h-3.5" />
-            <span>Mark for Review</span>
+            <span className="hidden sm:inline">Mark for Review</span>
+            <span className="sm:hidden">Flag</span>
           </button>
 
           <button
             type="button"
             onClick={() => setCalculatorOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
+            className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all text-xs"
           >
             <Calculator className="w-3.5 h-3.5 text-ntms-blue" />
             <span>Calculator</span>
@@ -226,16 +224,17 @@ export const ExamEnginePage: React.FC = () => {
           <button
             type="button"
             onClick={() => setScratchpadOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
+            className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all text-xs"
           >
             <FileText className="w-3.5 h-3.5 text-emerald-700" />
-            <span>Scratchpad</span>
+            <span className="hidden sm:inline">Scratchpad</span>
+            <span className="sm:hidden">Notes</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowPalette(!showPalette)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all"
+            className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition-all text-xs"
           >
             <LayoutGrid className="w-3.5 h-3.5 text-ntms-navy" />
             <span>Question Map</span>
@@ -248,30 +247,29 @@ export const ExamEnginePage: React.FC = () => {
       </div>
 
       {/* Main Question Display Area */}
-      <div className="flex-1 max-w-6xl w-full mx-auto p-6 flex gap-6 relative">
+      <div className="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6 relative">
         {/* Main Item Canvas */}
-        <main className="flex-1 bg-white border border-slate-300 rounded shadow-sm p-8 flex flex-col justify-between min-h-[520px]">
+        <main className="flex-1 bg-white border border-slate-300 rounded shadow-sm p-4 sm:p-6 md:p-8 flex flex-col justify-between min-h-[380px] md:min-h-[520px]">
           <div>
-            <div className="flex justify-between items-center border-b border-slate-200 pb-3 mb-6">
+            <div className="flex justify-between items-center border-b border-slate-200 pb-3 mb-4 md:mb-6">
               <span className="text-xs font-mono font-bold text-slate-600 uppercase tracking-wider">
                 QUESTION {currentQuestionIndex + 1} (CODE: {currentQuestion?.code})
               </span>
               <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
                 <span>Type: <strong className="text-slate-800 font-extrabold">{currentQuestion?.type}</strong></span>
-                <span>Points: <strong className="text-slate-800 font-extrabold">{currentQuestion?.points}</strong></span>
               </div>
             </div>
 
-            <div className="space-y-6">
-              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">Question {currentQuestionIndex + 1}</h2>
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-sm md:text-base font-extrabold text-slate-900 tracking-tight">Question {currentQuestionIndex + 1}</h2>
               {renderEngine()}
             </div>
           </div>
         </main>
 
-        {/* Slide-out Question Item Map */}
+        {/* Question Item Map Drawer */}
         {showPalette && (
-          <aside className="w-80 bg-white border border-slate-300 rounded p-4 shadow-lg shrink-0">
+          <aside className="w-full md:w-80 bg-white border border-slate-300 rounded p-4 shadow-xl shrink-0 z-20">
             <QuestionPalette />
           </aside>
         )}

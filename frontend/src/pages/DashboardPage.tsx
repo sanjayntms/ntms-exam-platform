@@ -230,7 +230,7 @@ export const DashboardPage: React.FC = () => {
             </Link>
           </div>
         ) : (
-          <div className="border border-slate-200 rounded-lg overflow-hidden">
+          <div className="border border-slate-200 rounded-lg overflow-hidden overflow-x-auto">
             <table className="w-full text-left text-xs text-slate-800">
               <thead className="bg-slate-100 text-slate-700 font-mono text-[11px] uppercase border-b border-slate-200">
                 <tr>

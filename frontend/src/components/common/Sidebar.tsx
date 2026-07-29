@@ -18,7 +18,7 @@ export const Sidebar: React.FC = () => {
   }
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-300 flex flex-col justify-between p-4 shadow-sm font-sans shrink-0">
+    <aside className="hidden md:flex w-64 bg-white border-r border-slate-300 flex-col justify-between p-4 shadow-sm font-sans shrink-0">
       <div className="space-y-6">
         <div className="px-3 pt-2 text-[10px] font-mono uppercase font-bold text-slate-500 tracking-wider">
           Test Navigation Menu

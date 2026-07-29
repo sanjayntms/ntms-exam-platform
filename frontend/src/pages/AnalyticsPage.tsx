@@ -383,7 +383,7 @@ export const AnalyticsPage: React.FC = () => {
       </div>
 
       {/* Candidate Score Reports Table */}
-      <div className="bg-white border border-slate-300 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-slate-300 rounded-xl overflow-hidden shadow-sm overflow-x-auto">
         <div className="bg-slate-100 px-5 py-3 border-b border-slate-300 flex justify-between items-center">
           <h3 className="font-bold text-xs text-ntms-navy uppercase tracking-wider flex items-center gap-2">
             <Award className="w-4 h-4 text-ntms-blue" />
