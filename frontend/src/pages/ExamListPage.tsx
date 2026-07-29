@@ -57,8 +57,22 @@ export const ExamListPage: React.FC = () => {
   }, []);
 
   const handleStartExam = async (examId: string) => {
+    if (!user) {
+      alert('🔒 Authentication Required: Only logged-in candidates can enter an Exam Room. Please log in or register.');
+      navigate('/login');
+      return;
+    }
+
+    const candidateName = window.prompt(
+      '🔑 Live Exam Identity Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Certification Score Report:',
+      user.name || ''
+    );
+
+    if (candidateName === null) return; // User cancelled prompt
+    const finalName = candidateName.trim() || user.name || 'Candidate';
+
     try {
-      const res = await api.post('/attempts/start', { examId });
+      const res = await api.post('/attempts/start', { examId, candidateName: finalName });
       if (res.data.exam && res.data.attemptId) {
         setExamSession(res.data.exam, res.data.attemptId);
       }
