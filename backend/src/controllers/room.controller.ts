@@ -86,12 +86,16 @@ export class RoomController {
     }
   }
 
-  // Student joins Exam Room by Room Code
+  // Student joins Exam Room by Room Code (Strictly authenticated candidates only)
   async joinRoom(req: Request, res: Response) {
     try {
-      const { roomCode } = req.body;
-      const tokenUserId = req.user?.id;
-      const userEmail = req.user?.email;
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: 'Authentication required. Only registered/logged-in candidates can enter an Exam Room.' });
+      }
+
+      const { roomCode, candidateName } = req.body;
+      const tokenUserId = req.user.id;
+      const userEmail = req.user.email;
 
       if (!roomCode) {
         return res.status(400).json({ error: 'Exam Room Code is required' });
@@ -110,39 +114,47 @@ export class RoomController {
         return res.status(403).json({ error: `Exam Room "${room.title}" (${room.roomCode}) is currently CLOSED by Admin (sanjay@ntmsentra.onmicrosoft.com).` });
       }
 
-      // Safely resolve active user entity in database to prevent Foreign Key constraint errors
-      let validUser = tokenUserId ? await prisma.user.findUnique({ where: { id: tokenUserId } }) : null;
+      let validUser = await prisma.user.findUnique({ where: { id: tokenUserId } });
       if (!validUser && userEmail) {
         validUser = await prisma.user.findUnique({ where: { email: userEmail } });
       }
+
       if (!validUser) {
-        validUser = await prisma.user.findFirst();
+        return res.status(401).json({ error: 'Authenticated user profile not found. Please log in again.' });
       }
 
-      if (validUser) {
-        try {
-          // Log student room session
-          await prisma.roomSession.upsert({
-            where: { roomId_userId: { roomId: room.id, userId: validUser.id } },
-            update: { joinedAt: new Date() },
-            create: { roomId: room.id, userId: validUser.id },
-          });
+      // Update candidate full name if provided
+      const trimmedName = candidateName?.trim();
+      if (trimmedName && trimmedName !== validUser.name) {
+        validUser = await prisma.user.update({
+          where: { id: validUser.id },
+          data: { name: trimmedName },
+        });
+      }
 
-          // Grant per-student unlock for this exam while room is open
-          await prisma.studentExamAccess.upsert({
-            where: { userId_examId: { userId: validUser.id, examId: room.examId } },
-            update: { isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
-            create: { userId: validUser.id, examId: room.examId, isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
-          });
-        } catch (dbErr) {
-          console.warn('Non-fatal roomSession upsert warning:', dbErr);
-        }
+      try {
+        // Log student room session
+        await prisma.roomSession.upsert({
+          where: { roomId_userId: { roomId: room.id, userId: validUser.id } },
+          update: { joinedAt: new Date() },
+          create: { roomId: room.id, userId: validUser.id },
+        });
+
+        // Grant per-student unlock for this exam while room is open
+        await prisma.studentExamAccess.upsert({
+          where: { userId_examId: { userId: validUser.id, examId: room.examId } },
+          update: { isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
+          create: { userId: validUser.id, examId: room.examId, isUnlocked: true, unlockedBy: `ROOM:${room.roomCode}` },
+        });
+      } catch (dbErr) {
+        console.warn('Non-fatal roomSession upsert warning:', dbErr);
       }
 
       return res.json({
-        message: `Successfully joined Exam Room "${room.title}"!`,
+        message: `Welcome ${validUser.name}! Successfully joined Exam Room "${room.title}".`,
         room,
         exam: room.exam,
+        candidateName: validUser.name,
       });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });

@@ -68,24 +68,60 @@ export const ExamListPage: React.FC = () => {
     }
   };
 
-  // Student Join Room by Code
+  // Student Join Room by Code (Requires Authentication & Full Candidate Name)
   const handleJoinRoom = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!roomCodeInput.trim()) return;
+
+    if (!user) {
+      alert('🔒 Authentication Required: Only logged-in candidates can enter an Exam Room. Please log in or register.');
+      navigate('/login');
+      return;
+    }
+
+    const candidateName = window.prompt(
+      `🔑 Live Exam Room Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Score Report:`,
+      user.name || ''
+    );
+
+    if (candidateName === null) return; // User cancelled
+    const finalName = candidateName.trim() || user.name;
+
     setJoinLoading(true);
     setJoinMessage(null);
     try {
-      const res = await api.post('/rooms/join', { roomCode: roomCodeInput.trim() });
+      const res = await api.post('/rooms/join', {
+        roomCode: roomCodeInput.trim(),
+        candidateName: finalName,
+      });
+
       setJoinMessage({ type: 'success', text: `Success: ${res.data.message} Launching exam...` });
       fetchExamsAndRooms();
-      setTimeout(() => {
-        handleStartExam(res.data.exam.id);
-      }, 1200);
+      setTimeout(async () => {
+        try {
+          const startRes = await api.post('/attempts/start', {
+            examId: res.data.exam.id,
+            roomId: res.data.room?.id,
+            candidateName: finalName,
+          });
+          if (startRes.data.exam && startRes.data.attemptId) {
+            setExamSession(startRes.data.exam, startRes.data.attemptId);
+          }
+          navigate(`/exam-session/${startRes.data.attemptId}`);
+        } catch (startErr: any) {
+          alert('Error starting exam: ' + (startErr.response?.data?.error || startErr.message));
+        }
+      }, 800);
     } catch (err: any) {
-      setJoinMessage({
-        type: 'error',
-        text: err.response?.data?.error || 'Failed to join Exam Room. Please check code with Admin.',
-      });
+      if (err.response?.status === 401) {
+        alert('🔒 Authentication Required: Please log in to enter an Exam Room.');
+        navigate('/login');
+      } else {
+        setJoinMessage({
+          type: 'error',
+          text: err.response?.data?.error || 'Failed to join Exam Room. Please check code with Admin.',
+        });
+      }
     } finally {
       setJoinLoading(false);
     }

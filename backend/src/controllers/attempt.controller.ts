@@ -9,8 +9,8 @@ export class AttemptController {
     try {
       const userId = req.user?.id || 'candidate';
       const userRole = req.user?.role;
-      const { examId, roomId } = req.body;
-      const session = await this.engineService.startExamAttempt(userId, examId, userRole, roomId);
+      const { examId, roomId, candidateName } = req.body;
+      const session = await this.engineService.startExamAttempt(userId, examId, userRole, roomId, candidateName);
       return res.status(201).json(session);
     } catch (err: any) {
       return res.status(400).json({ error: err.message });

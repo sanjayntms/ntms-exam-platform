@@ -111,6 +111,7 @@ export interface ExamRoom {
 export interface ExamAttempt {
   id: string;
   userId: string;
+  candidateName?: string;
   examId: string;
   roomId?: string | null;
   status: 'IN_PROGRESS' | 'EVALUATED';

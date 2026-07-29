@@ -228,6 +228,7 @@ model SectionQuestion {
 model ExamAttempt {
   id               String        @id @default(uuid())
   userId           String
+  candidateName    String?       // Candidate Full Name entered during Exam Room Join
   examId           String
   roomId           String?
   status           String        @default("IN_PROGRESS")

@@ -37,16 +37,43 @@ export const DashboardPage: React.FC = () => {
     e.preventDefault();
     if (!roomCodeInput.trim()) return;
 
+    if (!user) {
+      alert('🔒 Authentication Required: Only logged-in candidates can enter an Exam Room. Please log in or register.');
+      navigate('/login');
+      return;
+    }
+
+    const candidateName = window.prompt(
+      `🔑 Live Exam Room Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Score Report:`,
+      user.name || ''
+    );
+
+    if (candidateName === null) return; // User cancelled
+    const finalName = candidateName.trim() || user.name;
+
     setJoinLoading(true);
     try {
-      const res = await api.post('/rooms/join', { roomCode: roomCodeInput });
+      const res = await api.post('/rooms/join', {
+        roomCode: roomCodeInput.trim(),
+        candidateName: finalName,
+      });
+
       alert(`✅ ${res.data.message}`);
 
       // Launch exam session
-      const startRes = await api.post('/attempts/start', { examId: res.data.exam.id });
+      const startRes = await api.post('/attempts/start', {
+        examId: res.data.exam.id,
+        roomId: res.data.room?.id,
+        candidateName: finalName,
+      });
       navigate(`/exam-session/${startRes.data.attemptId}`);
     } catch (err: any) {
-      alert('⚠️ Exam Room Error: ' + (err.response?.data?.error || err.message));
+      if (err.response?.status === 401) {
+        alert('🔒 Authentication Required: Please log in to enter an Exam Room.');
+        navigate('/login');
+      } else {
+        alert('⚠️ Exam Room Error: ' + (err.response?.data?.error || err.message));
+      }
     } finally {
       setJoinLoading(false);
     }

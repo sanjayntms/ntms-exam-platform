@@ -5,19 +5,28 @@ import { prisma } from '../infrastructure/database.js';
 export class ExamEngineService {
   constructor(private uow: UnitOfWork) {}
 
-  async startExamAttempt(userId: string, examId: string, userRole?: string, roomId?: string) {
+  async startExamAttempt(userId: string, examId: string, userRole?: string, roomId?: string, candidateName?: string) {
     const exam = await this.uow.exams.findById(examId);
-    if (!exam) throw new Error('Exam not found');
+    if (!exam) throw new Error('Exam track not found');
 
     let user = await this.uow.users.findById(userId);
     if (!user) {
-      user = await this.uow.users.findByEmail('candidate@ntms.com');
+      user = await prisma.user.findFirst({ where: { role: Role.CANDIDATE } });
       if (!user) {
         const allUsers = await this.uow.users.findAll();
         user = allUsers[0];
       }
     }
     if (!user) throw new Error('Valid candidate user not found in database');
+
+    // Update user full name if candidateName passed
+    const finalCandidateName = candidateName?.trim() || user.name;
+    if (candidateName?.trim() && candidateName.trim() !== user.name) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { name: candidateName.trim() },
+      });
+    }
 
     const effectiveRole = userRole || user.role;
     let targetRoomId = roomId;
@@ -56,6 +65,7 @@ export class ExamEngineService {
 
     const attempt = await this.uow.attempts.create({
       userId: user.id,
+      candidateName: finalCandidateName,
       examId: exam.id,
       roomId: targetRoomId || null,
       totalQuestions,
