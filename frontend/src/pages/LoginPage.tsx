@@ -5,12 +5,15 @@ import { ShieldCheck, UserCheck, Key, DoorOpen, Play, Award, Sparkles, BookOpen,
 import { getEntraIDAuthUrl } from '../config/msalConfig';
 import api from '../services/api';
 
+import { CandidateNameModal } from '../components/common/CandidateNameModal';
+
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [roomCodeInput, setRoomCodeInput] = useState('');
   const [isEntraLoading, setIsEntraLoading] = useState(false);
   const [roomLoading, setRoomLoading] = useState(false);
+  const [showNameModal, setShowNameModal] = useState(false);
   const { user, loginLocal } = useAuth();
   const navigate = useNavigate();
 
@@ -92,19 +95,16 @@ export const LoginPage: React.FC = () => {
       return;
     }
 
-    const candidateName = window.prompt(
-      '🔑 Live Exam Room Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Certification Score Report:',
-      user.name || ''
-    );
+    setShowNameModal(true);
+  };
 
-    if (candidateName === null) return; // User cancelled
-    const finalName = candidateName.trim() || user.name;
-
+  const handleConfirmNameAndJoin = async (candidateFullName: string) => {
+    setShowNameModal(false);
     setRoomLoading(true);
     try {
       const res = await api.post('/rooms/join', {
         roomCode: roomCodeInput.trim().toUpperCase(),
-        candidateName: finalName,
+        candidateName: candidateFullName,
       });
       alert(`✅ ${res.data.message}`);
 
@@ -112,7 +112,7 @@ export const LoginPage: React.FC = () => {
       const startRes = await api.post('/attempts/start', {
         examId: res.data.exam.id,
         roomId: res.data.room?.id,
-        candidateName: finalName,
+        candidateName: candidateFullName,
       });
       navigate(`/exam-session/${startRes.data.attemptId}`);
     } catch (err: any) {
@@ -310,6 +310,15 @@ export const LoginPage: React.FC = () => {
       <footer className="bg-slate-900 border-t border-slate-800 py-4 px-8 text-center text-xs text-slate-500">
         © 2026 NTMS Examination Platform (exam.ntmscloud.in). All Rights Reserved. Authorized Certification Runtime Environment.
       </footer>
+
+      {/* Candidate Name Verification Modal */}
+      <CandidateNameModal
+        isOpen={showNameModal}
+        initialName={user?.name || ''}
+        roomCode={roomCodeInput}
+        onConfirm={handleConfirmNameAndJoin}
+        onCancel={() => setShowNameModal(false)}
+      />
     </div>
   );
 };

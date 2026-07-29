@@ -3,6 +3,7 @@ import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { BookOpen, Award, Users, TrendingUp, Monitor, History, CheckCircle2, DoorOpen, ShieldCheck, Sparkles, Play, Globe } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { CandidateNameModal } from '../components/common/CandidateNameModal';
 
 export const DashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -11,6 +12,7 @@ export const DashboardPage: React.FC = () => {
   const [activeExams, setActiveExams] = useState<any[]>([]);
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
   const [joinLoading, setJoinLoading] = useState<boolean>(false);
+  const [showNameModal, setShowNameModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,19 +45,16 @@ export const DashboardPage: React.FC = () => {
       return;
     }
 
-    const candidateName = window.prompt(
-      `🔑 Live Exam Room Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Score Report:`,
-      user.name || ''
-    );
+    setShowNameModal(true);
+  };
 
-    if (candidateName === null) return; // User cancelled
-    const finalName = candidateName.trim() || user.name;
-
+  const handleConfirmNameAndJoin = async (candidateFullName: string) => {
+    setShowNameModal(false);
     setJoinLoading(true);
     try {
       const res = await api.post('/rooms/join', {
         roomCode: roomCodeInput.trim(),
-        candidateName: finalName,
+        candidateName: candidateFullName,
       });
 
       alert(`✅ ${res.data.message}`);
@@ -64,7 +63,7 @@ export const DashboardPage: React.FC = () => {
       const startRes = await api.post('/attempts/start', {
         examId: res.data.exam.id,
         roomId: res.data.room?.id,
-        candidateName: finalName,
+        candidateName: candidateFullName,
       });
       navigate(`/exam-session/${startRes.data.attemptId}`);
     } catch (err: any) {
@@ -305,6 +304,15 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Candidate Name Verification Modal */}
+      <CandidateNameModal
+        isOpen={showNameModal}
+        initialName={user?.name || ''}
+        roomCode={roomCodeInput}
+        onConfirm={handleConfirmNameAndJoin}
+        onCancel={() => setShowNameModal(false)}
+      />
     </div>
   );
 };

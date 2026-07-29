@@ -6,14 +6,25 @@ import { useAuth } from '../context/AuthContext';
 import { useExamSession } from '../context/ExamSessionContext';
 import { Search, Clock, Award, Shield, Lock, Unlock, Plus, DoorOpen, Users, AlertCircle, X, CheckCircle2, Edit3, Trash2 } from 'lucide-react';
 
+import { CandidateNameModal } from '../components/common/CandidateNameModal';
+
 export const ExamListPage: React.FC = () => {
   const [exams, setExams] = useState<Exam[]>([]);
-  const [rooms, setRooms] = useState<ExamRoom[]>([]);
-  const [search, setSearch] = useState('');
+  const [rooms, setRooms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const [roomCodeInput, setRoomCodeInput] = useState('');
   const [joinLoading, setJoinLoading] = useState(false);
   const [joinMessage, setJoinMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Name Modal State
+  const [nameModalConfig, setNameModalConfig] = useState<{
+    isOpen: boolean;
+    mode: 'START_EXAM' | 'JOIN_ROOM';
+    examId?: string;
+    examTitle?: string;
+    roomCode?: string;
+  }>({ isOpen: false, mode: 'START_EXAM' });
 
   // Admin Room Creation Modal State
   const [showRoomModal, setShowRoomModal] = useState(false);
@@ -28,9 +39,9 @@ export const ExamListPage: React.FC = () => {
   const [editExamCode, setEditExamCode] = useState('');
   const [editExamTitle, setEditExamTitle] = useState('');
   const [editExamVendor, setEditExamVendor] = useState('MICROSOFT');
-  const [editExamDuration, setEditExamDuration] = useState(120);
-  const [editExamPassingScore, setEditExamPassingScore] = useState(700);
-  const [editTotalQuestions, setEditTotalQuestions] = useState(50);
+  const [editExamDuration, setEditExamDuration] = useState<number | string>(120);
+  const [editExamPassingScore, setEditExamPassingScore] = useState<number | string>(70);
+  const [editTotalQuestions, setEditTotalQuestions] = useState<number | string>(50);
   const [editExamDescription, setEditExamDescription] = useState('');
 
   const { user } = useAuth();
@@ -46,8 +57,8 @@ export const ExamListPage: React.FC = () => {
         setSelectedExamId(examsRes.data[0].id);
       }
     } catch (err) {
-      console.error(err);
-    } fontFinally: {
+      console.error('Error fetching exams and rooms:', err);
+    } finally {
       setLoading(false);
     }
   };
@@ -63,23 +74,13 @@ export const ExamListPage: React.FC = () => {
       return;
     }
 
-    const candidateName = window.prompt(
-      '🔑 Live Exam Identity Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Certification Score Report:',
-      user.name || ''
-    );
-
-    if (candidateName === null) return; // User cancelled prompt
-    const finalName = candidateName.trim() || user.name || 'Candidate';
-
-    try {
-      const res = await api.post('/attempts/start', { examId, candidateName: finalName });
-      if (res.data.exam && res.data.attemptId) {
-        setExamSession(res.data.exam, res.data.attemptId);
-      }
-      navigate(`/exam-session/${res.data.attemptId}`);
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Unable to start exam attempt.');
-    }
+    const targetExam = exams.find((e) => e.id === examId);
+    setNameModalConfig({
+      isOpen: true,
+      mode: 'START_EXAM',
+      examId,
+      examTitle: targetExam ? `${targetExam.code} - ${targetExam.title}` : 'Certification Exam',
+    });
   };
 
   // Student Join Room by Code (Requires Authentication & Full Candidate Name)
@@ -93,51 +94,66 @@ export const ExamListPage: React.FC = () => {
       return;
     }
 
-    const candidateName = window.prompt(
-      `🔑 Live Exam Room Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Score Report:`,
-      user.name || ''
-    );
+    setNameModalConfig({
+      isOpen: true,
+      mode: 'JOIN_ROOM',
+      roomCode: roomCodeInput.trim().toUpperCase(),
+    });
+  };
 
-    if (candidateName === null) return; // User cancelled
-    const finalName = candidateName.trim() || user.name;
+  const handleConfirmNameModal = async (candidateFullName: string) => {
+    const { mode, examId, roomCode } = nameModalConfig;
+    setNameModalConfig({ isOpen: false, mode: 'START_EXAM' });
 
-    setJoinLoading(true);
-    setJoinMessage(null);
-    try {
-      const res = await api.post('/rooms/join', {
-        roomCode: roomCodeInput.trim(),
-        candidateName: finalName,
-      });
-
-      setJoinMessage({ type: 'success', text: `Success: ${res.data.message} Launching exam...` });
-      fetchExamsAndRooms();
-      setTimeout(async () => {
-        try {
-          const startRes = await api.post('/attempts/start', {
-            examId: res.data.exam.id,
-            roomId: res.data.room?.id,
-            candidateName: finalName,
-          });
-          if (startRes.data.exam && startRes.data.attemptId) {
-            setExamSession(startRes.data.exam, startRes.data.attemptId);
-          }
-          navigate(`/exam-session/${startRes.data.attemptId}`);
-        } catch (startErr: any) {
-          alert('Error starting exam: ' + (startErr.response?.data?.error || startErr.message));
+    if (mode === 'START_EXAM' && examId) {
+      try {
+        const res = await api.post('/attempts/start', { examId, candidateName: candidateFullName });
+        if (res.data.exam && res.data.attemptId) {
+          setExamSession(res.data.exam, res.data.attemptId);
         }
-      }, 800);
-    } catch (err: any) {
-      if (err.response?.status === 401) {
-        alert('🔒 Authentication Required: Please log in to enter an Exam Room.');
-        navigate('/login');
-      } else {
-        setJoinMessage({
-          type: 'error',
-          text: err.response?.data?.error || 'Failed to join Exam Room. Please check code with Admin.',
-        });
+        navigate(`/exam-session/${res.data.attemptId}`);
+      } catch (err: any) {
+        alert(err.response?.data?.error || 'Unable to start exam attempt.');
       }
-    } finally {
-      setJoinLoading(false);
+    } else if (mode === 'JOIN_ROOM' && roomCode) {
+      setJoinLoading(true);
+      setJoinMessage(null);
+      try {
+        const res = await api.post('/rooms/join', {
+          roomCode: roomCode.trim().toUpperCase(),
+          candidateName: candidateFullName,
+        });
+
+        setJoinMessage({ type: 'success', text: `Success: ${res.data.message} Launching exam...` });
+        fetchExamsAndRooms();
+        setTimeout(async () => {
+          try {
+            const startRes = await api.post('/attempts/start', {
+              examId: res.data.exam.id,
+              roomId: res.data.room?.id,
+              candidateName: candidateFullName,
+            });
+            if (startRes.data.exam && startRes.data.attemptId) {
+              setExamSession(startRes.data.exam, startRes.data.attemptId);
+            }
+            navigate(`/exam-session/${startRes.data.attemptId}`);
+          } catch (startErr: any) {
+            alert('Error starting exam: ' + (startErr.response?.data?.error || startErr.message));
+          }
+        }, 800);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          alert('🔒 Authentication Required: Please log in to enter an Exam Room.');
+          navigate('/login');
+        } else {
+          setJoinMessage({
+            type: 'error',
+            text: err.response?.data?.error || 'Failed to join Exam Room. Please check code with Admin.',
+          });
+        }
+      } finally {
+        setJoinLoading(false);
+      }
     }
   };
 
@@ -692,6 +708,16 @@ export const ExamListPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Candidate Name Verification Modal */}
+      <CandidateNameModal
+        isOpen={nameModalConfig.isOpen}
+        initialName={user?.name || ''}
+        examTitle={nameModalConfig.examTitle}
+        roomCode={nameModalConfig.roomCode}
+        onConfirm={handleConfirmNameModal}
+        onCancel={() => setNameModalConfig({ ...nameModalConfig, isOpen: false })}
+      />
     </div>
   );
 };
