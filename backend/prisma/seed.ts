@@ -1,4 +1,4 @@
-import { PrismaClient, Role, ExamVendor, ExamType, ExamStatus, QuestionType, DifficultyLevel } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -40,7 +40,7 @@ async function main() {
     data: {
       email: 'sanjay@ntmsentra.onmicrosoft.com',
       name: 'Sanjay Admin',
-      role: Role.ADMINISTRATOR,
+      role: 'ADMINISTRATOR',
       isActive: true,
     },
   });
@@ -49,7 +49,7 @@ async function main() {
     data: {
       email: 'candidate@ntms.com',
       name: 'Standard Candidate',
-      role: Role.CANDIDATE,
+      role: 'CANDIDATE',
       isActive: true,
     },
   });
@@ -65,9 +65,18 @@ async function main() {
         data: {
           code: q.code,
           title: q.title,
-          type: q.type || QuestionType.SINGLE_CHOICE,
-          difficulty: q.difficulty || DifficultyLevel.INTERMEDIATE,
+          type: q.type || 'SINGLE_CHOICE',
+          difficulty: q.difficulty || 'INTERMEDIATE',
           points: q.points || 1.0,
+          explanation: q.explanation,
+          content: JSON.stringify(q.content),
+          categoryId,
+        },
+      });
+      created.push(dbQ);
+    }
+    return created;
+  }
           explanation: q.explanation,
           content: JSON.stringify(q.content),
           categoryId,
@@ -195,8 +204,8 @@ async function main() {
     const az104List = rawAZ104.map((q: any, idx: number) => ({
       code: `AZ104-Q${String(idx + 1).padStart(3, '0')}`,
       title: `Question ${idx + 1}`,
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
+      type: 'SINGLE_CHOICE',
+      difficulty: 'INTERMEDIATE',
       points: 1.0,
       explanation: q.explanation || 'Refer to official Microsoft Azure Documentation.',
       content: {
@@ -224,14 +233,14 @@ async function main() {
     data: {
       code: 'AZ-305',
       title: 'Designing Microsoft Azure Infrastructure Solutions (AZ-305)',
-      vendor: ExamVendor.MICROSOFT,
-      examType: ExamType.CERTIFICATION,
+      vendor: 'MICROSOFT',
+      examType: 'CERTIFICATION',
       description: 'Official 50/70/90-Item Practice Exam for Azure Solutions Architect Expert (AZ-305) with Normalized 0-100% Objective Domain Score Reports.',
       timeLimitMinutes: 150,
       passingScore: 70.0,
       totalQuestionsConfig: 50,
       creatorId: creatorUser.id,
-      status: ExamStatus.PUBLISHED,
+      status: 'PUBLISHED',
     },
   });
 
@@ -269,14 +278,14 @@ async function main() {
     data: {
       code: 'AZ-104',
       title: 'Microsoft Azure Administrator (AZ-104)',
-      vendor: ExamVendor.MICROSOFT,
-      examType: ExamType.CERTIFICATION,
+      vendor: 'MICROSOFT',
+      examType: 'CERTIFICATION',
       description: 'Official 50/70/90-Item Practice Exam for Microsoft Azure Administrator (AZ-104) with PDF Question Bank.',
       timeLimitMinutes: 90,
       passingScore: 70.0,
       totalQuestionsConfig: 50,
       creatorId: creatorUser.id,
-      status: ExamStatus.PUBLISHED,
+      status: 'PUBLISHED',
     },
   });
 
@@ -324,14 +333,14 @@ async function main() {
       data: {
         code: item.code,
         title: item.title,
-        vendor: ExamVendor.MICROSOFT,
-        examType: ExamType.CERTIFICATION,
+        vendor: 'MICROSOFT',
+        examType: 'CERTIFICATION',
         description: `Complete ${item.seeded.length}-Question Practice Exam for ${item.title}.`,
         timeLimitMinutes: item.time,
         passingScore: 70.0,
         totalQuestionsConfig: 50,
         creatorId: creatorUser.id,
-        status: ExamStatus.PUBLISHED,
+        status: 'PUBLISHED',
       },
     });
 
