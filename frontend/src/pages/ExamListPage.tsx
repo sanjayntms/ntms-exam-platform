@@ -182,9 +182,11 @@ export const ExamListPage: React.FC = () => {
     }
   };
 
-  const filteredExams = exams.filter(
-    (e) => e.title.toLowerCase().includes(search.toLowerCase()) || e.code.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredExams = exams.filter((e) => {
+    const matchesSearch = e.title.toLowerCase().includes(search.toLowerCase()) || e.code.toLowerCase().includes(search.toLowerCase());
+    if (user?.role === 'ADMINISTRATOR') return matchesSearch;
+    return matchesSearch && Boolean(e.isUnlocked);
+  });
 
   return (
     <div className="space-y-6 font-sans">

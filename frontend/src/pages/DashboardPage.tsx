@@ -5,9 +5,9 @@ import { BookOpen, Award, Users, TrendingUp, Monitor, History, CheckCircle2, Doo
 import { Link, useNavigate } from 'react-router-dom';
 
 export const DashboardPage: React.FC = () => {
-  const { user } = useAuth();
   const [data, setData] = useState<any>(null);
   const [myAttempts, setMyAttempts] = useState<any[]>([]);
+  const [activeExams, setActiveExams] = useState<any[]>([]);
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
   const [joinLoading, setJoinLoading] = useState<boolean>(false);
 
@@ -16,18 +16,21 @@ export const DashboardPage: React.FC = () => {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const [res, attRes] = await Promise.all([
+        const [res, attRes, examsRes] = await Promise.all([
           api.get('/analytics/dashboard'),
           api.get('/attempts/my'),
+          api.get('/exams'),
         ]);
         setData(res.data);
         setMyAttempts(attRes.data);
+        const unlocked = (examsRes.data || []).filter((e: any) => user?.role === 'ADMINISTRATOR' || e.isUnlocked);
+        setActiveExams(unlocked);
       } catch (err) {
         console.error(err);
       }
     };
     fetchDashboard();
-  }, []);
+  }, [user]);
 
   const handleJoinRoom = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -240,39 +243,39 @@ export const DashboardPage: React.FC = () => {
         )}
       </div>
 
-      {/* Featured Master Certification Tracks */}
+      {/* Launched Certification Tracks */}
       <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-5 shadow-sm">
         <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
           <Monitor className="w-5 h-5 text-ntms-blue" />
-          Featured Microsoft Certification Tracks
+          Active Launched Certification Tracks ({activeExams.length})
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {[
-            { code: 'SC-200', title: 'Security Operations Analyst', qs: '115 Questions' },
-            { code: 'AZ-305', title: 'Azure Solutions Architect', qs: '100 Questions' },
-            { code: 'AZ-104', title: 'Azure Administrator', qs: '24 Questions' },
-            { code: 'AI-901', title: 'Azure AI Foundry Solutions', qs: '18 Questions' },
-            { code: 'AI-900', title: 'Azure AI Fundamentals', qs: '38 Questions' },
-            { code: 'AZ-900', title: 'Azure Fundamentals', qs: '43 Questions' },
-          ].map((item) => (
-            <div key={item.code} className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 flex flex-col justify-between hover:border-ntms-navy transition-all">
-              <div>
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-ntms-navy border border-sky-300">
-                  {item.code}
-                </span>
-                <h4 className="font-bold text-xs text-slate-900 mt-2">{item.title}</h4>
-                <p className="text-[11px] text-slate-600 mt-1 font-mono">{item.qs}</p>
+        {activeExams.length === 0 ? (
+          <div className="p-6 bg-slate-50 border border-slate-200 rounded-xl text-center space-y-2 text-xs font-semibold text-slate-600">
+            <p>No active exam track currently launched for your session.</p>
+            <p className="text-[11px] text-slate-500">Please enter your Exam Room Code above to launch your assigned room exam.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {activeExams.map((item) => (
+              <div key={item.id || item.code} className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 flex flex-col justify-between hover:border-ntms-navy transition-all">
+                <div>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-ntms-navy border border-sky-300">
+                    {item.code}
+                  </span>
+                  <h4 className="font-bold text-xs text-slate-900 mt-2 line-clamp-2">{item.title}</h4>
+                  <p className="text-[11px] text-slate-600 mt-1 font-mono">{item.vendor || 'MICROSOFT'}</p>
+                </div>
+                <Link
+                  to="/exams"
+                  className="w-full text-center py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded-lg text-xs font-bold transition-all shadow"
+                >
+                  Enter Exam ➜
+                </Link>
               </div>
-              <Link
-                to="/exams"
-                className="w-full text-center py-2 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded-lg text-xs font-bold transition-all shadow"
-              >
-                Catalog ➜
-              </Link>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
