@@ -11,7 +11,7 @@ export const LoginPage: React.FC = () => {
   const [roomCodeInput, setRoomCodeInput] = useState('');
   const [isEntraLoading, setIsEntraLoading] = useState(false);
   const [roomLoading, setRoomLoading] = useState(false);
-  const { loginLocal } = useAuth();
+  const { user, loginLocal } = useAuth();
   const navigate = useNavigate();
 
   // Parse Entra ID OAuth Redirect response token or code from URL
