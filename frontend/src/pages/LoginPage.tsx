@@ -83,15 +83,37 @@ export const LoginPage: React.FC = () => {
     e.preventDefault();
     if (!roomCodeInput.trim()) return;
 
+    // Strict Auth Check - Do NOT allow unauthenticated guest room entry
+    const token = localStorage.getItem('ntms_token');
+    if (!token || !user) {
+      alert(
+        '🔒 Authentication Required: You must log in to your Candidate Account before entering a Proctored Exam Room.\n\nPlease sign in with your email or Microsoft Entra ID (SSO) on the right first.'
+      );
+      return;
+    }
+
+    const candidateName = window.prompt(
+      '🔑 Live Exam Room Verification:\nPlease confirm/enter your Full Legal Name to display on your Official Certification Score Report:',
+      user.name || ''
+    );
+
+    if (candidateName === null) return; // User cancelled
+    const finalName = candidateName.trim() || user.name;
+
     setRoomLoading(true);
     try {
-      // Auto login as Candidate for room entry
-      await loginLocal('candidate@ntms.com');
-      const res = await api.post('/rooms/join', { roomCode: roomCodeInput });
+      const res = await api.post('/rooms/join', {
+        roomCode: roomCodeInput.trim().toUpperCase(),
+        candidateName: finalName,
+      });
       alert(`✅ ${res.data.message}`);
 
-      // Start exam session
-      const startRes = await api.post('/attempts/start', { examId: res.data.exam.id });
+      // Start exam session with candidateName
+      const startRes = await api.post('/attempts/start', {
+        examId: res.data.exam.id,
+        roomId: res.data.room?.id,
+        candidateName: finalName,
+      });
       navigate(`/exam-session/${startRes.data.attemptId}`);
     } catch (err: any) {
       alert('⚠️ Exam Room Entry Error: ' + (err.response?.data?.error || err.message));
