@@ -130,6 +130,7 @@ model Exam {
   instructions       String?
   timeLimitMinutes   Int         @default(120)
   passingScore       Float       @default(70.0)
+  totalQuestionsConfig Int       @default(50) // Configurable item count: 50, 70, 90, etc.
   isRandomized       Boolean     @default(true)
   shuffleAnswers     Boolean     @default(true)
   allowCalculator    Boolean     @default(true)
@@ -199,14 +200,15 @@ model StudentExamAccess {
 }
 
 model ExamSection {
-  id           String            @id @default(uuid())
-  examId       String
-  title        String
-  instructions String?
-  orderIndex   Int               @default(1)
+  id               String            @id @default(uuid())
+  examId           String
+  title            String
+  instructions     String?
+  orderIndex       Int               @default(1)
+  weightPercentage Float             @default(25.0) // Objective Domain weight e.g. 25.0%
 
-  exam         Exam              @relation(fields: [examId], references: [id], onDelete: Cascade)
-  questions    SectionQuestion[]
+  exam             Exam              @relation(fields: [examId], references: [id], onDelete: Cascade)
+  questions        SectionQuestion[]
 
   @@map("exam_sections")
 }
@@ -237,6 +239,7 @@ model ExamAttempt {
   scorePercentage  Float         @default(0.0)
   passed           Boolean       @default(false)
   answers          String        // JSON object mapping questionId to submitted answers & review flags
+  sectionScores    String?       // JSON array of normalized section score breakdown for MS Score Report
   auditLogs        String?       // JSON array of event logs (e.g. tab switch, pause, resume)
 
   user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)

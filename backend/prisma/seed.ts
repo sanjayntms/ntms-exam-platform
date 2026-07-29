@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import { Role, ExamVendor, ExamType, QuestionType, DifficultyLevel, ExamStatus } from '../src/domain/types.js';
-import fs from 'fs';
+import { PrismaClient, Role, ExamVendor, ExamType, ExamStatus, QuestionType, DifficultyLevel } from '@prisma/client';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -9,341 +8,125 @@ const __dirname = path.dirname(__filename);
 
 const prisma = new PrismaClient();
 
-// Fisher-Yates shuffle algorithm for randomizing option positions
 function shuffleArray<T>(array: T[]): T[] {
-  const arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return arr;
+  return shuffled;
 }
 
 async function main() {
-  console.log('🌱 Starting Seeding for ALL 6 Certification Tracks with Unique Questions & Shuffled Options...');
+  console.log('🌱 Starting Seeding for ALL 6 Certification Tracks with Objective Domains & Configurable Section Weights...');
 
-  // Clean existing data
+  // Clean existing tables in correct dependency order
   await prisma.auditLog.deleteMany();
+  await prisma.roomSession.deleteMany();
+  await prisma.studentExamAccess.deleteMany();
   await prisma.examAttempt.deleteMany();
+  await prisma.examRoom.deleteMany();
   await prisma.sectionQuestion.deleteMany();
   await prisma.examSection.deleteMany();
   await prisma.exam.deleteMany();
   await prisma.questionOnTag.deleteMany();
-  await prisma.tag.deleteMany();
   await prisma.question.deleteMany();
   await prisma.category.deleteMany();
-  await prisma.caseStudy.deleteMany();
-  await prisma.simulation.deleteMany();
-  await prisma.lab.deleteMany();
+  await prisma.tag.deleteMany();
   await prisma.user.deleteMany();
 
   // Create Users
-  const adminUser = await prisma.user.create({
-    data: {
-      email: 'admin@ntms.com',
-      name: 'System Administrator',
-      role: Role.ADMINISTRATOR,
-      passwordHash: 'hashed_password_admin_123',
-    },
-  });
-
   const creatorUser = await prisma.user.create({
     data: {
-      email: 'creator@ntms.com',
-      name: 'Sarah Connor (Exam Author)',
-      role: Role.EXAM_CREATOR,
-      passwordHash: 'hashed_password_creator_123',
+      email: 'sanjay@ntmsentra.onmicrosoft.com',
+      name: 'Sanjay Admin',
+      role: Role.ADMINISTRATOR,
+      isActive: true,
     },
   });
 
-  const candidateUser = await prisma.user.create({
+  await prisma.user.create({
     data: {
       email: 'candidate@ntms.com',
-      name: 'Alex Mercer (Candidate)',
+      name: 'Standard Candidate',
       role: Role.CANDIDATE,
-      passwordHash: 'hashed_password_candidate_123',
+      isActive: true,
     },
   });
 
-  const entraUser = await prisma.user.create({
-    data: {
-      email: 'sanjay@ntmsentra.onmicrosoft.com',
-      name: 'NTMS Admin (Sanjay Dubey)',
-      role: Role.ADMINISTRATOR,
-      entraId: 'entra-oid-1785128225225',
-    },
-  });
-
-  console.log('✅ Users created successfully.');
-
-  // Create Category
   const catAzure = await prisma.category.create({
-    data: { name: 'Microsoft Security & Azure Certification', description: 'SC-200, AZ-305, AZ-104, AZ-900, AI-900 & AI-901 Tracks' },
+    data: { name: 'Microsoft Azure', description: 'Cloud Computing Certification & Skill Domain Questions' },
   });
 
-  // Helper function for bulk track seeding
-  async function seedTrack(questionsData: any[], categoryId: string) {
-    const list: any[] = [];
-    for (const qData of questionsData) {
-      const q = await prisma.question.create({
+  async function seedQuestionList(questions: any[], categoryId: string) {
+    const created: any[] = [];
+    for (const q of questions) {
+      const dbQ = await prisma.question.create({
         data: {
-          code: qData.code,
-          title: qData.title,
-          type: qData.type || QuestionType.SINGLE_CHOICE,
-          difficulty: qData.difficulty || DifficultyLevel.INTERMEDIATE,
-          points: qData.points || 1.0,
-          explanation: qData.explanation,
-          categoryId: categoryId,
-          content: JSON.stringify(qData.content),
+          code: q.code,
+          title: q.title,
+          type: q.type || QuestionType.SINGLE_CHOICE,
+          difficulty: q.difficulty || DifficultyLevel.INTERMEDIATE,
+          points: q.points || 1.0,
+          explanation: q.explanation,
+          content: JSON.stringify(q.content),
+          categoryId,
         },
       });
-      list.push(q);
+      created.push(dbQ);
     }
-    return list;
+    return created;
   }
 
   // ==========================================
-  // 1. AZ-900 - 43 UNIQUE DISTINCT QUESTIONS
+  // 1. AZ-305 - 25 UNIQUE QUESTIONS & 4 OBJECTIVE DOMAINS
   // ==========================================
-  const az900UniqueQuestions = [
-    { title: 'Cloud Service Models - IaaS vs PaaS vs SaaS', prompt: 'A company plans to migrate a web application to Azure. They want full control over the underlying Virtual Machines and OS, but do not want to manage physical hardware. Which cloud model is this?', correct: 'Infrastructure as a Service (IaaS)', bad1: 'Platform as a Service (PaaS)', bad2: 'Software as a Service (SaaS)', bad3: 'Function as a Service (FaaS)', exp: 'IaaS gives you maximum OS and virtual hardware management.' },
-    { title: 'High Availability - Availability Zones', prompt: 'You need to protect an Azure VM workload against an entire datacenter power failure within an Azure region. What should you use?', correct: 'Availability Zones', bad1: 'Availability Sets', bad2: 'Azure Resource Manager Locks', bad3: 'Resource Group Tags', exp: 'Availability Zones are physically isolated datacenters within an Azure region.' },
-    { title: 'Governance - CanNotDelete Resource Locks', prompt: 'Which Azure feature prevents accidental deletion of a Resource Group while still allowing authorized users to edit configuration settings?', correct: 'CanNotDelete (Delete) Resource Lock', bad1: 'ReadOnly Resource Lock', bad2: 'Azure Policy Deny Audit', bad3: 'Reader RBAC Role', exp: 'Delete locks prevent deletion while allowing resource modifications.' },
-    { title: 'Storage Tiers - Blob Archive Tier', prompt: 'An organization must retain medical compliance data for 7 years at the lowest possible storage cost per GB. The data is rarely accessed. Which tier should be selected?', correct: 'Azure Blob Storage Archive Tier', bad1: 'Hot Storage Tier', bad2: 'Cool Storage Tier', bad3: 'Premium SSD Disks', exp: 'Archive tier offers the lowest cost for long-term retention.' },
-    { title: 'Networking - Network Security Groups (NSGs)', prompt: 'You need to filter inbound network traffic to a Virtual Machine subnet based on source IP, destination IP, and port 443. What service should you use?', correct: 'Network Security Group (NSG)', bad1: 'ExpressRoute Circuit', bad2: 'VNet Peering', bad3: 'Traffic Manager', exp: 'NSGs filter traffic based on source/destination IP, port, and protocol.' },
-    { title: 'Dedicated Hybrid Connectivity - ExpressRoute', prompt: 'Which Azure service provides a private, high-speed connection between an on-premises datacenter and Azure that does NOT travel over the public internet?', correct: 'Azure ExpressRoute', bad1: 'Point-to-Site VPN', bad2: 'Site-to-Site VPN', bad3: 'Azure Front Door', exp: 'ExpressRoute bypasses the public internet entirely.' },
-    { title: 'Secrets Management - Azure Key Vault', prompt: 'Where should developers securely store database connection strings, application API keys, and SSL certificates?', correct: 'Azure Key Vault', bad1: 'Azure Storage Blob', bad2: 'Azure Log Analytics', bad3: 'Virtual Machine Environment Variables', exp: 'Key Vault is a centralized key and secret management store.' },
-    { title: 'Financial Planning - TCO Calculator', prompt: 'Which tool estimates the financial cost savings of migrating physical datacenters to Azure over a multi-year period?', correct: 'Total Cost of Ownership (TCO) Calculator', bad1: 'Azure Pricing Calculator', bad2: 'Azure Cost Management', bad3: 'Azure Advisor', exp: 'TCO Calculator compares on-premises datacenter costs to Azure migration.' },
-    { title: 'Expenditure Models - CapEx vs OpEx', prompt: 'Moving upfront physical server purchases to pay-as-you-go cloud billing shifts costs from which financial model?', correct: 'From Capital Expenditure (CapEx) to Operational Expenditure (OpEx)', bad1: 'From OpEx to CapEx', bad2: 'From Fixed Assets to Amortized Debt', bad3: 'From Variable Costs to Fixed Costs', exp: 'Cloud shifts upfront CapEx to pay-as-you-go OpEx.' },
-    { title: 'Uptime Guarantees - Service Level Agreements (SLAs)', prompt: 'What does a Microsoft Azure Service Level Agreement (SLA) guarantee to customers?', correct: 'Uptime and connectivity commitments for Azure services', bad1: 'Zero bugs in custom application code', bad2: 'Automatic refund for any user mistake', bad3: 'Guaranteed 100% CPU speed', exp: 'Azure SLAs describe Microsoft commitments for uptime and performance.' },
-    { title: 'Azure Geography - Paired Regions', prompt: 'Each Azure region is paired with another region within the same geography at least 300 miles away. What is a primary benefit of Paired Regions?', correct: 'Sequential platform updates and cross-region disaster recovery replication', bad1: 'Free bandwidth for all data transfers', bad2: 'Automatic load balancing without configuration', bad3: 'Shared virtual machine RAM', exp: 'Region pairs ensure coordinated updates and geo-redundant DR.' },
-    { title: 'Identity - Azure Active Directory / Microsoft Entra ID', prompt: 'Which service provides cloud-based identity and access management (IAM) for Azure resources, Microsoft 365, and SaaS apps?', correct: 'Microsoft Entra ID (formerly Azure AD)', bad1: 'Azure Key Vault', bad2: 'Azure Active Directory Domain Services (AD DS)', bad3: 'Azure Policy', exp: 'Entra ID is Microsoft’s cloud identity management solution.' },
-    { title: 'Compliance & Governance - Azure Policy', prompt: 'You need to enforce a corporate rule that restricts deployment of Virtual Machines to specific Azure regions. What tool should you use?', correct: 'Azure Policy', bad1: 'Resource Locks', bad2: 'Azure Blueprint', bad3: 'Azure Monitor', exp: 'Azure Policy enforces organizational standards and compliance rules.' },
-    { title: 'Cost Control - Azure Cost Management & Budgets', prompt: 'You want to set up automatic email alerts when a subscription spending exceeds $5,000 in a month. What feature should you configure?', correct: 'Azure Cost Management Budgets & Alerts', bad1: 'Azure Pricing Calculator', bad2: 'Azure Service Health', bad3: 'Azure Resource Tags', exp: 'Cost Budgets generate notifications when spending hits defined thresholds.' },
-    { title: 'Hybrid Cloud - Definition', prompt: 'Which cloud deployment model combines on-premises private datacenters with public cloud infrastructure?', correct: 'Hybrid Cloud', bad1: 'Public Cloud', bad2: 'Private Cloud', bad3: 'Multi-Tenant SaaS', exp: 'Hybrid cloud integrates private and public cloud environments.' },
-    { title: 'Compute - Azure Virtual Machines (VMs)', prompt: 'Which Azure compute service provides full administrative root access to an isolated virtual operating system instance?', correct: 'Azure Virtual Machines', bad1: 'Azure App Service', bad2: 'Azure Container Instances', bad3: 'Azure Functions', exp: 'Virtual Machines provide full OS-level control (IaaS).' },
-    { title: 'Serverless Compute - Azure Functions', prompt: 'You need to execute code in response to an event (such as a blob upload) without provisioning or managing servers. Which service should you use?', correct: 'Azure Functions', bad1: 'Azure Virtual Machine Scale Sets', bad2: 'Azure Kubernetes Service (AKS)', bad3: 'Azure Dedicated Host', exp: 'Azure Functions is an event-driven serverless compute service.' },
-    { title: 'Container Management - Azure Kubernetes Service (AKS)', prompt: 'Which managed service orchestrates containerized microservices deployment, scaling, and operational management at enterprise scale?', correct: 'Azure Kubernetes Service (AKS)', bad1: 'Azure Virtual Machines', bad2: 'Azure Logic Apps', bad3: 'Azure Automation', exp: 'AKS provides managed Kubernetes cluster orchestration.' },
-    { title: 'Database - Azure Cosmos DB', prompt: 'A globally distributed application requires sub-10 millisecond latency read/writes and multi-master replication worldwide. Which database service should you choose?', correct: 'Azure Cosmos DB', bad1: 'Azure SQL Database', bad2: 'Azure Database for PostgreSQL', bad3: 'Azure Table Storage', exp: 'Cosmos DB is a globally distributed, multi-model NoSQL database.' },
-    { title: 'Web App Hosting - Azure App Service', prompt: 'You need to deploy a Node.js web API without managing the underlying Linux virtual machine or web server patches. Which service is best suited?', correct: 'Azure App Service', bad1: 'Azure Virtual Machines', bad2: 'Azure Batch', bad3: 'Azure ExpressRoute', exp: 'App Service is an HTTP-based PaaS for hosting web apps and APIs.' },
-    { title: 'Network Routing - Azure Load Balancer', prompt: 'Which OSI Layer 4 inbound traffic distribution service balances TCP/UDP traffic across healthy VM instances in a backend pool?', correct: 'Azure Load Balancer', bad1: 'Azure Application Gateway', bad2: 'Azure Traffic Manager', bad3: 'Azure Front Door', exp: 'Azure Load Balancer operates at Layer 4 (Transport layer).' },
-    { title: 'Web Application Firewall - Application Gateway', prompt: 'You need to protect a web app against common web vulnerabilities like SQL injection and cross-site scripting (XSS) at Layer 7. What service provides this?', correct: 'Azure Application Gateway with WAF', bad1: 'Azure Load Balancer', bad2: 'Network Security Group (NSG)', bad3: 'Azure Route Table', exp: 'Application Gateway with WAF provides Layer 7 web security.' },
-    { title: 'Monitoring & Telemetry - Azure Monitor', prompt: 'Which service collects, analyzes, and acts on telemetry metrics and logs from cloud and on-premises environments?', correct: 'Azure Monitor', bad1: 'Azure Advisor', bad2: 'Azure Service Health', bad3: 'Azure Security Center', exp: 'Azure Monitor collects operational metrics and telemetry logs.' },
-    { title: 'Proactive Guidance - Azure Advisor', prompt: 'Which personalized cloud recommendation engine offers best practices across High Availability, Security, Performance, Operational Excellence, and Cost?', correct: 'Azure Advisor', bad1: 'Azure Monitor', bad2: 'Azure Service Health', bad3: 'Azure Policy', exp: 'Azure Advisor provides tailored recommendations for optimization.' },
-    { title: 'Platform Status - Azure Service Health', prompt: 'Where can you view personalized status updates, planned maintenance, and health advisories for the specific Azure services deployed in your subscription?', correct: 'Azure Service Health', bad1: 'Azure Status Page', bad2: 'Azure Advisor', bad3: 'Azure Security Center', exp: 'Azure Service Health provides customized notifications on your specific resource health.' },
-    { title: 'Access Control - Azure Role-Based Access Control (RBAC)', prompt: 'You need to grant a team of developers permission to restart VMs in a resource group, but prevent them from modifying network configurations. What should you use?', correct: 'Azure Role-Based Access Control (RBAC)', bad1: 'Resource Locks', bad2: 'Azure Policy', bad3: 'Network Security Groups', exp: 'RBAC provides fine-grained authorization management.' },
-    { title: 'Zero Trust Security - Principal of Least Privilege', prompt: 'What security model assumes zero implicit trust and requires strict verification for every access request, assigning users minimum required permissions?', correct: 'Zero Trust Architecture & Least Privilege', bad1: 'Perimeter Defense Model', bad2: 'Open Access Protocol', bad3: 'Shared Secret Encryption', exp: 'Zero Trust operates on explicit verification and least privilege.' },
-    { title: 'DDoS Protection - Azure DDoS Protection', prompt: 'Which service protects Azure application endpoints from volumetric internet denial-of-service attacks by scrubbing malicious traffic at the Azure edge network?', correct: 'Azure DDoS Protection', bad1: 'Network Security Group', bad2: 'Azure Firewall', bad3: 'Azure Key Vault', exp: 'DDoS Protection mitigates high-volume network attack traffic.' },
-    { title: 'Cloud Firewall - Azure Firewall', prompt: 'Which fully stateful, cloud-native firewall-as-a-service inspects and controls high-speed outbound and inbound network traffic across subscriptions?', correct: 'Azure Firewall', bad1: 'Network Security Group (NSG)', bad2: 'Azure ExpressRoute', bad3: 'Azure Front Door', exp: 'Azure Firewall is a stateful network security PaaS.' },
-    { title: 'Resource Management - Resource Groups', prompt: 'What logical container holds related Azure resources so they can be managed, deployed, updated, or deleted as a single unit?', correct: 'Azure Resource Group', bad1: 'Management Group', bad2: 'Azure Tenant', bad3: 'Storage Account Container', exp: 'Resource Groups aggregate related Azure resources.' },
-    { title: 'Management Hierarchy - Management Groups', prompt: 'To apply governance policies and compliance controls across 50 Azure subscriptions in an enterprise, where should the policies be assigned?', correct: 'Azure Management Groups', bad1: 'Individual Resource Groups', bad2: 'Virtual Networks', bad3: 'Azure Active Directory Roles', exp: 'Management Groups organize subscriptions into a hierarchy for policy application.' },
-    { title: 'Infrastructure as Code - ARM Templates & Bicep', prompt: 'Which declarative JSON/Bicep syntax tool automates repeatable Azure infrastructure deployments using Infrastructure as Code (IaC)?', correct: 'Azure Resource Manager (ARM) Templates / Bicep', bad1: 'Azure PowerShell Scripts', bad2: 'Azure CLI Command Line', bad3: 'Azure Portal GUI Wizard', exp: 'ARM templates & Bicep define declarative IaC deployments.' },
-    { title: 'AI Services - Azure AI Services', prompt: 'Which suite of pre-built machine learning APIs allows developers to add Vision, Speech, Language, and Decision capabilities without building models from scratch?', correct: 'Azure AI Services (formerly Cognitive Services)', bad1: 'Azure Machine Learning Studio', bad2: 'Azure Databricks', bad3: 'Azure Synapse Analytics', exp: 'Azure AI Services provides pre-trained AI REST APIs.' },
-    { title: 'Big Data & Analytics - Azure Synapse Analytics', prompt: 'Which enterprise analytics service integrates data warehousing, big data processing, and data integration pipelines into a single unified workspace?', correct: 'Azure Synapse Analytics', bad1: 'Azure HDInsight', bad2: 'Azure Data Factory', bad3: 'Azure Cosmos DB', exp: 'Azure Synapse integrates enterprise data warehousing and analytics.' },
-    { title: 'DevOps & CI/CD - Azure DevOps', prompt: 'Which cloud service provides developer tools including Git repositories, automated CI/CD build pipelines, and Kanban project boards?', correct: 'Azure DevOps Services', bad1: 'Azure DevTest Labs', bad2: 'Azure App Service', bad3: 'Azure Automation', exp: 'Azure DevOps provides end-to-end ALM and CI/CD tools.' },
-    { title: 'IoT Services - Azure IoT Hub', prompt: 'Which service acts as a central bi-directional message hub for secure communication between millions of IoT device sensors and backend applications?', correct: 'Azure IoT Hub', bad1: 'Azure Event Grid', bad2: 'Azure Service Bus', bad3: 'Azure Logic Apps', exp: 'IoT Hub connects millions of Internet of Things endpoints.' },
-    { title: 'Serverless Integration - Azure Logic Apps', prompt: 'Which low-code automated workflow service connects enterprise SaaS apps, cloud services, and on-premises data using visual connectors?', correct: 'Azure Logic Apps', bad1: 'Azure Functions', bad2: 'Azure Event Hubs', bad3: 'Azure Service Bus', exp: 'Logic Apps automates integration workflows without custom code.' },
-    { title: 'Data Integration - Azure Data Factory', prompt: 'Which cloud-based ETL and data integration service orchestrates visual data pipelines to move data from relational sources to cloud data lakes?', correct: 'Azure Data Factory', bad1: 'Azure Synapse Analytics', bad2: 'Azure Databricks', bad3: 'Azure SQL Database', exp: 'Azure Data Factory is a cloud ETL data orchestration service.' },
-    { title: 'Management Tools - Azure Cloud Shell', prompt: 'Which browser-based command line interface accessible directly in the Azure Portal supports both Bash and PowerShell environments pre-authenticated to your account?', correct: 'Azure Cloud Shell', bad1: 'Azure CLI on local desktop', bad2: 'Azure PowerShell Module', bad3: 'Visual Studio Code Terminal', exp: 'Azure Cloud Shell provides an in-browser authenticated shell.' },
-    { title: 'Disaster Recovery - Azure Site Recovery (ASR)', prompt: 'Which business continuity service replicates physical or virtual machine workloads to a secondary Azure region to provide automated failover during outages?', correct: 'Azure Site Recovery (ASR)', bad1: 'Azure Backup', bad2: 'Azure Storage Geo-Replication', bad3: 'Azure Migrate', exp: 'ASR orchestrates VM replication and disaster recovery failover.' },
-    { title: 'File Shares - Azure Files', prompt: 'Which managed service provides enterprise SMB and NFS network file shares accessible simultaneously by cloud VMs and on-premises Windows/Linux servers?', correct: 'Azure Files', bad1: 'Azure Blob Storage', bad2: 'Azure Table Storage', bad3: 'Azure Managed Disks', exp: 'Azure Files offers fully managed cloud file shares over SMB/NFS.' },
-    { title: 'Organizing Resources - Azure Resource Tags', prompt: 'You need to categorize Azure spending by assigning Key:Value metadata tags (such as Department:Finance) to resources across subscriptions. What feature enables this?', correct: 'Azure Resource Tags', bad1: 'Azure Policy Rules', bad2: 'Management Groups', bad3: 'Resource Locks', exp: 'Tags store name-value pairs for billing and asset organization.' },
-    { title: 'Support Plans - Premier / Unified Support', prompt: 'Which Microsoft Azure Support Plan provides 24/7 technical support with sub-15-minute response times for critical business outages (Severity A)?', correct: 'Azure Premier / Unified Support Plan', bad1: 'Basic Support Plan', bad2: 'Developer Support Plan', bad3: 'Standard Support Plan', exp: 'Premier/Unified support offers sub-15-minute response for critical issues.' },
+  const az305Domain1 = [
+    { title: 'Identity Architecture - Azure AD B2C vs B2B', prompt: 'You are designing an architecture for a public-facing e-commerce application that allows external consumers to register using social identity providers (Google, Facebook) or email accounts. Which identity solution should you recommend?', correct: 'Azure AD B2C (Business-to-Consumer)', bad1: 'Azure AD B2B Direct Federation', bad2: 'Azure AD Managed Identities', bad3: 'Active Directory Domain Services (AD DS)', exp: 'Azure AD B2C is built specifically for consumer-facing application identity management.' },
+    { title: 'Governance - Custom Azure Policy Enforce Location', prompt: 'Your company requires that all new Azure resources are restricted to the East US and West US regions only. How should you design governance to automatically enforce this compliance policy?', correct: 'Assign a built-in Azure Policy Allowed locations definition to the target Management Group.', bad1: 'Configure Azure Network Security Group (NSG) outbound rules', bad2: 'Enable Defender for Cloud compliance alerts', bad3: 'Apply a Resource Lock to the subscription', exp: 'Azure Policy enforces resource deployment compliance across management groups.' },
+    { title: 'Identity - Privileged Identity Management (PIM)', prompt: 'You need to minimize security risks for administrators managing Azure subscription resources by requiring multi-factor authentication (MFA) and ticket justification before granting temporary 4-hour elevation to the Contributor role. What solution should you design?', correct: 'Configure Azure AD Privileged Identity Management (PIM) with Just-In-Time (JIT) eligible role assignments.', bad1: 'Assign permanent Contributor role to administrator user accounts', bad2: 'Use Azure Automation Runbooks to toggle RBAC permissions', bad3: 'Create temporary Azure Service Principals daily', exp: 'Azure AD PIM enables just-in-time privileged access with MFA and audit justification.' },
+    { title: 'Monitoring - Log Analytics Workspace Architecture', prompt: 'An enterprise has 50 Azure subscriptions across three geographic regions. You need a centralized monitoring design that allows cross-workspace queries while maintaining regional data residency compliance. What should you recommend?', correct: 'Deploy regional Log Analytics workspaces per region and query across them using workspace() function in KQL.', bad1: 'Export all logs to a single centralized US Storage Account', bad2: 'Disable log ingestion in non-US regions', bad3: 'Use Azure Event Grid to broadcast logs to local files', exp: 'Regional Log Analytics workspaces preserve data residency while KQL allows cross-workspace analysis.' },
+    { title: 'Governance - Management Group Hierarchy', prompt: 'An enterprise needs to apply consistent RBAC role definitions and policy assignments across 20 Azure subscriptions belonging to different business units. What component should you design?', correct: 'Hierarchical Management Group structure aligned with Business Units and Environment tiers.', bad1: 'Individual Resource Group tags', bad2: 'Subscription-level local admin accounts', bad3: 'Azure ExpressRoute circuit policies', exp: 'Management Groups enable hierarchical governance and policy inheritance across multiple subscriptions.' },
+    { title: 'Identity - Managed Identities for App Services', prompt: 'An Azure App Service web application needs to securely read database connection strings from Azure Key Vault without embedding credentials in code or configuration files. What identity option should you design?', correct: 'System-Assigned Managed Identity with Key Vault Secret User RBAC role.', bad1: 'Store database credentials in App Service application settings in plain text', bad2: 'Hardcode Key Vault client secret in web.config file', bad3: 'Use Azure Storage Account Shared Access Signature (SAS) key', exp: 'Managed Identities provide Azure AD tokens without credential maintenance in source code.' },
+    { title: 'Monitoring - Microsoft Sentinel SIEM Integration', prompt: 'You need to aggregate security logs, audit events, and threat alerts across Azure subscriptions, AWS accounts, and on-premises firewalls into a single SIEM solution. Which service should you choose?', correct: 'Microsoft Sentinel Log Analytics workspace.', bad1: 'Azure Application Insights', bad2: 'Azure Monitor Network Watcher', bad3: 'Azure Metrics Explorer', exp: 'Microsoft Sentinel provides cloud-native SIEM and SOAR capability across multi-cloud environments.' },
   ];
 
-  const az900QuestionsData: any[] = [];
-  az900UniqueQuestions.forEach((q, idx) => {
-    const qNum = String(idx + 1).padStart(3, '0');
-    const rawOptions = [
-      { id: 'opt1', text: q.correct, isCorrect: true },
-      { id: 'opt2', text: q.bad1 },
-      { id: 'opt3', text: q.bad2 },
-      { id: 'opt4', text: q.bad3 },
-    ];
-
-    az900QuestionsData.push({
-      code: `AZ900-Q${qNum}`,
-      title: `Question ${idx + 1}`,
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.BEGINNER,
-      points: 1.0,
-      explanation: q.exp,
-      content: {
-        prompt: q.prompt,
-        options: shuffleArray(rawOptions),
-      },
-    });
-  });
-  const seededAZ900 = await seedTrack(az900QuestionsData, catAzure.id);
-
-  // ==========================================
-  // 2. AI-900 - 38 UNIQUE DISTINCT QUESTIONS
-  // ==========================================
-  const ai900UniqueQuestions = [
-    { title: 'Computer Vision - Spatial Analysis', prompt: 'Which Azure AI Computer Vision capability measures distances between individuals in physical locations to monitor retail store traffic or safety spacing?', correct: 'Spatial Analysis', bad1: 'OCR Read API', bad2: 'Custom Vision Tagging', bad3: 'Face Verification API', exp: 'Spatial Analysis evaluates physical presence and movement in video streams.' },
-    { title: 'Responsible AI - Transparency Principle', prompt: 'An organization publishes comprehensive documentation explaining the training data and algorithmic decision rules for their credit loan AI. Which Responsible AI principle is enforced?', correct: 'Transparency', bad1: 'Inclusiveness', bad2: 'Accountability', bad3: 'Reliability and Safety', exp: 'Transparency ensures clear understanding of how AI systems function.' },
-    { title: 'Machine Learning - Regression Task', prompt: 'You are training a model to predict the expected rental price of residential apartments based on square footage, bedrooms, and location. Which ML task is this?', correct: 'Regression', bad1: 'Clustering', bad2: 'Classification', bad3: 'Anomaly Detection', exp: 'Regression predicts numeric continuous target values.' },
-    { title: 'NLP - Sentiment Analysis', prompt: 'You want to process thousands of app store user reviews to classify whether customer feedback is positive, negative, or neutral. Which Azure Language feature should you use?', correct: 'Sentiment Analysis', bad1: 'Named Entity Recognition (NER)', bad2: 'Key Phrase Extraction', bad3: 'Language Identification', exp: 'Sentiment Analysis classifies textual emotional tone.' },
-    { title: 'Computer Vision - Optical Character Recognition (OCR)', prompt: 'Which Azure AI service component extracts printed text, handwriting, and structural tables from scanned receipts and PDF invoices?', correct: 'OCR / Document Intelligence (Read API)', bad1: 'Object Detection', bad2: 'Image Analysis Description', bad3: 'Custom Vision Classifier', exp: 'OCR extracts text from physical and digital document images.' },
-    { title: 'Generative AI - Azure OpenAI Service', prompt: 'Which Microsoft service provides enterprise-managed API access to foundational models such as GPT-4, GPT-4o, and DALL-E 3 with data security guarantees?', correct: 'Azure OpenAI Service', bad1: 'Azure Bot Service', bad2: 'Azure AI Search', bad3: 'Azure Machine Learning Studio', exp: 'Azure OpenAI delivers OpenAI foundational models under Azure governance.' },
-    { title: 'Responsible AI - Fairness Principle', prompt: 'Testing an automated AI resume screening application to verify that candidate evaluation scores do not discriminate by gender or ethnicity upholds which principle?', correct: 'Fairness', bad1: 'Privacy and Security', bad2: 'Accountability', bad3: 'Transparency', exp: 'Fairness ensures equitable evaluation without bias.' },
-    { title: 'Machine Learning - Clustering Task', prompt: 'Grouping e-commerce shoppers into distinct behavioral segments based on browsing patterns without pre-labeled historical target columns uses which ML approach?', correct: 'Clustering (Unsupervised Learning)', bad1: 'Binary Classification', bad2: 'Time-Series Forecasting', bad3: 'Supervised Regression', exp: 'Clustering identifies natural groupings in unlabeled data.' },
-    { title: 'Conversational AI - Azure Bot Service', prompt: 'Which service enables developers to build and deploy intelligent conversational agents that interact via Microsoft Teams, Web Chat, and mobile apps?', correct: 'Azure Bot Service', bad1: 'Azure AI Speech', bad2: 'Azure Translator', bad3: 'Azure Metrics Advisor', exp: 'Azure Bot Service connects chat bots across channels.' },
-    { title: 'Responsible AI - Privacy & Security', prompt: 'Encrypting patient medical data at rest and in transit during machine learning inference upholds which Microsoft Responsible AI principle?', correct: 'Privacy and Security', bad1: 'Inclusiveness', bad2: 'Accountability', bad3: 'Fairness', exp: 'Privacy & Security protects sensitive individual information.' },
-    { title: 'NLP - Conversational Language Understanding (CLU)', prompt: 'A voice assistant needs to map the sentence "Book a flight to Seattle tomorrow" to the intent "BookFlight" and entity "Seattle". What service provides this?', correct: 'Conversational Language Understanding (CLU)', bad1: 'Text Analytics for Health', bad2: 'Key Phrase Extraction', bad3: 'Language Detection', exp: 'CLU extracts custom intents and entities from human speech or text.' },
-    { title: 'Computer Vision - Custom Vision Classification', prompt: 'Training a model using 500 images of your manufacturing company’s custom parts to detect defect flaws vs normal components requires which service?', correct: 'Azure AI Custom Vision', bad1: 'Azure AI Face API', bad2: 'Content Moderator', bad3: 'Computer Vision Read API', exp: 'Custom Vision allows building custom image classifiers with user data.' },
-    { title: 'Machine Learning - Automated ML (AutoML)', prompt: 'Which Azure Machine Learning feature automatically evaluates dozens of ML algorithms and hyperparameter combinations to produce an optimal model?', correct: 'Automated Machine Learning (AutoML)', bad1: 'Azure AI Prompt Flow', bad2: 'Designer Drag-and-Drop', bad3: 'Data Labeling Service', exp: 'AutoML automates model selection and hyperparameter optimization.' },
-    { title: 'Generative AI - Grounding with Vector Search', prompt: 'In RAG (Retrieval-Augmented Generation), what process prevents model hallucination by connecting LLM prompts to authoritative internal enterprise documents?', correct: 'Grounding via Azure AI Search vector queries', bad1: 'Increasing model temperature to maximum', bad2: 'Disabling system message context', bad3: 'Raw web scraping', exp: 'Grounding feeds verified enterprise knowledge into LLM contexts.' },
-    { title: 'Responsible AI - Accountability Principle', prompt: 'Who holds ultimate legal and ethical responsibility for the real-world operational impacts of an deployed AI solution?', correct: 'The software developers and deploying enterprise organization', bad1: 'The machine learning model itself', bad2: 'The hardware GPU manufacturer', bad3: 'End users receiving automated recommendations', exp: 'Accountability mandates human ownership of AI outcomes.' },
-    { title: 'Speech Service - Speech Synthesis (Text-to-Speech)', prompt: 'Converting written customer service support responses into natural, human-sounding spoken audio in multiple languages uses which capability?', correct: 'Azure AI Speech - Text-to-Speech', bad1: 'Azure Language Translator', bad2: 'Azure Content Safety', bad3: 'Azure Form Recognizer', exp: 'Text-to-Speech converts text strings into audio spoken output.' },
-    { title: 'Speech Service - Speech Recognition (Speech-to-Text)', prompt: 'Transcribing spoken audio call center recordings into text transcripts for compliance archiving uses which service?', correct: 'Azure AI Speech - Speech-to-Text', bad1: 'Azure Language Service', bad2: 'Azure AI Search', bad3: 'Azure Bot Framework', exp: 'Speech-to-Text transcribes audio voice into text.' },
-    { title: 'Generative AI - System Prompts', prompt: 'Which component of a generative AI API request sets the instructions, tone, behavioral boundaries, and safety guardrails for the model before user input?', correct: 'System Prompt / Message', bad1: 'User Prompt', bad2: 'Temperature Hyperparameter', bad3: 'Top_P Sampling Rate', exp: 'System messages establish foundational AI behavior and persona.' },
-    { title: 'Responsible AI - Inclusiveness Principle', prompt: 'Designing AI speech interfaces that support accessibility features for individuals with hearing or speech impairments fulfills which principle?', correct: 'Inclusiveness', bad1: 'Transparency', bad2: 'Accountability', bad3: 'Privacy', exp: 'Inclusiveness ensures AI brings benefits to all people regardless of ability.' },
-    { title: 'Machine Learning - Binary Classification', prompt: 'Training a bank security model to predict whether a credit card transaction is "Fraudulent" or "Legitimate" is an example of which ML task?', correct: 'Binary Classification', bad1: 'Multiclass Classification', bad2: 'Linear Regression', bad3: 'Unsupervised Clustering', exp: 'Binary classification categorizes inputs into one of two mutually exclusive classes.' },
-    { title: 'Computer Vision - Object Detection', prompt: 'Which Computer Vision task pinpoints exact bounding box coordinates surrounding multiple items (such as cars and pedestrians) within a single photo?', correct: 'Object Detection', bad1: 'Image Classification', bad2: 'Optical Character Recognition', bad3: 'Face Identification', exp: 'Object detection labels items and provides their spatial bounding boxes.' },
-    { title: 'Generative AI - Tokens', prompt: 'What basic unit of text (representing words or sub-word characters) is used by Large Language Models to calculate processing context window limits and billing costs?', correct: 'Tokens', bad1: 'Megabytes', bad2: 'Vectors', bad3: 'Pixels', exp: 'Tokens are atomic text chunks processed by LLMs.' },
-    { title: 'Content Safety - Azure AI Content Safety', prompt: 'Which service monitors user-generated prompts and AI output in real time to detect and block hate speech, sexual content, violence, and self-harm?', correct: 'Azure AI Content Safety', bad1: 'Azure Key Vault', bad2: 'Azure Defender', bad3: 'Azure Firewall', exp: 'Azure AI Content Safety evaluates harmful content in text and images.' },
-    { title: 'Generative AI - Temperature Hyperparameter', prompt: 'Adjusting which parameter in an Azure OpenAI request controls the randomness and creativity of model completions (where 0.0 is deterministic and 1.0 is creative)?', correct: 'Temperature', bad1: 'Max Tokens', bad2: 'Frequency Penalty', bad3: 'Presence Penalty', exp: 'Temperature regulates randomness in generative model outputs.' },
-    { title: 'Machine Learning - Feature Engineering', prompt: 'In a machine learning workflow, transforming raw timestamps into "DayOfWeek" or "IsHoliday" columns to improve model predictive performance is called what?', correct: 'Feature Engineering', bad1: 'Model Hyperparameter Tuning', bad2: 'Data Labeling', bad3: 'Model Deployment', exp: 'Feature engineering creates domain-relevant variables from raw data.' },
-    { title: 'Machine Learning - Overfitting', prompt: 'When an ML model achieves 99% accuracy on training data but performs poorly on new unseen validation data, what problem has occurred?', correct: 'Overfitting', bad1: 'Underfitting', bad2: 'Data Leakage', bad3: 'Convergence', exp: 'Overfitting occurs when a model memorizes training noise instead of generalizing.' },
-    { title: 'Responsible AI - Reliability and Safety', prompt: 'Rigorous testing of an autonomous driving AI system under extreme weather conditions to guarantee consistent operation fulfills which Responsible AI principle?', correct: 'Reliability and Safety', bad1: 'Fairness', bad2: 'Transparency', bad3: 'Inclusiveness', exp: 'Reliability & Safety ensures AI operates dependably under operational stress.' },
-    { title: 'NLP - Key Phrase Extraction', prompt: 'Analyzing a 50-page research paper to automatically highlight main topics like "Quantum Computing" and "Superconductors" uses which NLP feature?', correct: 'Key Phrase Extraction', bad1: 'Sentiment Analysis', bad2: 'Language Detection', bad3: 'Text Translation', exp: 'Key Phrase Extraction identifies main talking points in unstructured text.' },
-    { title: 'NLP - Named Entity Recognition (NER)', prompt: 'Identifying and categorizing proper nouns such as "Microsoft" (Organization), "Seattle" (Location), and "July 2026" (DateTime) in text uses which capability?', correct: 'Named Entity Recognition (NER)', bad1: 'Sentiment Analysis', bad2: 'Entity Linking', bad3: 'Text Summarization', exp: 'NER detects standard entity types like people, places, and dates.' },
-    { title: 'Computer Vision - Face Verification vs Identification', prompt: 'Comparing a candidate’s live webcam image against the photo on their official ID card to answer "Are these two images the same person?" is which task?', correct: 'Face Verification (1:1 matching)', bad1: 'Face Identification (1:N search)', bad2: 'Emotion Detection', bad3: 'Facial Landmark Analysis', exp: 'Face Verification conducts 1-to-1 identity matching.' },
-    { title: 'Machine Learning - Supervised vs Unsupervised', prompt: 'What distinguishes Supervised Machine Learning from Unsupervised Machine Learning?', correct: 'Supervised learning trains on data with known ground-truth target labels', bad1: 'Supervised learning requires zero human data', bad2: 'Unsupervised learning only works on images', bad3: 'Supervised learning never uses algorithms', exp: 'Supervised learning relies on labeled training datasets.' },
-    { title: 'Generative AI - Prompt Engineering', prompt: 'Crafting clear instructions, context formatting, and few-shot examples to guide an LLM toward accurate responses without re-training weights is called what?', correct: 'Prompt Engineering', bad1: 'Model Fine-Tuning', bad2: 'Pre-training', bad3: 'Hyperparameter Optimization', exp: 'Prompt engineering optimizes text inputs to guide model completions.' },
-    { title: 'Generative AI - Fine-Tuning', prompt: 'Re-training the internal weights of a pre-trained LLM on a custom domain dataset to adapt its tone and terminology is called what?', correct: 'Fine-Tuning', bad1: 'Prompt Engineering', bad2: 'Retrieval Augmented Generation', bad3: 'Zero-shot prompting', exp: 'Fine-tuning updates model weights with specialized training data.' },
-    { title: 'AI Services - Azure Translator', prompt: 'Which cloud service provides real-time multi-lingual text translation across 100+ languages and dialects with domain customization?', correct: 'Azure AI Translator', bad1: 'Azure Speech Service', bad2: 'Azure Language CLU', bad3: 'Azure Form Recognizer', exp: 'Azure AI Translator performs automated text translation across languages.' },
-    { title: 'Document Intelligence - Custom Extraction', prompt: 'Which service uses pre-built and custom models to extract key-value fields, tables, and structured data from tax forms and contracts?', correct: 'Azure AI Document Intelligence (formerly Form Recognizer)', bad1: 'Azure Computer Vision', bad2: 'Azure AI Search', bad3: 'Azure Metrics Advisor', exp: 'Document Intelligence extracts structured field data from complex forms.' },
-    { title: 'Machine Learning - Evaluation Metrics (Precision & Recall)', prompt: 'In a medical diagnostic AI model, measuring the proportion of correctly identified positive cancer cases out of all actual positive cases is called what?', correct: 'Recall (Sensitivity)', bad1: 'Precision', bad2: 'Mean Absolute Error (MAE)', bad3: 'R-Squared Score', exp: 'Recall measures the ratio of correctly predicted positive observations.' },
-    { title: 'Responsible AI - Data Lineage', prompt: 'Tracking the source provenance, collection history, and preprocessing steps applied to an AI training dataset is essential for which requirement?', correct: 'Data Governance and Auditability (Accountability)', bad1: 'Increasing GPU processing speed', bad2: 'Reducing storage subscription cost', bad3: 'Eliminating network latency', exp: 'Data lineage documents data origin for auditability and compliance.' },
-    { title: 'Generative AI - Copilot Studio', prompt: 'Which graphical low-code tool enables businesses to build custom AI Copilots grounded in enterprise data across Microsoft 365 and Dynamics?', correct: 'Microsoft Copilot Studio', bad1: 'Azure Machine Learning Studio', bad2: 'Azure Databricks', bad3: 'Visual Studio Code', exp: 'Copilot Studio enables low-code creation of custom AI assistants.' },
+  const az305Domain2 = [
+    { title: 'Database Architecture - SQL Hyperscale', prompt: 'Designing an enterprise OLTP database requiring auto-scaling storage up to 100 TB and near-instantaneous storage backups regardless of database size uses which database tier?', correct: 'Azure SQL Database Hyperscale Tier', bad1: 'General Purpose Tier', bad2: 'Cosmos DB Table API', bad3: 'Basic SQL Database', exp: 'Hyperscale tier auto-scales storage up to 100 TB with rapid snapshot backups.' },
+    { title: 'Data Architecture - Cosmos DB Multi-Region Write', prompt: 'You are designing a global mobile app requiring sub-10 millisecond latency for both read and write operations worldwide. What database configuration should you select?', correct: 'Azure Cosmos DB with Multi-Region Writes enabled', bad1: 'Azure SQL Database with Read Scale-Out', bad2: 'Azure Database for PostgreSQL Single Server', bad3: 'Azure Table Storage with LRS', exp: 'Cosmos DB multi-region writes deliver single-digit millisecond latency worldwide.' },
+    { title: 'Storage Architecture - Data Lake Storage Gen2 Lifecycle', prompt: 'You need to design a storage strategy where parquet data files uploaded to container storage are automatically moved to Archive storage after 90 days and deleted after 365 days to reduce costs. What feature should you configure?', correct: 'Azure Blob Storage Lifecycle Management rules', bad1: 'Azure Data Factory Copy Activity scheduled pipeline', bad2: 'AzCopy command script in Azure Automation', bad3: 'Storage Account soft delete policy', exp: 'Lifecycle Management rules automate blob tier transitions and retention.' },
+    { title: 'Database Architecture - SQL Managed Instance Isolation', prompt: 'An enterprise requires migrating on-premises SQL Server instances to Azure with full SQL Agent job compatibility and complete VNet private IP isolation. What solution should you design?', correct: 'Azure SQL Managed Instance deployed into a dedicated VNet subnet', bad1: 'Azure SQL Database Serverless Tier', bad2: 'Azure Cosmos DB Core SQL API', bad3: 'Azure Database for MySQL', exp: 'SQL Managed Instance provides near 100% SQL Server engine compatibility and native VNet integration.' },
+    { title: 'Data Warehousing - Synapse Analytics Dedicated SQL Pools', prompt: 'You are designing a data warehouse processing multi-terabyte analytical queries daily using columnar storage and massively parallel processing (MPP). Which tier should you design?', correct: 'Azure Synapse Analytics Dedicated SQL Pool', bad1: 'Azure SQL Database Basic Tier', bad2: 'Azure Cache for Redis', bad3: 'Azure Stream Analytics job', exp: 'Synapse Dedicated SQL Pools use MPP architecture for large scale enterprise analytics.' },
+    { title: 'Storage Security - Storage Encryption with CMK', prompt: 'A financial organization mandates storing data encrypted at rest where the encryption keys are owned, rotated, and managed in a dedicated Hardware Security Module (HSM). Which solution meets this requirement?', correct: 'Customer-Managed Keys (CMK) stored in Azure Key Vault Managed HSM', bad1: 'Platform-Managed Keys (PMK) in Microsoft Storage', bad2: 'BitLocker drive encryption on local client PC', bad3: 'Unencrypted Blob Storage with HTTPS transport', exp: 'Managed HSM provides FIPS 140-2 Level 3 validated single-tenant key storage for CMK.' },
+    { title: 'Database Availability - Cosmos DB Consistency Levels', prompt: 'A banking application requires strict linearizability where reads are guaranteed to return the most recent committed write globally. Which Cosmos DB consistency level should you select?', correct: 'Strong Consistency Level', bad1: 'Eventual Consistency Level', bad2: 'Session Consistency Level', bad3: 'Consistent Prefix Level', exp: 'Strong consistency guarantees linearizability and zero staleness window.' },
   ];
 
-  const ai900QuestionsData: any[] = [];
-  ai900UniqueQuestions.forEach((q, idx) => {
-    const qNum = String(idx + 1).padStart(3, '0');
-    const rawOptions = [
-      { id: 'opt1', text: q.correct, isCorrect: true },
-      { id: 'opt2', text: q.bad1 },
-      { id: 'opt3', text: q.bad2 },
-      { id: 'opt4', text: q.bad3 },
-    ];
-
-    ai900QuestionsData.push({
-      code: `AI900-Q${qNum}`,
-      title: `Question ${idx + 1}`,
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.BEGINNER,
-      points: 1.0,
-      explanation: q.exp,
-      content: {
-        prompt: q.prompt,
-        options: shuffleArray(rawOptions),
-      },
-    });
-  });
-  const seededAI900 = await seedTrack(ai900QuestionsData, catAzure.id);
-
-  // ==========================================
-  // 3. SC-200 - UNIQUE QUESTIONS
-  // ==========================================
-  const sc200UniqueQuestions = [
-    { title: 'Defender for Endpoint - Live Response Remote Terminal', prompt: 'Which Defender for Endpoint feature enables security analysts to connect remotely to a compromised device terminal to collect forensics or isolate execution?', correct: 'Live Response Remote Shell', bad1: 'Network Inspection System', bad2: 'Tamper Protection', bad3: 'Automated Investigation Playbook', exp: 'Live Response provides a remote interactive shell on endpoints.' },
-    { title: 'Defender for Identity - Honeytoken Account Monitoring', prompt: 'Honeytoken accounts are decoy accounts configured in Active Directory to lure attackers conducting Kerberoasting. What service monitors these?', correct: 'Microsoft Defender for Identity', bad1: 'Azure Key Vault', bad2: 'Microsoft Defender for Cloud Apps', bad3: 'Defender for Office 365', exp: 'Defender for Identity monitors active directory honeytokens.' },
-    { title: 'Defender for Cloud Apps - OAuth App Consent Policies', prompt: 'Which Microsoft Defender component restricts risky third-party OAuth applications from accessing organizational data?', correct: 'Microsoft Defender for Cloud Apps', bad1: 'Azure Network Security Group', bad2: 'Defender for Endpoint', bad3: 'Azure Firewall', exp: 'Defender for Cloud Apps manages OAuth app permissions and consent.' },
+  const az305Domain3 = [
+    { title: 'Business Continuity - Auto-Failover Groups', prompt: 'An enterprise application requires RPO < 5 seconds and RTO < 30 seconds across two Azure regions for SQL workloads. What solution should you design?', correct: 'Azure SQL Database Active Geo-Replication with Auto-Failover Groups', bad1: 'Manual BACPAC restores', bad2: 'Geo-redundant storage read access', bad3: 'VM script failovers', exp: 'Auto-Failover Groups provide multi-region database failover with minimal RPO/RTO.' },
+    { title: 'Disaster Recovery - Azure Site Recovery (ASR)', prompt: 'You need to design a disaster recovery solution for 50 IaaS virtual machines running in Azure East US to fail over to West US in case of a regional outage. Which service should you incorporate?', correct: 'Azure Site Recovery (ASR) with target region replication policies', bad1: 'Azure Backup Vault scheduled VM snapshots', bad2: 'Azure Traffic Manager DNS routing without replication', bad3: 'Azure ExpressRoute private peering', exp: 'ASR provides automated replication, orchestration, and failover for Azure VMs.' },
+    { title: 'High Availability - Multi-Region Front Door Load Balancing', prompt: 'You need to route HTTP/HTTPS web traffic across web application instances deployed in US East and US West with automatic global SSL offloading, web application firewall (WAF), and instant failover. Which service should you choose?', correct: 'Azure Front Door', bad1: 'Azure Basic Load Balancer', bad2: 'Internal Application Gateway without public listener', bad3: 'Network Security Group flow logs', exp: 'Azure Front Door is a global, scalable entry-point that uses the Microsoft global edge network.' },
+    { title: 'Backup Architecture - Azure Backup Vault Storage Tiering', prompt: 'You need to retain long-term compliance backups of Azure Virtual Machines for 7 years while minimizing monthly backup storage costs. What tiering strategy should you design?', correct: 'Azure Backup Vault with Vault-Archive Tier policy rules', bad1: 'Keep all daily recovery points in Vault-Standard tier for 7 years', bad2: 'Download backups to local USB drives', bad3: 'Disable backup retention after 30 days', exp: 'Vault-Archive tier reduces long-term backup storage costs significantly for multi-year retention.' },
   ];
-  const sc200QuestionsData: any[] = [];
-  sc200UniqueQuestions.forEach((q, idx) => {
-    const qNum = String(idx + 1).padStart(3, '0');
-    sc200QuestionsData.push({
-      code: `SC200-Q${qNum}`,
-      title: `Question ${idx + 1}`,
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.INTERMEDIATE,
-      points: 1.0,
-      explanation: q.exp,
-      content: {
-        prompt: q.prompt,
-        options: shuffleArray([
-          { id: 'opt1', text: q.correct, isCorrect: true },
-          { id: 'opt2', text: q.bad1 },
-          { id: 'opt3', text: q.bad2 },
-          { id: 'opt4', text: q.bad3 },
-        ]),
-      },
-    });
-  });
-  const seededSC200 = await seedTrack(sc200QuestionsData, catAzure.id);
 
-  // ==========================================
-  // 4. AZ-305 - UNIQUE QUESTIONS
-  // ==========================================
-  const az305UniqueQuestions = [
-    { title: 'Database Architecture - SQL Hyperscale', prompt: 'Designing an enterprise OLTP database requiring auto-scaling storage up to 100 TB and near-instantaneous backups uses which database tier?', correct: 'Azure SQL Database Hyperscale Tier', bad1: 'General Purpose Tier', bad2: 'Cosmos DB Table API', bad3: 'Basic SQL Database', exp: 'Hyperscale tier auto-scales storage up to 100 TB.' },
-    { title: 'Business Continuity - Auto-Failover Groups', prompt: 'An enterprise application requires RPO < 5 seconds and RTO < 30 seconds across two Azure regions. What solution should you design?', correct: 'Azure SQL Database Active Geo-Replication with Auto-Failover Groups', bad1: 'Manual BACPAC restores', bad2: 'Geo-redundant storage read access', bad3: 'VM script failovers', exp: 'Auto-Failover Groups provide multi-region database failover.' },
+  const az305Domain4 = [
+    { title: 'Compute Architecture - Azure Container Apps vs AKS', prompt: 'A development team wants to deploy microservices running in Docker containers that automatically scale to zero when idle, without managing Kubernetes clusters or nodes. What compute service should you recommend?', correct: 'Azure Container Apps', bad1: 'Azure Kubernetes Service (AKS) bare-metal node pool', bad2: 'Azure Virtual Machines Scale Sets', bad3: 'Azure Batch Service', exp: 'Azure Container Apps enables serverless microservices built on KEDA and Envoy without cluster management.' },
+    { title: 'Networking Architecture - Hub-and-Spoke VNet Topology', prompt: 'You are designing a secure network topology for 20 workload VNets. All internet-bound and inter-spoke traffic must pass through a centralized security inspect point. What topology should you design?', correct: 'Hub-and-Spoke network topology with Azure Firewall in the Hub VNet and VNet Peering to Spokes', bad1: 'Full Mesh VNet Peering between all 20 VNets without a hub', bad2: 'Single flat VNet containing all 20 subnets', bad3: 'Isolated VNets connected via public IPs only', exp: 'Hub-and-Spoke topology centralizes shared security services (Azure Firewall) efficiently.' },
+    { title: 'Hybrid Connectivity - ExpressRoute Direct with VPN Backup', prompt: 'An enterprise requires 10 Gbps private connection between on-premises datacenters and Azure with automatic encrypted failover to internet-based S2S VPN if ExpressRoute fails. How should you design routing?', correct: 'ExpressRoute with S2S VPN configured as a backup path using BGP weight tuning', bad1: 'Two internet S2S VPN connections only', bad2: 'Point-to-Site VPN configured on every workstation', bad3: 'Manual DNS IP reassignment during outage', exp: 'Configuring S2S VPN as a backup path for ExpressRoute provides high-availability hybrid connectivity.' },
+    { title: 'Compute Architecture - Scale Sets with Spot VMs', prompt: 'A batch processing workload runs stateless image rendering tasks for 6 hours daily and can tolerate interrupted node terminations. How can you minimize compute costs?', correct: 'Azure Virtual Machine Scale Sets using Azure Spot Virtual Machines', bad1: 'Dedicated Azure Dedicated Hosts', bad2: 'Standard D-series Reserved Instances for 3 years', bad3: 'Single large General Purpose VM running 24/7', exp: 'Azure Spot VMs offer unused compute capacity at up to 90% discount for fault-tolerant workloads.' },
+    { title: 'Compute Architecture - App Service Auto-Scale', prompt: 'A web portal experiences predictable daily traffic spikes between 9 AM and 5 PM. How should you design compute auto-scaling to maintain performance while controlling costs?', correct: 'App Service Plan metric-based Autoscale rules combined with scheduled time-window scaling', bad1: 'Static maximum instance scale 24/7', bad2: 'Manual restart of App Service instance daily', bad3: 'Disable auto-scaling and throttle user requests', exp: 'Scheduled and metric-based autoscale optimizes app responsiveness and cost control.' },
+    { title: 'Networking Architecture - Private Endpoints for PaaS', prompt: 'You need to ensure that corporate workload virtual machines connect to Azure Storage accounts and Azure SQL databases exclusively over private IP addresses within the VNet without exposing public endpoints. What component should you design?', correct: 'Azure Private Endpoints with Private DNS Zones', bad1: 'Public IP addresses with NSG open rules', bad2: 'User Defined Routes pointing to Internet Gateway', bad3: 'Virtual Network NAT Gateway', exp: 'Private Endpoints bring PaaS services into your VNet with private IP addresses.' },
+    { title: 'Compute Architecture - AKS Node Pool Isolation', prompt: 'An enterprise AKS deployment requires isolating critical system daemon pods (CoreDNS, kube-proxy) from user workloads. How should you structure the node pool architecture?', correct: 'Separate System Node Pool (for cluster daemons) and User Node Pools with taints and tolerations', bad1: 'Single default node pool for all pods', bad2: 'Deploy 5 separate AKS clusters for each application', bad3: 'Run system pods on on-premises hypervisors', exp: 'AKS supports dedicated System and User node pools for workload isolation and stability.' },
   ];
-  const az305QuestionsData: any[] = [];
-  az305UniqueQuestions.forEach((q, idx) => {
-    const qNum = String(idx + 1).padStart(3, '0');
-    az305QuestionsData.push({
-      code: `AZ305-Q${qNum}`,
-      title: `Question ${idx + 1}`,
-      type: QuestionType.SINGLE_CHOICE,
-      difficulty: DifficultyLevel.ADVANCED,
-      points: 1.0,
-      explanation: q.exp,
-      content: {
-        prompt: q.prompt,
-        options: shuffleArray([
-          { id: 'opt1', text: q.correct, isCorrect: true },
-          { id: 'opt2', text: q.bad1 },
-          { id: 'opt3', text: q.bad2 },
-          { id: 'opt4', text: q.bad3 },
-        ]),
-      },
-    });
-  });
-  const seededAZ305 = await seedTrack(az305QuestionsData, catAzure.id);
 
-  // ==========================================
-  // 5. AZ-104 - REAL EXAM QUESTIONS FROM PDF
-  // ==========================================
-  let az104QuestionsData: any[] = [];
-  const az104JsonPath = path.join(__dirname, 'az104_questions.json');
-  if (fs.existsSync(az104JsonPath)) {
-    const rawAZ104 = JSON.parse(fs.readFileSync(az104JsonPath, 'utf-8'));
-    az104QuestionsData = rawAZ104.map((q: any, idx: number) => {
+  async function prepareDomainQuestions(domainList: any[], codePrefix: string) {
+    const list: any[] = [];
+    domainList.forEach((q, idx) => {
       const qNum = String(idx + 1).padStart(3, '0');
-      return {
-        code: `AZ104-Q${qNum}`,
-        title: `Question ${idx + 1}`,
+      list.push({
+        code: `${codePrefix}-Q${qNum}`,
+        title: q.title,
         type: QuestionType.SINGLE_CHOICE,
-        difficulty: DifficultyLevel.INTERMEDIATE,
-        points: 1.0,
-        explanation: q.explanation || 'Refer to official Microsoft Azure Documentation.',
-        content: {
-          prompt: q.prompt,
-          options: shuffleArray(q.options.map((o: any, oIdx: number) => ({
-            id: `opt_${oIdx + 1}`,
-            text: o.text,
-            isCorrect: o.isCorrect,
-          }))),
-        },
-      };
-    });
-  } else {
-    const az104UniqueQuestions = [
-      { title: 'Identity - Azure AD SSPR', prompt: 'Enabling Self-Service Password Reset (SSPR) for corporate users requires which license?', correct: 'Azure AD Premium P1 or P2 License', bad1: 'Free Azure AD Tier', bad2: 'Office 365 E1', bad3: 'Basic License', exp: 'SSPR requires Azure AD Premium licensing.' },
-      { title: 'Storage - Shared Access Signatures (SAS)', prompt: 'Granting a partner temporary 2-hour read-only access to a Blob container without sharing storage keys uses what?', correct: 'Service Shared Access Signature (SAS)', bad1: 'Account Storage Key 1', bad2: 'Public Anonymous Access', bad3: 'Tenant Access ID', exp: 'SAS tokens provide delegated, time-bound access.' },
-    ];
-    az104UniqueQuestions.forEach((q, idx) => {
-      const qNum = String(idx + 1).padStart(3, '0');
-      az104QuestionsData.push({
-        code: `AZ104-Q${qNum}`,
-        title: `Question ${idx + 1}`,
-        type: QuestionType.SINGLE_CHOICE,
-        difficulty: DifficultyLevel.INTERMEDIATE,
+        difficulty: DifficultyLevel.ADVANCED,
         points: 1.0,
         explanation: q.exp,
         content: {
@@ -357,65 +140,203 @@ async function main() {
         },
       });
     });
+    return seedQuestionList(list, catAzure.id);
   }
-  const seededAZ104 = await seedTrack(az104QuestionsData, catAzure.id);
 
-  // ==========================================
-  // 6. AI-901 - UNIQUE QUESTIONS
-  // ==========================================
-  const ai901UniqueQuestions = [
-    { title: 'Model Catalog & Benchmarking', prompt: 'In Azure AI Foundry, how do you evaluate model benchmark accuracy across foundation LLM endpoints?', correct: 'Use Azure AI Foundry Model Catalog benchmarks & Prompt Flow evaluation', bad1: 'Manual visual inspection', bad2: 'Disable evaluation pipelines', bad3: 'Static console logs', exp: 'AI Foundry provides model benchmarks and evaluation workflows.' },
-  ];
-  const ai901QuestionsData: any[] = [];
-  ai901UniqueQuestions.forEach((q, idx) => {
-    const qNum = String(idx + 1).padStart(3, '0');
-    ai901QuestionsData.push({
-      code: `AI901-Q${qNum}`,
+  const seededAZ305_D1 = await prepareDomainQuestions(az305Domain1, 'AZ305-D1');
+  const seededAZ305_D2 = await prepareDomainQuestions(az305Domain2, 'AZ305-D2');
+  const seededAZ305_D3 = await prepareDomainQuestions(az305Domain3, 'AZ305-D3');
+  const seededAZ305_D4 = await prepareDomainQuestions(az305Domain4, 'AZ305-D4');
+
+  // Seed standard single-section questions for other tracks
+  async function seedSimpleQuestions(prefix: string, items: any[]) {
+    const list: any[] = [];
+    items.forEach((q, idx) => {
+      const qNum = String(idx + 1).padStart(3, '0');
+      list.push({
+        code: `${prefix}-Q${qNum}`,
+        title: q.title || `Question ${idx + 1}`,
+        type: QuestionType.SINGLE_CHOICE,
+        difficulty: DifficultyLevel.INTERMEDIATE,
+        points: 1.0,
+        explanation: q.exp || 'Refer to official Azure documentation.',
+        content: {
+          prompt: q.prompt,
+          options: shuffleArray([
+            { id: 'opt1', text: q.correct, isCorrect: true },
+            { id: 'opt2', text: q.bad1 },
+            { id: 'opt3', text: q.bad2 },
+            { id: 'opt4', text: q.bad3 },
+          ]),
+        },
+      });
+    });
+    return seedQuestionList(list, catAzure.id);
+  }
+
+  const seededAZ900 = await seedSimpleQuestions('AZ900', [
+    { title: 'Cloud Concepts - Elasticity', prompt: 'Which cloud feature automatically increases or decreases compute capacity based on workload demand?', correct: 'Auto-Scaling / Elasticity', bad1: 'Fault Tolerance', bad2: 'Geo-Redundancy', bad3: 'High Latency', exp: 'Elasticity allows compute resources to scale dynamically.' },
+    { title: 'Azure Governance - Locks', prompt: 'What prevents accidental deletion of critical production resources in Azure?', correct: 'CanNotDelete Resource Lock', bad1: 'Network Security Group', bad2: 'Azure Advisor', bad3: 'Role Assignment', exp: 'CanNotDelete lock blocks resource deletion.' },
+  ]);
+
+  const seededAI900 = await seedSimpleQuestions('AI900', [
+    { title: 'Responsible AI - Fairness', prompt: 'Ensuring an AI model treats all demographics impartially aligns with which Responsible AI principle?', correct: 'Fairness', bad1: 'Reliability', bad2: 'Privacy', bad3: 'Transparency', exp: 'Fairness ensures equitable AI outcomes.' },
+  ]);
+
+  const seededSC200 = await seedSimpleQuestions('SC200', [
+    { title: 'Defender for Endpoint - Live Response', prompt: 'Which Defender feature enables remote terminal access to an endpoint during incident investigation?', correct: 'Live Response Remote Shell', bad1: 'Tamper Protection', bad2: 'Network Inspection', bad3: 'Playbook', exp: 'Live Response allows remote interactive shell troubleshooting.' },
+  ]);
+
+  // Load AZ-104 Questions from JSON
+  let seededAZ104: any[] = [];
+  const az104JsonPath = path.join(__dirname, 'az104_questions.json');
+  if (fs.existsSync(az104JsonPath)) {
+    const rawAZ104 = JSON.parse(fs.readFileSync(az104JsonPath, 'utf-8'));
+    const az104List = rawAZ104.map((q: any, idx: number) => ({
+      code: `AZ104-Q${String(idx + 1).padStart(3, '0')}`,
       title: `Question ${idx + 1}`,
       type: QuestionType.SINGLE_CHOICE,
       difficulty: DifficultyLevel.INTERMEDIATE,
       points: 1.0,
-      explanation: q.exp,
+      explanation: q.explanation || 'Refer to official Microsoft Azure Documentation.',
       content: {
         prompt: q.prompt,
-        options: shuffleArray([
-          { id: 'opt1', text: q.correct, isCorrect: true },
-          { id: 'opt2', text: q.bad1 },
-          { id: 'opt3', text: q.bad2 },
-          { id: 'opt4', text: q.bad3 },
-        ]),
+        options: shuffleArray(q.options.map((o: any, oIdx: number) => ({
+          id: `opt_${oIdx + 1}`,
+          text: o.text,
+          isCorrect: o.isCorrect,
+        }))),
       },
-    });
-  });
-  const seededAI901 = await seedTrack(ai901QuestionsData, catAzure.id);
+    }));
+    seededAZ104 = await seedQuestionList(az104List, catAzure.id);
+  }
 
-  // Create Exam Entities and Exam Sections for ALL 6 TRACKS
-  const examsToCreate = [
-    { code: 'AZ-900', title: 'Microsoft Azure Fundamentals (AZ-900)', time: 60, seeded: seededAZ900, count: seededAZ900.length },
-    { code: 'AI-900', title: 'Microsoft Azure AI Fundamentals (AI-900)', time: 60, seeded: seededAI900, count: seededAI900.length },
-    { code: 'SC-200', title: 'Microsoft Security Operations Analyst (SC-200)', time: 150, seeded: seededSC200, count: seededSC200.length },
-    { code: 'AZ-305', title: 'Designing Microsoft Azure Infrastructure Solutions (AZ-305)', time: 150, seeded: seededAZ305, count: seededAZ305.length },
-    { code: 'AZ-104', title: 'Microsoft Azure Administrator (AZ-104)', time: 90, seeded: seededAZ104, count: seededAZ104.length },
-    { code: 'AI-901', title: 'Microsoft Azure AI & AI Foundry Solutions (AI-901)', time: 60, seeded: seededAI901, count: seededAI901.length },
+  const seededAI901 = await seedSimpleQuestions('AI901', [
+    { title: 'Model Benchmarks', prompt: 'Where do you compare accuracy across foundation LLM endpoints in Azure AI Foundry?', correct: 'Model Catalog & Benchmarks', bad1: 'Azure Monitor Logs', bad2: 'Blob Storage', bad3: 'DNS Manager', exp: 'Model Catalog provides evaluation benchmarks.' },
+  ]);
+
+  // ==========================================
+  // CREATE EXAM ENTITIES WITH MULTI-SECTION OBJECTIVE DOMAINS
+  // ==========================================
+
+  // 1. AZ-305 EXAM WITH 4 OBJECTIVE DOMAIN SECTIONS
+  const az305Exam = await prisma.exam.create({
+    data: {
+      code: 'AZ-305',
+      title: 'Designing Microsoft Azure Infrastructure Solutions (AZ-305)',
+      vendor: ExamVendor.MICROSOFT,
+      examType: ExamType.CERTIFICATION,
+      description: 'Official 50/70/90-Item Practice Exam for Azure Solutions Architect Expert (AZ-305) with Normalized 0-100% Objective Domain Score Reports.',
+      timeLimitMinutes: 150,
+      passingScore: 70.0,
+      totalQuestionsConfig: 50,
+      creatorId: creatorUser.id,
+      status: ExamStatus.PUBLISHED,
+    },
+  });
+
+  const az305SectionsData = [
+    { title: 'Design Identity, Governance, and Monitoring Solutions', weight: 27.5, questions: seededAZ305_D1 },
+    { title: 'Design Data Storage Solutions', weight: 27.5, questions: seededAZ305_D2 },
+    { title: 'Design Business Continuity & High Availability Solutions', weight: 15.0, questions: seededAZ305_D3 },
+    { title: 'Design Infrastructure & Compute Solutions', weight: 30.0, questions: seededAZ305_D4 },
   ];
 
-  for (const item of examsToCreate) {
+  let totalAZ305Qs = 0;
+  for (let sIdx = 0; sIdx < az305SectionsData.length; sIdx++) {
+    const sData = az305SectionsData[sIdx];
+    const sec = await prisma.examSection.create({
+      data: {
+        examId: az305Exam.id,
+        title: sData.title,
+        orderIndex: sIdx + 1,
+        weightPercentage: sData.weight,
+      },
+    });
+
+    let qOrder = 1;
+    for (const q of sData.questions) {
+      await prisma.sectionQuestion.create({
+        data: { sectionId: sec.id, questionId: q.id, orderIndex: qOrder++ },
+      });
+      totalAZ305Qs++;
+    }
+  }
+  console.log(`✅ Seeded AZ-305 with ${totalAZ305Qs} items across 4 Official Objective Domain Sections!`);
+
+  // 2. AZ-104 EXAM WITH 5 OBJECTIVE DOMAIN SECTIONS
+  const az104Exam = await prisma.exam.create({
+    data: {
+      code: 'AZ-104',
+      title: 'Microsoft Azure Administrator (AZ-104)',
+      vendor: ExamVendor.MICROSOFT,
+      examType: ExamType.CERTIFICATION,
+      description: 'Official 50/70/90-Item Practice Exam for Microsoft Azure Administrator (AZ-104) with PDF Question Bank.',
+      timeLimitMinutes: 90,
+      passingScore: 70.0,
+      totalQuestionsConfig: 50,
+      creatorId: creatorUser.id,
+      status: ExamStatus.PUBLISHED,
+    },
+  });
+
+  // Distribute AZ-104 questions into 5 sections
+  const az104SectionsData = [
+    { title: 'Manage Azure Identities and Governance Policies (15-20%)', weight: 17.5 },
+    { title: 'Implement and Manage Azure Storage Accounts & Disks (15-20%)', weight: 17.5 },
+    { title: 'Deploy and Manage Azure Compute Resources (20-25%)', weight: 22.5 },
+    { title: 'Configure and Manage Virtual Networking & Routing (25-30%)', weight: 27.5 },
+    { title: 'Monitor and Maintain Azure Workloads & Logs (10-15%)', weight: 15.0 },
+  ];
+
+  const chunkSize = Math.ceil(seededAZ104.length / 5);
+  for (let sIdx = 0; sIdx < az104SectionsData.length; sIdx++) {
+    const sData = az104SectionsData[sIdx];
+    const sec = await prisma.examSection.create({
+      data: {
+        examId: az104Exam.id,
+        title: sData.title,
+        orderIndex: sIdx + 1,
+        weightPercentage: sData.weight,
+      },
+    });
+
+    const chunk = seededAZ104.slice(sIdx * chunkSize, (sIdx + 1) * chunkSize);
+    let qOrder = 1;
+    for (const q of chunk) {
+      await prisma.sectionQuestion.create({
+        data: { sectionId: sec.id, questionId: q.id, orderIndex: qOrder++ },
+      });
+    }
+  }
+  console.log(`✅ Seeded AZ-104 with ${seededAZ104.length} items across 5 Objective Domain Sections!`);
+
+  // Other Exam Tracks (AZ-900, AI-900, SC-200, AI-901)
+  const otherExams = [
+    { code: 'AZ-900', title: 'Microsoft Azure Fundamentals (AZ-900)', time: 60, seeded: seededAZ900 },
+    { code: 'AI-900', title: 'Microsoft Azure AI Fundamentals (AI-900)', time: 60, seeded: seededAI900 },
+    { code: 'SC-200', title: 'Microsoft Security Operations Analyst (SC-200)', time: 150, seeded: seededSC200 },
+    { code: 'AI-901', title: 'Microsoft Azure AI & AI Foundry Solutions (AI-901)', time: 60, seeded: seededAI901 },
+  ];
+
+  for (const item of otherExams) {
     const exam = await prisma.exam.create({
       data: {
         code: item.code,
         title: item.title,
         vendor: ExamVendor.MICROSOFT,
         examType: ExamType.CERTIFICATION,
-        description: `Complete ${item.count}-Question 100% Unique Practice Exam for ${item.title}.`,
+        description: `Complete ${item.seeded.length}-Question Practice Exam for ${item.title}.`,
         timeLimitMinutes: item.time,
         passingScore: 70.0,
+        totalQuestionsConfig: 50,
         creatorId: creatorUser.id,
         status: ExamStatus.PUBLISHED,
       },
     });
 
     const sec = await prisma.examSection.create({
-      data: { examId: exam.id, title: `Section 1: Unique Exam Bank (${item.count} Items)`, orderIndex: 1 },
+      data: { examId: exam.id, title: `Section 1: Objective Domain Core Skills`, orderIndex: 1, weightPercentage: 100.0 },
     });
 
     let order = 1;
@@ -424,10 +345,10 @@ async function main() {
         data: { sectionId: sec.id, questionId: q.id, orderIndex: order++ },
       });
     }
-    console.log(`✅ Seeded ${item.code} with ${item.count} 100% UNIQUE questions!`);
+    console.log(`✅ Seeded ${item.code} with ${item.seeded.length} questions!`);
   }
 
-  console.log('🎉 ALL 6 Certification Tracks Successfully Seeded with 100% UNIQUE Distinct Questions!');
+  console.log('🎉 ALL Certification Tracks Successfully Seeded with Dynamic Weighting & 25+ AZ-305 Questions!');
 }
 
 main()

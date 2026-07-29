@@ -114,15 +114,47 @@ export const ExamResultsPage: React.FC = () => {
     return true;
   });
 
-  // Calculate REAL Domain Performance Breakdown based on Exam Track and Actual Score
-  const getDomainBreakdown = (): DomainBreakdown[] => {
+  // Calculate REAL Domain Performance Breakdown based on Exam Track and Actual Section Scores
+  const getDomainBreakdown = (): any[] => {
+    if (attempt.sectionScores) {
+      try {
+        const parsed = JSON.parse(attempt.sectionScores);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((sec: any) => ({
+            domain: sec.title.includes('%') ? sec.title : `${sec.title} (${sec.weightPercentage || 25}%)`,
+            percentage: sec.scorePercentage ?? 0,
+            rating: sec.rating || (sec.scorePercentage >= 75 ? 'Proficient' : sec.scorePercentage >= 50 ? 'Satisfactory' : 'Needs Improvement'),
+            totalQuestions: sec.totalQuestions,
+            correctAnswers: sec.correctAnswers,
+          }));
+        }
+      } catch (err) {
+        console.error('Error parsing sectionScores:', err);
+      }
+    }
+
     const code = (attempt.exam?.code || '').toUpperCase();
     const title = (attempt.exam?.title || '').toUpperCase();
     const rawPct = attempt.scorePercentage || 0;
 
     let domains: string[] = [];
 
-    if (code.includes('AI-900') || title.includes('AI FUNDAMENTALS')) {
+    if (code.includes('AZ-305') || title.includes('SOLUTIONS ARCHITECT')) {
+      domains = [
+        'Design Identity, Governance, and Monitoring Solutions (25-30%)',
+        'Design Data Storage Solutions (25-30%)',
+        'Design Business Continuity & High Availability Solutions (10-15%)',
+        'Design Infrastructure & Compute Solutions (25-30%)',
+      ];
+    } else if (code.includes('AZ-104') || title.includes('ADMINISTRATOR')) {
+      domains = [
+        'Manage Azure Identities and Governance Policies (15-20%)',
+        'Implement and Manage Azure Storage Accounts & Disks (15-20%)',
+        'Deploy and Manage Azure Compute Resources (20-25%)',
+        'Configure and Manage Virtual Networking & Routing (25-30%)',
+        'Monitor and Maintain Azure Workloads & Logs (10-15%)',
+      ];
+    } else if (code.includes('AI-900') || title.includes('AI FUNDAMENTALS')) {
       domains = [
         'Artificial Intelligence Workloads & Responsible AI Considerations (15-20%)',
         'Fundamental Principles of Machine Learning on Azure (20-25%)',
@@ -142,27 +174,6 @@ export const ExamResultsPage: React.FC = () => {
         'Mitigate Threats using Microsoft Defender for Cloud & Identity (25-30%)',
         'Create Analytics & Automate Incident Response in Microsoft Sentinel (30-35%)',
         'Perform KQL Threat Hunting & Incident Investigations (15-20%)',
-      ];
-    } else if (code.includes('AZ-305') || title.includes('SOLUTIONS ARCHITECT')) {
-      domains = [
-        'Design Identity, Governance, and Monitoring Solutions (25-30%)',
-        'Design Data Storage Solutions (25-30%)',
-        'Design Business Continuity & High Availability Solutions (10-15%)',
-        'Design Infrastructure & Compute Solutions (25-30%)',
-      ];
-    } else if (code.includes('AZ-104') || title.includes('ADMINISTRATOR')) {
-      domains = [
-        'Manage Azure Identities and Governance Policies (15-20%)',
-        'Implement and Manage Azure Storage Accounts & Disks (15-20%)',
-        'Deploy and Manage Azure Compute Resources (20-25%)',
-        'Configure and Manage Virtual Networking & Routing (25-30%)',
-        'Monitor and Maintain Azure Workloads & Logs (10-15%)',
-      ];
-    } else if (code.includes('AI-901') || title.includes('AI FOUNDRY')) {
-      domains = [
-        'Design & Provision Azure AI Foundry Resources (25-30%)',
-        'Model Catalog Benchmarking & Prompt Flow Orchestration (35-40%)',
-        'Responsible AI Evaluation & Safety Guardrails (30-35%)',
       ];
     } else {
       domains = [

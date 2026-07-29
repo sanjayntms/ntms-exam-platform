@@ -89,28 +89,48 @@ export class ExamEngineService {
       });
     }
 
-    // Evaluate scoring for all questions in the exam
+    // Evaluate scoring for all questions in the exam and calculate per-section domain performance
     const exam = attempt.exam;
     let earnedPoints = 0.0;
     let totalPossiblePoints = 0.0;
     let correctCount = 0;
 
-    exam.sections.forEach((section) => {
-      section.questions.forEach((sq) => {
+    const sectionScores = exam.sections.map((section: any) => {
+      let secTotal = 0;
+      let secCorrect = 0;
+
+      section.questions.forEach((sq: any) => {
         const q = sq.question;
         totalPossiblePoints += q.points;
-        const userAnswer = (mergedAnswers as any)[q.id];
+        secTotal++;
 
+        const userAnswer = (mergedAnswers as any)[q.id];
         if (userAnswer) {
           const isCorrect = this.evaluateQuestionAnswer(q, userAnswer);
           if (isCorrect) {
             earnedPoints += q.points;
             correctCount++;
+            secCorrect++;
           } else if (exam.negativeMarking && q.negativePoints > 0) {
             earnedPoints = Math.max(0, earnedPoints - q.negativePoints);
           }
         }
       });
+
+      const scorePercentage = secTotal > 0 ? Math.round((secCorrect / secTotal) * 100) : 0;
+      let rating = 'Needs Improvement';
+      if (scorePercentage >= 75) rating = 'Proficient';
+      else if (scorePercentage >= 50) rating = 'Satisfactory';
+
+      return {
+        sectionId: section.id,
+        title: section.title,
+        weightPercentage: section.weightPercentage || 25.0,
+        totalQuestions: secTotal,
+        correctAnswers: secCorrect,
+        scorePercentage,
+        rating,
+      };
     });
 
     const scorePercentage = totalPossiblePoints > 0 ? (earnedPoints / totalPossiblePoints) * 100 : 0;
@@ -118,6 +138,7 @@ export class ExamEngineService {
 
     return this.uow.attempts.update(attemptId, {
       answers: JSON.stringify(mergedAnswers),
+      sectionScores: JSON.stringify(sectionScores),
       status: AttemptStatus.EVALUATED,
       completedAt: new Date(),
       scorePercentage: parseFloat(scorePercentage.toFixed(2)),

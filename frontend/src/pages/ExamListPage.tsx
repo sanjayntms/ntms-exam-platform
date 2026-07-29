@@ -30,6 +30,7 @@ export const ExamListPage: React.FC = () => {
   const [editExamVendor, setEditExamVendor] = useState('MICROSOFT');
   const [editExamDuration, setEditExamDuration] = useState(120);
   const [editExamPassingScore, setEditExamPassingScore] = useState(700);
+  const [editTotalQuestions, setEditTotalQuestions] = useState(50);
   const [editExamDescription, setEditExamDescription] = useState('');
 
   const { user } = useAuth();
@@ -140,13 +141,14 @@ export const ExamListPage: React.FC = () => {
     }
   };
 
-  const openEditExamModal = (exam: Exam) => {
+  const openEditExamModal = (exam: any) => {
     setEditingExamId(exam.id);
     setEditExamCode(exam.code);
     setEditExamTitle(exam.title);
     setEditExamVendor(exam.vendor);
     setEditExamDuration(exam.timeLimitMinutes);
     setEditExamPassingScore(exam.passingScore);
+    setEditTotalQuestions(exam.totalQuestionsConfig || 50);
     setEditExamDescription(exam.description || '');
     setShowEditExamModal(true);
   };
@@ -161,6 +163,7 @@ export const ExamListPage: React.FC = () => {
         vendor: editExamVendor,
         timeLimitMinutes: Number(editExamDuration),
         passingScore: Number(editExamPassingScore),
+        totalQuestionsConfig: Number(editTotalQuestions),
         description: editExamDescription,
       });
       alert('✅ Exam Track Details Updated Successfully!');
@@ -575,9 +578,9 @@ export const ExamListPage: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="font-bold text-slate-700 block mb-1">Duration (Minutes)</label>
+                  <label className="font-bold text-slate-700 block mb-1">Duration (Mins)</label>
                   <input
                     type="number"
                     value={editExamDuration}
@@ -588,7 +591,7 @@ export const ExamListPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-700 block mb-1">Passing Score (Scale 1000)</label>
+                  <label className="font-bold text-slate-700 block mb-1">Passing %</label>
                   <input
                     type="number"
                     value={editExamPassingScore}
@@ -596,6 +599,20 @@ export const ExamListPage: React.FC = () => {
                     required
                     className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-bold"
                   />
+                </div>
+
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Exam Items Config</label>
+                  <select
+                    value={editTotalQuestions}
+                    onChange={(e) => setEditTotalQuestions(Number(e.target.value))}
+                    className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-bold"
+                  >
+                    <option value={50}>50 Items (Standard)</option>
+                    <option value={70}>70 Items (Expanded)</option>
+                    <option value={90}>90 Items (Full Bank)</option>
+                    <option value={0}>All Available Items</option>
+                  </select>
                 </div>
               </div>
 
