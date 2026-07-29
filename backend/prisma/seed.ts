@@ -77,15 +77,6 @@ async function main() {
     }
     return created;
   }
-          explanation: q.explanation,
-          content: JSON.stringify(q.content),
-          categoryId,
-        },
-      });
-      created.push(dbQ);
-    }
-    return created;
-  }
 
   // ==========================================
   // 1. AZ-305 - 25 UNIQUE QUESTIONS & 4 OBJECTIVE DOMAINS
