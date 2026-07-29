@@ -449,7 +449,6 @@ async function main() {
             type: q.type as any,
             difficulty: 'INTERMEDIATE',
             points: 1.0,
-            categoryId: catHashiCorp.id,
             examId: subExam.id,
             sectionId: subSec.id,
             content: JSON.stringify({
