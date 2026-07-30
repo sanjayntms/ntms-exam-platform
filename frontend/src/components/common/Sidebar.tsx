@@ -6,12 +6,22 @@ import { useAuth } from '../../context/AuthContext';
 export const Sidebar: React.FC = () => {
   const { user } = useAuth();
 
+  const isAdminOrCreator = user?.role === 'ADMINISTRATOR' || user?.role === 'EXAM_CREATOR';
+
   const navItems = [
     { to: '/dashboard', label: 'Candidate Dashboard', icon: LayoutDashboard },
     { to: '/exams', label: 'Exam Catalog & Tracks', icon: BookOpen },
-    { to: '/questions', label: 'Question Bank System', icon: FileQuestion },
-    { to: '/analytics', label: 'Analytics & Score Reports', icon: BarChart3 },
   ];
+
+  if (isAdminOrCreator) {
+    navItems.push({ to: '/questions', label: 'Question Bank System', icon: FileQuestion });
+  }
+
+  navItems.push({
+    to: '/analytics',
+    label: user?.role === 'ADMINISTRATOR' ? 'Analytics & Score Reports' : 'My Score Reports & Performance',
+    icon: BarChart3,
+  });
 
   if (user?.role === 'ADMINISTRATOR') {
     navItems.push({ to: '/users', label: 'User & Role Controls', icon: Users });

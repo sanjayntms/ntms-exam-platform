@@ -57,9 +57,8 @@ export class ExamController {
         };
       });
 
-      // CANDIDATES only see launched / allowed exams for their room or session
-      const candidateExams = mappedExams.filter((exam) => exam.isUnlocked);
-      return res.json(candidateExams);
+      // Candidates can see all published exams in catalog, but locked/closed ones have disabled launch buttons
+      return res.json(mappedExams);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }

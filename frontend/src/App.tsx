@@ -40,6 +40,14 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
   );
 };
 
+const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
+  if (user?.role !== 'ADMINISTRATOR' && user?.role !== 'EXAM_CREATOR') {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <>{children}</>;
+};
+
 const ExamSessionLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
 
@@ -89,7 +97,9 @@ export const App: React.FC = () => {
                 path="/questions"
                 element={
                   <ProtectedLayout>
-                    <QuestionBankPage />
+                    <AdminRoute>
+                      <QuestionBankPage />
+                    </AdminRoute>
                   </ProtectedLayout>
                 }
               />
@@ -107,7 +117,9 @@ export const App: React.FC = () => {
                 path="/users"
                 element={
                   <ProtectedLayout>
-                    <UserManagementPage />
+                    <AdminRoute>
+                      <UserManagementPage />
+                    </AdminRoute>
                   </ProtectedLayout>
                 }
               />

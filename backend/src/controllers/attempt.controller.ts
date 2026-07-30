@@ -112,6 +112,11 @@ export class AttemptController {
 
       const where: any = {};
 
+      // CANDIDATES can strictly ONLY view their own attempt results
+      if (req.user?.role !== 'ADMINISTRATOR') {
+        where.userId = req.user?.id;
+      }
+
       // Exam Track filter
       if (examId && examId !== 'ALL') {
         where.examId = String(examId);

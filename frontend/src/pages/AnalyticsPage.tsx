@@ -17,9 +17,13 @@ import {
   Layers,
 } from 'lucide-react';
 import { ScoreReportModal } from '../components/ScoreReportModal';
+import { useAuth } from '../context/AuthContext';
 import { ExamAttempt, Exam } from '../types';
 
 export const AnalyticsPage: React.FC = () => {
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'ADMINISTRATOR';
+
   const [attempts, setAttempts] = useState<ExamAttempt[]>([]);
   const [exams, setExams] = useState<Exam[]>([]);
   const [loading, setLoading] = useState(true);
@@ -164,11 +168,15 @@ export const AnalyticsPage: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-mono text-[11px] uppercase font-bold border border-sky-400/30 mb-2">
             <ShieldCheck className="w-3.5 h-3.5 text-sky-300" />
-            <span>Administrator Assessment & Audit Center</span>
+            <span>{isAdmin ? 'Administrator Assessment & Audit Center' : 'My Score Reports & Exam Performance'}</span>
           </div>
-          <h2 className="text-2xl font-black tracking-tight">Candidate Examination Audit & Score Search</h2>
+          <h2 className="text-2xl font-black tracking-tight">
+            {isAdmin ? 'Candidate Examination Audit & Score Search' : 'My Exam Attempts & Qualification History'}
+          </h2>
           <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-            Search, filter, and inspect detailed candidate examination records across custom date ranges, full names, usernames, scores, and result states.
+            {isAdmin
+              ? 'Search, filter, and inspect detailed candidate examination records across custom date ranges, full names, usernames, scores, and result states.'
+              : 'Review your personal examination performance records, scaled scores, pass/fail status, and official score report certificates.'}
           </p>
         </div>
 
@@ -177,7 +185,7 @@ export const AnalyticsPage: React.FC = () => {
           className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-md transition-all flex items-center gap-2 shrink-0 border border-emerald-400/30"
         >
           <Download className="w-4 h-4" />
-          <span>Export Filtered CSV Report</span>
+          <span>Export {isAdmin ? 'Filtered CSV Report' : 'My Attempt History'}</span>
         </button>
       </div>
 
@@ -267,16 +275,18 @@ export const AnalyticsPage: React.FC = () => {
 
         {/* Filter Inputs Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-          {/* Candidate Name / Username / Email Search */}
+          {/* Search Input */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-700 block">Candidate Search (Name / Username / ID)</label>
+            <label className="font-bold text-slate-700 block">
+              {isAdmin ? 'Candidate Search (Name / Email / ID)' : 'Filter My Records (Exam / ID)'}
+            </label>
             <div className="relative">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Full name, email, or ID..."
+                placeholder={isAdmin ? 'Full name, email, or ID...' : 'Exam code, title, or attempt ID...'}
                 className="w-full bg-slate-50 border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-slate-900 focus:border-ntms-blue focus:outline-none font-medium"
               />
             </div>
