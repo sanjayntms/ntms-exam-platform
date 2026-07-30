@@ -387,7 +387,33 @@ async function main() {
       },
     });
 
-    let domainIdx = 1;
+    // Pre-create the 9 official HashiCorp sections for the parent exam
+    const hashiCorpOfficialSections = [
+      { id: 'sec-tf-1', title: '1. Understand infrastructure as code (IaC) concepts', weightPercentage: 10.0, orderIndex: 1 },
+      { id: 'sec-tf-2', title: '2. Understand the purpose of Terraform (vs other IaC)', weightPercentage: 10.0, orderIndex: 2 },
+      { id: 'sec-tf-3', title: '3. Understand Terraform basics', weightPercentage: 15.0, orderIndex: 3 },
+      { id: 'sec-tf-4', title: '4. Use Terraform outside the core workflow', weightPercentage: 10.0, orderIndex: 4 },
+      { id: 'sec-tf-5', title: '5. Interact with Terraform modules', weightPercentage: 15.0, orderIndex: 5 },
+      { id: 'sec-tf-6', title: '6. Use the core Terraform workflow', weightPercentage: 15.0, orderIndex: 6 },
+      { id: 'sec-tf-7', title: '7. Implement and maintain state', weightPercentage: 10.0, orderIndex: 7 },
+      { id: 'sec-tf-8', title: '8. Read, generate, and modify configuration', weightPercentage: 5.0, orderIndex: 8 },
+      { id: 'sec-tf-9', title: '9. Understand Terraform Cloud capabilities', weightPercentage: 10.0, orderIndex: 9 },
+    ];
+
+    const parentSectionMap: Record<number, any> = {};
+    for (const secDef of hashiCorpOfficialSections) {
+      const createdSec = await prisma.examSection.create({
+        data: {
+          id: secDef.id,
+          examId: parentTfExam.id,
+          title: secDef.title,
+          orderIndex: secDef.orderIndex,
+          weightPercentage: secDef.weightPercentage,
+        },
+      });
+      parentSectionMap[secDef.orderIndex] = createdSec;
+    }
+
     for (const d of tfDomains) {
       const { domain_code, exam_code, domain_title, questions } = d;
 
@@ -421,7 +447,7 @@ async function main() {
         },
       });
 
-      // 3. Create Sub-Exam Section & Parent Section
+      // 3. Create Sub-Exam Section
       const subSec = await prisma.examSection.create({
         data: {
           examId: subExam.id,
@@ -431,17 +457,9 @@ async function main() {
         },
       });
 
-      const parentSec = await prisma.examSection.create({
-        data: {
-          examId: parentTfExam.id,
-          title: domain_title,
-          orderIndex: domainIdx++,
-          weightPercentage: Number(((questions.length / 170) * 100).toFixed(1)),
-        },
-      });
-
       let qOrder = 1;
-      for (const q of questions) {
+      for (let idx = 0; idx < questions.length; idx++) {
+        const q = questions[idx];
         const question = await prisma.question.create({
           data: {
             code: q.code,
@@ -468,9 +486,27 @@ async function main() {
           data: { sectionId: subSec.id, questionId: question.id, orderIndex: qOrder },
         });
 
+        // Determine parent section based on domain & question index
+        let targetParentSecId = parentSectionMap[1].id;
+        if (domain_code === 'D-1') {
+          targetParentSecId = idx < 7 ? parentSectionMap[1].id : parentSectionMap[2].id;
+        } else if (domain_code === 'D-2') {
+          targetParentSecId = parentSectionMap[3].id;
+        } else if (domain_code === 'D-3') {
+          targetParentSecId = idx < 25 ? parentSectionMap[6].id : parentSectionMap[4].id;
+        } else if (domain_code === 'D-4') {
+          targetParentSecId = parentSectionMap[5].id;
+        } else if (domain_code === 'D-5') {
+          targetParentSecId = parentSectionMap[7].id;
+        } else if (domain_code === 'D-6') {
+          targetParentSecId = parentSectionMap[9].id;
+        } else if (domain_code === 'D-7') {
+          targetParentSecId = parentSectionMap[8].id;
+        }
+
         // Link question to parent exam section
         await prisma.sectionQuestion.create({
-          data: { sectionId: parentSec.id, questionId: question.id, orderIndex: qOrder++ },
+          data: { sectionId: targetParentSecId, questionId: question.id, orderIndex: qOrder++ },
         });
       }
 

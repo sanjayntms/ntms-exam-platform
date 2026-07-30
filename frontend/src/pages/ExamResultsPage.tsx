@@ -399,49 +399,125 @@ export const ExamResultsPage: React.FC = () => {
         </div>
 
         {/* Domain Skills Performance Breakdown */}
-        <div className="space-y-4">
-          <div className="border-b border-slate-300 pb-2">
-            <h3 className="text-xs font-extrabold text-ntms-navy uppercase tracking-wider">
-              {attempt.exam?.code || 'OFFICIAL'} Section Skills Performance Breakdown
-            </h3>
-            <p className="text-[11px] text-slate-500 mt-0.5">
-              Calculated dynamically from candidate submitted answers across official Microsoft exam skill domains.
-            </p>
-          </div>
+        {(() => {
+          const examCode = (attempt.exam?.code || '').toUpperCase();
+          const isDomainSubExam = examCode.startsWith('TERRAFORM-D') || examCode.includes('D-1') || examCode.includes('D-2') || examCode.includes('D-3') || examCode.includes('D-4') || examCode.includes('D-5') || examCode.includes('D-6') || examCode.includes('D-7');
+          const isCompleteTerraformExam = examCode === 'TERRAFORM' || (examCode.includes('TERRAFORM') && !isDomainSubExam);
 
-          <div className="space-y-3 text-xs">
-            {domainBreakdowns.map((d, index) => (
-              <div key={index} className="space-y-1">
-                <div className="flex justify-between font-bold text-slate-800">
-                  <span className="max-w-[75%]">{d.domain}</span>
-                  <span
-                    className={`font-mono font-bold ${
-                      d.percentage >= 75
-                        ? 'text-emerald-700'
-                        : d.percentage >= 50
-                        ? 'text-amber-700'
-                        : 'text-rose-700'
-                    }`}
-                  >
-                    {d.percentage}% ({d.rating})
-                  </span>
+          if (isDomainSubExam) {
+            // Remove section breakdown for domain sub-exams
+            return null;
+          }
+
+          if (isCompleteTerraformExam) {
+            // Render HashiCorp 3-Column Performance Table with Candidate Actual Scores
+            return (
+              <div className="space-y-3 pt-2">
+                <div className="overflow-x-auto border-2 border-slate-900 rounded">
+                  <table className="w-full text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b-2 border-slate-900 bg-slate-100">
+                        <th rowSpan={2} className="p-3 text-left font-extrabold text-slate-900 border-r-2 border-slate-900 w-1/2 align-middle">
+                          Section
+                        </th>
+                        <th colSpan={3} className="p-2 text-center font-extrabold text-slate-900 border-b border-slate-900">
+                          Section-level Performance
+                        </th>
+                      </tr>
+                      <tr className="border-b-2 border-slate-900 bg-slate-50">
+                        <th className="p-2 text-center font-bold text-red-700 border-r border-slate-900 w-1/6">
+                          Intense<br />Study
+                        </th>
+                        <th className="p-2 text-center font-bold text-amber-600 border-r border-slate-900 w-1/6">
+                          Review<br />Needed
+                        </th>
+                        <th className="p-2 text-center font-bold text-emerald-600 w-1/6">
+                          Meets<br />Expectations
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {domainBreakdowns.map((d, index) => {
+                        const pct = d.percentage;
+                        const isIntense = pct < 60;
+                        const isReview = pct >= 60 && pct < 75;
+                        const isMeets = pct >= 75;
+
+                        return (
+                          <tr key={index} className="border-b border-slate-900 last:border-b-0 hover:bg-slate-50">
+                            <td className="p-2.5 font-medium text-slate-900 border-r border-slate-900 align-middle">
+                              {d.domain}
+                            </td>
+                            <td className="p-2.5 text-center border-r border-slate-900 align-middle font-black text-lg text-red-600">
+                              {isIntense ? 'X' : ''}
+                            </td>
+                            <td className="p-2.5 text-center border-r border-slate-900 align-middle font-black text-lg text-amber-600">
+                              {isReview ? 'X' : ''}
+                            </td>
+                            <td className="p-2.5 text-center align-middle font-black text-lg text-emerald-600">
+                              {isMeets ? 'X' : ''}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
-                <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-300">
-                  <div
-                    className={`h-full transition-all ${
-                      d.percentage >= 75
-                        ? 'bg-emerald-600'
-                        : d.percentage >= 50
-                        ? 'bg-amber-500'
-                        : 'bg-rose-600'
-                    }`}
-                    style={{ width: `${d.percentage}%` }}
-                  />
-                </div>
+
+                <p className="text-[11px] text-slate-700 leading-relaxed font-sans mt-3">
+                  <strong>Disclaimer:</strong> Your section-level performance is provided for descriptive feedback only. The HashiCorp Certified: Terraform Associate (003) was designed to determine pass/fail scores based on the total exam content. Cut scores and points-per-item are proprietary and not disclosed to exam participants.
+                </p>
               </div>
-            ))}
-          </div>
-        </div>
+            );
+          }
+
+          // Default Microsoft / Standard Bar Chart Breakdown
+          return (
+            <div className="space-y-4">
+              <div className="border-b border-slate-300 pb-2">
+                <h3 className="text-xs font-extrabold text-ntms-navy uppercase tracking-wider">
+                  {attempt.exam?.code || 'OFFICIAL'} Section Skills Performance Breakdown
+                </h3>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  Calculated dynamically from candidate submitted answers across official Microsoft exam skill domains.
+                </p>
+              </div>
+
+              <div className="space-y-3 text-xs">
+                {domainBreakdowns.map((d, index) => (
+                  <div key={index} className="space-y-1">
+                    <div className="flex justify-between font-bold text-slate-800">
+                      <span className="max-w-[75%]">{d.domain}</span>
+                      <span
+                        className={`font-mono font-bold ${
+                          d.percentage >= 75
+                            ? 'text-emerald-700'
+                            : d.percentage >= 50
+                            ? 'text-amber-700'
+                            : 'text-rose-700'
+                        }`}
+                      >
+                        {d.percentage}% ({d.rating})
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-300">
+                      <div
+                        className={`h-full transition-all ${
+                          d.percentage >= 75
+                            ? 'bg-emerald-600'
+                            : d.percentage >= 50
+                            ? 'bg-amber-500'
+                            : 'bg-rose-600'
+                        }`}
+                        style={{ width: `${d.percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Security Verification Footer */}
         <div className="pt-4 border-t-2 border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 text-[11px]">
