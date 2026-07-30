@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, CheckCircle2, XCircle, Printer, Download, ShieldCheck, QrCode, X } from 'lucide-react';
+import { Award, CheckCircle2, XCircle, Printer, X } from 'lucide-react';
 import { ExamAttempt } from '../types';
 
 interface ScoreReportModalProps {
@@ -10,52 +10,48 @@ interface ScoreReportModalProps {
 export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onClose }) => {
   if (!attempt) return null;
 
+  const candidateName = attempt.user?.name || (attempt as any).candidateName || 'Candidate';
   const scorePercentage = Math.round(attempt.scorePercentage);
   const scaledScore = Math.round(300 + (scorePercentage / 100) * 700); // 300-1000 scale
   const isPass = attempt.passed;
+
+  const isTf = (attempt.exam?.code || '').toUpperCase().includes('TERRAFORM') || (attempt.exam?.title || '').toUpperCase().includes('TERRAFORM');
+  const requiredPassingScore = isTf ? 800 : (attempt.exam?.passingScore ? Math.round(attempt.exam.passingScore * 10) : 700);
+  const passingLineLeftPct = Math.min(95, Math.max(5, ((requiredPassingScore - 300) / 700) * 100));
 
   const handlePrint = () => {
     window.print();
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/75 backdrop-blur-sm flex items-center justify-center z-50 p-4 font-sans text-slate-900 overflow-y-auto">
-      <div className="bg-white rounded border border-slate-300 max-w-3xl w-full shadow-2xl overflow-hidden my-6 print:shadow-none print:border-none print:m-0 print:w-full print:max-w-none">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto font-sans text-slate-800">
+      <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden my-8 border border-slate-200 text-slate-800 flex flex-col max-h-[90vh] print:shadow-none print:border-none print:m-0 print:w-full print:max-w-none print:max-h-none">
         
         {/* Top Control Bar (Hidden on Print) */}
-        <div className="bg-slate-100 border-b border-slate-300 px-6 py-3 flex justify-between items-center print:hidden">
+        <div className="bg-slate-900 text-white p-4 px-6 flex justify-between items-center shrink-0 print:hidden">
           <div className="flex items-center gap-2">
-            <Award className="w-5 h-5 text-ntms-blue" />
-            <span className="font-bold text-xs text-ntms-navy uppercase tracking-wider">
-              NTMS Official Candidate Score Report
-            </span>
+            <Award className="w-5 h-5 text-sky-400" />
+            <h3 className="font-extrabold text-sm uppercase tracking-wider font-mono">
+              Official Candidate Score Report & Performance Summary
+            </h3>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-xs font-bold shadow transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded text-xs font-bold shadow transition-all"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print / Save PDF</span>
             </button>
-            <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
+            <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors p-1">
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Printable Score Report Sheet */}
-        <div className="p-8 space-y-6 bg-white text-slate-900 print:p-0">
-          
+        {/* Modal Content / Printable Area */}
+        <div className="p-6 md:p-8 overflow-y-auto space-y-6 flex-1 text-slate-800 font-sans print:p-0 print:overflow-visible">
           {/* Header Branding */}
-          <div className="flex justify-between items-start border-b-2 border-ntms-navy pb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded bg-ntms-navy text-white flex items-center justify-center font-black text-xl tracking-widest border-2 border-ntms-blue">
-                NTMS
-              </div>
-              <div>
-                <h1 className="font-black text-xl text-ntms-navy tracking-tight uppercase">
-                  NTMS CERTIFIED EXAMINATION SCORE REPORT
           <div className="border-b-2 border-slate-900 pb-4 flex justify-between items-end">
             <div>
               <h1 className="text-xl md:text-2xl font-black tracking-wider uppercase text-ntms-navy font-mono">
