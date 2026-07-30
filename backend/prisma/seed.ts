@@ -366,33 +366,33 @@ async function main() {
   const azureBasicsD1 = [
   {
     "code": "AZ-BASICS-Q001",
-    "title": "Azure Storage Replication Types (LRS vs ZRS vs GRS)",
+    "title": "PPTX Slide 2: Physical vs Logical Architecture",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Zone-Redundant Storage (ZRS) replicates your data synchronously across three Azure availability zones in the primary region, providing high availability against datacenter outages without requiring cross-region failover.",
+    "explanation": "According to Slide 2 of the Azure Basics presentation, Physical Architecture represents where Azure exists physically (datacenters, land, power), while Logical Architecture represents how Azure resources are organized and managed (districts, maps, addresses).",
     "content": {
-      "prompt": "An enterprise requires a storage solution that synchronously replicates data across three separate availability zones within the primary Azure region. Which storage replication strategy should you select?",
-      "explanation": "Zone-Redundant Storage (ZRS) replicates your data synchronously across three Azure availability zones in the primary region, providing high availability against datacenter outages without requiring cross-region failover.",
+      "prompt": "According to Azure architecture fundamentals, which architectural concept describes how Azure resources are organized, grouped, and managed rather than their physical land and hardware locations?",
+      "explanation": "According to Slide 2 of the Azure Basics presentation, Physical Architecture represents where Azure exists physically (datacenters, land, power), while Logical Architecture represents how Azure resources are organized and managed (districts, maps, addresses).",
       "options": [
         {
           "id": "opt-1",
-          "text": "Locally-Redundant Storage (LRS)",
-          "isCorrect": false
-        },
-        {
-          "id": "opt-2",
-          "text": "Zone-Redundant Storage (ZRS)",
+          "text": "Logical Architecture",
           "isCorrect": true
         },
         {
+          "id": "opt-2",
+          "text": "Physical Architecture",
+          "isCorrect": false
+        },
+        {
           "id": "opt-3",
-          "text": "Geo-Redundant Storage (GRS)",
+          "text": "Datacenter Hardware Floor",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Read-Access Geo-Redundant Storage (RA-GRS)",
+          "text": "Fiber Optic Cabling Layout",
           "isCorrect": false
         }
       ]
@@ -400,67 +400,67 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q002",
-    "title": "Azure Blob Storage Access Tiers",
+    "title": "PPTX Slide 3: Azure Physical Datacenters & Access",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "The Archive tier offers the lowest storage cost but has higher data retrieval costs and requires several hours of rehydration latency before data can be accessed.",
+    "explanation": "As stated in Slide 3, users cannot choose or physically access a specific Azure datacenter directly. Instead, Azure groups datacenters into Regions and Availability Zones.",
     "content": {
-      "prompt": "Which Azure Blob Storage access tier offers the lowest data storage cost for long-term compliance data that can tolerate several hours of retrieval latency?",
-      "explanation": "The Archive tier offers the lowest storage cost but has higher data retrieval costs and requires several hours of rehydration latency before data can be accessed.",
+      "prompt": "Can an Azure customer select and physically access a specific individual Azure datacenter building to host their application?",
+      "explanation": "As stated in Slide 3, users cannot choose or physically access a specific individual Azure datacenter directly. Instead, Azure groups datacenters into Regions and Availability Zones.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Hot Access Tier",
-          "isCorrect": false
+          "text": "No, customers cannot choose or access a specific datacenter directly; Azure groups them into Regions and Availability Zones.",
+          "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Cool Access Tier",
+          "text": "Yes, customers can request keycard access to any physical Microsoft datacenter building.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Cold Access Tier",
+          "text": "Yes, but only if they deploy Linux Virtual Machines.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Archive Access Tier",
-          "isCorrect": true
+          "text": "Only if they purchase a physical server rack from Microsoft.",
+          "isCorrect": false
         }
       ]
     }
   },
   {
     "code": "AZ-BASICS-Q003",
-    "title": "Azure Bastion RDP/SSH Secure Access",
+    "title": "PPTX Slides 4-5: Azure Geographies & Data Residency",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Bastion provides secure, seamless RDP/SSH connectivity to your virtual machines directly through the Azure portal over TLS/HTTPS (port 443) without exposing public IP addresses on the VMs.",
+    "explanation": "Slides 4 and 5 explain that an Azure Geography is a large boundary containing one or more Azure Regions, created to satisfy data residency and legal compliance requirements.",
     "content": {
-      "prompt": "You need to enable administrators to securely RDP and SSH into Azure Virtual Machines directly via an HTML5 browser without assigning public IP addresses to the VMs or exposing port 3389/22 to the public internet. Which service should you deploy?",
-      "explanation": "Azure Bastion provides secure, seamless RDP/SSH connectivity to your virtual machines directly through the Azure portal over TLS/HTTPS (port 443) without exposing public IP addresses on the VMs.",
+      "prompt": "What is the primary compliance reason for creating Azure Geographies (such as the India Geography or Europe Geography)?",
+      "explanation": "Slides 4 and 5 explain that an Azure Geography is a large boundary containing one or more Azure Regions, created to satisfy data residency and legal compliance requirements.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Bastion",
+          "text": "Data Residency (ensuring customer data stays within a specific country or geographic legal boundary).",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure VPN Gateway",
+          "text": "To increase internet downloading speeds on home Wi-Fi.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure ExpressRoute",
+          "text": "To eliminate the need for Azure Active Directory passwords.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Application Gateway",
+          "text": "To grant free cloud credits to all commercial users.",
           "isCorrect": false
         }
       ]
@@ -468,33 +468,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q004",
-    "title": "Network Security Groups (NSG) Rule Evaluation",
+    "title": "PPTX Slide 7-11: Azure Region Definition",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "NSG rules are processed in priority order from lowest number (100) to highest number (4096). Once a rule matches incoming or outgoing traffic, processing stops.",
+    "explanation": "Slides 7-11 define an Azure Region as a set of datacenters deployed within a latency-defined perimeter and connected through a dedicated regional low-latency network.",
     "content": {
-      "prompt": "In an Azure Network Security Group (NSG), how are security rules evaluated against network traffic?",
-      "explanation": "NSG rules are processed in priority order from lowest number (100) to highest number (4096). Once a rule matches incoming or outgoing traffic, processing stops.",
+      "prompt": "What is an Azure Region as defined in the Azure Basics architecture overview?",
+      "explanation": "Slides 7-11 define an Azure Region as a set of datacenters deployed within a latency-defined perimeter and connected through a dedicated regional low-latency network.",
       "options": [
         {
           "id": "opt-1",
-          "text": "In numerical order by rule priority, from lowest number (highest priority) to highest number, stopping at the first match.",
+          "text": "A set of datacenters deployed within a latency-defined perimeter, connected through a dedicated low-latency network.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "In alphabetical order by rule name.",
+          "text": "A single server rack inside an office server room.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "In reverse order of creation timestamp.",
+          "text": "A software folder used to store user passwords.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "All rules are evaluated simultaneously and deny rules always override allow rules regardless of priority.",
+          "text": "A global billing domain for corporate accounts.",
           "isCorrect": false
         }
       ]
@@ -502,33 +502,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q005",
-    "title": "Azure User Defined Routes (UDR) & Route Tables",
+    "title": "PPTX Slides 12-15: Azure Availability Zones",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "User Defined Routes (UDRs) override Azure's default system routing table to force subnet traffic through a Virtual Network Appliance (NVA) such as a third-party firewall.",
+    "explanation": "Slides 12-15 explain that Availability Zones are physically separate datacenter locations within an Azure region, each equipped with independent power, cooling, and networking.",
     "content": {
-      "prompt": "You need to override Azure default system routes and force all outbound internet traffic from a backend database subnet through a virtual firewall appliance. What Azure component must you create and link to the subnet?",
-      "explanation": "User Defined Routes (UDRs) override Azure's default system routing table to force subnet traffic through a Virtual Network Appliance (NVA) such as a third-party firewall.",
+      "prompt": "What physical isolation guarantees do Azure Availability Zones provide inside an Azure region?",
+      "explanation": "Slides 12-15 explain that Availability Zones are physically separate datacenter locations within an Azure region, each equipped with independent power, cooling, and networking.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Route Table with User Defined Routes (UDR)",
+          "text": "Physically separate datacenters with independent power, cooling, and networking infrastructure.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Network Security Group (NSG) Application Security Group link",
+          "text": "Shared power supplies and shared cooling fans inside a single room.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure NAT Gateway endpoint",
+          "text": "Logical user groups inside Microsoft Office 365.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Front Door routing rule",
+          "text": "Virtual networks connected over satellite dish connections.",
           "isCorrect": false
         }
       ]
@@ -536,33 +536,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q006",
-    "title": "VPN Gateway vs ExpressRoute Hybrid Connectivity",
+    "title": "PPTX Slide 16: Fault Domains (FD) Definition",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "ExpressRoute provides a dedicated, private connection to Azure that does not traverse the public internet, offering higher reliability, faster speeds, and lower latency than S2S VPN.",
+    "explanation": "Slide 16 defines a Fault Domain (FD) as a physical rack of servers that shares a single common power source and network switch inside a datacenter.",
     "content": {
-      "prompt": "An enterprise requires a private, high-speed connection between its on-premises corporate datacenter and Azure that does NOT traverse the public internet. Which connectivity option satisfies this requirement?",
-      "explanation": "ExpressRoute provides a dedicated, private connection to Azure that does not traverse the public internet, offering higher reliability, faster speeds, and lower latency than S2S VPN.",
+      "prompt": "In Azure Availability Sets, what is a Fault Domain (FD)?",
+      "explanation": "Slide 16 defines a Fault Domain (FD) as a physical rack of servers that shares a single common power source and network switch inside a datacenter.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Site-to-Site (S2S) IPSec VPN",
-          "isCorrect": false
+          "text": "A physical server rack sharing a single common power supply and network switch.",
+          "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Point-to-Site (P2S) VPN",
+          "text": "A group of Virtual Machines rebooted at the exact same time during planned OS updates.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure ExpressRoute",
-          "isCorrect": true
+          "text": "A billing subscription tier for small businesses.",
+          "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Private Link Service",
+          "text": "A regional fiber optic undersea cable.",
           "isCorrect": false
         }
       ]
@@ -570,33 +570,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q007",
-    "title": "Azure Key Vault Capabilities",
-    "type": "MULTIPLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "title": "PPTX Slide 16: Update Domains (UD) Definition",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Key Vault manages three primary asset types: Secrets (passwords/API keys), Keys (cryptographic CMK encryption keys), and Certificates (SSL/TLS certs).",
+    "explanation": "Slide 16 defines Update Domains (UD) as logical groups of VMs that can be rebooted sequentially during planned Microsoft host platform maintenance.",
     "content": {
-      "prompt": "Which of the following sensitive assets can be securely stored and managed using Azure Key Vault? (Select TWO)",
-      "explanation": "Azure Key Vault manages three primary asset types: Secrets (passwords/API keys), Keys (cryptographic CMK encryption keys), and Certificates (SSL/TLS certs).",
+      "prompt": "What is the purpose of Update Domains (UD) in Azure Availability Sets?",
+      "explanation": "Slide 16 defines Update Domains (UD) as logical groups of VMs that can be rebooted sequentially during planned Microsoft host platform maintenance.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Cryptographic Keys used for data encryption at rest (Customer-Managed Keys).",
+          "text": "To ensure VMs are rebooted sequentially (one UD at a time) during planned host updates so remaining VMs service traffic.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Application database passwords and API connection secrets.",
-          "isCorrect": true
+          "text": "To reboot all servers in the datacenter simultaneously.",
+          "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Raw Virtual Machine disk VHD image files.",
+          "text": "To store encrypted database password keys.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Uncompiled C# application source code repositories.",
+          "text": "To manage physical datacenter security guards.",
           "isCorrect": false
         }
       ]
@@ -604,33 +604,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q008",
-    "title": "Azure Cost Management & Budgets",
+    "title": "PPTX Slide 19-22: Azure Tenant Concept",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Cost Management Budgets allow you to set spending thresholds and automatically trigger alert notifications via email or Action Groups when spending reaches a specified percentage.",
+    "explanation": "Slides 19-22 explain that a Tenant represents a single organization's dedicated identity instance in Microsoft Entra ID (Azure AD), serving as the top identity boundary.",
     "content": {
-      "prompt": "How can an Azure subscription administrator prevent unexpected cloud spending by receiving automated notifications when monthly consumption exceeds $5,000?",
-      "explanation": "Azure Cost Management Budgets allow you to set spending thresholds and automatically trigger alert notifications via email or Action Groups when spending reaches a specified percentage.",
+      "prompt": "According to the Azure logical hierarchy (Tenant -> Management Group -> Subscription -> Resource Group), what is an Azure Tenant?",
+      "explanation": "Slides 19-22 explain that a Tenant represents a single organization's dedicated identity instance in Microsoft Entra ID (Azure AD), serving as the top identity boundary.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Configure an Azure Cost Management Budget with threshold alert conditions.",
+          "text": "A dedicated identity instance of Microsoft Entra ID (Azure AD) representing an organization.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Apply a ReadOnly Resource Lock to the subscription.",
+          "text": "A physical building rented inside a datacenter park.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Create an Azure Policy denying all VM deployments.",
+          "text": "A single virtual hard disk file (.vhd).",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Set up an Azure Advisor recommendation rule.",
+          "text": "A network security firewall rule.",
           "isCorrect": false
         }
       ]
@@ -638,33 +638,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q009",
-    "title": "Azure Tags & Azure Resource Graph Querying",
+    "title": "PPTX Slide 26-28: Azure Subscription Boundaries",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Tags consist of key-value pairs assigned to resources. Azure Resource Graph allows querying resources by tag across thousands of subscriptions using KQL.",
+    "explanation": "Slides 26-28 emphasize that an Azure Subscription provides two primary boundaries: Billing Boundary and Access/Management Boundary.",
     "content": {
-      "prompt": "Which Azure governance feature allows organizations to attach custom name-value metadata pairs (such as Environment=Production or CostCenter=1042) to resources for billing organization and search?",
-      "explanation": "Azure Tags consist of key-value pairs assigned to resources. Azure Resource Graph allows querying resources by tag across thousands of subscriptions using KQL.",
+      "prompt": "An Azure Subscription provides which TWO fundamental boundaries for Azure resources?",
+      "explanation": "Slides 26-28 emphasize that an Azure Subscription provides two primary boundaries: Billing Boundary and Access/Management Boundary.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Resource Tags",
+          "text": "Billing boundary and Access/Management boundary",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Management Group Rules",
+          "text": "Physical server rack boundary and power cable length",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Entra ID Claims",
+          "text": "Monitor resolution and browser window size",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Network Security Group Labels",
+          "text": "Wi-Fi signal strength and Bluetooth range",
           "isCorrect": false
         }
       ]
@@ -672,33 +672,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q010",
-    "title": "Azure Application Insights Telemetry",
+    "title": "PPTX Slide 30-33: Azure Resource Groups Analogy",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Application Insights is a feature of Azure Monitor that provides Application Performance Monitoring (APM) to track web app request rates, response times, failure rates, and exceptions.",
+    "explanation": "Slides 30-33 compare a Resource Group to a 'folder' that holds related Azure resources so they can be managed, monitored, and deleted together as a single unit.",
     "content": {
-      "prompt": "Which service should you implement to perform Application Performance Monitoring (APM) for a web application to diagnose slow HTTP requests, unhandled exceptions, and dependency response times?",
-      "explanation": "Application Insights is a feature of Azure Monitor that provides Application Performance Monitoring (APM) to track web app request rates, response times, failure rates, and exceptions.",
+      "prompt": "Slide 30 compares a Resource Group to which familiar real-world concept?",
+      "explanation": "Slides 30-33 compare a Resource Group to a 'folder' that holds related Azure resources so they can be managed, monitored, and deleted together as a single unit.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Application Insights",
+          "text": "A folder that organizes related items so they can be managed together.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Network Watcher",
+          "text": "A physical highway toll booth.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Microsoft Defender for Cloud",
+          "text": "A satellite dish on a roof.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Service Health",
+          "text": "A USB flash drive plugged into a desktop.",
           "isCorrect": false
         }
       ]
@@ -706,33 +706,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q011",
-    "title": "Microsoft Defender for Cloud Security Posture",
+    "title": "PPTX Slide 31-33: Azure Management Groups Inheritance",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Microsoft Defender for Cloud provides Cloud Security Posture Management (CSPM) and calculates a Secure Score to help organizations remediate security vulnerabilities.",
+    "explanation": "Slides 31-33 explain that Management Groups sit above Subscriptions and allow governance conditions (like Azure Policies and RBAC) to inherit down to all child subscriptions.",
     "content": {
-      "prompt": "Which service evaluates your Azure infrastructure against security best practices and generates a unified Secure Score with actionable recommendations to harden resources?",
-      "explanation": "Microsoft Defender for Cloud provides Cloud Security Posture Management (CSPM) and calculates a Secure Score to help organizations remediate security vulnerabilities.",
+      "prompt": "When an Azure Policy is assigned at a Management Group, what happens to the child Subscriptions underneath it?",
+      "explanation": "Slides 31-33 explain that Management Groups sit above Subscriptions and allow governance conditions (like Azure Policies and RBAC) to inherit down to all child subscriptions.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Microsoft Defender for Cloud",
+          "text": "All child Subscriptions automatically inherit the Azure Policy rules.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Traffic Manager",
+          "text": "Child Subscriptions ignore the policy completely.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Cost Management",
+          "text": "The Azure Policy is deleted automatically after 24 hours.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure ExpressRoute Direct",
+          "text": "Child Subscriptions are moved to a different region.",
           "isCorrect": false
         }
       ]
@@ -740,33 +740,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q012",
-    "title": "Azure Advisor Recommendations Categories",
-    "type": "MULTIPLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "title": "PPTX Slide 39-42: Infrastructure as Code & ARM Templates",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Advisor provides personalized recommendations across 5 pillars: Cost, Security, Reliability (High Availability), Operational Excellence, and Performance.",
+    "explanation": "Slides 39-42 introduce native ARM templates, which use JSON (JavaScript Object Notation) format to define infrastructure declaratively.",
     "content": {
-      "prompt": "Which key operational pillars are evaluated by Azure Advisor to provide optimization recommendations? (Select TWO)",
-      "explanation": "Azure Advisor provides personalized recommendations across 5 pillars: Cost, Security, Reliability (High Availability), Operational Excellence, and Performance.",
+      "prompt": "What file format is used to author native Azure Resource Manager (ARM) templates as highlighted in Slides 39-42?",
+      "explanation": "Slides 39-42 introduce native ARM templates, which use JSON (JavaScript Object Notation) format to define infrastructure declaratively.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Cost Optimization: Identifying underutilized or idle resources to reduce monthly spend.",
+          "text": "JSON (JavaScript Object Notation)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Reliability & High Availability: Recommending multi-zone configurations and backup policies.",
-          "isCorrect": true
+          "text": "HTML",
+          "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Automatic physical replacement of client laptop batteries.",
+          "text": "XML",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Guaranteed 100% discount on all third-party software licenses.",
+          "text": "MP4",
           "isCorrect": false
         }
       ]
@@ -774,33 +774,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q013",
-    "title": "Azure Service Health vs Status Page",
+    "title": "PPTX Slides 43-48: What is an API in Azure?",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Service Health provides a personalized view of the health of the specific Azure services and regions your resources are deployed in, including planned maintenance alerts.",
+    "explanation": "Slides 43-48 explain that an API (Application Programming Interface) acts as a 'messenger'. In Azure, every tool (Portal, CLI, PowerShell, ARM, Bicep, Terraform) calls Azure Resource Manager REST APIs behind the scenes.",
     "content": {
-      "prompt": "What is the difference between the public Azure Status page and Azure Service Health?",
-      "explanation": "Azure Service Health provides a personalized view of the health of the specific Azure services and regions your resources are deployed in, including planned maintenance alerts.",
+      "prompt": "According to Slides 44-48, what role do Azure Resource Manager (ARM) REST APIs play when you perform actions in Azure?",
+      "explanation": "Slides 43-48 explain that an API (Application Programming Interface) acts as a 'messenger'. In Azure, every tool (Portal, CLI, PowerShell, ARM, Bicep, Terraform) calls Azure Resource Manager REST APIs behind the scenes.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Status shows global service availability worldwide, while Azure Service Health provides a personalized dashboard filtered to your specific subscriptions and deployed resources.",
+          "text": "Every tool (Portal, CLI, PowerShell, ARM templates) sends REST API calls to ARM to execute operations behind the scenes.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Status requires a paid Enterprise Agreement, while Azure Service Health is only available for free trial accounts.",
+          "text": "REST APIs are only used by mobile phone apps, not Azure tools.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Status monitors local client printers, while Azure Service Health monitors Linux VMs.",
+          "text": "REST APIs physically connect server cables inside datacenters.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "There is no difference; both display identical public global RSS feeds.",
+          "text": "REST APIs are only active when servers are turned off.",
           "isCorrect": false
         }
       ]
@@ -810,33 +810,33 @@ async function main() {
   const azureBasicsD2 = [
   {
     "code": "AZ-BASICS-Q014",
-    "title": "Azure Container Registry (ACR) Features",
+    "title": "PPTX Slide 57-62: Azure Portal Interface",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Container Registry (ACR) is a managed, private OCI container registry service based on open-source Docker Registry 2.0 to store and manage private container images.",
+    "explanation": "Slide 62 defines the Azure Portal as Microsoft's web-based graphical management interface (GUI) for creating, managing, and monitoring Azure resources.",
     "content": {
-      "prompt": "Where should a development team store and manage private OCI/Docker container images securely within their Azure environment?",
-      "explanation": "Azure Container Registry (ACR) is a managed, private OCI container registry service based on open-source Docker Registry 2.0 to store and manage private container images.",
+      "prompt": "What is the Azure Portal as described in Slide 62 of the Azure Basics presentation?",
+      "explanation": "Slide 62 defines the Azure Portal as Microsoft's web-based graphical management interface (GUI) for creating, managing, and monitoring Azure resources.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Container Registry (ACR)",
+          "text": "Microsoft's web-based graphical management interface (GUI) for managing Azure resources.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Blob Storage public container",
+          "text": "A command-line terminal window only accessible from Linux PCs.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Queue Storage",
+          "text": "A physical retail store selling server hardware.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Key Vault Secret store",
+          "text": "An automated email notification service.",
           "isCorrect": false
         }
       ]
@@ -844,33 +844,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q015",
-    "title": "Azure Kubernetes Service (AKS) Architecture",
+    "title": "PPTX Slide 63-66: Azure PowerShell & Cmdlet Syntax",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "In AKS, Microsoft manages the Kubernetes Control Plane (API server, etcd) at no extra charge, while the customer pays only for the agent worker node VMs that execute container pods.",
+    "explanation": "Slides 63-66 explain that Azure PowerShell uses a distinct Verb-Noun cmdlet naming convention (e.g. New-AzVM, Get-AzResourceGroup).",
     "content": {
-      "prompt": "Which statement accurately describes the responsibility split in Azure Kubernetes Service (AKS)?",
-      "explanation": "In AKS, Microsoft manages the Kubernetes Control Plane (API server, etcd) at no extra charge, while the customer pays only for the agent worker node VMs that execute container pods.",
+      "prompt": "Which command structure is characteristic of Azure PowerShell cmdlets (such as New-AzVM)?",
+      "explanation": "Slides 63-66 explain that Azure PowerShell uses a distinct Verb-Noun cmdlet naming convention (e.g. New-AzVM, Get-AzResourceGroup).",
       "options": [
         {
           "id": "opt-1",
-          "text": "Microsoft manages the Kubernetes Control Plane (API server and etcd), while the customer manages and pays for worker node pools.",
+          "text": "Verb-Noun syntax (e.g. New-AzVM)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "The customer must manually patch physical datacenter router firmware for AKS clusters.",
+          "text": "az <group> <action> syntax",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "AKS does not support containerized workloads.",
+          "text": "SQL SELECT query statements",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "The customer is responsible for maintaining etcd master database hardware.",
+          "text": "HTML tag syntax (<vm>new</vm>)",
           "isCorrect": false
         }
       ]
@@ -878,33 +878,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q016",
-    "title": "Azure Private Endpoints vs Service Endpoints",
+    "title": "PPTX Slide 67-71: Azure CLI Syntax & Platforms",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Private Endpoints use a private IP address from your VNet to connect securely to Azure PaaS services via Azure Private Link, eliminating public IP exposure.",
+    "explanation": "Slides 67-71 highlight that Azure CLI is a cross-platform command-line tool (Windows, macOS, Linux) that follows an 'az <group> <action>' command structure (e.g. az vm create).",
     "content": {
-      "prompt": "Which network feature assigns a private IP address from your Virtual Network subnet directly to an Azure PaaS service (such as Azure Storage or SQL Database)?",
-      "explanation": "Private Endpoints use a private IP address from your VNet to connect securely to Azure PaaS services via Azure Private Link, eliminating public IP exposure.",
+      "prompt": "What command structure is used by the cross-platform Azure CLI tool?",
+      "explanation": "Slides 67-71 highlight that Azure CLI is a cross-platform command-line tool (Windows, macOS, Linux) that follows an 'az <group> <action>' command structure (e.g. az vm create).",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Private Endpoint",
+          "text": "az <group> <action> (e.g. az vm create)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Public IP Address",
+          "text": "Verb-Noun syntax (e.g. New-AzVM)",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "ExpressRoute FastPath",
+          "text": "Docker container run syntax",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Internet Gateway",
+          "text": "Git push origin main syntax",
           "isCorrect": false
         }
       ]
@@ -912,33 +912,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q017",
-    "title": "Azure NAT Gateway Outbound Connectivity",
+    "title": "PPTX Slide 75: B-Series VM & Burst CPU Concept",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure NAT Gateway provides outbound-only internet connectivity for subnets inside a VNet, ensuring all outbound connections share static public IP addresses while blocking inbound connections.",
+    "explanation": "Slide 75 explains Burst CPU: B-Series VMs run at a baseline CPU level, accumulate CPU credits when idle, and burst up to 100% CPU when traffic spikes.",
     "content": {
-      "prompt": "You need to grant virtual machines in a private subnet outbound internet access to download software patches using a static public IP address, while strictly blocking all inbound connections. What service should you use?",
-      "explanation": "Azure NAT Gateway provides outbound-only internet connectivity for subnets inside a VNet, ensuring all outbound connections share static public IP addresses while blocking inbound connections.",
+      "prompt": "According to Slide 75, what is Burst CPU in Azure B-Series Virtual Machines?",
+      "explanation": "Slide 75 explains Burst CPU: B-Series VMs run at a baseline CPU level, accumulate CPU credits when idle, and burst up to 100% CPU when traffic spikes.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure NAT Gateway",
+          "text": "The ability of a VM to run at a baseline CPU, accumulate CPU credits while idle, and burst up to 100% CPU during traffic spikes.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Traffic Manager",
+          "text": "A hardware failure where CPU chips physically break inside the server.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Point-to-Site VPN",
+          "text": "Deleting virtual machines automatically after 1 hour.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Front Door",
+          "text": "Overclocking server RAM water cooling pumps.",
           "isCorrect": false
         }
       ]
@@ -946,33 +946,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q018",
-    "title": "Application Gateway vs Azure Load Balancer",
+    "title": "PPTX Slide 76: D-Series VM (General Purpose)",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Application Gateway is a Layer 7 (HTTP/HTTPS) load balancer that supports URL path-based routing and SSL termination, whereas Azure Load Balancer operates at Layer 4 (TCP/UDP).",
+    "explanation": "Slide 76 describes D-Series VMs as General Purpose virtual machines with balanced vCPU and memory, suitable for testing and small-to-medium web application servers.",
     "content": {
-      "prompt": "Which Azure load balancing service operates at Layer 7 (Application Layer) and supports URL path-based routing (e.g. routing /images/* to one server pool and /video/* to another)?",
-      "explanation": "Application Gateway is a Layer 7 (HTTP/HTTPS) load balancer that supports URL path-based routing and SSL termination, whereas Azure Load Balancer operates at Layer 4 (TCP/UDP).",
+      "prompt": "Which Azure VM family series represents General Purpose compute with balanced vCPU and RAM ratio?",
+      "explanation": "Slide 76 describes D-Series VMs as General Purpose virtual machines with balanced vCPU and memory, suitable for testing and small-to-medium web application servers.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Application Gateway",
+          "text": "D-Series (General Purpose)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Basic Load Balancer (Layer 4)",
+          "text": "N-Series (GPU-Enabled)",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Traffic Manager (DNS)",
+          "text": "L-Series (Storage Optimized)",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Virtual Network Peering",
+          "text": "H-Series (High Performance Compute)",
           "isCorrect": false
         }
       ]
@@ -980,33 +980,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q019",
-    "title": "Azure Storage SAS Token Types",
+    "title": "PPTX Slide 77 & 80: E-Series & M-Series VMs (Memory Optimized)",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Shared Access Signatures (SAS) grant limited time-bound access to storage resources with specified permissions (read/write) without sharing the account access key.",
+    "explanation": "Slides 77 and 80 specify that E-Series and M-Series VMs offer high memory-to-CPU ratios ideal for large in-memory databases like SAP HANA and enterprise relational databases.",
     "content": {
-      "prompt": "How can you grant a third-party vendor temporary, read-only access to a specific Azure Blob container for 4 hours without revealing your primary Storage Account Access Key?",
-      "explanation": "Shared Access Signatures (SAS) grant limited time-bound access to storage resources with specified permissions (read/write) without sharing the account access key.",
+      "prompt": "Which Azure VM series (E-Series and M-Series) should be chosen for hosting large in-memory databases like SAP HANA requiring high RAM-to-CPU ratios?",
+      "explanation": "Slides 77 and 80 specify that E-Series and M-Series VMs offer high memory-to-CPU ratios ideal for large in-memory databases like SAP HANA and enterprise relational databases.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Generate a Shared Access Signature (SAS) token with Read permissions and a 4-hour expiration timestamp.",
+          "text": "E-Series and M-Series (Memory Optimized)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Send the vendor your primary Storage Account Connection String via email.",
+          "text": "Fsv2-Series (Compute Optimized)",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Make the storage account container completely public for 4 hours.",
+          "text": "B-Series (Burstable)",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Create a new Azure Subscription for the vendor.",
+          "text": "A-Series (Basic Entry Level)",
           "isCorrect": false
         }
       ]
@@ -1014,33 +1014,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q020",
-    "title": "App Service Deployment Slots",
+    "title": "PPTX Slide 78: Fsv2-Series VM (Compute Optimized)",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "App Service Deployment Slots allow running staging environments with separate URLs. Swapping staging into production ensures zero-downtime deployments.",
+    "explanation": "Slide 78 highlights Fsv2-Series VMs as Compute-Optimized instances featuring high CPU clock speeds for fast execution of batch processing and web analytics.",
     "content": {
-      "prompt": "Which feature of Azure App Service enables web application teams to deploy new code into a staging environment and swap it into production with zero downtime?",
-      "explanation": "App Service Deployment Slots allow running staging environments with separate URLs. Swapping staging into production ensures zero-downtime deployments.",
+      "prompt": "Which Azure VM series is Compute-Optimized with high CPU clock speeds for CPU-intensive batch calculation engines?",
+      "explanation": "Slide 78 highlights Fsv2-Series VMs as Compute-Optimized instances featuring high CPU clock speeds for fast execution of batch processing and web analytics.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Deployment Slots",
+          "text": "Fsv2-Series (Compute Optimized)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Resource Locks",
+          "text": "L-Series (Storage Optimized)",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Scale Sets",
+          "text": "E-Series (Memory Optimized)",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Availability Zones",
+          "text": "B-Series (Burstable)",
           "isCorrect": false
         }
       ]
@@ -1048,33 +1048,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q021",
-    "title": "Azure SQL Database Elastic Pools",
+    "title": "PPTX Slide 81: L-Series VM (Storage Optimized)",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Elastic Pools allow multiple Azure SQL databases to share a single set of performance resources (eDTUs or vCores) to manage cost efficiently for unpredictable workloads.",
+    "explanation": "Slide 81 defines L-Series VMs as Storage-Optimized compute instances featuring direct-attached local NVMe storage for high I/O NoSQL databases like Cassandra and MongoDB.",
     "content": {
-      "prompt": "A SaaS provider manages 100 individual Azure SQL databases for 100 different customers. Each database has unpredictable usage spikes at different times of day. How can the provider optimize database performance and cost?",
-      "explanation": "Elastic Pools allow multiple Azure SQL databases to share a single set of performance resources (eDTUs or vCores) to manage cost efficiently for unpredictable workloads.",
+      "prompt": "Which VM family provides direct-attached local NVMe disk storage designed for high I/O throughput NoSQL databases (e.g. Cassandra, MongoDB)?",
+      "explanation": "Slide 81 defines L-Series VMs as Storage-Optimized compute instances featuring direct-attached local NVMe storage for high I/O NoSQL databases like Cassandra and MongoDB.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Provision an Azure SQL Elastic Pool to share a common pool of compute/DTU resources among all 100 databases.",
+          "text": "L-Series (Storage Optimized)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Assign the maximum tier (Business Critical) to every database 24/7.",
+          "text": "D-Series (General Purpose)",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Convert all databases into CSV files stored on local USB drives.",
+          "text": "N-Series (GPU-Enabled)",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Merge all 100 customer databases into a single unindexed table.",
+          "text": "M-Series (Large RAM)",
           "isCorrect": false
         }
       ]
@@ -1082,33 +1082,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q022",
-    "title": "Azure Dedicated Hosts for Compliance",
+    "title": "PPTX Slides 84-86: H-Series VM (High Performance Computing - HPC)",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Dedicated Host provides physical servers dedicated to your organization only, satisfying strict physical single-tenant isolation compliance requirements.",
+    "explanation": "Slides 84-86 explain High-Performance Computing (HPC) workloads (weather modeling, molecular simulations) requiring InfiniBand networking, served by H-Series VMs.",
     "content": {
-      "prompt": "A financial enterprise requires that physical server hardware hosting its Virtual Machines is completely single-tenant and NOT shared with any other Azure customers. What service satisfies this compliance mandate?",
-      "explanation": "Azure Dedicated Host provides physical servers dedicated to your organization only, satisfying strict physical single-tenant isolation compliance requirements.",
+      "prompt": "Which Azure VM series is built for High-Performance Computing (HPC) workloads requiring InfiniBand ultra-low latency interconnects?",
+      "explanation": "Slides 84-86 explain High-Performance Computing (HPC) workloads (weather modeling, molecular simulations) requiring InfiniBand networking, served by H-Series VMs.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Dedicated Host",
+          "text": "H-Series (High Performance Compute)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Shared General Purpose VM",
+          "text": "B-Series (Burstable)",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "App Service Free Tier",
+          "text": "A-Series (Entry Level)",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Functions Consumption Plan",
+          "text": "D-Series (General Purpose)",
           "isCorrect": false
         }
       ]
@@ -1116,33 +1116,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q023",
-    "title": "Azure Storage Immutable Storage (WORM)",
+    "title": "PPTX Slide 90: Trusted Launch & Integrity Monitoring",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Immutable Blob Storage implements Write Once, Read Many (WORM) policies where data cannot be modified or deleted by any user, including subscription owners, during the retention period.",
+    "explanation": "Slide 90 compares Integrity Monitoring in VM Trusted Launch to a 'security guard who checks every time the VM starts' to ensure firmware and bootloader haven't been tampered with.",
     "content": {
-      "prompt": "Which Azure Storage feature ensures financial compliance records are stored in a Write Once, Read Many (WORM) state where data cannot be overwritten or deleted by any user for a specified retention interval?",
-      "explanation": "Immutable Blob Storage implements Write Once, Read Many (WORM) policies where data cannot be modified or deleted by any user, including subscription owners, during the retention period.",
+      "prompt": "Slide 90 uses what analogy to explain Integrity Monitoring in Azure VM Trusted Launch?",
+      "explanation": "Slide 90 compares Integrity Monitoring in VM Trusted Launch to a 'security guard who checks every time the VM starts' to ensure firmware and bootloader haven't been tampered with.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Immutable Blob Storage with time-based retention policy",
+          "text": "A security guard who checks boot integrity every time the VM starts.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Storage Account Shared Key",
+          "text": "A cashier at a grocery store scanner.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Blob Soft Delete only",
+          "text": "A delivery driver dropping off packages.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Virtual Network NAT Gateway",
+          "text": "A painter painting server chassis walls.",
           "isCorrect": false
         }
       ]
@@ -1150,33 +1150,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q024",
-    "title": "Azure Functions Serverless Triggers",
+    "title": "PPTX Slide 91-92: Azure Spot Virtual Machines",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Functions is an event-driven serverless compute service that executes code automatically when triggered by events (e.g. Blob upload, Queue message, HTTP request).",
+    "explanation": "Slides 91-92 explain that Azure Spot VMs allow you to take advantage of unused Azure compute capacity at steep discounts (up to 90%), but Microsoft can evict them when capacity is needed.",
     "content": {
-      "prompt": "You need to execute a small Python script to resize images automatically whenever a new image file is uploaded to an Azure Blob Storage container. Which event-driven serverless service should you use?",
-      "explanation": "Azure Functions is an event-driven serverless compute service that executes code automatically when triggered by events (e.g. Blob upload, Queue message, HTTP request).",
+      "prompt": "What is the key trade-off when using Azure Spot Virtual Machines?",
+      "explanation": "Slides 91-92 explain that Azure Spot VMs allow you to take advantage of unused Azure compute capacity at steep discounts (up to 90%), but Microsoft can evict them when capacity is needed.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Functions",
+          "text": "Significant cost savings (up to 90%), but VMs can be evicted/stopped by Azure at any time with short notice when capacity is needed.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Virtual Machine Scale Sets",
+          "text": "Spot VMs are 100% free forever without any eviction risk.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure ExpressRoute",
+          "text": "Spot VMs only run on weekends.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Dedicated Host",
+          "text": "Spot VMs do not support installing operating systems.",
           "isCorrect": false
         }
       ]
@@ -1184,33 +1184,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q025",
-    "title": "Event Grid vs Event Hubs vs Service Bus",
+    "title": "PPTX Slide 88-89: VM Child Component Provisioning",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Event Hubs is a big data streaming platform capable of ingesting millions of telemetry events per second from IoT devices and logs.",
+    "explanation": "Slides 88-89 illustrate that deploying an Azure VM provisions child resources including a Network Interface (NIC), Managed OS Disk, and IP configuration attached to a VNet subnet.",
     "content": {
-      "prompt": "An IoT application needs to stream and ingest 2 million telemetry events per second from connected vehicles into Azure for real-time analytics. Which service should you choose?",
-      "explanation": "Azure Event Hubs is a big data streaming platform capable of ingesting millions of telemetry events per second from IoT devices and logs.",
+      "prompt": "When creating an Azure Virtual Machine, which two mandatory underlying resources are automatically provisioned and attached to it?",
+      "explanation": "Slides 88-89 illustrate that deploying an Azure VM provisions child resources including a Network Interface (NIC), Managed OS Disk, and IP configuration attached to a VNet subnet.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Event Hubs",
+          "text": "Network Interface (NIC) and Managed OS Disk",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Service Bus Topics",
+          "text": "Physical Fiber Cable and Land Deed",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Logic Apps",
+          "text": "Azure Key Vault and ExpressRoute Circuit",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure File Sync",
+          "text": "DNS Registrar and Domain Name",
           "isCorrect": false
         }
       ]
@@ -1220,33 +1220,33 @@ async function main() {
   const azureBasicsD3 = [
   {
     "code": "AZ-BASICS-Q026",
-    "title": "AzCopy Command-Line Tool Usage",
+    "title": "PPTX Slide 2: City Analogy for Azure Architecture",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "AzCopy is a high-performance command-line utility designed for copying data to and from Azure Blob, File, and Table storage with optimized parallel throughput.",
+    "explanation": "Slide 2 compares Physical Architecture to the land/buildings/power and Logical Architecture to the city map showing districts and addresses.",
     "content": {
-      "prompt": "Which command-line utility provides optimal multi-threaded performance for transferring terabytes of data files into Azure Blob Storage over the network?",
-      "explanation": "AzCopy is a high-performance command-line utility designed for copying data to and from Azure Blob, File, and Table storage with optimized parallel throughput.",
+      "prompt": "In the Slide 2 city analogy, what corresponds to Azure Logical Architecture?",
+      "explanation": "Slide 2 compares Physical Architecture to the land/buildings/power and Logical Architecture to the city map showing districts and addresses.",
       "options": [
         {
           "id": "opt-1",
-          "text": "AzCopy",
+          "text": "The city map showing districts, streets, and addresses.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "robocopy /mir",
+          "text": "The physical land and soil beneath buildings.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "ping -t",
+          "text": "The electrical power grid wires.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "ipconfig /renew",
+          "text": "The concrete foundations of server rooms.",
           "isCorrect": false
         }
       ]
@@ -1254,33 +1254,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q027",
-    "title": "Azure Migrate Discovery & Assessment",
+    "title": "PPTX Slide 4: Regions inside Geographies",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Migrate provides a centralized hub to discover, assess, and migrate on-premises VMware, Hyper-V, and physical servers to Azure.",
+    "explanation": "Slide 4 emphasizes that Geography is the bigger boundary and Azure Regions (e.g. Central India, South India) are the smaller locations inside that Geography.",
     "content": {
-      "prompt": "An organization plans to migrate 200 physical and VMware servers to Azure. Which service provides an agentless appliance to discover on-premises servers, assess VM readiness, and estimate Azure costs?",
-      "explanation": "Azure Migrate provides a centralized hub to discover, assess, and migrate on-premises VMware, Hyper-V, and physical servers to Azure.",
+      "prompt": "What is the relationship between an Azure Geography and an Azure Region?",
+      "explanation": "Slide 4 emphasizes that Geography is the bigger boundary and Azure Regions (e.g. Central India, South India) are the smaller locations inside that Geography.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Migrate",
+          "text": "Geography is the larger boundary; multiple Azure Regions exist inside a Geography.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Site Recovery (ASR)",
+          "text": "Region is larger; multiple Geographies exist inside a Region.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Traffic Manager",
+          "text": "They are identical words with no difference.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Application Insights",
+          "text": "Regions are for databases only, while Geographies are for VMs only.",
           "isCorrect": false
         }
       ]
@@ -1288,33 +1288,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q028",
-    "title": "Microsoft Sentinel SIEM Connectors",
+    "title": "PPTX Slide 10-11: Low-Latency Regional Fiber Network",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Microsoft Sentinel uses built-in Data Connectors (CEF, Syslog, Microsoft 365, AWS) to ingest security logs from multi-cloud and on-premises sources.",
+    "explanation": "Slides 10-11 highlight that all datacenters within an Azure Region are connected by a dedicated, high-speed, low-latency fiber optic network.",
     "content": {
-      "prompt": "How does Microsoft Sentinel ingest security events from third-party firewalls, Linux servers, and multi-cloud environments?",
-      "explanation": "Microsoft Sentinel uses built-in Data Connectors (CEF, Syslog, Microsoft 365, AWS) to ingest security logs from multi-cloud and on-premises sources.",
+      "prompt": "How are individual datacenters within an Azure Region interconnected to ensure rapid data communication?",
+      "explanation": "Slides 10-11 highlight that all datacenters within an Azure Region are connected by a dedicated, high-speed, low-latency fiber optic network.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Via Data Connectors (such as Syslog, Common Event Format CEF, and API integrations).",
+          "text": "Through a dedicated, low-latency regional fiber optic network.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "By manually typing logs into Excel spreadsheets daily.",
+          "text": "Over dial-up copper phone lines.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "By printing paper log files and scanning them into PDF files.",
+          "text": "Using public Wi-Fi hotspots.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Using Windows Update KB patches only.",
+          "text": "Via satellite signals bounced off the moon.",
           "isCorrect": false
         }
       ]
@@ -1322,33 +1322,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q029",
-    "title": "Azure Private DNS Zones Resolution",
+    "title": "PPTX Slide 17: Multi-Zone Availability Example",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Private DNS Zones provide name resolution for VMs within a VNet and across connected VNets without needing custom DNS server solutions.",
+    "explanation": "Slide 17 illustrates that deploying application VMs across multiple Availability Zones protects the application against entire datacenter facility failures.",
     "content": {
-      "prompt": "What component is required to resolve internal custom domain names (such as app.internal.contoso.com) for Virtual Machines inside a Virtual Network without building custom DNS servers?",
-      "explanation": "Azure Private DNS Zones provide name resolution for VMs within a VNet and across connected VNets without needing custom DNS server solutions.",
+      "prompt": "What benefit is gained by deploying web application VM instances across two distinct Availability Zones within the same region?",
+      "explanation": "Slide 17 illustrates that deploying application VMs across multiple Availability Zones protects the application against entire datacenter facility failures.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Private DNS Zone linked to the VNet",
+          "text": "High Availability (if one datacenter building loses power or connectivity, the other zone continues running).",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Public DNS Registrar record",
+          "text": "Decreased network throughput speed.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Local client hosts file edit on every VM",
+          "text": "Automatic cancellation of all monthly bills.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure ExpressRoute Circuit",
+          "text": "Forced server reboots every 10 minutes.",
           "isCorrect": false
         }
       ]
@@ -1356,33 +1356,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q030",
-    "title": "Azure Monitor Action Groups Alerting",
+    "title": "PPTX Slide 22: Summary of Entra ID Tenant",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Monitor Action Groups define the notification preferences and automated actions (Email, SMS, Push, Webhook, Logic App, ITSM) triggered by alerts.",
+    "explanation": "Slide 22 summarizes that a Tenant houses user accounts, security groups, and enterprise applications for authentication.",
     "content": {
-      "prompt": "When an Azure Monitor alert fires, what component defines the list of receivers and automated actions (such as sending an SMS, triggering a Webhook, or invoking a Logic App)?",
-      "explanation": "Azure Monitor Action Groups define the notification preferences and automated actions (Email, SMS, Push, Webhook, Logic App, ITSM) triggered by alerts.",
+      "prompt": "Which Azure asset type is stored and managed at the Tenant level (Microsoft Entra ID)?",
+      "explanation": "Slide 22 summarizes that a Tenant houses user accounts, security groups, and enterprise applications for authentication.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Action Group",
+          "text": "User accounts, security groups, and authentication credentials.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Management Group",
+          "text": "Raw virtual hard disk (.vhd) files.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Resource Group",
+          "text": "Physical server rack power switches.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Availability Group",
+          "text": "Undersea fiber optic cables.",
           "isCorrect": false
         }
       ]
@@ -1390,33 +1390,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q031",
-    "title": "Azure Traffic Manager Routing Methods",
+    "title": "PPTX Slide 30: Folder Analogy for Resource Groups",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Traffic Manager is a DNS-based traffic load balancer that uses routing methods such as Performance (lowest latency) to direct client requests to endpoints globally.",
+    "explanation": "Slide 30 states: 'Think of it like a folder. You put related files into a folder so you can manage them together.'",
     "content": {
-      "prompt": "Which service uses DNS to route incoming user requests to the closest Azure datacenter endpoint based on lowest network latency?",
-      "explanation": "Azure Traffic Manager is a DNS-based traffic load balancer that uses routing methods such as Performance (lowest latency) to direct client requests to endpoints globally.",
+      "prompt": "Why are Azure resources grouped into a Resource Group?",
+      "explanation": "Slide 30 states: 'Think of it like a folder. You put related files into a folder so you can manage them together.'",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Traffic Manager with Performance routing method",
+          "text": "To organize related resources so their lifecycle, monitoring, and permissions can be managed together.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Internal Load Balancer",
+          "text": "Because Azure forces all VMs to share a single CPU chip.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure NAT Gateway",
+          "text": "To encrypt user web browser search histories.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Network Security Group",
+          "text": "To prevent users from opening the Azure Portal.",
           "isCorrect": false
         }
       ]
@@ -1424,33 +1424,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q032",
-    "title": "Azure Storage Managed Disks Snapshot vs Image",
+    "title": "PPTX Slide 38: Logical Hierarchy Scope Order",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "A Snapshot is a read-only point-in-time copy of a single disk. An Image is a generalized capture of both OS and data disks used to deploy new VM instances.",
+    "explanation": "Slide 38 presents the full logical hierarchy from top to bottom: Tenant -> Management Group -> Subscription -> Resource Group -> Resource.",
     "content": {
-      "prompt": "What is the difference between an Azure Managed Disk Snapshot and a Managed Image?",
-      "explanation": "A Snapshot is a read-only point-in-time copy of a single disk. An Image is a generalized capture of both OS and data disks used to deploy new VM instances.",
+      "prompt": "What is the correct top-to-bottom sequence of Azure logical management scopes?",
+      "explanation": "Slide 38 presents the full logical hierarchy from top to bottom: Tenant -> Management Group -> Subscription -> Resource Group -> Resource.",
       "options": [
         {
           "id": "opt-1",
-          "text": "A Snapshot is a point-in-time backup copy of a single VHD disk, while an Image is a generalized template used to provision new VMs.",
+          "text": "Tenant -> Management Group -> Subscription -> Resource Group -> Resource",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "A Snapshot requires an ExpressRoute connection, while an Image runs in client web browsers.",
+          "text": "Resource -> Resource Group -> Subscription -> Management Group -> Tenant",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Snapshots can only store text files, while Images store MP3 audio.",
+          "text": "Subscription -> Resource Group -> Tenant -> Management Group -> Resource",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "There is no difference; both terms are interchangeable.",
+          "text": "Resource Group -> Tenant -> Management Group -> Resource -> Subscription",
           "isCorrect": false
         }
       ]
@@ -1458,33 +1458,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q033",
-    "title": "Azure Files AD DS SMB Authentication",
+    "title": "PPTX Slide 55: Maximum Depth of Management Groups",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Files supports identity-based authentication over SMB via Active Directory Domain Services (AD DS) or Entra ID Kerberos for hybrid file share access.",
+    "explanation": "Slide 55 notes that Azure Management Groups can support up to 6 levels of depth in a single organizational tree.",
     "content": {
-      "prompt": "How can an enterprise migrate on-premises SMB file shares to Azure Files while preserving existing Active Directory (AD DS) user NTFS permission ACLs?",
-      "explanation": "Azure Files supports identity-based authentication over SMB via Active Directory Domain Services (AD DS) or Entra ID Kerberos for hybrid file share access.",
+      "prompt": "Up to how many levels of depth can Azure Management Group hierarchies be structured?",
+      "explanation": "Slide 55 notes that Azure Management Groups can support up to 6 levels of depth in a single organizational tree.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Enable Identity-based AD DS authentication for Azure Files SMB shares.",
+          "text": "Up to 6 levels of depth",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Convert all file shares into public HTTP websites.",
+          "text": "Up to 1000 levels of depth",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Disable all user passwords on the local domain.",
+          "text": "Only 1 single level",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Hardcode storage account keys on every user desktop.",
+          "text": "Unlimited levels without restriction",
           "isCorrect": false
         }
       ]
@@ -1492,33 +1492,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q034",
-    "title": "Azure Load Balancer Health Probes",
+    "title": "PPTX Slide 57: Global Search Box in Azure Portal",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Health Probes monitor the status of backend VM instances (via TCP or HTTP/HTTPS responses) to ensure traffic is only routed to healthy nodes.",
+    "explanation": "Slide 57 compares the Global Search box in the Azure Portal to 'Google's search box for Azure resources', allowing quick navigation to services and documentation.",
     "content": {
-      "prompt": "How does Azure Load Balancer detect if a backend Virtual Machine instance has failed and stop sending network traffic to it?",
-      "explanation": "Health Probes monitor the status of backend VM instances (via TCP or HTTP/HTTPS responses) to ensure traffic is only routed to healthy nodes.",
+      "prompt": "What is the function of the top Search Bar in the Azure Portal GUI (Slide 57)?",
+      "explanation": "Slide 57 compares the Global Search box in the Azure Portal to 'Google's search box for Azure resources', allowing quick navigation to services and documentation.",
       "options": [
         {
           "id": "opt-1",
-          "text": "By continuously monitoring backend instances using Health Probes (TCP/HTTP/HTTPS).",
+          "text": "To quickly search for and navigate to any Azure service, resource, group, or documentation article.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "By checking client ping responses.",
+          "text": "To stream live television sports games.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "By asking administrators to manually flag offline VMs in the portal.",
+          "text": "To send text messages to personal cell phones.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "By inspecting Azure billing invoices.",
+          "text": "To order physical computer keyboards.",
           "isCorrect": false
         }
       ]
@@ -1526,33 +1526,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q035",
-    "title": "Azure Container Instances (ACI) Execution",
+    "title": "PPTX Slide 61: Cloud Shell Icon in Azure Portal Header",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Container Instances (ACI) provides the fastest and simplest way to run a single isolated container in Azure without managing virtual machines or cluster orchestrators.",
+    "explanation": "Slide 61 highlights the Cloud Shell icon in the top-right header of the Azure Portal, which opens an embedded browser terminal.",
     "content": {
-      "prompt": "Which Azure compute service is best suited for running a single isolated Docker container to completion in seconds without provisioning VMs or managing Kubernetes?",
-      "explanation": "Azure Container Instances (ACI) provides the fastest and simplest way to run a single isolated container in Azure without managing virtual machines or cluster orchestrators.",
+      "prompt": "Which icon in the Azure Portal top navigation bar launches an embedded Cloud Shell terminal window directly in your web browser?",
+      "explanation": "Slide 61 highlights the Cloud Shell icon in the top-right header of the Azure Portal, which opens an embedded browser terminal.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Container Instances (ACI)",
+          "text": "The Cloud Shell (>_) icon in the top navigation bar",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Kubernetes Service (AKS)",
+          "text": "The Notification Bell icon",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Virtual Machine Scale Sets",
+          "text": "The Help & Support question mark (?) icon",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Dedicated Host",
+          "text": "The Settings gear icon",
           "isCorrect": false
         }
       ]
@@ -1560,33 +1560,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q036",
-    "title": "Azure Firewall Premium Capabilities",
+    "title": "PPTX Slide 68: Azure CLI Operating System Support",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Firewall Premium features Advanced Threat Protection including TLS Inspection, IDPS (Intrusion Detection and Prevention System), and Web Categories filtering.",
+    "explanation": "Slide 68 states that Azure CLI is designed to run natively on Windows, macOS, and Linux.",
     "content": {
-      "prompt": "Which tier of Azure Firewall introduces Intrusion Detection and Prevention System (IDPS) and TLS Inspection to analyze encrypted network traffic for malicious payloads?",
-      "explanation": "Azure Firewall Premium features Advanced Threat Protection including TLS Inspection, IDPS (Intrusion Detection and Prevention System), and Web Categories filtering.",
+      "prompt": "On which operating systems can Azure CLI be installed and executed?",
+      "explanation": "Slide 68 states that Azure CLI is designed to run natively on Windows, macOS, and Linux.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Firewall Premium",
+          "text": "Windows, macOS, and Linux (Cross-Platform)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Firewall Standard",
+          "text": "Windows Server 2022 only",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Firewall Basic",
+          "text": "Android mobile phones only",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Network Security Group Basic",
+          "text": "MS-DOS 6.22 only",
           "isCorrect": false
         }
       ]
@@ -1594,33 +1594,67 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q037",
-    "title": "Azure Policy Remediation Tasks",
+    "title": "PPTX Slide 70: Azure CLI vs Azure PowerShell Comparison",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "DeployIfNotExists and Modify Azure Policies use Remediation Tasks to automatically bring existing non-compliant resources into compliance.",
+    "explanation": "Slide 70 summarizes: Azure CLI uses az commands and is popular with Linux/DevOps engineers, whereas Azure PowerShell uses Verb-Noun cmdlets and is popular with Windows sysadmins.",
     "content": {
-      "prompt": "When an Azure Policy with a DeployIfNotExists effect is assigned, how can an administrator bring pre-existing non-compliant resources into compliance automatically?",
-      "explanation": "DeployIfNotExists and Modify Azure Policies use Remediation Tasks to automatically bring existing non-compliant resources into compliance.",
+      "prompt": "According to Slide 70, which management tool is particularly favored by Linux and DevOps engineers familiar with bash environments?",
+      "explanation": "Slide 70 summarizes: Azure CLI uses az commands and is popular with Linux/DevOps engineers, whereas Azure PowerShell uses Verb-Noun cmdlets and is popular with Windows sysadmins.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Create and trigger a Policy Remediation Task.",
+          "text": "Azure CLI",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Manually delete the entire subscription.",
+          "text": "Azure PowerShell",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Reboot all local client workstations.",
+          "text": "Internet Explorer 11",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Apply a ReadOnly Resource Lock.",
+          "text": "Windows Notepad",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q038",
+    "title": "PPTX Slide 83: One-Line Summary of VM Series",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "BEGINNER",
+    "points": 1.0,
+    "explanation": "Slide 83 provides a one-line summary: Match your workload needs (RAM, CPU, Storage, GPU) to the appropriate Azure VM family series to optimize cost and performance.",
+    "content": {
+      "prompt": "What is the key takeaway when choosing an Azure Virtual Machine SKU family for your application?",
+      "explanation": "Slide 83 provides a one-line summary: Match your workload needs (RAM, CPU, Storage, GPU) to the appropriate Azure VM family series to optimize cost and performance.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Select the VM series family that matches your specific resource bottleneck (RAM, CPU, NVMe, or GPU) to optimize performance and cost.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Always select the most expensive VM series regardless of workload.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "All Azure VM series have identical hardware specifications.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "VM series choice is chosen automatically by Microsoft and cannot be changed.",
           "isCorrect": false
         }
       ]
@@ -1629,68 +1663,34 @@ async function main() {
 ];
   const azureBasicsD4 = [
   {
-    "code": "AZ-BASICS-Q038",
-    "title": "Azure Virtual WAN Global Interconnect",
-    "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
-    "points": 1.0,
-    "explanation": "Azure Virtual WAN brings networking, security, and routing functionalities together to provide a single operational hub-and-spoke interconnect for global branch offices.",
-    "content": {
-      "prompt": "An enterprise wants to interconnect 50 global branch offices, S2S VPNs, ExpressRoute circuits, and Azure VNets into a single automated networking hub. Which service should they choose?",
-      "explanation": "Azure Virtual WAN brings networking, security, and routing functionalities together to provide a single operational hub-and-spoke interconnect for global branch offices.",
-      "options": [
-        {
-          "id": "opt-1",
-          "text": "Azure Virtual WAN",
-          "isCorrect": true
-        },
-        {
-          "id": "opt-2",
-          "text": "Azure Traffic Manager",
-          "isCorrect": false
-        },
-        {
-          "id": "opt-3",
-          "text": "Azure DNS Private Resolver",
-          "isCorrect": false
-        },
-        {
-          "id": "opt-4",
-          "text": "Azure Content Delivery Network (CDN)",
-          "isCorrect": false
-        }
-      ]
-    }
-  },
-  {
     "code": "AZ-BASICS-Q039",
-    "title": "Azure Front Door WAF Edge Security",
+    "title": "PPTX Slide 84: High Performance Computing (HPC) Workloads",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Front Door integrates Web Application Firewall (WAF) at the global edge to inspect and block SQL injection, cross-site scripting (XSS), and DDoS attacks before reaching web servers.",
+    "explanation": "Slide 84 defines High Performance Computing (HPC) as using clusters of powerful servers working together to solve complex computational problems like weather forecasting.",
     "content": {
-      "prompt": "Where are Azure Front Door Web Application Firewall (WAF) rules evaluated to block malicious web attacks (such as SQL injection and XSS)?",
-      "explanation": "Azure Front Door integrates Web Application Firewall (WAF) at the global edge to inspect and block SQL injection, cross-site scripting (XSS), and DDoS attacks before reaching web servers.",
+      "prompt": "Which real-world application is an example of High Performance Computing (HPC) as highlighted in Slide 84-85?",
+      "explanation": "Slide 84 defines High Performance Computing (HPC) as using clusters of powerful servers working together to solve complex computational problems like weather forecasting.",
       "options": [
         {
           "id": "opt-1",
-          "text": "At Microsoft global edge PoP locations before traffic reaches your origin backend network.",
+          "text": "Weather modeling, financial risk analysis, and crash simulation calculations.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Inside the OS of the target Virtual Machine.",
+          "text": "Sending basic email messages to colleagues.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "On client web browsers.",
+          "text": "Editing text files in Windows Notepad.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Inside the local SQL database engine.",
+          "text": "Browsing simple static websites.",
           "isCorrect": false
         }
       ]
@@ -1698,33 +1698,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q040",
-    "title": "Azure Storage SSE 256-bit AES Encryption",
+    "title": "PPTX Slide 91: Spot VM Savings Percentage",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Storage Service Encryption (SSE) automatically encrypts all data at rest using 256-bit AES encryption before persisting to disk, with zero cost or performance overhead.",
+    "explanation": "Slide 91 states that Azure Spot VMs provide up to a 90% discount compared to standard pay-as-you-go pricing.",
     "content": {
-      "prompt": "How does Azure Storage protect data at rest across all storage accounts by default?",
-      "explanation": "Azure Storage Service Encryption (SSE) automatically encrypts all data at rest using 256-bit AES encryption before persisting to disk, with zero cost or performance overhead.",
+      "prompt": "Up to what cost discount can organizations receive by utilizing Azure Spot Virtual Machines over standard Pay-As-You-Go rates?",
+      "explanation": "Slide 91 states that Azure Spot VMs provide up to a 90% discount compared to standard pay-as-you-go pricing.",
       "options": [
         {
           "id": "opt-1",
-          "text": "All data written to Azure Storage is automatically encrypted at rest using 256-bit AES encryption.",
+          "text": "Up to 90% discount",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Data is stored unencrypted unless a paid third-party tool is purchased.",
+          "text": "Up to 5% discount",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Data is encrypted only if the storage account is deleted.",
+          "text": "Exactly 100% discount free forever",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Encryption is only supported on Linux OS disks.",
+          "text": "No discount at all",
           "isCorrect": false
         }
       ]
@@ -1732,33 +1732,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q041",
-    "title": "Azure Logic Apps Low-Code Integration",
+    "title": "PPTX Slide 92: Spot VM Best Use Cases",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Logic Apps provides a visual designer to automate workflows and integrate apps, data, services, and systems using over 500 pre-built connectors.",
+    "explanation": "Slide 92 identifies best use cases for Spot VMs: Interruptible workloads, batch processing jobs, and dev/test environments that can tolerate sudden shutdowns.",
     "content": {
-      "prompt": "Which Azure PaaS service enables developers to build automated workflows visually using a low-code designer with hundreds of pre-built connectors (such as Salesforce, Office 365, and SQL)?",
-      "explanation": "Azure Logic Apps provides a visual designer to automate workflows and integrate apps, data, services, and systems using over 500 pre-built connectors.",
+      "prompt": "Which workload scenario is ideal for deploying on Azure Spot Virtual Machines?",
+      "explanation": "Slide 92 identifies best use cases for Spot VMs: Interruptible workloads, batch processing jobs, and dev/test environments that can tolerate sudden shutdowns.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Logic Apps",
+          "text": "Interruptible batch processing jobs and stateless dev/test workloads that can handle sudden server evictions.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure Virtual Machines",
+          "text": "Production banking databases requiring 99.99% continuous availability.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure ExpressRoute",
+          "text": "Emergency healthcare medical call routing systems.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Bastion",
+          "text": "Primary Active Directory domain controllers.",
           "isCorrect": false
         }
       ]
@@ -1766,33 +1766,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q042",
-    "title": "Azure Confidential Computing Enclaves",
+    "title": "PPTX Slide 90: Trusted Launch Boot Security",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Confidential Computing protects data in use by performing computations inside hardware-isolated Trusted Execution Environments (TEEs) or enclaves.",
+    "explanation": "Slide 90 explains that Azure Trusted Launch protects against rootkits and bootkits by verifying OS boot loader signatures and firmware integrity.",
     "content": {
-      "prompt": "An organization requires protecting sensitive healthcare data while it is actively being processed in memory (data in use). Which technology achieves memory encryption inside hardware enclaves?",
-      "explanation": "Azure Confidential Computing protects data in use by performing computations inside hardware-isolated Trusted Execution Environments (TEEs) or enclaves.",
+      "prompt": "What security threat does Azure VM Trusted Launch protect against during server startup?",
+      "explanation": "Slide 90 explains that Azure Trusted Launch protects against rootkits and bootkits by verifying OS boot loader signatures and firmware integrity.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Confidential Computing with hardware Trusted Execution Environments (TEEs)",
+          "text": "Bootkits, rootkits, and unauthorized firmware modifications during system boot.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Standard TLS 1.3 transport encryption",
+          "text": "Phishing emails received in personal webmail.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Blob Cool Tier",
+          "text": "Overcharging on credit card invoices.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Public IP addresses",
+          "text": "Physical theft of monitor screens.",
           "isCorrect": false
         }
       ]
@@ -1800,33 +1800,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q043",
-    "title": "Azure Database for PostgreSQL Flexible Server",
+    "title": "PPTX Slide 49-53: Sequence of VM Creation behind the scenes",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "PostgreSQL Flexible Server offers zone-redundant high availability, granular compute scaling, and custom maintenance window controls.",
+    "explanation": "Slides 49-53 outline the sequence: User initiates request -> REST API sent to ARM -> ARM validates request & credentials -> ARM orchestrates Compute, Network, and Storage providers -> Resources allocated inside datacenter.",
     "content": {
-      "prompt": "Which Azure managed database deployment option for PostgreSQL offers zone-redundant high availability with automatic failover and user-controlled maintenance windows?",
-      "explanation": "PostgreSQL Flexible Server offers zone-redundant high availability, granular compute scaling, and custom maintenance window controls.",
+      "prompt": "What is the first step that occurs behind the scenes when a user clicks 'Create' for a Virtual Machine in the Azure Portal?",
+      "explanation": "Slides 49-53 outline the sequence: User initiates request -> REST API sent to ARM -> ARM validates request & credentials -> ARM orchestrates Compute, Network, and Storage providers -> Resources allocated inside datacenter.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Database for PostgreSQL Flexible Server",
+          "text": "An HTTPS REST API request is sent to Azure Resource Manager (ARM).",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure SQL Basic Database",
+          "text": "A physical datacenter technician manually plugs in a new computer power cable.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Table Storage",
+          "text": "Microsoft sends a paper invoice by mail.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Cache for Redis Basic",
+          "text": "The local web browser downloads the Linux operating system source code.",
           "isCorrect": false
         }
       ]
@@ -1834,33 +1834,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q044",
-    "title": "Azure ExpressRoute FastPath Acceleration",
+    "title": "PPTX Slide 64: Azure PowerShell Platform Requirements",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "ExpressRoute FastPath sends data path packets directly to virtual machines in the VNet, bypassing the virtual network gateway router to improve data transfer performance.",
+    "explanation": "Slide 64 clarifies that Azure PowerShell runs inside PowerShell Core on Windows, macOS, and Linux platforms.",
     "content": {
-      "prompt": "How does ExpressRoute FastPath improve data path performance for high-throughput enterprise workloads?",
-      "explanation": "ExpressRoute FastPath sends data path packets directly to virtual machines in the VNet, bypassing the virtual network gateway router to improve data transfer performance.",
+      "prompt": "Is Azure PowerShell restricted exclusively to Windows operating systems?",
+      "explanation": "Slide 64 clarifies that Azure PowerShell runs inside PowerShell Core on Windows, macOS, and Linux platforms.",
       "options": [
         {
           "id": "opt-1",
-          "text": "It bypasses the virtual network gateway router and sends data packets directly to VMs in the VNet.",
+          "text": "No, Azure PowerShell runs cross-platform on Windows, macOS, and Linux via PowerShell Core.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "It compresses files into ZIP archives automatically.",
+          "text": "Yes, Azure PowerShell can only be installed on Windows 10/11.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "It routes traffic through public Wi-Fi hotspots.",
+          "text": "Yes, Azure PowerShell requires MS-DOS.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "It converts all database queries into static text.",
+          "text": "Azure PowerShell only runs inside Apple iPhones.",
           "isCorrect": false
         }
       ]
@@ -1868,33 +1868,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q045",
-    "title": "Azure Resource Graph Query Language (KQL)",
+    "title": "PPTX Slide 21: Tenant vs Subscription Relationship",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Resource Graph uses Kusto Query Language (KQL) to query resource properties across thousands of subscriptions in seconds.",
+    "explanation": "Slide 21 illustrates that a single Microsoft Entra ID Tenant can manage and contain multiple Azure Subscriptions.",
     "content": {
-      "prompt": "Which query language is used by Azure Resource Graph and Log Analytics to run high-performance queries across large Azure environments?",
-      "explanation": "Azure Resource Graph uses Kusto Query Language (KQL) to query resource properties across thousands of subscriptions in seconds.",
+      "prompt": "How many Azure Subscriptions can be associated with a single Microsoft Entra ID Tenant?",
+      "explanation": "Slide 21 illustrates that a single Microsoft Entra ID Tenant can manage and contain multiple Azure Subscriptions.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Kusto Query Language (KQL)",
+          "text": "Multiple Subscriptions can belong to a single Tenant.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "GraphQL",
+          "text": "Strictly only 1 Subscription per Tenant.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Transact-SQL (T-SQL)",
+          "text": "Zero Subscriptions; Tenants cannot hold Subscriptions.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "PL/SQL",
+          "text": "Maximum 2 Subscriptions across the entire world.",
           "isCorrect": false
         }
       ]
@@ -1902,33 +1902,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q046",
-    "title": "Azure Automation State Configuration (DSC)",
+    "title": "PPTX Slide 34-37: Resource Group Lifecycle Scope",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Automation State Configuration provides a PowerShell Desired State Configuration (DSC) pull server to maintain consistent OS configuration across Windows and Linux VMs.",
+    "explanation": "Slides 34-37 emphasize that resources sharing the same lifecycle (deployed, updated, and deleted together) should be placed in the same Resource Group.",
     "content": {
-      "prompt": "Which management service provides a PowerShell Desired State Configuration (DSC) pull server to enforce consistent software configurations on Windows and Linux virtual machines?",
-      "explanation": "Azure Automation State Configuration provides a PowerShell Desired State Configuration (DSC) pull server to maintain consistent OS configuration across Windows and Linux VMs.",
+      "prompt": "What recommendation is given in Slides 34-37 for deciding which resources belong in the same Resource Group?",
+      "explanation": "Slides 34-37 emphasize that resources sharing the same lifecycle (deployed, updated, and deleted together) should be placed in the same Resource Group.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Automation State Configuration",
+          "text": "Place resources that share the same development lifecycle together in the same Resource Group.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure ExpressRoute",
+          "text": "Put all virtual machines in the world into one single Resource Group.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Public IP",
+          "text": "Create a new Resource Group every 5 minutes.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure Key Vault",
+          "text": "Never use Resource Groups for production resources.",
           "isCorrect": false
         }
       ]
@@ -1936,33 +1936,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q047",
-    "title": "Azure Virtual Desktop Multi-Session Windows 11",
+    "title": "PPTX Slide 54: Cloud Adoption Journey Steps",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Virtual Desktop (AVD) exclusive Windows 11/10 Enterprise Multi-session OS allows multiple concurrent users on a single VM to significantly lower licensing and infrastructure costs.",
+    "explanation": "Slide 54 outlines the Cloud Adoption Journey steps, including organizing subscriptions into Management Groups for governance scaling.",
     "content": {
-      "prompt": "Which operating system edition is exclusive to Azure Virtual Desktop (AVD) and enables multiple concurrent interactive user sessions on a single Virtual Machine to optimize costs?",
-      "explanation": "Azure Virtual Desktop (AVD) exclusive Windows 11/10 Enterprise Multi-session OS allows multiple concurrent users on a single VM to significantly lower licensing and infrastructure costs.",
+      "prompt": "According to the Azure Cloud Adoption Journey (Slide 54-55), why do growing enterprises organize Subscriptions into Management Groups?",
+      "explanation": "Slide 54 outlines the Cloud Adoption Journey steps, including organizing subscriptions into Management Groups for governance scaling.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Windows 11 / 10 Enterprise Multi-session",
+          "text": "To scale governance, policy enforcement, and access controls across multiple subscriptions efficiently.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Windows Home Edition",
+          "text": "To bypass Microsoft Azure billing invoices.",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Windows MS-DOS 6.22",
+          "text": "To automatically convert virtual machines into container apps.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Ubuntu Desktop 18.04",
+          "text": "To change the color theme of the Azure Portal.",
           "isCorrect": false
         }
       ]
@@ -1970,33 +1970,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q048",
-    "title": "Azure Event Grid Reactive Event Routing",
+    "title": "PPTX Slide 87: Simple Explanation of VM Series Choice",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure Event Grid uses a publish-subscribe model to route discrete events (e.g., resource created, blob uploaded) to event handlers instantly with high throughput.",
+    "explanation": "Slide 87 provides a simple summary: Compute Optimized (F) = Fast CPU, Memory Optimized (E/M) = Huge RAM, Storage Optimized (L) = High NVMe Disk IOPS, GPU (N) = AI & Graphics, HPC (H) = InfiniBand Supercomputing.",
     "content": {
-      "prompt": "Which service acts as a fully managed event routing service using a publish-subscribe model to reactively connect Azure event sources to event handlers (like Azure Functions or Logic Apps)?",
-      "explanation": "Azure Event Grid uses a publish-subscribe model to route discrete events (e.g., resource created, blob uploaded) to event handlers instantly with high throughput.",
+      "prompt": "Match the simple summary terms in Slide 87: Which VM series is designed for GPU-accelerated graphics rendering and AI machine learning?",
+      "explanation": "Slide 87 provides a simple summary: Compute Optimized (F) = Fast CPU, Memory Optimized (E/M) = Huge RAM, Storage Optimized (L) = High NVMe Disk IOPS, GPU (N) = AI & Graphics, HPC (H) = InfiniBand Supercomputing.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Azure Event Grid",
+          "text": "N-Series (GPU Enabled)",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Azure ExpressRoute",
+          "text": "B-Series (Burstable)",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Azure Traffic Manager",
+          "text": "D-Series (General Purpose)",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Azure VPN Gateway",
+          "text": "Fsv2-Series (Compute)",
           "isCorrect": false
         }
       ]
@@ -2004,33 +2004,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q049",
-    "title": "Azure DNS Alias Records Apex Resolution",
+    "title": "PPTX Slide 94: Feature Comparison Table for VM Types",
     "type": "SINGLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Azure DNS Alias Records allow pointing a zone apex domain (e.g., contoso.com) directly to Azure PaaS resources such as Traffic Manager profiles or Front Door endpoints.",
+    "explanation": "Slide 94 presents a feature comparison table emphasizing that Spot VMs provide maximum cost reduction for fault-tolerant batch workloads.",
     "content": {
-      "prompt": "How can an administrator configure a zone apex root domain (such as contoso.com without 'www') to point directly to an Azure Traffic Manager or Front Door profile?",
-      "explanation": "Azure DNS Alias Records allow pointing a zone apex domain (e.g., contoso.com without 'www') to Azure PaaS resources such as Traffic Manager profiles or Front Door endpoints.",
+      "prompt": "Based on the Slide 94 VM feature comparison matrix, which VM deployment type yields the lowest cost per hour for non-critical batch processing?",
+      "explanation": "Slide 94 presents a feature comparison table emphasizing that Spot VMs provide maximum cost reduction for fault-tolerant batch workloads.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Use an Azure DNS Alias Record",
+          "text": "Azure Spot VMs",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Create a TXT record with client IP address",
+          "text": "Standard Pay-As-You-Go M-Series VMs",
           "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Apply a Resource Lock to the DNS zone",
+          "text": "Dedicated Host Instances",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Use a PTR reverse lookup record",
+          "text": "Ultra Disk Storage Accounts",
           "isCorrect": false
         }
       ]
@@ -2038,33 +2038,33 @@ async function main() {
   },
   {
     "code": "AZ-BASICS-Q050",
-    "title": "Azure Storage Private Endpoints vs Service Endpoints",
-    "type": "MULTIPLE_CHOICE",
-    "difficulty": "INTERMEDIATE",
+    "title": "PPTX Slide 95: Final Takeaway Summary",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "BEGINNER",
     "points": 1.0,
-    "explanation": "Service Endpoints secure PaaS endpoints to your VNet over the Azure backbone, while Private Endpoints assign a private IP directly into your subnet via Private Link.",
+    "explanation": "Slide 95 concludes: Azure provides a comprehensive ecosystem where physical datacenters are structured into Regions and Availability Zones, governed by a logical hierarchy (Tenant -> Management Group -> Subscription -> Resource Group -> Resource), and orchestrated via ARM REST APIs.",
     "content": {
-      "prompt": "Which of the following statements comparing Azure Service Endpoints and Private Endpoints are true? (Select TWO)",
-      "explanation": "Service Endpoints secure PaaS endpoints to your VNet over the Azure backbone, while Private Endpoints assign a private IP directly into your subnet via Private Link.",
+      "prompt": "What is the overarching conclusion of the Azure Basics presentation regarding Azure architecture and management?",
+      "explanation": "Slide 95 concludes: Azure provides a comprehensive ecosystem where physical datacenters are structured into Regions and Availability Zones, governed by a logical hierarchy (Tenant -> Management Group -> Subscription -> Resource Group -> Resource), and orchestrated via ARM REST APIs.",
       "options": [
         {
           "id": "opt-1",
-          "text": "Service Endpoints keep PaaS public IPs but restrict access to traffic originating from your VNet subnet.",
+          "text": "Azure combines physical datacenter infrastructure (Regions, Zones) with a structured logical hierarchy and ARM REST API automation to deliver reliable cloud services.",
           "isCorrect": true
         },
         {
           "id": "opt-2",
-          "text": "Private Endpoints project a private IP address directly inside your VNet subnet for private PaaS connectivity.",
-          "isCorrect": true
+          "text": "Azure consists of a single server room located in Redmond, Washington.",
+          "isCorrect": false
         },
         {
           "id": "opt-3",
-          "text": "Private Endpoints require turning off all firewalls in the world.",
+          "text": "Cloud computing eliminates all need for network security.",
           "isCorrect": false
         },
         {
           "id": "opt-4",
-          "text": "Service Endpoints require physical fiber optic installation on user desks.",
+          "text": "Virtual Machines cannot be created or deleted after they are deployed.",
           "isCorrect": false
         }
       ]
@@ -2078,17 +2078,18 @@ async function main() {
       title: 'Azure Basics Certification Practice Exam',
       vendor: 'MICROSOFT',
       examType: 'CERTIFICATION',
-      description: 'Comprehensive Azure Basics Certification Exam with 50 Domain questions and 40 Case Study questions.',
+      description: 'Comprehensive Azure Basics Certification Exam with 50 PPTX Domain questions and 40 Case Study questions derived from Azure basics for T.pptx.',
       timeLimitMinutes: 120,
       passingScore: 70.0,
       totalQuestionsConfig: 90,
       creatorId: creatorUser.id,
       status: 'PUBLISHED',
+      isGloballyUnlocked: true,
     },
   });
 
   const secD1 = await prisma.examSection.create({
-    data: { examId: azureBasicsExam.id, title: '1. Domain 1: Cloud Concepts & Architecture (13 Items)', orderIndex: 1, weightPercentage: 15.0 },
+    data: { examId: azureBasicsExam.id, title: '1. Module 1: Physical vs Logical Architecture & Geographies (13 Items)', orderIndex: 1, weightPercentage: 15.0 },
   });
   let orderD1 = 1;
   for (const q of azureBasicsD1) {
@@ -2104,7 +2105,7 @@ async function main() {
   }
 
   const secD2 = await prisma.examSection.create({
-    data: { examId: azureBasicsExam.id, title: '2. Domain 2: Core Infrastructure & Compute (12 Items)', orderIndex: 2, weightPercentage: 15.0 },
+    data: { examId: azureBasicsExam.id, title: '2. Module 2: Azure Portal, CLI, PowerShell & VM Families (12 Items)', orderIndex: 2, weightPercentage: 15.0 },
   });
   let orderD2 = 1;
   for (const q of azureBasicsD2) {
@@ -2120,7 +2121,7 @@ async function main() {
   }
 
   const secD3 = await prisma.examSection.create({
-    data: { examId: azureBasicsExam.id, title: '3. Domain 3: Storage, Networking & Data Services (12 Items)', orderIndex: 3, weightPercentage: 15.0 },
+    data: { examId: azureBasicsExam.id, title: '3. Module 3: Management Groups, Subscriptions & Governance (13 Items)', orderIndex: 3, weightPercentage: 15.0 },
   });
   let orderD3 = 1;
   for (const q of azureBasicsD3) {
@@ -2136,7 +2137,7 @@ async function main() {
   }
 
   const secD4 = await prisma.examSection.create({
-    data: { examId: azureBasicsExam.id, title: '4. Domain 4: Security, Compliance & Governance (13 Items)', orderIndex: 4, weightPercentage: 15.0 },
+    data: { examId: azureBasicsExam.id, title: '4. Module 4: HPC, Spot VMs, Trusted Launch & REST APIs (12 Items)', orderIndex: 4, weightPercentage: 12.0 },
   });
   let orderD4 = 1;
   for (const q of azureBasicsD4) {

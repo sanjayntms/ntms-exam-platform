@@ -1,0 +1,108 @@
+Total slides found: 95
+
+Slide 1: Azure basics
+Slide 2: Azure architecture is generally explained in
+  -> Think of it like a city:
+Slide 3: Azure Physical Infrastructure
+  -> 🎤 One-Line Summary
+Slide 4: Now let's understand
+  -> Think of it as a
+Slide 5: Now the next question is...
+Slide 6: Let's quickly summarize.
+Slide 7: Now that we understand
+Slide 8: Now let me ask you a question.
+Slide 9: Cost is another factor.
+Slide 10: So, what are the main benefits of Azure Regions?
+Slide 11: So, what are the main benefits of Azure Regions?
+Slide 12: Now let's move to another important Azure concept.
+Slide 13: For example...
+Slide 14: Now here's an important point.
+Slide 15: Now let's look at another feature that sounds similar...
+Slide 16: Azure automatically spreads your VMs across two important groups.
+Slide 17: Let's see an example.
+Slide 18: One more important point.
+Slide 19: Now let's move to one of the most important concepts in Azure.
+  -> Think of it as
+Slide 20: For example...
+Slide 21: Let's look at a simple example.
+Slide 22: Let's summarize what a Tenant does.
+  -> Quick Summary
+Slide 23: Now that we understand
+Slide 24: Think about it like this.
+Slide 25: Now here's an important point.
+Slide 26: Now here's another important concept.
+Slide 27: Now let's see what a Subscription contains.
+Slide 28: Let's look at a practical example.
+Slide 29: Now we've learned about:
+Slide 30: Think of it like a folder.
+Slide 31: The same applies to Azure Policies.
+Slide 32: Now here's another important point.
+Slide 33: Easy Way to Remember
+Slide 34: Now we've reached one of the most commonly used concepts in Azure.
+Slide 35: For example...
+Slide 36: Now here's an important question.
+Slide 37: Let's look at a practical example.
+Slide 38: Easy Way to Remember
+  -> Quick Summary
+Slide 39: JSON
+Slide 40: JSON
+Slide 41: JSON
+Slide 42: JSON
+  -> Think of it as one product.
+Slide 43: ow let's understand one of the most important concepts in IT.
+Slide 44: What is an API?
+  -> Think of it as a messenger.
+Slide 45: Real-world Azure Example
+Slide 46: Different Types of APIs
+Slide 47: Let's summarize.
+Slide 48: An API (Application Programming Interface) is a communication interface that allows two applications or services to exchange data by sending requests and receiving responses. In Azure, almost every operation—whether from the Azure Portal, Azure CLI, PowerShell, ARM templates, Bicep, or Terraform—is performed by calling Azure Resource Manager REST APIs.
+Slide 49: What happens behind the scenes when you create a Virtual Machine?
+Slide 50: What happens behind the scenes when you create a Virtual Machine?
+Slide 51: What happens behind the scenes when you create a Virtual Machine?
+Slide 52: What happens behind the scenes when you create a Virtual Machine?
+Slide 53: What happens next?
+Slide 54: Azure Cloud Adoption Journey
+Slide 55: Step 5: Organize with Management Groups (Optional)
+Slide 56: Now that we understand Azure's architecture...
+Slide 57: The Azure Portal itself does
+  -> Think of it as Google's search box for Azure resources.
+Slide 58: Look at the
+Slide 59: Now look further down.
+Slide 60: Now let's move to the top-right corner.
+Slide 61: You'll also see the
+Slide 62: The Azure Portal is Microsoft's web-based graphical management interface for Azure. It allows administrators to create, manage, monitor, and secure Azure resources. Behind the scenes, every action performed in the Portal is translated into an Azure Resource Manager REST API request.
+Slide 63: Azure PowerShell
+Slide 64: What is Azure PowerShell?
+Slide 65: Why use Azure PowerShell?
+Slide 66: Easy Way to Remember
+Slide 67: Azure CLI
+Slide 68: Azure CLI is designed to work on:
+Slide 69: Why use Azure CLI?
+Slide 70: Azure CLI vs Azure PowerShell
+Slide 71: Azure CLI Command Structure
+Slide 72: Azure VM
+Slide 73: What is this application?
+Slide 74: Let's walk through the application from left to right.
+Slide 75: What is Burst CPU?
+Slide 76: 3. D-Series VM (General Purpose)
+Slide 77: 4. E-Series VM (Memory Optimized)
+Slide 78: 5. Fsv2 Series (Compute Optimized)
+Slide 79: 6.
+Slide 80: 7. M-Series (Memory Optimized - Very Large)
+Slide 81: 8. L-Series (Storage Optimized)
+Slide 82: How everything works together
+Slide 83: One-line summary
+Slide 84: What is HPC?
+Slide 85: Other real-world HPC workloads
+Slide 86: Which Azure VM family is used?
+Slide 87: Simple way to explain
+Slide 88: Azure VM
+Slide 89: 2. Enable
+Slide 90: 3. Integrity Monitoring ⬜ (Unchecked)
+  -> Think of it as a security guard who checks every time the VM starts.
+Slide 91: What is an Azure Spot VM?
+  -> Think of it like this:
+Slide 92: Best use cases
+Slide 93: The option you're seeing is
+Slide 94: Feature
+Slide 95: "So, don't think of a
