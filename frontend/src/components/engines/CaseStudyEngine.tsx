@@ -137,4 +137,3 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
     </div>
   );
 };
-};
