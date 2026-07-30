@@ -148,16 +148,21 @@ export class AttemptController {
         }
       }
 
-      // Name / Username / Verification ID text search
+      // Text search: Candidate Name, User Email, Verification ID, Attempt ID, Room Code, Exam Code
       if (search && String(search).trim()) {
         const q = String(search).trim();
+        const cleanQ = q.replace(/^(NTMS-|PROCTOR-)/i, '').trim();
+
         where.OR = [
-          { candidateName: { contains: q } },
-          { user: { name: { contains: q } } },
-          { user: { email: { contains: q } } },
-          { id: { contains: q } },
-          { exam: { code: { contains: q } } },
-          { exam: { title: { contains: q } } },
+          { candidateName: { contains: q, mode: 'insensitive' } },
+          { user: { name: { contains: q, mode: 'insensitive' } } },
+          { user: { email: { contains: q, mode: 'insensitive' } } },
+          { id: { contains: q, mode: 'insensitive' } },
+          { id: { contains: cleanQ, mode: 'insensitive' } },
+          { exam: { code: { contains: q, mode: 'insensitive' } } },
+          { exam: { title: { contains: q, mode: 'insensitive' } } },
+          { room: { roomCode: { contains: q, mode: 'insensitive' } } },
+          { room: { title: { contains: q, mode: 'insensitive' } } },
         ];
       }
 

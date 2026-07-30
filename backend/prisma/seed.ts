@@ -20,12 +20,8 @@ function shuffleArray<T>(array: T[]): T[] {
 async function main() {
   console.log('🌱 Starting Seeding for ALL 6 Certification Tracks with Objective Domains & Configurable Section Weights...');
 
-  // Clean existing tables in correct dependency order
+  // Clean exam structure tables only (Preserving candidate attempts and user accounts)
   await prisma.auditLog.deleteMany();
-  await prisma.roomSession.deleteMany();
-  await prisma.studentExamAccess.deleteMany();
-  await prisma.examAttempt.deleteMany();
-  await prisma.examRoom.deleteMany();
   await prisma.sectionQuestion.deleteMany();
   await prisma.examSection.deleteMany();
   await prisma.exam.deleteMany();
@@ -33,11 +29,12 @@ async function main() {
   await prisma.question.deleteMany();
   await prisma.category.deleteMany();
   await prisma.tag.deleteMany();
-  await prisma.user.deleteMany();
 
-  // Create Users
-  const creatorUser = await prisma.user.create({
-    data: {
+  // Create or update Admin User
+  const creatorUser = await prisma.user.upsert({
+    where: { email: 'sanjay@ntmsentra.onmicrosoft.com' },
+    update: { name: 'Sanjay Admin', role: 'ADMINISTRATOR', isActive: true },
+    create: {
       email: 'sanjay@ntmsentra.onmicrosoft.com',
       name: 'Sanjay Admin',
       role: 'ADMINISTRATOR',
@@ -45,10 +42,25 @@ async function main() {
     },
   });
 
-  await prisma.user.create({
-    data: {
+  // Create or update Candidate User
+  const candidateUser = await prisma.user.upsert({
+    where: { email: 'candidate@ntms.com' },
+    update: { name: 'Standard Candidate', role: 'CANDIDATE', isActive: true },
+    create: {
       email: 'candidate@ntms.com',
       name: 'Standard Candidate',
+      role: 'CANDIDATE',
+      isActive: true,
+    },
+  });
+
+  // Create or update User1 Candidate
+  const user1Candidate = await prisma.user.upsert({
+    where: { email: 'user1@ntmscloud.in' },
+    update: { name: 'user1', role: 'CANDIDATE', isActive: true },
+    create: {
+      email: 'user1@ntmscloud.in',
+      name: 'user1',
       role: 'CANDIDATE',
       isActive: true,
     },
@@ -685,6 +697,53 @@ async function main() {
 
       console.log(`✅ Seeded ${exam_code} (${domain_code}) with ${questions.length} questions & Room ${roomCode}`);
     }
+  }
+
+  // Ensure sample passed score report attempt 36828c16-52e2-40e6-9a80-8f3e3915c9b5 exists for AZ-305
+  const az305Exam = await prisma.exam.findFirst({ where: { code: 'AZ-305' } });
+  if (az305Exam) {
+    await prisma.examAttempt.upsert({
+      where: { id: '36828c16-52e2-40e6-9a80-8f3e3915c9b5' },
+      update: {
+        candidateName: 'Standard Candidate',
+        scorePercentage: 92.0,
+        passed: true,
+        totalQuestions: 25,
+      },
+      create: {
+        id: '36828c16-52e2-40e6-9a80-8f3e3915c9b5',
+        userId: candidateUser.id,
+        examId: az305Exam.id,
+        candidateName: 'Standard Candidate',
+        scorePercentage: 92.0,
+        passed: true,
+        totalQuestions: 25,
+        startedAt: new Date('2026-07-29T10:00:00.000Z'),
+        submittedAt: new Date('2026-07-29T11:15:00.000Z'),
+      },
+    });
+
+    // Also link user1 candidate
+    await prisma.examAttempt.upsert({
+      where: { id: '36828c16-52e2-40e6-9a80-8f3e3915c9b6' },
+      update: {
+        candidateName: 'user1',
+        scorePercentage: 94.4,
+        passed: true,
+        totalQuestions: 25,
+      },
+      create: {
+        id: '36828c16-52e2-40e6-9a80-8f3e3915c9b6',
+        userId: user1Candidate.id,
+        examId: az305Exam.id,
+        candidateName: 'user1',
+        scorePercentage: 94.4,
+        passed: true,
+        totalQuestions: 25,
+        startedAt: new Date('2026-07-29T10:30:00.000Z'),
+        submittedAt: new Date('2026-07-29T11:45:00.000Z'),
+      },
+    });
   }
 
   console.log('🎉 ALL Certification Tracks & HashiCorp Terraform 7 Domain Sub-Exams Successfully Seeded!');
