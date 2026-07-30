@@ -32,6 +32,7 @@ export const ExamListPage: React.FC = () => {
   const [newRoomTitle, setNewRoomTitle] = useState('');
   const [selectedExamId, setSelectedExamId] = useState('');
   const [newRoomAllowReview, setNewRoomAllowReview] = useState(true);
+  const [newRoomQuestionCount, setNewRoomQuestionCount] = useState<number>(0);
 
   // Admin Edit Exam Track Modal State
   const [showEditExamModal, setShowEditExamModal] = useState(false);
@@ -179,12 +180,14 @@ export const ExamListPage: React.FC = () => {
         examId: selectedExamId,
         status: 'OPEN',
         allowReview: newRoomAllowReview,
+        questionCount: newRoomQuestionCount > 0 ? newRoomQuestionCount : undefined,
       });
       alert('✅ Exam Room Created & Exam Unlocked Automatically for Candidates!');
       setShowRoomModal(false);
       setNewRoomCode('');
       setNewRoomTitle('');
       setNewRoomAllowReview(true);
+      setNewRoomQuestionCount(0);
       fetchExamsAndRooms();
     } catch (err: any) {
       alert('Error creating room: ' + (err.response?.data?.error || err.message));
@@ -569,6 +572,28 @@ export const ExamListPage: React.FC = () => {
                   placeholder="e.g. Exam Hall 101 - Morning Shift"
                   className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-bold"
                 />
+              </div>
+
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">Limit Number of Questions for Candidates in this Room</label>
+                <select
+                  value={newRoomQuestionCount}
+                  onChange={(e) => setNewRoomQuestionCount(Number(e.target.value))}
+                  className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-slate-900 font-mono font-bold"
+                >
+                  <option value={0}>All Available Questions in Question Bank (Default)</option>
+                  <option value={10}>10 Questions (Quick Quiz)</option>
+                  <option value={15}>15 Questions</option>
+                  <option value={20}>20 Questions (Standard Quiz)</option>
+                  <option value={25}>25 Questions</option>
+                  <option value={30}>30 Questions (30-Min Test)</option>
+                  <option value={40}>40 Questions</option>
+                  <option value={50}>50 Questions (Comprehensive Test)</option>
+                  <option value={60}>60 Questions</option>
+                  <option value={70}>70 Questions</option>
+                  <option value={80}>80 Questions</option>
+                  <option value={90}>90 Questions (Full Bank)</option>
+                </select>
               </div>
 
               <div className="bg-purple-50 border border-purple-200 rounded p-3 flex items-center justify-between">
