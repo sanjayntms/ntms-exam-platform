@@ -148,11 +148,19 @@ snippet = f'''  // ==========================================
 with open('backend/prisma/seed.ts', 'r', encoding='utf-8') as f:
     seed_content = f.read()
 
-target_marker = '  console.log(\'✅ Seeded AZURE-BASICS with 50 questions across 4 Objective Domain Sections & Room HALL-AZURE-BASICS!\');'
-if target_marker in seed_content:
-    new_content = seed_content.replace(target_marker, target_marker + '\n\n' + snippet)
-    with open('backend/prisma/seed.ts', 'w', encoding='utf-8') as f:
-        f.write(new_content)
-    print('Successfully injected Case Studies into backend/prisma/seed.ts!')
+m1 = '  // ==========================================\n  // CASE STUDY 1 & CASE STUDY 2 FOR AZURE BASICS'
+m2 = '  console.log("✅ Seeded 2 Case Studies (CS-AZURE-01 & CS-AZURE-02) with 40 Case Questions attached to AZURE-BASICS!");'
+
+if m1 in seed_content and m2 in seed_content:
+    p1 = seed_content.find(m1)
+    p2 = seed_content.find(m2) + len(m2)
+    new_content = seed_content[:p1] + snippet + seed_content[p2:]
+elif '✅ Seeded AZURE-BASICS with 50 questions' in seed_content:
+    target = '  console.log(\'✅ Seeded AZURE-BASICS with 50 questions across 4 Objective Domain Sections & Room HALL-AZURE-BASICS!\');'
+    new_content = seed_content.replace(target, target + '\n\n' + snippet)
 else:
-    print('Target marker not found in seed.ts!')
+    new_content = seed_content
+
+with open('backend/prisma/seed.ts', 'w', encoding='utf-8') as f:
+    f.write(new_content)
+print('Successfully injected Case Studies into backend/prisma/seed.ts!')
