@@ -13,8 +13,8 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Physical architecture defines where Azure exists physically (datacenters, land, power), while logical architecture defines how resources are organized and managed (subscriptions, resource groups).",
-            "isCorrect": true
+            "text": "Physical architecture refers exclusively to virtual machine operating systems, while logical architecture refers to network security groups.",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
@@ -23,13 +23,13 @@
           },
           {
             "id": "opt-3",
-            "text": "Physical architecture refers exclusively to virtual machine operating systems, while logical architecture refers to network security groups.",
+            "text": "Physical architecture is configured via JSON templates, while logical architecture cannot be modified once created.",
             "isCorrect": false
           },
           {
             "id": "opt-4",
-            "text": "Physical architecture is configured via JSON templates, while logical architecture cannot be modified once created.",
-            "isCorrect": false
+            "text": "Physical architecture defines where Azure exists physically (datacenters, land, power), while logical architecture defines how resources are organized and managed (subscriptions, resource groups).",
+            "isCorrect": true
           }
         ]
       }
@@ -47,22 +47,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "A geographical area containing one or more datacenters connected through a dedicated, latency-defined network perimeter.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
-            "text": "A single standalone physical server rack located in a customer data center.",
+            "text": "A software container hosting multiple Docker microservices.",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
+            "id": "opt-2",
             "text": "A collection of Entra ID user accounts spanning an entire country.",
             "isCorrect": false
           },
           {
+            "id": "opt-3",
+            "text": "A geographical area containing one or more datacenters connected through a dedicated, latency-defined network perimeter.",
+            "isCorrect": true
+          },
+          {
             "id": "opt-4",
-            "text": "A software container hosting multiple Docker microservices.",
+            "text": "A single standalone physical server rack located in a customer data center.",
             "isCorrect": false
           }
         ]
@@ -81,13 +81,13 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Data Residency and Compliance: Enables organizations to keep data close to users while adhering to local privacy laws.",
+            "text": "Reduced Network Latency: Allows positioning applications physically closer to end users to improve response times.",
             "isCorrect": true
           },
           {
             "id": "opt-2",
-            "text": "Reduced Network Latency: Allows positioning applications physically closer to end users to improve response times.",
-            "isCorrect": true
+            "text": "Automatic conversion of Windows VMs into Linux containers without configuration.",
+            "isCorrect": false
           },
           {
             "id": "opt-3",
@@ -96,8 +96,8 @@
           },
           {
             "id": "opt-4",
-            "text": "Automatic conversion of Windows VMs into Linux containers without configuration.",
-            "isCorrect": false
+            "text": "Data Residency and Compliance: Enables organizations to keep data close to users while adhering to local privacy laws.",
+            "isCorrect": true
           }
         ]
       }
@@ -115,18 +115,18 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "A physically separate datacenter location within an Azure region equipped with independent power, cooling, and networking infrastructure.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "A virtual subnet within an Azure Virtual Network used for database isolation.",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
+            "id": "opt-2",
             "text": "A backup copy of data saved automatically in a secondary country.",
             "isCorrect": false
+          },
+          {
+            "id": "opt-3",
+            "text": "A physically separate datacenter location within an Azure region equipped with independent power, cooling, and networking infrastructure.",
+            "isCorrect": true
           },
           {
             "id": "opt-4",
@@ -148,10 +148,6 @@
         "explanation": "Azure Physical Architecture builds from Datacenters -> Availability Zones -> Regions -> Regional Pairs -> Geographies.",
         "items": [
           {
-            "id": "item-1",
-            "label": "Azure Region"
-          },
-          {
             "id": "item-2",
             "label": "Availability Zone"
           },
@@ -162,18 +158,22 @@
           {
             "id": "item-4",
             "label": "Geography"
+          },
+          {
+            "id": "item-1",
+            "label": "Azure Region"
           }
         ],
         "targets": [
           {
-            "id": "target-1",
-            "label": "Latency-defined perimeter containing datacenters connected via dedicated low-latency fiber network.",
-            "correctItemId": "item-1"
-          },
-          {
             "id": "target-2",
             "label": "Physically isolated datacenter facility within a region with independent power, cooling, and networking.",
             "correctItemId": "item-2"
+          },
+          {
+            "id": "target-4",
+            "label": "A discrete market (typically containing two or more regions) that preserves data residency and compliance boundaries.",
+            "correctItemId": "item-4"
           },
           {
             "id": "target-3",
@@ -181,9 +181,9 @@
             "correctItemId": "item-3"
           },
           {
-            "id": "target-4",
-            "label": "A discrete market (typically containing two or more regions) that preserves data residency and compliance boundaries.",
-            "correctItemId": "item-4"
+            "id": "target-1",
+            "label": "Latency-defined perimeter containing datacenters connected via dedicated low-latency fiber network.",
+            "correctItemId": "item-1"
           }
         ]
       }
@@ -201,8 +201,8 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "At least 300 miles apart, to prevent a single natural disaster or regional outage from affecting both paired regions simultaneously.",
-            "isCorrect": true
+            "text": "Always in different continents, to enforce international border security policies.",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
@@ -211,8 +211,8 @@
           },
           {
             "id": "opt-3",
-            "text": "Always in different continents, to enforce international border security policies.",
-            "isCorrect": false
+            "text": "At least 300 miles apart, to prevent a single natural disaster or regional outage from affecting both paired regions simultaneously.",
+            "isCorrect": true
           },
           {
             "id": "opt-4",
@@ -235,22 +235,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Azure Entra ID (Azure AD) Tenant",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "Resource Group",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
-            "text": "Virtual Network Subnet",
+            "id": "opt-2",
+            "text": "Storage Account Container",
             "isCorrect": false
           },
           {
+            "id": "opt-3",
+            "text": "Azure Entra ID (Azure AD) Tenant",
+            "isCorrect": true
+          },
+          {
             "id": "opt-4",
-            "text": "Storage Account Container",
+            "text": "Virtual Network Subnet",
             "isCorrect": false
           }
         ]
@@ -274,13 +274,13 @@
           },
           {
             "id": "opt-2",
-            "text": "Management Group hierarchies can support up to 6 levels of depth for enterprise organizational modeling.",
-            "isCorrect": true
+            "text": "Management Groups store virtual machine OS hard drive disk files directly.",
+            "isCorrect": false
           },
           {
             "id": "opt-3",
-            "text": "Management Groups store virtual machine OS hard drive disk files directly.",
-            "isCorrect": false
+            "text": "Management Group hierarchies can support up to 6 levels of depth for enterprise organizational modeling.",
+            "isCorrect": true
           },
           {
             "id": "opt-4",
@@ -303,22 +303,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Billing Boundary (generating separate invoices/costs) and Access Control / Security Boundary.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
-            "text": "Hardware RAM allocation and CPU clock speed regulation.",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-3",
             "text": "Physical fiber optic cable routing and diesel generator fueling schedules.",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-2",
             "text": "Web browser cookie storage and DNS domain registration.",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-3",
+            "text": "Billing Boundary (generating separate invoices/costs) and Access Control / Security Boundary.",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-4",
+            "text": "Hardware RAM allocation and CPU clock speed regulation.",
             "isCorrect": false
           }
         ]
@@ -336,32 +336,27 @@
         "explanation": "Azure Logical Hierarchy: Management Groups -> Subscriptions -> Resource Groups -> Resources.",
         "items": [
           {
-            "id": "item-1",
-            "label": "Management Group"
+            "id": "item-3",
+            "label": "Resource Group"
           },
           {
             "id": "item-2",
             "label": "Subscription"
           },
           {
-            "id": "item-3",
-            "label": "Resource Group"
-          },
-          {
             "id": "item-4",
             "label": "Resource"
+          },
+          {
+            "id": "item-1",
+            "label": "Management Group"
           }
         ],
         "targets": [
           {
-            "id": "target-1",
-            "label": "Highest organizational scope used to manage governance and policy compliance across multiple subscriptions.",
-            "correctItemId": "item-1"
-          },
-          {
-            "id": "target-2",
-            "label": "Logical container providing billing separation and top-level administration boundary.",
-            "correctItemId": "item-2"
+            "id": "target-4",
+            "label": "Individual manageable item in Azure, such as a Virtual Machine, Storage Account, or SQL Database.",
+            "correctItemId": "item-4"
           },
           {
             "id": "target-3",
@@ -369,9 +364,14 @@
             "correctItemId": "item-3"
           },
           {
-            "id": "target-4",
-            "label": "Individual manageable item in Azure, such as a Virtual Machine, Storage Account, or SQL Database.",
-            "correctItemId": "item-4"
+            "id": "target-2",
+            "label": "Logical container providing billing separation and top-level administration boundary.",
+            "correctItemId": "item-2"
+          },
+          {
+            "id": "target-1",
+            "label": "Highest organizational scope used to manage governance and policy compliance across multiple subscriptions.",
+            "correctItemId": "item-1"
           }
         ]
       }
@@ -389,8 +389,8 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "A resource can exist in only one Resource Group at a time.",
-            "isCorrect": true
+            "text": "Resource Groups can be nested inside other Resource Groups up to 10 levels deep.",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
@@ -399,12 +399,12 @@
           },
           {
             "id": "opt-3",
-            "text": "All resources in a Resource Group must be located in the exact same physical region as the Resource Group itself.",
-            "isCorrect": false
+            "text": "A resource can exist in only one Resource Group at a time.",
+            "isCorrect": true
           },
           {
             "id": "opt-4",
-            "text": "Resource Groups can be nested inside other Resource Groups up to 10 levels deep.",
+            "text": "All resources in a Resource Group must be located in the exact same physical region as the Resource Group itself.",
             "isCorrect": false
           }
         ]
@@ -423,23 +423,23 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "To define a discrete market containing two or more Azure regions that preserve data residency and compliance boundaries.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
-            "text": "To ensure that geopolitical boundaries are respected for tax, legal, and compliance regulations.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-3",
             "text": "To force all virtual machines in the world to reboot simultaneously.",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-2",
             "text": "To automatically translate English source code into 50 languages.",
             "isCorrect": false
+          },
+          {
+            "id": "opt-3",
+            "text": "To ensure that geopolitical boundaries are respected for tax, legal, and compliance regulations.",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-4",
+            "text": "To define a discrete market containing two or more Azure regions that preserve data residency and compliance boundaries.",
+            "isCorrect": true
           }
         ]
       }
@@ -467,12 +467,12 @@
           },
           {
             "id": "opt-3",
-            "text": "Azure VNet Subnet",
+            "text": "Azure Managed Disk",
             "isCorrect": false
           },
           {
             "id": "opt-4",
-            "text": "Azure Managed Disk",
+            "text": "Azure VNet Subnet",
             "isCorrect": false
           }
         ]
@@ -493,13 +493,13 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Fault Domains protect against physical hardware failures (power & network switches), while Update Domains protect against planned maintenance reboots.",
-            "isCorrect": true
+            "text": "Fault Domains require paid licensing, while Update Domains are free for Linux VMs only.",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
-            "text": "Fault Domains manage software updates, while Update Domains protect against fiber optic cable cuts.",
-            "isCorrect": false
+            "text": "Fault Domains protect against physical hardware failures (power & network switches), while Update Domains protect against planned maintenance reboots.",
+            "isCorrect": true
           },
           {
             "id": "opt-3",
@@ -508,7 +508,7 @@
           },
           {
             "id": "opt-4",
-            "text": "Fault Domains require paid licensing, while Update Domains are free for Linux VMs only.",
+            "text": "Fault Domains manage software updates, while Update Domains protect against fiber optic cable cuts.",
             "isCorrect": false
           }
         ]
@@ -527,12 +527,12 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "99.95%",
-            "isCorrect": true
+            "text": "99.99%",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
-            "text": "99.99%",
+            "text": "100.00%",
             "isCorrect": false
           },
           {
@@ -542,8 +542,8 @@
           },
           {
             "id": "opt-4",
-            "text": "100.00%",
-            "isCorrect": false
+            "text": "99.95%",
+            "isCorrect": true
           }
         ]
       }
@@ -561,22 +561,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Deploying VMs across two or more Availability Zones in the same Azure region provides a 99.99% SLA uptime guarantee.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "Availability Zones protect applications from entire datacenter facility failures (power, cooling, flooding).",
             "isCorrect": true
           },
           {
-            "id": "opt-3",
-            "text": "Availability Zones require connecting all servers to a 4G cellular dongle.",
+            "id": "opt-2",
+            "text": "Availability Zones are only supported in single-core A-series Virtual Machines.",
             "isCorrect": false
           },
           {
+            "id": "opt-3",
+            "text": "Deploying VMs across two or more Availability Zones in the same Azure region provides a 99.99% SLA uptime guarantee.",
+            "isCorrect": true
+          },
+          {
             "id": "opt-4",
-            "text": "Availability Zones are only supported in single-core A-series Virtual Machines.",
+            "text": "Availability Zones require connecting all servers to a 4G cellular dongle.",
             "isCorrect": false
           }
         ]
@@ -594,20 +594,20 @@
         "explanation": "SLA Levels: Availability Zones = 99.99%, Availability Sets = 99.95%, Single Premium SSD VM = 99.90%.",
         "items": [
           {
-            "id": "item-1",
-            "label": "99.99% SLA"
-          },
-          {
-            "id": "item-2",
-            "label": "99.95% SLA"
+            "id": "item-4",
+            "label": "Multi-Region DR Deployment"
           },
           {
             "id": "item-3",
             "label": "99.90% SLA"
           },
           {
-            "id": "item-4",
-            "label": "Multi-Region DR Deployment"
+            "id": "item-2",
+            "label": "99.95% SLA"
+          },
+          {
+            "id": "item-1",
+            "label": "99.99% SLA"
           }
         ],
         "targets": [
@@ -652,17 +652,17 @@
           },
           {
             "id": "opt-2",
-            "text": "Azure reboots all servers in the datacenter simultaneously at midnight.",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-3",
             "text": "Azure automatically emails end users to log off for 4 hours.",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-3",
             "text": "Azure converts all Virtual Machines into static HTML files.",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-4",
+            "text": "Azure reboots all servers in the datacenter simultaneously at midnight.",
             "isCorrect": false
           }
         ]
@@ -686,7 +686,7 @@
           },
           {
             "id": "opt-2",
-            "text": "The failed rack automatically downloads new RAM from the internet.",
+            "text": "The Azure subscription is transferred to a different billing account.",
             "isCorrect": false
           },
           {
@@ -696,7 +696,7 @@
           },
           {
             "id": "opt-4",
-            "text": "The Azure subscription is transferred to a different billing account.",
+            "text": "The failed rack automatically downloads new RAM from the internet.",
             "isCorrect": false
           }
         ]
@@ -715,13 +715,13 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "All child resources contained within the Resource Group are automatically deleted as part of the lifecycle cleanup.",
+            "text": "Azure issues asynchronous REST API delete calls to remove all resources in parallel or proper dependency sequence.",
             "isCorrect": true
           },
           {
             "id": "opt-2",
-            "text": "Azure issues asynchronous REST API delete calls to remove all resources in parallel or proper dependency sequence.",
-            "isCorrect": true
+            "text": "The entire Entra ID Tenant directory is permanently erased.",
+            "isCorrect": false
           },
           {
             "id": "opt-3",
@@ -730,8 +730,8 @@
           },
           {
             "id": "opt-4",
-            "text": "The entire Entra ID Tenant directory is permanently erased.",
-            "isCorrect": false
+            "text": "All child resources contained within the Resource Group are automatically deleted as part of the lifecycle cleanup.",
+            "isCorrect": true
           }
         ]
       }
@@ -749,22 +749,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "CanNotDelete (Delete Lock)",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
-            "text": "ReadOnly (Read-Only Lock)",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-3",
             "text": "System Lock",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-2",
             "text": "Subscription Lock",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-3",
+            "text": "CanNotDelete (Delete Lock)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-4",
+            "text": "ReadOnly (Read-Only Lock)",
             "isCorrect": false
           }
         ]
@@ -782,6 +782,10 @@
         "explanation": "Azure Policy = Compliance rules; RBAC = Access control; Resource Locks = Accident protection; Blueprints = Deployment packages.",
         "items": [
           {
+            "id": "item-3",
+            "label": "Resource Lock (CanNotDelete)"
+          },
+          {
             "id": "item-1",
             "label": "Azure Policy"
           },
@@ -790,34 +794,30 @@
             "label": "Azure RBAC"
           },
           {
-            "id": "item-3",
-            "label": "Resource Lock (CanNotDelete)"
-          },
-          {
             "id": "item-4",
             "label": "Azure Blueprints / Policy Initiatives"
           }
         ],
         "targets": [
           {
-            "id": "target-1",
-            "label": "Enforces operational standards and compliance rules (e.g., restricting deployment regions or SKU sizes).",
-            "correctItemId": "item-1"
-          },
-          {
             "id": "target-2",
             "label": "Grants fine-grained user identity permissions (e.g., Owner, Contributor, Reader) based on job roles.",
             "correctItemId": "item-2"
           },
           {
-            "id": "target-3",
-            "label": "Prevents accidental deletion of critical production infrastructure by administrators.",
-            "correctItemId": "item-3"
-          },
-          {
             "id": "target-4",
             "label": "Packages policies, RBAC roles, and ARM templates into repeatable subscription deployment standards.",
             "correctItemId": "item-4"
+          },
+          {
+            "id": "target-1",
+            "label": "Enforces operational standards and compliance rules (e.g., restricting deployment regions or SKU sizes).",
+            "correctItemId": "item-1"
+          },
+          {
+            "id": "target-3",
+            "label": "Prevents accidental deletion of critical production infrastructure by administrators.",
+            "correctItemId": "item-3"
           }
         ]
       }
@@ -835,23 +835,23 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Azure prioritizes recovering at least one region out of every regional pair first to restore core services quickly.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
-            "text": "Azure automatically moves physical server racks onto cargo trucks to relocate them.",
+            "text": "Azure forces all subscriptions to downgrade to free trial mode.",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
+            "id": "opt-2",
             "text": "Azure sends printed paper backups of all SQL tables via express postal mail.",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
-            "text": "Azure forces all subscriptions to downgrade to free trial mode.",
+            "id": "opt-3",
+            "text": "Azure automatically moves physical server racks onto cargo trucks to relocate them.",
             "isCorrect": false
+          },
+          {
+            "id": "opt-4",
+            "text": "Azure prioritizes recovering at least one region out of every regional pair first to restore core services quickly.",
+            "isCorrect": true
           }
         ]
       }
@@ -869,22 +869,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Feature Availability: Ensuring required Azure services (e.g. specific VM series or AI services) are available in that region.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "Data Sovereignty & Legal Compliance: Meeting local government regulatory requirements for data storage.",
             "isCorrect": true
           },
           {
-            "id": "opt-3",
-            "text": "Color of the physical datacenter building exterior walls.",
+            "id": "opt-2",
+            "text": "Number of employee parking spaces available at the local Microsoft office.",
             "isCorrect": false
           },
           {
+            "id": "opt-3",
+            "text": "Feature Availability: Ensuring required Azure services (e.g. specific VM series or AI services) are available in that region.",
+            "isCorrect": true
+          },
+          {
             "id": "opt-4",
-            "text": "Number of employee parking spaces available at the local Microsoft office.",
+            "text": "Color of the physical datacenter building exterior walls.",
             "isCorrect": false
           }
         ]
@@ -903,8 +903,8 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Physically and logically isolated instances of Azure designed to meet strict government security, compliance, and regulatory requirements.",
-            "isCorrect": true
+            "text": "Gaming servers dedicated exclusively to Xbox Live multiplayer games.",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
@@ -913,12 +913,12 @@
           },
           {
             "id": "opt-3",
-            "text": "Free trial Azure subscriptions provided to university students.",
-            "isCorrect": false
+            "text": "Physically and logically isolated instances of Azure designed to meet strict government security, compliance, and regulatory requirements.",
+            "isCorrect": true
           },
           {
             "id": "opt-4",
-            "text": "Gaming servers dedicated exclusively to Xbox Live multiplayer games.",
+            "text": "Free trial Azure subscriptions provided to university students.",
             "isCorrect": false
           }
         ]
@@ -973,22 +973,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "The Azure Portal converts the UI inputs into an HTTPS REST API request sent directly to Azure Resource Manager (ARM).",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
-            "text": "An email is automatically sent to Microsoft support staff to manually assemble a physical server.",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-3",
             "text": "The browser compiles C# source code and uploads a ZIP file to OneDrive.",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-2",
+            "text": "The Azure Portal converts the UI inputs into an HTTPS REST API request sent directly to Azure Resource Manager (ARM).",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-3",
             "text": "The portal reboots the local client laptop to apply new Windows registry keys.",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-4",
+            "text": "An email is automatically sent to Microsoft support staff to manually assemble a physical server.",
             "isCorrect": false
           }
         ]
@@ -1012,8 +1012,8 @@
           },
           {
             "id": "opt-2",
-            "text": "Customizable dashboards allowing administrators to monitor and visually manage resources.",
-            "isCorrect": true
+            "text": "Can only be accessed from computers connected directly to Microsoft headquarters Wi-Fi.",
+            "isCorrect": false
           },
           {
             "id": "opt-3",
@@ -1022,8 +1022,8 @@
           },
           {
             "id": "opt-4",
-            "text": "Can only be accessed from computers connected directly to Microsoft headquarters Wi-Fi.",
-            "isCorrect": false
+            "text": "Customizable dashboards allowing administrators to monitor and visually manage resources.",
+            "isCorrect": true
           }
         ]
       }
@@ -1075,22 +1075,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "az <group> <subgroup> <action> (e.g., az vm create, az group list).",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "git commit -m create vm.",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
-            "text": "docker run -d azure-vm.",
+            "id": "opt-2",
+            "text": "npm install azure-vm-latest.",
             "isCorrect": false
           },
           {
+            "id": "opt-3",
+            "text": "az <group> <subgroup> <action> (e.g., az vm create, az group list).",
+            "isCorrect": true
+          },
+          {
             "id": "opt-4",
-            "text": "npm install azure-vm-latest.",
+            "text": "docker run -d azure-vm.",
             "isCorrect": false
           }
         ]
@@ -1108,10 +1108,6 @@
         "explanation": "Management Tools: Portal (GUI), CLI (az commands), PowerShell (Verb-Noun cmdlets), ARM/Bicep (IaC files).",
         "items": [
           {
-            "id": "item-1",
-            "label": "Azure Portal"
-          },
-          {
             "id": "item-2",
             "label": "Azure CLI"
           },
@@ -1120,16 +1116,15 @@
             "label": "Azure PowerShell"
           },
           {
+            "id": "item-1",
+            "label": "Azure Portal"
+          },
+          {
             "id": "item-4",
             "label": "ARM Templates / Bicep"
           }
         ],
         "targets": [
-          {
-            "id": "target-1",
-            "label": "Web-based graphical user interface for visual resource creation and monitoring.",
-            "correctItemId": "item-1"
-          },
           {
             "id": "target-2",
             "label": "Cross-platform command-line tool using az <group> <action> syntax (Bash, zsh, cmd).",
@@ -1144,6 +1139,11 @@
             "id": "target-4",
             "label": "Declarative Infrastructure as Code (IaC) files defining desired state deployments.",
             "correctItemId": "item-4"
+          },
+          {
+            "id": "target-1",
+            "label": "Web-based graphical user interface for visual resource creation and monitoring.",
+            "correctItemId": "item-1"
           }
         ]
       }
@@ -1161,12 +1161,12 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Idempotency and Consistency: Ensures environments (dev, test, prod) are deployed identically without manual configuration drift.",
+            "text": "Automation and Speed: Allows rapid, repeatable deployments integrated into CI/CD DevOps pipelines.",
             "isCorrect": true
           },
           {
             "id": "opt-2",
-            "text": "Automation and Speed: Allows rapid, repeatable deployments integrated into CI/CD DevOps pipelines.",
+            "text": "Idempotency and Consistency: Ensures environments (dev, test, prod) are deployed identically without manual configuration drift.",
             "isCorrect": true
           },
           {
@@ -1200,12 +1200,12 @@
           },
           {
             "id": "opt-2",
-            "text": "XML (Extensible Markup Language)",
+            "text": "CSV (Comma Separated Values)",
             "isCorrect": false
           },
           {
             "id": "opt-3",
-            "text": "CSV (Comma Separated Values)",
+            "text": "XML (Extensible Markup Language)",
             "isCorrect": false
           },
           {
@@ -1229,22 +1229,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "A domain-specific language (DSL) that uses cleaner, concise syntax to write Azure IaC, compiling directly into ARM JSON templates.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "An antivirus program designed for Windows 11 PCs.",
             "isCorrect": false
           },
           {
+            "id": "opt-2",
+            "text": "A domain-specific language (DSL) that uses cleaner, concise syntax to write Azure IaC, compiling directly into ARM JSON templates.",
+            "isCorrect": true
+          },
+          {
             "id": "opt-3",
-            "text": "A database query language for querying MySQL tables.",
+            "text": "A video editing software included in Microsoft Office.",
             "isCorrect": false
           },
           {
             "id": "opt-4",
-            "text": "A video editing software included in Microsoft Office.",
+            "text": "A database query language for querying MySQL tables.",
             "isCorrect": false
           }
         ]
@@ -1262,8 +1262,8 @@
         "explanation": "CLI command groups align with Azure resource types: az vm, az group, az network, az storage.",
         "items": [
           {
-            "id": "item-1",
-            "label": "az vm"
+            "id": "item-4",
+            "label": "az storage account"
           },
           {
             "id": "item-2",
@@ -1274,15 +1274,15 @@
             "label": "az network vnet"
           },
           {
-            "id": "item-4",
-            "label": "az storage account"
+            "id": "item-1",
+            "label": "az vm"
           }
         ],
         "targets": [
           {
-            "id": "target-1",
-            "label": "Manage Azure Virtual Machine compute instances.",
-            "correctItemId": "item-1"
+            "id": "target-4",
+            "label": "Manage Blob, File, Queue, and Table storage accounts.",
+            "correctItemId": "item-4"
           },
           {
             "id": "target-2",
@@ -1290,14 +1290,14 @@
             "correctItemId": "item-2"
           },
           {
+            "id": "target-1",
+            "label": "Manage Azure Virtual Machine compute instances.",
+            "correctItemId": "item-1"
+          },
+          {
             "id": "target-3",
             "label": "Manage Virtual Networks, subnets, and IP addressing.",
             "correctItemId": "item-3"
-          },
-          {
-            "id": "target-4",
-            "label": "Manage Blob, File, Queue, and Table storage accounts.",
-            "correctItemId": "item-4"
           }
         ]
       }
@@ -1315,8 +1315,8 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "An interactive, browser-accessible command-line shell pre-configured with Azure CLI, Azure PowerShell, and common developer tools.",
-            "isCorrect": true
+            "text": "A background virus scanner running on Azure datacenters.",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
@@ -1325,8 +1325,8 @@
           },
           {
             "id": "opt-3",
-            "text": "A background virus scanner running on Azure datacenters.",
-            "isCorrect": false
+            "text": "An interactive, browser-accessible command-line shell pre-configured with Azure CLI, Azure PowerShell, and common developer tools.",
+            "isCorrect": true
           },
           {
             "id": "opt-4",
@@ -1349,8 +1349,8 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Interactive user login via browser using az login.",
-            "isCorrect": true
+            "text": "Sending a text message to a landline phone number.",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
@@ -1364,8 +1364,8 @@
           },
           {
             "id": "opt-4",
-            "text": "Sending a text message to a landline phone number.",
-            "isCorrect": false
+            "text": "Interactive user login via browser using az login.",
+            "isCorrect": true
           }
         ]
       }
@@ -1385,13 +1385,13 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "B-Series (Burstable CPU)",
-            "isCorrect": true
+            "text": "H-Series (High Performance Computing)",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
-            "text": "M-Series (Memory Optimized)",
-            "isCorrect": false
+            "text": "B-Series (Burstable CPU)",
+            "isCorrect": true
           },
           {
             "id": "opt-3",
@@ -1400,7 +1400,7 @@
           },
           {
             "id": "opt-4",
-            "text": "H-Series (High Performance Computing)",
+            "text": "M-Series (Memory Optimized)",
             "isCorrect": false
           }
         ]
@@ -1419,22 +1419,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "D-Series (General Purpose)",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "N-Series (GPU Enabled)",
             "isCorrect": false
           },
           {
+            "id": "opt-2",
+            "text": "D-Series (General Purpose)",
+            "isCorrect": true
+          },
+          {
             "id": "opt-3",
-            "text": "L-Series (Storage Optimized)",
+            "text": "A-Series (Entry Level Basic)",
             "isCorrect": false
           },
           {
             "id": "opt-4",
-            "text": "A-Series (Entry Level Basic)",
+            "text": "L-Series (Storage Optimized)",
             "isCorrect": false
           }
         ]
@@ -1453,22 +1453,22 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "E-Series or M-Series (Memory Optimized)",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
-            "text": "F-Series (Compute Optimized)",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-3",
             "text": "B-Series (Burstable)",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-2",
+            "text": "E-Series or M-Series (Memory Optimized)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-3",
             "text": "N-Series (GPU Enabled)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-4",
+            "text": "F-Series (Compute Optimized)",
             "isCorrect": false
           }
         ]
@@ -1487,8 +1487,8 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "F-Series (Compute Optimized)",
-            "isCorrect": true
+            "text": "B-Series (Burstable)",
+            "isCorrect": false
           },
           {
             "id": "opt-2",
@@ -1502,8 +1502,8 @@
           },
           {
             "id": "opt-4",
-            "text": "B-Series (Burstable)",
-            "isCorrect": false
+            "text": "F-Series (Compute Optimized)",
+            "isCorrect": true
           }
         ]
       }
@@ -1521,18 +1521,18 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "L-Series (Storage Optimized)",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "D-Series (General Purpose)",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
+            "id": "opt-2",
             "text": "N-Series (GPU Enabled)",
             "isCorrect": false
+          },
+          {
+            "id": "opt-3",
+            "text": "L-Series (Storage Optimized)",
+            "isCorrect": true
           },
           {
             "id": "opt-4",
@@ -1555,22 +1555,22 @@
         "options": [
           {
             "id": "opt-1",
+            "text": "D-Series (General Purpose)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-2",
             "text": "H-Series (HPC High Performance Computing)",
             "isCorrect": true
           },
           {
-            "id": "opt-2",
+            "id": "opt-3",
             "text": "A-Series (Basic Entry)",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
-            "text": "B-Series (Burstable)",
-            "isCorrect": false
-          },
-          {
             "id": "opt-4",
-            "text": "D-Series (General Purpose)",
+            "text": "B-Series (Burstable)",
             "isCorrect": false
           }
         ]
@@ -1589,23 +1589,23 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "N-Series (GPU Enabled)",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "E-Series (Memory Optimized)",
             "isCorrect": false
           },
           {
-            "id": "opt-3",
+            "id": "opt-2",
             "text": "L-Series (Storage Optimized)",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-3",
             "text": "D-Series (General Purpose)",
             "isCorrect": false
+          },
+          {
+            "id": "opt-4",
+            "text": "N-Series (GPU Enabled)",
+            "isCorrect": true
           }
         ]
       }
@@ -1622,8 +1622,8 @@
         "explanation": "VM Series: B = Burstable, E = Memory, F = Compute, H = HPC.",
         "items": [
           {
-            "id": "item-1",
-            "label": "B-Series"
+            "id": "item-4",
+            "label": "H-Series"
           },
           {
             "id": "item-2",
@@ -1634,20 +1634,20 @@
             "label": "F-Series"
           },
           {
-            "id": "item-4",
-            "label": "H-Series"
+            "id": "item-1",
+            "label": "B-Series"
           }
         ],
         "targets": [
           {
-            "id": "target-1",
-            "label": "Burstable CPU workload (e.g. low-traffic web servers, dev/test environments).",
-            "correctItemId": "item-1"
-          },
-          {
             "id": "target-2",
             "label": "Memory-optimized workload (e.g. SAP HANA, heavy relational SQL databases).",
             "correctItemId": "item-2"
+          },
+          {
+            "id": "target-4",
+            "label": "High-performance computing workload (e.g. InfiniBand scientific simulations).",
+            "correctItemId": "item-4"
           },
           {
             "id": "target-3",
@@ -1655,9 +1655,9 @@
             "correctItemId": "item-3"
           },
           {
-            "id": "target-4",
-            "label": "High-performance computing workload (e.g. InfiniBand scientific simulations).",
-            "correctItemId": "item-4"
+            "id": "target-1",
+            "label": "Burstable CPU workload (e.g. low-traffic web servers, dev/test environments).",
+            "correctItemId": "item-1"
           }
         ]
       }
@@ -1680,8 +1680,8 @@
           },
           {
             "id": "opt-2",
-            "text": "Managed OS Disk (Premium SSD, Standard SSD, or HDD) storing the operating system.",
-            "isCorrect": true
+            "text": "An Azure Synapse Analytics dedicated SQL pool.",
+            "isCorrect": false
           },
           {
             "id": "opt-3",
@@ -1690,8 +1690,8 @@
           },
           {
             "id": "opt-4",
-            "text": "An Azure Synapse Analytics dedicated SQL pool.",
-            "isCorrect": false
+            "text": "Managed OS Disk (Premium SSD, Standard SSD, or HDD) storing the operating system.",
+            "isCorrect": true
           }
         ]
       }
@@ -1714,17 +1714,17 @@
           },
           {
             "id": "opt-2",
-            "text": "Managed Disks eliminate the need to pay for any cloud storage usage.",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-3",
             "text": "Managed Disks convert all Windows VMs into Mac computers.",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-3",
             "text": "Managed Disks bypass all password requirements.",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-4",
+            "text": "Managed Disks eliminate the need to pay for any cloud storage usage.",
             "isCorrect": false
           }
         ]
@@ -1742,20 +1742,20 @@
         "explanation": "Disk Tiers: Ultra Disk (highest IOPS/sub-ms) -> Premium SSD (production) -> Standard SSD (dev/test) -> Standard HDD (backups).",
         "items": [
           {
-            "id": "item-1",
-            "label": "Ultra Disk"
+            "id": "item-4",
+            "label": "Standard HDD"
           },
           {
-            "id": "item-2",
-            "label": "Premium SSD"
+            "id": "item-1",
+            "label": "Ultra Disk"
           },
           {
             "id": "item-3",
             "label": "Standard SSD"
           },
           {
-            "id": "item-4",
-            "label": "Standard HDD"
+            "id": "item-2",
+            "label": "Premium SSD"
           }
         ],
         "targets": [
@@ -1763,6 +1763,11 @@
             "id": "target-1",
             "label": "Top-tier sub-millisecond latency storage for mission-critical I/O intensive databases (up to 160,000 IOPS).",
             "correctItemId": "item-1"
+          },
+          {
+            "id": "target-4",
+            "label": "Magnetic platter storage suitable for non-critical backup data and infrequently accessed storage.",
+            "correctItemId": "item-4"
           },
           {
             "id": "target-2",
@@ -1773,11 +1778,6 @@
             "id": "target-3",
             "label": "Cost-effective SSD storage for entry-level web servers, light workloads, and dev/test environments.",
             "correctItemId": "item-3"
-          },
-          {
-            "id": "target-4",
-            "label": "Magnetic platter storage suitable for non-critical backup data and infrequently accessed storage.",
-            "correctItemId": "item-4"
           }
         ]
       }
@@ -1829,23 +1829,23 @@
         "options": [
           {
             "id": "opt-1",
-            "text": "Azure Reserved VM Instances (RI): Committing to 1-year or 3-year plans for up to 72% cost savings compared to pay-as-you-go pricing.",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-2",
             "text": "Azure Spot VMs: Utilizing unused Azure compute capacity at steep discounts for interruptible workloads.",
             "isCorrect": true
           },
           {
-            "id": "opt-3",
+            "id": "opt-2",
             "text": "Running all VMs at 100% CPU utilization 24 hours a day without stopping.",
             "isCorrect": false
           },
           {
-            "id": "opt-4",
+            "id": "opt-3",
             "text": "Deleting the billing address from the Azure portal user account.",
             "isCorrect": false
+          },
+          {
+            "id": "opt-4",
+            "text": "Azure Reserved VM Instances (RI): Committing to 1-year or 3-year plans for up to 72% cost savings compared to pay-as-you-go pricing.",
+            "isCorrect": true
           }
         ]
       }
