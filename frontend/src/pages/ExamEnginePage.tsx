@@ -139,6 +139,9 @@ export const ExamEnginePage: React.FC = () => {
 
   const renderEngine = () => {
     if (!currentQuestion) return null;
+    if (currentQuestion.caseStudy || currentQuestion.caseStudyId || currentQuestion.type === 'CASE_STUDY') {
+      return <CaseStudyEngine question={currentQuestion} />;
+    }
     switch (currentQuestion.type) {
       case 'SINGLE_CHOICE':
         return <SingleChoiceEngine question={currentQuestion} />;
@@ -247,7 +250,7 @@ export const ExamEnginePage: React.FC = () => {
       </div>
 
       {/* Main Question Display Area */}
-      <div className="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6 relative">
+      <div className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6 relative">
         {/* Main Item Canvas */}
         <main className="flex-1 bg-white border border-slate-300 rounded shadow-sm p-4 sm:p-6 md:p-8 flex flex-col justify-between min-h-[380px] md:min-h-[520px]">
           <div>
