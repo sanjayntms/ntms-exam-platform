@@ -139,7 +139,7 @@ export const ExamEnginePage: React.FC = () => {
 
   const renderEngine = () => {
     if (!currentQuestion) return null;
-    if (currentQuestion.caseStudy || currentQuestion.caseStudyId || currentQuestion.type === 'CASE_STUDY') {
+    if (currentQuestion.caseStudy || (currentQuestion as any).caseStudyId || (currentQuestion.type as any) === 'CASE_STUDY') {
       return <CaseStudyEngine question={currentQuestion} />;
     }
     switch (currentQuestion.type) {
@@ -163,7 +163,7 @@ export const ExamEnginePage: React.FC = () => {
         return <BuildListEngine question={currentQuestion} />;
       case 'HOTSPOT':
         return <HotspotEngine question={currentQuestion} />;
-      case 'CASE_STUDY':
+      case 'CASE_STUDY' as any:
         return <CaseStudyEngine question={currentQuestion} />;
       case 'SIMULATION':
         return <SimulationEngine question={currentQuestion} />;
