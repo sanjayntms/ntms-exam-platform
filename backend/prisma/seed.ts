@@ -362,73 +362,1716 @@ async function main() {
 
 
   // ==========================================
-  // AZURE BASICS - 50 QUESTIONS (PPTX DERIVED & AUDITED)
-  // ==========================================
-  const azureBasicsD1 = [{"code": "AZ-BASICS-Q001", "title": "Physical vs Logical Architecture Comparison", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Physical architecture represents tangible assets (buildings, servers, network cabling, power), while logical architecture represents management boundaries (Tenants, Management Groups, Subscriptions, Resource Groups).", "content": {"prompt": "According to Azure architectural principles, how is physical architecture distinguished from logical architecture?", "explanation": "Physical architecture represents tangible assets (buildings, servers, network cabling, power), while logical architecture represents management boundaries (Tenants, Management Groups, Subscriptions, Resource Groups).", "options": [{"id": "opt-1", "text": "Physical architecture refers exclusively to virtual machine operating systems, while logical architecture refers to network security groups.", "isCorrect": false}, {"id": "opt-2", "text": "Physical architecture manages user passwords, while logical architecture connects optical fiber cables between cities.", "isCorrect": false}, {"id": "opt-3", "text": "Physical architecture is configured via JSON templates, while logical architecture cannot be modified once created.", "isCorrect": false}, {"id": "opt-4", "text": "Physical architecture defines where Azure exists physically (datacenters, land, power), while logical architecture defines how resources are organized and managed (subscriptions, resource groups).", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q002", "title": "Azure Region Definition", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "An Azure Region is a set of datacenters deployed within a latency-defined perimeter and connected through a dedicated regional low-latency network.", "content": {"prompt": "What is the official definition of an Azure Region?", "explanation": "An Azure Region is a set of datacenters deployed within a latency-defined perimeter and connected through a dedicated regional low-latency network.", "options": [{"id": "opt-1", "text": "A software container hosting multiple Docker microservices.", "isCorrect": false}, {"id": "opt-2", "text": "A collection of Entra ID user accounts spanning an entire country.", "isCorrect": false}, {"id": "opt-3", "text": "A geographical area containing one or more datacenters connected through a dedicated, latency-defined network perimeter.", "isCorrect": true}, {"id": "opt-4", "text": "A single standalone physical server rack located in a customer data center.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q003", "title": "Key Benefits of Azure Regions", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure Regions provide local data residency compliance and reduced network latency by placing cloud resources near users.", "content": {"prompt": "What are the main benefits of deploying workloads across Azure Regions? (Select TWO)", "explanation": "Azure Regions provide local data residency compliance and reduced network latency by placing cloud resources near users.", "options": [{"id": "opt-1", "text": "Reduced Network Latency: Allows positioning applications physically closer to end users to improve response times.", "isCorrect": true}, {"id": "opt-2", "text": "Automatic conversion of Windows VMs into Linux containers without configuration.", "isCorrect": false}, {"id": "opt-3", "text": "Elimination of all Azure subscription billing charges.", "isCorrect": false}, {"id": "opt-4", "text": "Data Residency and Compliance: Enables organizations to keep data close to users while adhering to local privacy laws.", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q004", "title": "Availability Zone Definition", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Availability Zones are unique physical locations within an Azure region. Each zone is made up of one or more datacenters with independent power, cooling, and networking.", "content": {"prompt": "Which statement accurately describes an Azure Availability Zone?", "explanation": "Availability Zones are unique physical locations within an Azure region. Each zone is made up of one or more datacenters with independent power, cooling, and networking.", "options": [{"id": "opt-1", "text": "A virtual subnet within an Azure Virtual Network used for database isolation.", "isCorrect": false}, {"id": "opt-2", "text": "A backup copy of data saved automatically in a secondary country.", "isCorrect": false}, {"id": "opt-3", "text": "A physically separate datacenter location within an Azure region equipped with independent power, cooling, and networking infrastructure.", "isCorrect": true}, {"id": "opt-4", "text": "A security group rule that blocks incoming HTTP requests.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q005", "title": "Matching Azure Physical Infrastructure Components", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure Physical Architecture builds from Datacenters -> Availability Zones -> Regions -> Regional Pairs -> Geographies.", "content": {"prompt": "Match each Azure physical infrastructure component to its correct architectural description.", "explanation": "Azure Physical Architecture builds from Datacenters -> Availability Zones -> Regions -> Regional Pairs -> Geographies.", "items": [{"id": "item-2", "label": "Availability Zone"}, {"id": "item-3", "label": "Regional Pair"}, {"id": "item-4", "label": "Geography"}, {"id": "item-1", "label": "Azure Region"}], "targets": [{"id": "target-2", "label": "Physically isolated datacenter facility within a region with independent power, cooling, and networking.", "correctItemId": "item-2"}, {"id": "target-4", "label": "A discrete market (typically containing two or more regions) that preserves data residency and compliance boundaries.", "correctItemId": "item-4"}, {"id": "target-3", "label": "Two regions in the same geography paired at least 300 miles apart for disaster recovery.", "correctItemId": "item-3"}, {"id": "target-1", "label": "Latency-defined perimeter containing datacenters connected via dedicated low-latency fiber network.", "correctItemId": "item-1"}]}}, {"code": "AZ-BASICS-Q006", "title": "Azure Regional Pairs Distance & DR", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Regional Pairs are separated by at least 300 miles (where possible) to protect against regional disasters, power grid failures, or natural events.", "content": {"prompt": "How far apart are paired Azure Regions typically located, and why?", "explanation": "Regional Pairs are separated by at least 300 miles (where possible) to protect against regional disasters, power grid failures, or natural events.", "options": [{"id": "opt-1", "text": "Always in different continents, to enforce international border security policies.", "isCorrect": false}, {"id": "opt-2", "text": "10 meters apart, to maximize cable connection speeds between racks.", "isCorrect": false}, {"id": "opt-3", "text": "At least 300 miles apart, to prevent a single natural disaster or regional outage from affecting both paired regions simultaneously.", "isCorrect": true}, {"id": "opt-4", "text": "Exactly 5 miles apart, to allow wireless microwave synchronization.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q007", "title": "Azure Entra ID Tenant Scope", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "An Entra ID Tenant represents a dedicated, isolated instance of Entra ID that an organization receives when signing up for Microsoft cloud services.", "content": {"prompt": "What represents the top-level logical boundary for organization identity, users, and authentication in Azure?", "explanation": "An Entra ID Tenant represents a dedicated, isolated instance of Entra ID that an organization receives when signing up for Microsoft cloud services.", "options": [{"id": "opt-1", "text": "Resource Group", "isCorrect": false}, {"id": "opt-2", "text": "Storage Account Container", "isCorrect": false}, {"id": "opt-3", "text": "Azure Entra ID (Azure AD) Tenant", "isCorrect": true}, {"id": "opt-4", "text": "Virtual Network Subnet", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q008", "title": "Management Group Capabilities", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Management Groups allow hierarchical organization of subscriptions (up to 6 levels deep) to apply Azure Policy and RBAC rules uniformly.", "content": {"prompt": "Which of the following statements regarding Azure Management Groups are true? (Select TWO)", "explanation": "Management Groups allow hierarchical organization of subscriptions (up to 6 levels deep) to apply Azure Policy and RBAC rules uniformly.", "options": [{"id": "opt-1", "text": "Management Groups provide a scope of governance above subscriptions, allowing policy assignments to inherit down the tree.", "isCorrect": true}, {"id": "opt-2", "text": "Management Groups store virtual machine OS hard drive disk files directly.", "isCorrect": false}, {"id": "opt-3", "text": "Management Group hierarchies can support up to 6 levels of depth for enterprise organizational modeling.", "isCorrect": true}, {"id": "opt-4", "text": "Deleting a Management Group permanently erases all underlying Virtual Machines instantly without recovery.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q009", "title": "Azure Subscriptions as Boundaries", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "An Azure Subscription acts as both a Billing Boundary (grouping usage costs) and an Access Control / Security Boundary (applying RBAC and policies).", "content": {"prompt": "An Azure Subscription acts as a fundamental logical boundary for which two key functions? (Select TWO)", "explanation": "An Azure Subscription acts as both a Billing Boundary (grouping usage costs) and an Access Control / Security Boundary (applying RBAC and policies).", "options": [{"id": "opt-1", "text": "Physical Hardware Allocation Boundary: Used to assign CPU cores directly to server racks.", "isCorrect": false}, {"id": "opt-2", "text": "Billing Boundary: Used to segregate costs, group consumption metrics, and generate separate invoices.", "isCorrect": true}, {"id": "opt-3", "text": "Access Control & Security Boundary: Used as an administrative scope for applying RBAC role assignments and access policies.", "isCorrect": true}, {"id": "opt-4", "text": "Web Browser Session Boundary: Used to store user login cookies inside client web browsers.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q010", "title": "Matching Azure Logical Hierarchy Levels", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure Logical Hierarchy: Management Groups -> Subscriptions -> Resource Groups -> Resources.", "content": {"prompt": "Match each Azure logical hierarchy scope to its correct management function.", "explanation": "Azure Logical Hierarchy: Management Groups -> Subscriptions -> Resource Groups -> Resources.", "items": [{"id": "item-3", "label": "Resource Group"}, {"id": "item-2", "label": "Subscription"}, {"id": "item-4", "label": "Resource"}, {"id": "item-1", "label": "Management Group"}], "targets": [{"id": "target-4", "label": "Individual manageable item in Azure, such as a Virtual Machine, Storage Account, or SQL Database.", "correctItemId": "item-4"}, {"id": "target-3", "label": "Logical container that holds related Azure assets deployed, managed, and deleted as a lifecycle unit.", "correctItemId": "item-3"}, {"id": "target-2", "label": "Logical container providing billing separation and top-level administration boundary.", "correctItemId": "item-2"}, {"id": "target-1", "label": "Highest organizational scope used to manage governance and policy compliance across multiple subscriptions.", "correctItemId": "item-1"}]}}, {"code": "AZ-BASICS-Q011", "title": "Resource Group Rules & Properties", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "A resource belongs to exactly one Resource Group. Note that resources inside a Resource Group can reside in different Azure Regions than the group itself.", "content": {"prompt": "Which rule applies to Azure Resource Groups?", "explanation": "A resource belongs to exactly one Resource Group. Note that resources inside a Resource Group can reside in different Azure Regions than the group itself.", "options": [{"id": "opt-1", "text": "Resource Groups can be nested inside other Resource Groups up to 10 levels deep.", "isCorrect": false}, {"id": "opt-2", "text": "Deleting a Resource Group retains all child Virtual Machines running indefinitely.", "isCorrect": false}, {"id": "opt-3", "text": "A resource can exist in only one Resource Group at a time.", "isCorrect": true}, {"id": "opt-4", "text": "All resources in a Resource Group must be located in the exact same physical region as the Resource Group itself.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q012", "title": "Azure Geographies & Data Residency", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Geographies contain two or more regions and ensure data residency, sovereignty, compliance, and latency boundaries are preserved.", "content": {"prompt": "What is the purpose of an Azure Geography? (Select TWO)", "explanation": "Geographies contain two or more regions and ensure data residency, sovereignty, compliance, and latency boundaries are preserved.", "options": [{"id": "opt-1", "text": "To force all virtual machines in the world to reboot simultaneously.", "isCorrect": false}, {"id": "opt-2", "text": "To automatically translate English source code into 50 languages.", "isCorrect": false}, {"id": "opt-3", "text": "To ensure that geopolitical boundaries are respected for tax, legal, and compliance regulations.", "isCorrect": true}, {"id": "opt-4", "text": "To define a discrete market containing two or more Azure regions that preserve data residency and compliance boundaries.", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q013", "title": "Global vs Regional Azure Services", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure Entra ID, Traffic Manager, Azure Front Door, and Azure DNS are Global services, whereas VMs, VNets, and Disks are Regional services.", "content": {"prompt": "Which of the following is considered a Global Azure Service (not tied to a specific Azure Region)?", "explanation": "Azure Entra ID, Traffic Manager, Azure Front Door, and Azure DNS are Global services, whereas VMs, VNets, and Disks are Regional services.", "options": [{"id": "opt-1", "text": "Azure Entra ID (Azure AD)", "isCorrect": true}, {"id": "opt-2", "text": "Azure Virtual Machine (IaaS VM)", "isCorrect": false}, {"id": "opt-3", "text": "Azure Managed Disk", "isCorrect": false}, {"id": "opt-4", "text": "Azure VNet Subnet", "isCorrect": false}]}}];
-  const azureBasicsD2 = [{"code": "AZ-BASICS-Q014", "title": "Fault Domains vs Update Domains", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Fault Domains share common power source and network switch (protecting against physical hardware failure). Update Domains group VMs that can be rebooted together during planned Azure maintenance.", "content": {"prompt": "In an Azure Availability Set, what is the difference between a Fault Domain (FD) and an Update Domain (UD)?", "explanation": "Fault Domains share common power source and network switch (protecting against physical hardware failure). Update Domains group VMs that can be rebooted together during planned Azure maintenance.", "options": [{"id": "opt-1", "text": "Fault Domains require paid licensing, while Update Domains are free for Linux VMs only.", "isCorrect": false}, {"id": "opt-2", "text": "Fault Domains protect against physical hardware failures (power & network switches), while Update Domains protect against planned maintenance reboots.", "isCorrect": true}, {"id": "opt-3", "text": "Fault Domains are located in different countries, while Update Domains exist inside user laptops.", "isCorrect": false}, {"id": "opt-4", "text": "Fault Domains manage software updates, while Update Domains protect against fiber optic cable cuts.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q015", "title": "Availability Set SLA Guarantee", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure offers a 99.95% SLA for VMs deployed across an Availability Set (protecting against single datacenter rack failures).", "content": {"prompt": "What is the Financially Backed Service Level Agreement (SLA) uptime guarantee for Virtual Machines configured inside an Azure Availability Set?", "explanation": "Azure offers a 99.95% SLA for VMs deployed across an Availability Set (protecting against single datacenter rack failures).", "options": [{"id": "opt-1", "text": "99.99%", "isCorrect": false}, {"id": "opt-2", "text": "100.00%", "isCorrect": false}, {"id": "opt-3", "text": "99.90%", "isCorrect": false}, {"id": "opt-4", "text": "99.95%", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q016", "title": "Availability Zone SLA & Requirements", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Multi-zone VM deployments provide Azure's highest single-region SLA of 99.99% by guaranteeing isolation across physical datacenter buildings.", "content": {"prompt": "Which of the following statements about Availability Zone SLAs and requirements are correct? (Select TWO)", "explanation": "Multi-zone VM deployments provide Azure's highest single-region SLA of 99.99% by guaranteeing isolation across physical datacenter buildings.", "options": [{"id": "opt-1", "text": "Availability Zones protect applications from entire datacenter facility failures (power, cooling, flooding).", "isCorrect": true}, {"id": "opt-2", "text": "Availability Zones are only supported in single-core A-series Virtual Machines.", "isCorrect": false}, {"id": "opt-3", "text": "Deploying VMs across two or more Availability Zones in the same Azure region provides a 99.99% SLA uptime guarantee.", "isCorrect": true}, {"id": "opt-4", "text": "Availability Zones require connecting all servers to a 4G cellular dongle.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q017", "title": "Matching Resiliency Options to SLA", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "SLA Levels: Availability Zones = 99.99%, Availability Sets = 99.95%, Single Premium SSD VM = 99.90%.", "content": {"prompt": "Match each Azure Virtual Machine deployment model to its corresponding Service Level Agreement (SLA) uptime guarantee.", "explanation": "SLA Levels: Availability Zones = 99.99%, Availability Sets = 99.95%, Single Premium SSD VM = 99.90%.", "items": [{"id": "item-4", "label": "Multi-Region DR Deployment"}, {"id": "item-3", "label": "99.90% SLA"}, {"id": "item-2", "label": "99.95% SLA"}, {"id": "item-1", "label": "99.99% SLA"}], "targets": [{"id": "target-1", "label": "Virtual Machines deployed across two or more Availability Zones in the same region.", "correctItemId": "item-1"}, {"id": "target-2", "label": "Two or more Virtual Machines deployed in an Availability Set (across Fault and Update Domains).", "correctItemId": "item-2"}, {"id": "target-3", "label": "A Single Virtual Machine utilizing Premium SSD or Ultra Disk storage for all OS and data disks.", "correctItemId": "item-3"}, {"id": "target-4", "label": "Application deployment replicated across paired Azure Regions for complete regional failover.", "correctItemId": "item-4"}]}}, {"code": "AZ-BASICS-Q018", "title": "Planned Maintenance in Update Domains", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Sequential patching of Update Domains ensures that at least one instance of your application remains running during platform maintenance.", "content": {"prompt": "During planned Azure host platform updates, how does Azure use Update Domains (UD) to prevent application downtime?", "explanation": "Sequential patching of Update Domains ensures that at least one instance of your application remains running during platform maintenance.", "options": [{"id": "opt-1", "text": "Azure updates only one Update Domain at a time, allowing remaining VMs in other UDs to continue servicing traffic.", "isCorrect": true}, {"id": "opt-2", "text": "Azure automatically emails end users to log off for 4 hours.", "isCorrect": false}, {"id": "opt-3", "text": "Azure converts all Virtual Machines into static HTML files.", "isCorrect": false}, {"id": "opt-4", "text": "Azure reboots all servers in the datacenter simultaneously at midnight.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q019", "title": "Hardware Failures in Fault Domains", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Fault Domains separate VMs across different physical hardware racks, power units, and network switches.", "content": {"prompt": "If a top-of-rack network switch or power distribution unit (PDU) fails in an Azure datacenter, how does a Fault Domain (FD) configuration protect your workload?", "explanation": "Fault Domains separate VMs across different physical hardware racks, power units, and network switches.", "options": [{"id": "opt-1", "text": "VMs in the Availability Set are placed on separate hardware racks with redundant power and switches, ensuring unaffected VMs keep running.", "isCorrect": true}, {"id": "opt-2", "text": "The Azure subscription is transferred to a different billing account.", "isCorrect": false}, {"id": "opt-3", "text": "The Virtual Machines are instantly converted into Azure Functions.", "isCorrect": false}, {"id": "opt-4", "text": "The failed rack automatically downloads new RAM from the internet.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q020", "title": "Resource Group Deletion & Lifecycle Rules", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Deleting a Resource Group deletes all child resources within it. This makes Resource Groups ideal lifecycle containers for environment management.", "content": {"prompt": "Which of the following actions happen when an administrator deletes an Azure Resource Group? (Select TWO)", "explanation": "Deleting a Resource Group deletes all child resources within it. This makes Resource Groups ideal lifecycle containers for environment management.", "options": [{"id": "opt-1", "text": "Azure issues asynchronous REST API delete calls to remove all resources in parallel or proper dependency sequence.", "isCorrect": true}, {"id": "opt-2", "text": "The entire Entra ID Tenant directory is permanently erased.", "isCorrect": false}, {"id": "opt-3", "text": "The customer billing credit card is automatically charged  penalty.", "isCorrect": false}, {"id": "opt-4", "text": "All child resources contained within the Resource Group are automatically deleted as part of the lifecycle cleanup.", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q021", "title": "Azure Resource Locks (CanNotDelete vs ReadOnly)", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "CanNotDelete lock allows authorized users to read and modify a resource, but prevents them from deleting it. ReadOnly lock prevents modifications as well.", "content": {"prompt": "An organization wants to prevent accidental deletion of a critical production database while still allowing authorized applications to read and write data. Which Azure Resource Lock should be applied?", "explanation": "CanNotDelete lock allows authorized users to read and modify a resource, but prevents them from deleting it. ReadOnly lock prevents modifications as well.", "options": [{"id": "opt-1", "text": "System Lock", "isCorrect": false}, {"id": "opt-2", "text": "Subscription Lock", "isCorrect": false}, {"id": "opt-3", "text": "CanNotDelete (Delete Lock)", "isCorrect": true}, {"id": "opt-4", "text": "ReadOnly (Read-Only Lock)", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q022", "title": "Matching Governance Mechanisms", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure Policy = Compliance rules; RBAC = Access control; Resource Locks = Accident protection; Blueprints = Deployment packages.", "content": {"prompt": "Match each Azure governance mechanism to its primary purpose.", "explanation": "Azure Policy = Compliance rules; RBAC = Access control; Resource Locks = Accident protection; Blueprints = Deployment packages.", "items": [{"id": "item-3", "label": "Resource Lock (CanNotDelete)"}, {"id": "item-1", "label": "Azure Policy"}, {"id": "item-2", "label": "Azure RBAC"}, {"id": "item-4", "label": "Azure Blueprints / Policy Initiatives"}], "targets": [{"id": "target-2", "label": "Grants fine-grained user identity permissions (e.g., Owner, Contributor, Reader) based on job roles.", "correctItemId": "item-2"}, {"id": "target-4", "label": "Packages policies, RBAC roles, and ARM templates into repeatable subscription deployment standards.", "correctItemId": "item-4"}, {"id": "target-1", "label": "Enforces operational standards and compliance rules (e.g., restricting deployment regions or SKU sizes).", "correctItemId": "item-1"}, {"id": "target-3", "label": "Prevents accidental deletion of critical production infrastructure by administrators.", "correctItemId": "item-3"}]}}, {"code": "AZ-BASICS-Q023", "title": "Cross-Region Replication with Regional Pairs", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "In the event of a broad multi-region outage, recovery of one region from every pair is prioritized to ensure at least one region is restored rapidly.", "content": {"prompt": "How do Azure Regional Pairs support business continuity during a widespread major disaster?", "explanation": "In the event of a broad multi-region outage, recovery of one region from every pair is prioritized to ensure at least one region is restored rapidly.", "options": [{"id": "opt-1", "text": "Azure forces all subscriptions to downgrade to free trial mode.", "isCorrect": false}, {"id": "opt-2", "text": "Azure sends printed paper backups of all SQL tables via express postal mail.", "isCorrect": false}, {"id": "opt-3", "text": "Azure automatically moves physical server racks onto cargo trucks to relocate them.", "isCorrect": false}, {"id": "opt-4", "text": "Azure prioritizes recovering at least one region out of every regional pair first to restore core services quickly.", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q024", "title": "Factors Influencing Region Selection", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Service availability, compliance/data sovereignty, latency to users, and regional pricing vary across Azure regions and must be evaluated.", "content": {"prompt": "Which key factors should an architect evaluate when selecting an Azure Region for deployment? (Select TWO)", "explanation": "Service availability, compliance/data sovereignty, latency to users, and regional pricing vary across Azure regions and must be evaluated.", "options": [{"id": "opt-1", "text": "Data Sovereignty & Legal Compliance: Meeting local government regulatory requirements for data storage.", "isCorrect": true}, {"id": "opt-2", "text": "Number of employee parking spaces available at the local Microsoft office.", "isCorrect": false}, {"id": "opt-3", "text": "Feature Availability: Ensuring required Azure services (e.g. specific VM series or AI services) are available in that region.", "isCorrect": true}, {"id": "opt-4", "text": "Color of the physical datacenter building exterior walls.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q025", "title": "Azure Sovereign Clouds", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure Sovereign Clouds (e.g. Azure US Government, Azure China 21Vianet) operate independently with dedicated isolated networks and compliance validation.", "content": {"prompt": "What are Azure Sovereign Clouds (such as Azure Government and Azure China)?", "explanation": "Azure Sovereign Clouds (e.g. Azure US Government, Azure China 21Vianet) operate independently with dedicated isolated networks and compliance validation.", "options": [{"id": "opt-1", "text": "Gaming servers dedicated exclusively to Xbox Live multiplayer games.", "isCorrect": false}, {"id": "opt-2", "text": "Public Wi-Fi networks available at international airports.", "isCorrect": false}, {"id": "opt-3", "text": "Physically and logically isolated instances of Azure designed to meet strict government security, compliance, and regulatory requirements.", "isCorrect": true}, {"id": "opt-4", "text": "Free trial Azure subscriptions provided to university students.", "isCorrect": false}]}}];
-  const azureBasicsD3 = [{"code": "AZ-BASICS-Q026", "title": "Role of Azure Resource Manager (ARM)", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "ARM is the management layer of Azure. Every request from the Azure Portal, CLI, PowerShell, or SDKs passes through ARM to be authenticated and executed.", "content": {"prompt": "What is Azure Resource Manager (ARM)?", "explanation": "ARM is the management layer of Azure. Every request from the Azure Portal, CLI, PowerShell, or SDKs passes through ARM to be authenticated and executed.", "options": [{"id": "opt-1", "text": "The central management and deployment service in Azure that provides a consistent management layer for creating, updating, and deleting resources via REST APIs.", "isCorrect": true}, {"id": "opt-2", "text": "A physical handheld device used by datacenter technicians to repair servers.", "isCorrect": false}, {"id": "opt-3", "text": "A desktop application installed on client PCs to play video games.", "isCorrect": false}, {"id": "opt-4", "text": "A third-party web browser for browsing external websites.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q027", "title": "Behind the Scenes REST API Flow", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "The Azure Portal is a web GUI client. Behind the scenes, all Portal actions send REST API requests to ARM endpoints.", "content": {"prompt": "When an administrator clicks Create in the Azure Portal to deploy a Virtual Machine, what occurs behind the scenes?", "explanation": "The Azure Portal is a web GUI client. Behind the scenes, all Portal actions send REST API requests to ARM endpoints.", "options": [{"id": "opt-1", "text": "The browser compiles C# source code and uploads a ZIP file to OneDrive.", "isCorrect": false}, {"id": "opt-2", "text": "The Azure Portal converts the UI inputs into an HTTPS REST API request sent directly to Azure Resource Manager (ARM).", "isCorrect": true}, {"id": "opt-3", "text": "The portal reboots the local client laptop to apply new Windows registry keys.", "isCorrect": false}, {"id": "opt-4", "text": "An email is automatically sent to Microsoft support staff to manually assemble a physical server.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q028", "title": "Characteristics of Azure Portal", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "The Azure Portal provides a web-based GUI for building, managing, and monitoring cloud infrastructure across devices.", "content": {"prompt": "Which of the following are key characteristics of the Azure Portal? (Select TWO)", "explanation": "The Azure Portal provides a web-based GUI for building, managing, and monitoring cloud infrastructure across devices.", "options": [{"id": "opt-1", "text": "Web-based graphical management console accessible from any modern browser.", "isCorrect": true}, {"id": "opt-2", "text": "Can only be accessed from computers connected directly to Microsoft headquarters Wi-Fi.", "isCorrect": false}, {"id": "opt-3", "text": "Requires installing a 50 GB local software package before opening.", "isCorrect": false}, {"id": "opt-4", "text": "Customizable dashboards allowing administrators to monitor and visually manage resources.", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q029", "title": "Azure PowerShell Syntax & Features", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "PowerShell cmdlets always follow the standard Verb-Noun format, prefixed with Az for Azure cmdlets (e.g., Get-AzVM, New-AzResourceGroup).", "content": {"prompt": "What naming convention does Azure PowerShell use for its cmdlets?", "explanation": "PowerShell cmdlets always follow the standard Verb-Noun format, prefixed with Az for Azure cmdlets (e.g., Get-AzVM, New-AzResourceGroup).", "options": [{"id": "opt-1", "text": "Verb-Noun syntax (e.g. New-AzVM, Get-AzResourceGroup, Remove-AzStorageAccount).", "isCorrect": true}, {"id": "opt-2", "text": "Python snake_case functions (e.g. create_azure_vm).", "isCorrect": false}, {"id": "opt-3", "text": "HTML tags (e.g. <create-vm>).", "isCorrect": false}, {"id": "opt-4", "text": "SQL query strings (e.g. SELECT * FROM AzureVMs).", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q030", "title": "Azure CLI Structure & Cross-Platform Support", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure CLI commands follow a clear command hierarchy: az + group + subgroup + action (e.g., az vm create).", "content": {"prompt": "How is an Azure CLI command structured?", "explanation": "Azure CLI commands follow a clear command hierarchy: az + group + subgroup + action (e.g., az vm create).", "options": [{"id": "opt-1", "text": "git commit -m create vm.", "isCorrect": false}, {"id": "opt-2", "text": "npm install azure-vm-latest.", "isCorrect": false}, {"id": "opt-3", "text": "az <group> <subgroup> <action> (e.g., az vm create, az group list).", "isCorrect": true}, {"id": "opt-4", "text": "docker run -d azure-vm.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q031", "title": "Matching Azure Management Tools", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Management Tools: Portal (GUI), CLI (az commands), PowerShell (Verb-Noun cmdlets), ARM/Bicep (IaC files).", "content": {"prompt": "Match each Azure management tool to its core description and command structure.", "explanation": "Management Tools: Portal (GUI), CLI (az commands), PowerShell (Verb-Noun cmdlets), ARM/Bicep (IaC files).", "items": [{"id": "item-2", "label": "Azure CLI"}, {"id": "item-3", "label": "Azure PowerShell"}, {"id": "item-1", "label": "Azure Portal"}, {"id": "item-4", "label": "ARM Templates / Bicep"}], "targets": [{"id": "target-2", "label": "Cross-platform command-line tool using az <group> <action> syntax (Bash, zsh, cmd).", "correctItemId": "item-2"}, {"id": "target-3", "label": "Task automation framework using Verb-Noun cmdlets (e.g., New-AzResourceGroup).", "correctItemId": "item-3"}, {"id": "target-4", "label": "Declarative Infrastructure as Code (IaC) files defining desired state deployments.", "correctItemId": "item-4"}, {"id": "target-1", "label": "Web-based graphical user interface for visual resource creation and monitoring.", "correctItemId": "item-1"}]}}, {"code": "AZ-BASICS-Q032", "title": "Benefits of Infrastructure as Code (IaC)", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "IaC provides repeatable, automated, consistent deployments with version control support.", "content": {"prompt": "What are the main advantages of deploying Azure resources using Infrastructure as Code (IaC)? (Select TWO)", "explanation": "IaC provides repeatable, automated, consistent deployments with version control support.", "options": [{"id": "opt-1", "text": "Automation and Speed: Allows rapid, repeatable deployments integrated into CI/CD DevOps pipelines.", "isCorrect": true}, {"id": "opt-2", "text": "Idempotency and Consistency: Ensures environments (dev, test, prod) are deployed identically without manual configuration drift.", "isCorrect": true}, {"id": "opt-3", "text": "Automatically increases internet connection speed at home by 10x.", "isCorrect": false}, {"id": "opt-4", "text": "Guarantees that no passwords or security keys are needed in cloud computing.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q033", "title": "ARM Templates Data Format", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Native ARM templates are written in JSON format containing schema, parameters, variables, resources, and outputs.", "content": {"prompt": "What data format is used to write native Azure Resource Manager (ARM) templates?", "explanation": "Native ARM templates are written in JSON format containing schema, parameters, variables, resources, and outputs.", "options": [{"id": "opt-1", "text": "JSON (JavaScript Object Notation)", "isCorrect": true}, {"id": "opt-2", "text": "CSV (Comma Separated Values)", "isCorrect": false}, {"id": "opt-3", "text": "XML (Extensible Markup Language)", "isCorrect": false}, {"id": "opt-4", "text": "INI file", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q034", "title": "Bicep Language Purpose", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Bicep is a transparent abstraction over ARM JSON that simplifies authoring experience with cleaner syntax and type safety.", "content": {"prompt": "What is Microsoft Bicep in relation to Azure ARM templates?", "explanation": "Bicep is a transparent abstraction over ARM JSON that simplifies authoring experience with cleaner syntax and type safety.", "options": [{"id": "opt-1", "text": "An antivirus program designed for Windows 11 PCs.", "isCorrect": false}, {"id": "opt-2", "text": "A domain-specific language (DSL) that uses cleaner, concise syntax to write Azure IaC, compiling directly into ARM JSON templates.", "isCorrect": true}, {"id": "opt-3", "text": "A video editing software included in Microsoft Office.", "isCorrect": false}, {"id": "opt-4", "text": "A database query language for querying MySQL tables.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q035", "title": "Matching Azure CLI Command Groups", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "CLI command groups align with Azure resource types: az vm, az group, az network, az storage.", "content": {"prompt": "Match each Azure CLI command group prefix to the target resource category it manages.", "explanation": "CLI command groups align with Azure resource types: az vm, az group, az network, az storage.", "items": [{"id": "item-4", "label": "az storage account"}, {"id": "item-2", "label": "az group"}, {"id": "item-3", "label": "az network vnet"}, {"id": "item-1", "label": "az vm"}], "targets": [{"id": "target-4", "label": "Manage Blob, File, Queue, and Table storage accounts.", "correctItemId": "item-4"}, {"id": "target-2", "label": "Manage Azure Resource Groups containers.", "correctItemId": "item-2"}, {"id": "target-1", "label": "Manage Azure Virtual Machine compute instances.", "correctItemId": "item-1"}, {"id": "target-3", "label": "Manage Virtual Networks, subnets, and IP addressing.", "correctItemId": "item-3"}]}}, {"code": "AZ-BASICS-Q036", "title": "Azure Cloud Shell Capabilities", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure Cloud Shell is an authenticated, browser-accessible shell for managing Azure resources using either Bash or PowerShell.", "content": {"prompt": "What is Azure Cloud Shell?", "explanation": "Azure Cloud Shell is an authenticated, browser-accessible shell for managing Azure resources using either Bash or PowerShell.", "options": [{"id": "opt-1", "text": "A background virus scanner running on Azure datacenters.", "isCorrect": false}, {"id": "opt-2", "text": "A physical laptop handed out free at Microsoft stores.", "isCorrect": false}, {"id": "opt-3", "text": "An interactive, browser-accessible command-line shell pre-configured with Azure CLI, Azure PowerShell, and common developer tools.", "isCorrect": true}, {"id": "opt-4", "text": "A paid third-party plugin for Microsoft Word.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q037", "title": "Azure CLI Authentication Methods", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Azure CLI supports interactive login (az login) for users, as well as Service Principal and Managed Identity logins for automated automation scripts.", "content": {"prompt": "Which of the following authentication methods can be used to log into Azure CLI? (Select TWO)", "explanation": "Azure CLI supports interactive login (az login) for users, as well as Service Principal and Managed Identity logins for automated automation scripts.", "options": [{"id": "opt-1", "text": "Sending a text message to a landline phone number.", "isCorrect": false}, {"id": "opt-2", "text": "Automated non-interactive login using Service Principals or Managed Identity in CI/CD pipelines.", "isCorrect": true}, {"id": "opt-3", "text": "Scanning a paper barcode on a physical ID card into a webcam.", "isCorrect": false}, {"id": "opt-4", "text": "Interactive user login via browser using az login.", "isCorrect": true}]}}];
-  const azureBasicsD4 = [{"code": "AZ-BASICS-Q038", "title": "Burstable CPU B-Series VM Family", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "B-Series VMs accumulate CPU credits during baseline usage and burst up to 100% vCPU during high traffic periods.", "content": {"prompt": "Which Azure Virtual Machine family uses a CPU credit model that accumulates credits during low usage and bursts CPU performance to 100% during traffic spikes, making it ideal for web servers and development environments?", "explanation": "B-Series VMs accumulate CPU credits during baseline usage and burst up to 100% vCPU during high traffic periods.", "options": [{"id": "opt-1", "text": "H-Series (High Performance Computing)", "isCorrect": false}, {"id": "opt-2", "text": "B-Series (Burstable CPU)", "isCorrect": true}, {"id": "opt-3", "text": "F-Series (Compute Optimized)", "isCorrect": false}, {"id": "opt-4", "text": "M-Series (Memory Optimized)", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q039", "title": "General Purpose D-Series VM Family", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "D-Series offers balanced vCPU and RAM configuration for general-purpose server workloads.", "content": {"prompt": "Which Azure VM series provides a balanced CPU-to-memory ratio suitable for enterprise applications, relational databases, and medium-traffic web servers?", "explanation": "D-Series offers balanced vCPU and RAM configuration for general-purpose server workloads.", "options": [{"id": "opt-1", "text": "N-Series (GPU Enabled)", "isCorrect": false}, {"id": "opt-2", "text": "D-Series (General Purpose)", "isCorrect": true}, {"id": "opt-3", "text": "A-Series (Entry Level Basic)", "isCorrect": false}, {"id": "opt-4", "text": "L-Series (Storage Optimized)", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q040", "title": "Memory Optimized E-Series & M-Series VM Families", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "E-Series and M-Series VMs feature high memory-to-core ratios designed for heavy in-memory database engines like SAP HANA and enterprise SQL Server.", "content": {"prompt": "You are deploying a large in-memory SAP HANA or SQL Server database requiring up to 4 TB of RAM. Which VM series family should you select?", "explanation": "E-Series and M-Series VMs feature high memory-to-core ratios designed for heavy in-memory database engines like SAP HANA and enterprise SQL Server.", "options": [{"id": "opt-1", "text": "B-Series (Burstable)", "isCorrect": false}, {"id": "opt-2", "text": "E-Series or M-Series (Memory Optimized)", "isCorrect": true}, {"id": "opt-3", "text": "N-Series (GPU Enabled)", "isCorrect": false}, {"id": "opt-4", "text": "F-Series (Compute Optimized)", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q041", "title": "Compute Optimized F-Series VM Family", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "F-Series VMs have high CPU-to-memory ratios and high clock speed cores for CPU-bound computations.", "content": {"prompt": "Which Azure VM series features a high CPU-to-memory ratio with fast processor clock speeds, making it ideal for batch processing, web analytics, and gaming servers?", "explanation": "F-Series VMs have high CPU-to-memory ratios and high clock speed cores for CPU-bound computations.", "options": [{"id": "opt-1", "text": "B-Series (Burstable)", "isCorrect": false}, {"id": "opt-2", "text": "L-Series (Storage Optimized)", "isCorrect": false}, {"id": "opt-3", "text": "E-Series (Memory Optimized)", "isCorrect": false}, {"id": "opt-4", "text": "F-Series (Compute Optimized)", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q042", "title": "Storage Optimized L-Series VM Family", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Lsv2/Lsv3 Series VMs provide high-throughput, low latency, direct-mapped local NVMe storage.", "content": {"prompt": "Which Azure VM family includes direct-attached local NVMe storage providing high disk throughput and low latency for NoSQL databases (e.g. Cassandra, MongoDB) and data warehousing?", "explanation": "Lsv2/Lsv3 Series VMs provide high-throughput, low latency, direct-mapped local NVMe storage.", "options": [{"id": "opt-1", "text": "D-Series (General Purpose)", "isCorrect": false}, {"id": "opt-2", "text": "N-Series (GPU Enabled)", "isCorrect": false}, {"id": "opt-3", "text": "L-Series (Storage Optimized)", "isCorrect": true}, {"id": "opt-4", "text": "B-Series (Burstable)", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q043", "title": "High Performance Computing H-Series VM Family", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "H-Series VMs feature RDMA InfiniBand networking specifically engineered for complex parallel scientific and HPC simulations.", "content": {"prompt": "Which Azure VM series features InfiniBand networking for ultra-low latency inter-node communication required by High-Performance Computing (HPC) workloads, scientific simulations, and weather modeling?", "explanation": "H-Series VMs feature RDMA InfiniBand networking specifically engineered for complex parallel scientific and HPC simulations.", "options": [{"id": "opt-1", "text": "D-Series (General Purpose)", "isCorrect": false}, {"id": "opt-2", "text": "H-Series (HPC High Performance Computing)", "isCorrect": true}, {"id": "opt-3", "text": "A-Series (Basic Entry)", "isCorrect": false}, {"id": "opt-4", "text": "B-Series (Burstable)", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q044", "title": "GPU Enabled N-Series VM Family", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "N-Series (NC, ND, NV) VMs are equipped with NVIDIA GPUs for AI/ML model training, CAD rendering, and graphic acceleration.", "content": {"prompt": "Which Azure VM family provides NVIDIA GPU acceleration for deep learning, AI model training, graphic rendering, and video editing?", "explanation": "N-Series (NC, ND, NV) VMs are equipped with NVIDIA GPUs for AI/ML model training, CAD rendering, and graphic acceleration.", "options": [{"id": "opt-1", "text": "E-Series (Memory Optimized)", "isCorrect": false}, {"id": "opt-2", "text": "L-Series (Storage Optimized)", "isCorrect": false}, {"id": "opt-3", "text": "D-Series (General Purpose)", "isCorrect": false}, {"id": "opt-4", "text": "N-Series (GPU Enabled)", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q045", "title": "Matching Azure VM Series to Workload Requirement", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "VM Series: B = Burstable, E = Memory, F = Compute, H = HPC.", "content": {"prompt": "Match each Azure Virtual Machine family series to its intended workload optimization target.", "explanation": "VM Series: B = Burstable, E = Memory, F = Compute, H = HPC.", "items": [{"id": "item-4", "label": "H-Series"}, {"id": "item-2", "label": "E-Series"}, {"id": "item-3", "label": "F-Series"}, {"id": "item-1", "label": "B-Series"}], "targets": [{"id": "target-2", "label": "Memory-optimized workload (e.g. SAP HANA, heavy relational SQL databases).", "correctItemId": "item-2"}, {"id": "target-4", "label": "High-performance computing workload (e.g. InfiniBand scientific simulations).", "correctItemId": "item-4"}, {"id": "target-3", "label": "Compute-optimized workload (e.g. high-speed batch processing, web analytics).", "correctItemId": "item-3"}, {"id": "target-1", "label": "Burstable CPU workload (e.g. low-traffic web servers, dev/test environments).", "correctItemId": "item-1"}]}}, {"code": "AZ-BASICS-Q046", "title": "Components Created During VM Provisioning", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Deploying an Azure VM provisions underlying resources: Virtual Machine, Network Interface (NIC), OS Disk, Network Security Group (NSG), and optional Public IP.", "content": {"prompt": "When creating a Virtual Machine in Azure, which additional child resources are typically provisioned automatically alongside the VM compute instance? (Select TWO)", "explanation": "Deploying an Azure VM provisions underlying resources: Virtual Machine, Network Interface (NIC), OS Disk, Network Security Group (NSG), and optional Public IP.", "options": [{"id": "opt-1", "text": "Network Interface (NIC) connected to a Virtual Network Subnet.", "isCorrect": true}, {"id": "opt-2", "text": "An Azure Synapse Analytics dedicated SQL pool.", "isCorrect": false}, {"id": "opt-3", "text": "A physical optical fiber cable delivered to the customer office.", "isCorrect": false}, {"id": "opt-4", "text": "Managed OS Disk (Premium SSD, Standard SSD, or HDD) storing the operating system.", "isCorrect": true}]}}, {"code": "AZ-BASICS-Q047", "title": "Managed Disks vs Unmanaged Disks", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Managed Disks are managed by Azure behind the scenes, eliminating storage account limits and ensuring disks for Availability Set VMs are placed on distinct storage Fault Domains.", "content": {"prompt": "What is the primary benefit of using Azure Managed Disks over legacy Unmanaged Disks?", "explanation": "Managed Disks are managed by Azure behind the scenes, eliminating storage account limits and ensuring disks for Availability Set VMs are placed on distinct storage Fault Domains.", "options": [{"id": "opt-1", "text": "Azure automatically handles storage account creation, scaling, and fault domain alignment without manual VHD file management.", "isCorrect": true}, {"id": "opt-2", "text": "Managed Disks convert all Windows VMs into Mac computers.", "isCorrect": false}, {"id": "opt-3", "text": "Managed Disks bypass all password requirements.", "isCorrect": false}, {"id": "opt-4", "text": "Managed Disks eliminate the need to pay for any cloud storage usage.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q048", "title": "Matching Azure Disk Storage Tiers", "type": "DRAG_AND_DROP", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Disk Tiers: Ultra Disk (highest IOPS/sub-ms) -> Premium SSD (production) -> Standard SSD (dev/test) -> Standard HDD (backups).", "content": {"prompt": "Match each Azure Managed Disk storage tier to its performance and workload profile.", "explanation": "Disk Tiers: Ultra Disk (highest IOPS/sub-ms) -> Premium SSD (production) -> Standard SSD (dev/test) -> Standard HDD (backups).", "items": [{"id": "item-4", "label": "Standard HDD"}, {"id": "item-1", "label": "Ultra Disk"}, {"id": "item-3", "label": "Standard SSD"}, {"id": "item-2", "label": "Premium SSD"}], "targets": [{"id": "target-1", "label": "Top-tier sub-millisecond latency storage for mission-critical I/O intensive databases (up to 160,000 IOPS).", "correctItemId": "item-1"}, {"id": "target-4", "label": "Magnetic platter storage suitable for non-critical backup data and infrequently accessed storage.", "correctItemId": "item-4"}, {"id": "target-2", "label": "High-performance SSD storage for production workloads and SQL databases requiring single-digit ms latency.", "correctItemId": "item-2"}, {"id": "target-3", "label": "Cost-effective SSD storage for entry-level web servers, light workloads, and dev/test environments.", "correctItemId": "item-3"}]}}, {"code": "AZ-BASICS-Q049", "title": "Azure VM Scale Sets (VMSS) Purpose", "type": "SINGLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "VM Scale Sets allow auto-scaling identical VM instances up or down based on CPU, memory, or custom metrics, integrated with Load Balancers.", "content": {"prompt": "What is Azure Virtual Machine Scale Sets (VMSS)?", "explanation": "VM Scale Sets allow auto-scaling identical VM instances up or down based on CPU, memory, or custom metrics, integrated with Load Balancers.", "options": [{"id": "opt-1", "text": "An Azure compute resource that lets you create and manage a group of identical, load-balanced VMs that automatically scale in response to demand.", "isCorrect": true}, {"id": "opt-2", "text": "A physical scale used to weigh server racks inside datacenters.", "isCorrect": false}, {"id": "opt-3", "text": "A billing calculator for predicting Azure expenses.", "isCorrect": false}, {"id": "opt-4", "text": "A backup tool for printing hard copies of database tables.", "isCorrect": false}]}}, {"code": "AZ-BASICS-Q050", "title": "Azure VM Cost Optimization Strategies", "type": "MULTIPLE_CHOICE", "difficulty": "INTERMEDIATE", "points": 1.0, "explanation": "Reserved Instances (1-3 yr commitment) and Spot VMs (interruptible capacity) provide significant cost reductions for Azure compute.", "content": {"prompt": "Which of the following strategies can organizations implement to reduce Azure Virtual Machine compute costs? (Select TWO)", "explanation": "Reserved Instances (1-3 yr commitment) and Spot VMs (interruptible capacity) provide significant cost reductions for Azure compute.", "options": [{"id": "opt-1", "text": "Azure Spot VMs: Utilizing unused Azure compute capacity at steep discounts for interruptible workloads.", "isCorrect": true}, {"id": "opt-2", "text": "Running all VMs at 100% CPU utilization 24 hours a day without stopping.", "isCorrect": false}, {"id": "opt-3", "text": "Deleting the billing address from the Azure portal user account.", "isCorrect": false}, {"id": "opt-4", "text": "Azure Reserved VM Instances (RI): Committing to 1-year or 3-year plans for up to 72% cost savings compared to pay-as-you-go pricing.", "isCorrect": true}]}}];
-
-  const seededAzureBasicsD1 = await seedQuestionList(azureBasicsD1, catAzure.id);
-  const seededAzureBasicsD2 = await seedQuestionList(azureBasicsD2, catAzure.id);
-  const seededAzureBasicsD3 = await seedQuestionList(azureBasicsD3, catAzure.id);
-  const seededAzureBasicsD4 = await seedQuestionList(azureBasicsD4, catAzure.id);
-
-  const azureBasicsExam = await prisma.exam.create({
-    data: {
-      code: 'AZURE-BASICS',
-      title: 'Azure Basics',
-      vendor: 'MICROSOFT',
-      examType: 'CERTIFICATION',
-      description: 'Comprehensive Azure Basics certification exam covering Physical and Logical Architecture, High Availability, Management Tools and IaC, and Compute and VM Families (50 Questions total derived from Azure Basics PPTX).',
-      timeLimitMinutes: 60,
-      passingScore: 70.0,
-      totalQuestionsConfig: 50,
-      creatorId: creatorUser.id,
-      status: 'PUBLISHED',
-      isGloballyUnlocked: true,
-    },
-  });
-
-  await prisma.examRoom.create({
-    data: {
-      roomCode: 'HALL-AZURE-BASICS',
-      title: 'Azure Basics Proctored Examination Hall',
-      examId: azureBasicsExam.id,
-      status: 'OPEN',
-      allowReview: true,
-      createdBy: creatorUser.email,
-    },
-  });
-
-  const azureBasicsSections = [
-    { title: '1. Azure Physical & Logical Architecture', weight: 26.0, questions: seededAzureBasicsD1 },
-    { title: '2. Azure High Availability, Resiliency & Redundancy', weight: 24.0, questions: seededAzureBasicsD2 },
-    { title: '3. Azure Resource Management, Tools & Infrastructure as Code', weight: 24.0, questions: seededAzureBasicsD3 },
-    { title: '4. Azure Compute, Virtual Machine Families & Workloads', weight: 26.0, questions: seededAzureBasicsD4 },
-  ];
-
-  for (let sIdx = 0; sIdx < azureBasicsSections.length; sIdx++) {
-    const sData = azureBasicsSections[sIdx];
-    const sec = await prisma.examSection.create({
-      data: {
-        examId: azureBasicsExam.id,
-        title: sData.title,
-        orderIndex: sIdx + 1,
-        weightPercentage: sData.weight,
-      },
-    });
-
-    let qOrder = 1;
-    for (const q of sData.questions) {
-      await prisma.sectionQuestion.create({
-        data: { sectionId: sec.id, questionId: q.id, orderIndex: qOrder++ },
-      });
+  // AZURE BASICS - 50 QUESTIONS (PPTX DERIVED & AUDITED - 100% UNIQUE NON-OVERLAPPING)
+  const azureBasicsD1 = [
+  {
+    "code": "AZ-BASICS-Q001",
+    "title": "Azure Storage Replication Types (LRS vs ZRS vs GRS)",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Zone-Redundant Storage (ZRS) replicates your data synchronously across three Azure availability zones in the primary region, providing high availability against datacenter outages without requiring cross-region failover.",
+    "content": {
+      "prompt": "An enterprise requires a storage solution that synchronously replicates data across three separate availability zones within the primary Azure region. Which storage replication strategy should you select?",
+      "explanation": "Zone-Redundant Storage (ZRS) replicates your data synchronously across three Azure availability zones in the primary region, providing high availability against datacenter outages without requiring cross-region failover.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Locally-Redundant Storage (LRS)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-2",
+          "text": "Zone-Redundant Storage (ZRS)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Geo-Redundant Storage (GRS)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Read-Access Geo-Redundant Storage (RA-GRS)",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q002",
+    "title": "Azure Blob Storage Access Tiers",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "The Archive tier offers the lowest storage cost but has higher data retrieval costs and requires several hours of rehydration latency before data can be accessed.",
+    "content": {
+      "prompt": "Which Azure Blob Storage access tier offers the lowest data storage cost for long-term compliance data that can tolerate several hours of retrieval latency?",
+      "explanation": "The Archive tier offers the lowest storage cost but has higher data retrieval costs and requires several hours of rehydration latency before data can be accessed.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Hot Access Tier",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-2",
+          "text": "Cool Access Tier",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Cold Access Tier",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Archive Access Tier",
+          "isCorrect": true
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q003",
+    "title": "Azure Bastion RDP/SSH Secure Access",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Bastion provides secure, seamless RDP/SSH connectivity to your virtual machines directly through the Azure portal over TLS/HTTPS (port 443) without exposing public IP addresses on the VMs.",
+    "content": {
+      "prompt": "You need to enable administrators to securely RDP and SSH into Azure Virtual Machines directly via an HTML5 browser without assigning public IP addresses to the VMs or exposing port 3389/22 to the public internet. Which service should you deploy?",
+      "explanation": "Azure Bastion provides secure, seamless RDP/SSH connectivity to your virtual machines directly through the Azure portal over TLS/HTTPS (port 443) without exposing public IP addresses on the VMs.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Bastion",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure VPN Gateway",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure ExpressRoute",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Application Gateway",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q004",
+    "title": "Network Security Groups (NSG) Rule Evaluation",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "NSG rules are processed in priority order from lowest number (100) to highest number (4096). Once a rule matches incoming or outgoing traffic, processing stops.",
+    "content": {
+      "prompt": "In an Azure Network Security Group (NSG), how are security rules evaluated against network traffic?",
+      "explanation": "NSG rules are processed in priority order from lowest number (100) to highest number (4096). Once a rule matches incoming or outgoing traffic, processing stops.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "In numerical order by rule priority, from lowest number (highest priority) to highest number, stopping at the first match.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "In alphabetical order by rule name.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "In reverse order of creation timestamp.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "All rules are evaluated simultaneously and deny rules always override allow rules regardless of priority.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q005",
+    "title": "Azure User Defined Routes (UDR) & Route Tables",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "User Defined Routes (UDRs) override Azure's default system routing table to force subnet traffic through a Virtual Network Appliance (NVA) such as a third-party firewall.",
+    "content": {
+      "prompt": "You need to override Azure default system routes and force all outbound internet traffic from a backend database subnet through a virtual firewall appliance. What Azure component must you create and link to the subnet?",
+      "explanation": "User Defined Routes (UDRs) override Azure's default system routing table to force subnet traffic through a Virtual Network Appliance (NVA) such as a third-party firewall.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Route Table with User Defined Routes (UDR)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Network Security Group (NSG) Application Security Group link",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure NAT Gateway endpoint",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Front Door routing rule",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q006",
+    "title": "VPN Gateway vs ExpressRoute Hybrid Connectivity",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "ExpressRoute provides a dedicated, private connection to Azure that does not traverse the public internet, offering higher reliability, faster speeds, and lower latency than S2S VPN.",
+    "content": {
+      "prompt": "An enterprise requires a private, high-speed connection between its on-premises corporate datacenter and Azure that does NOT traverse the public internet. Which connectivity option satisfies this requirement?",
+      "explanation": "ExpressRoute provides a dedicated, private connection to Azure that does not traverse the public internet, offering higher reliability, faster speeds, and lower latency than S2S VPN.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Site-to-Site (S2S) IPSec VPN",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-2",
+          "text": "Point-to-Site (P2S) VPN",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure ExpressRoute",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Private Link Service",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q007",
+    "title": "Azure Key Vault Capabilities",
+    "type": "MULTIPLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Key Vault manages three primary asset types: Secrets (passwords/API keys), Keys (cryptographic CMK encryption keys), and Certificates (SSL/TLS certs).",
+    "content": {
+      "prompt": "Which of the following sensitive assets can be securely stored and managed using Azure Key Vault? (Select TWO)",
+      "explanation": "Azure Key Vault manages three primary asset types: Secrets (passwords/API keys), Keys (cryptographic CMK encryption keys), and Certificates (SSL/TLS certs).",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Cryptographic Keys used for data encryption at rest (Customer-Managed Keys).",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Application database passwords and API connection secrets.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Raw Virtual Machine disk VHD image files.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Uncompiled C# application source code repositories.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q008",
+    "title": "Azure Cost Management & Budgets",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Cost Management Budgets allow you to set spending thresholds and automatically trigger alert notifications via email or Action Groups when spending reaches a specified percentage.",
+    "content": {
+      "prompt": "How can an Azure subscription administrator prevent unexpected cloud spending by receiving automated notifications when monthly consumption exceeds $5,000?",
+      "explanation": "Azure Cost Management Budgets allow you to set spending thresholds and automatically trigger alert notifications via email or Action Groups when spending reaches a specified percentage.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Configure an Azure Cost Management Budget with threshold alert conditions.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Apply a ReadOnly Resource Lock to the subscription.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Create an Azure Policy denying all VM deployments.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Set up an Azure Advisor recommendation rule.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q009",
+    "title": "Azure Tags & Azure Resource Graph Querying",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Tags consist of key-value pairs assigned to resources. Azure Resource Graph allows querying resources by tag across thousands of subscriptions using KQL.",
+    "content": {
+      "prompt": "Which Azure governance feature allows organizations to attach custom name-value metadata pairs (such as Environment=Production or CostCenter=1042) to resources for billing organization and search?",
+      "explanation": "Azure Tags consist of key-value pairs assigned to resources. Azure Resource Graph allows querying resources by tag across thousands of subscriptions using KQL.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Resource Tags",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Management Group Rules",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Entra ID Claims",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Network Security Group Labels",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q010",
+    "title": "Azure Application Insights Telemetry",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Application Insights is a feature of Azure Monitor that provides Application Performance Monitoring (APM) to track web app request rates, response times, failure rates, and exceptions.",
+    "content": {
+      "prompt": "Which service should you implement to perform Application Performance Monitoring (APM) for a web application to diagnose slow HTTP requests, unhandled exceptions, and dependency response times?",
+      "explanation": "Application Insights is a feature of Azure Monitor that provides Application Performance Monitoring (APM) to track web app request rates, response times, failure rates, and exceptions.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Application Insights",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Network Watcher",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Microsoft Defender for Cloud",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Service Health",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q011",
+    "title": "Microsoft Defender for Cloud Security Posture",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Microsoft Defender for Cloud provides Cloud Security Posture Management (CSPM) and calculates a Secure Score to help organizations remediate security vulnerabilities.",
+    "content": {
+      "prompt": "Which service evaluates your Azure infrastructure against security best practices and generates a unified Secure Score with actionable recommendations to harden resources?",
+      "explanation": "Microsoft Defender for Cloud provides Cloud Security Posture Management (CSPM) and calculates a Secure Score to help organizations remediate security vulnerabilities.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Microsoft Defender for Cloud",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Traffic Manager",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Cost Management",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure ExpressRoute Direct",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q012",
+    "title": "Azure Advisor Recommendations Categories",
+    "type": "MULTIPLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Advisor provides personalized recommendations across 5 pillars: Cost, Security, Reliability (High Availability), Operational Excellence, and Performance.",
+    "content": {
+      "prompt": "Which key operational pillars are evaluated by Azure Advisor to provide optimization recommendations? (Select TWO)",
+      "explanation": "Azure Advisor provides personalized recommendations across 5 pillars: Cost, Security, Reliability (High Availability), Operational Excellence, and Performance.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Cost Optimization: Identifying underutilized or idle resources to reduce monthly spend.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Reliability & High Availability: Recommending multi-zone configurations and backup policies.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Automatic physical replacement of client laptop batteries.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Guaranteed 100% discount on all third-party software licenses.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q013",
+    "title": "Azure Service Health vs Status Page",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Service Health provides a personalized view of the health of the specific Azure services and regions your resources are deployed in, including planned maintenance alerts.",
+    "content": {
+      "prompt": "What is the difference between the public Azure Status page and Azure Service Health?",
+      "explanation": "Azure Service Health provides a personalized view of the health of the specific Azure services and regions your resources are deployed in, including planned maintenance alerts.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Status shows global service availability worldwide, while Azure Service Health provides a personalized dashboard filtered to your specific subscriptions and deployed resources.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Status requires a paid Enterprise Agreement, while Azure Service Health is only available for free trial accounts.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Status monitors local client printers, while Azure Service Health monitors Linux VMs.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "There is no difference; both display identical public global RSS feeds.",
+          "isCorrect": false
+        }
+      ]
     }
   }
-  console.log('✅ Seeded AZURE-BASICS with 50 questions across 4 Objective Domain Sections & Room HALL-AZURE-BASICS!');
+];
+  const azureBasicsD2 = [
+  {
+    "code": "AZ-BASICS-Q014",
+    "title": "Azure Container Registry (ACR) Features",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Container Registry (ACR) is a managed, private OCI container registry service based on open-source Docker Registry 2.0 to store and manage private container images.",
+    "content": {
+      "prompt": "Where should a development team store and manage private OCI/Docker container images securely within their Azure environment?",
+      "explanation": "Azure Container Registry (ACR) is a managed, private OCI container registry service based on open-source Docker Registry 2.0 to store and manage private container images.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Container Registry (ACR)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Blob Storage public container",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Queue Storage",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Key Vault Secret store",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q015",
+    "title": "Azure Kubernetes Service (AKS) Architecture",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "In AKS, Microsoft manages the Kubernetes Control Plane (API server, etcd) at no extra charge, while the customer pays only for the agent worker node VMs that execute container pods.",
+    "content": {
+      "prompt": "Which statement accurately describes the responsibility split in Azure Kubernetes Service (AKS)?",
+      "explanation": "In AKS, Microsoft manages the Kubernetes Control Plane (API server, etcd) at no extra charge, while the customer pays only for the agent worker node VMs that execute container pods.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Microsoft manages the Kubernetes Control Plane (API server and etcd), while the customer manages and pays for worker node pools.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "The customer must manually patch physical datacenter router firmware for AKS clusters.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "AKS does not support containerized workloads.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "The customer is responsible for maintaining etcd master database hardware.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q016",
+    "title": "Azure Private Endpoints vs Service Endpoints",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Private Endpoints use a private IP address from your VNet to connect securely to Azure PaaS services via Azure Private Link, eliminating public IP exposure.",
+    "content": {
+      "prompt": "Which network feature assigns a private IP address from your Virtual Network subnet directly to an Azure PaaS service (such as Azure Storage or SQL Database)?",
+      "explanation": "Private Endpoints use a private IP address from your VNet to connect securely to Azure PaaS services via Azure Private Link, eliminating public IP exposure.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Private Endpoint",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Public IP Address",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "ExpressRoute FastPath",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Internet Gateway",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q017",
+    "title": "Azure NAT Gateway Outbound Connectivity",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure NAT Gateway provides outbound-only internet connectivity for subnets inside a VNet, ensuring all outbound connections share static public IP addresses while blocking inbound connections.",
+    "content": {
+      "prompt": "You need to grant virtual machines in a private subnet outbound internet access to download software patches using a static public IP address, while strictly blocking all inbound connections. What service should you use?",
+      "explanation": "Azure NAT Gateway provides outbound-only internet connectivity for subnets inside a VNet, ensuring all outbound connections share static public IP addresses while blocking inbound connections.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure NAT Gateway",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Traffic Manager",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Point-to-Site VPN",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Front Door",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q018",
+    "title": "Application Gateway vs Azure Load Balancer",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Application Gateway is a Layer 7 (HTTP/HTTPS) load balancer that supports URL path-based routing and SSL termination, whereas Azure Load Balancer operates at Layer 4 (TCP/UDP).",
+    "content": {
+      "prompt": "Which Azure load balancing service operates at Layer 7 (Application Layer) and supports URL path-based routing (e.g. routing /images/* to one server pool and /video/* to another)?",
+      "explanation": "Application Gateway is a Layer 7 (HTTP/HTTPS) load balancer that supports URL path-based routing and SSL termination, whereas Azure Load Balancer operates at Layer 4 (TCP/UDP).",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Application Gateway",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Basic Load Balancer (Layer 4)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Traffic Manager (DNS)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Virtual Network Peering",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q019",
+    "title": "Azure Storage SAS Token Types",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Shared Access Signatures (SAS) grant limited time-bound access to storage resources with specified permissions (read/write) without sharing the account access key.",
+    "content": {
+      "prompt": "How can you grant a third-party vendor temporary, read-only access to a specific Azure Blob container for 4 hours without revealing your primary Storage Account Access Key?",
+      "explanation": "Shared Access Signatures (SAS) grant limited time-bound access to storage resources with specified permissions (read/write) without sharing the account access key.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Generate a Shared Access Signature (SAS) token with Read permissions and a 4-hour expiration timestamp.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Send the vendor your primary Storage Account Connection String via email.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Make the storage account container completely public for 4 hours.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Create a new Azure Subscription for the vendor.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q020",
+    "title": "App Service Deployment Slots",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "App Service Deployment Slots allow running staging environments with separate URLs. Swapping staging into production ensures zero-downtime deployments.",
+    "content": {
+      "prompt": "Which feature of Azure App Service enables web application teams to deploy new code into a staging environment and swap it into production with zero downtime?",
+      "explanation": "App Service Deployment Slots allow running staging environments with separate URLs. Swapping staging into production ensures zero-downtime deployments.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Deployment Slots",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Resource Locks",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Scale Sets",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Availability Zones",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q021",
+    "title": "Azure SQL Database Elastic Pools",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Elastic Pools allow multiple Azure SQL databases to share a single set of performance resources (eDTUs or vCores) to manage cost efficiently for unpredictable workloads.",
+    "content": {
+      "prompt": "A SaaS provider manages 100 individual Azure SQL databases for 100 different customers. Each database has unpredictable usage spikes at different times of day. How can the provider optimize database performance and cost?",
+      "explanation": "Elastic Pools allow multiple Azure SQL databases to share a single set of performance resources (eDTUs or vCores) to manage cost efficiently for unpredictable workloads.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Provision an Azure SQL Elastic Pool to share a common pool of compute/DTU resources among all 100 databases.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Assign the maximum tier (Business Critical) to every database 24/7.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Convert all databases into CSV files stored on local USB drives.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Merge all 100 customer databases into a single unindexed table.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q022",
+    "title": "Azure Dedicated Hosts for Compliance",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Dedicated Host provides physical servers dedicated to your organization only, satisfying strict physical single-tenant isolation compliance requirements.",
+    "content": {
+      "prompt": "A financial enterprise requires that physical server hardware hosting its Virtual Machines is completely single-tenant and NOT shared with any other Azure customers. What service satisfies this compliance mandate?",
+      "explanation": "Azure Dedicated Host provides physical servers dedicated to your organization only, satisfying strict physical single-tenant isolation compliance requirements.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Dedicated Host",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Shared General Purpose VM",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "App Service Free Tier",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Functions Consumption Plan",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q023",
+    "title": "Azure Storage Immutable Storage (WORM)",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Immutable Blob Storage implements Write Once, Read Many (WORM) policies where data cannot be modified or deleted by any user, including subscription owners, during the retention period.",
+    "content": {
+      "prompt": "Which Azure Storage feature ensures financial compliance records are stored in a Write Once, Read Many (WORM) state where data cannot be overwritten or deleted by any user for a specified retention interval?",
+      "explanation": "Immutable Blob Storage implements Write Once, Read Many (WORM) policies where data cannot be modified or deleted by any user, including subscription owners, during the retention period.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Immutable Blob Storage with time-based retention policy",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Storage Account Shared Key",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Blob Soft Delete only",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Virtual Network NAT Gateway",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q024",
+    "title": "Azure Functions Serverless Triggers",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Functions is an event-driven serverless compute service that executes code automatically when triggered by events (e.g. Blob upload, Queue message, HTTP request).",
+    "content": {
+      "prompt": "You need to execute a small Python script to resize images automatically whenever a new image file is uploaded to an Azure Blob Storage container. Which event-driven serverless service should you use?",
+      "explanation": "Azure Functions is an event-driven serverless compute service that executes code automatically when triggered by events (e.g. Blob upload, Queue message, HTTP request).",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Functions",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Virtual Machine Scale Sets",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure ExpressRoute",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Dedicated Host",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q025",
+    "title": "Event Grid vs Event Hubs vs Service Bus",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Event Hubs is a big data streaming platform capable of ingesting millions of telemetry events per second from IoT devices and logs.",
+    "content": {
+      "prompt": "An IoT application needs to stream and ingest 2 million telemetry events per second from connected vehicles into Azure for real-time analytics. Which service should you choose?",
+      "explanation": "Azure Event Hubs is a big data streaming platform capable of ingesting millions of telemetry events per second from IoT devices and logs.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Event Hubs",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Service Bus Topics",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Logic Apps",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure File Sync",
+          "isCorrect": false
+        }
+      ]
+    }
+  }
+];
+  const azureBasicsD3 = [
+  {
+    "code": "AZ-BASICS-Q026",
+    "title": "AzCopy Command-Line Tool Usage",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "AzCopy is a high-performance command-line utility designed for copying data to and from Azure Blob, File, and Table storage with optimized parallel throughput.",
+    "content": {
+      "prompt": "Which command-line utility provides optimal multi-threaded performance for transferring terabytes of data files into Azure Blob Storage over the network?",
+      "explanation": "AzCopy is a high-performance command-line utility designed for copying data to and from Azure Blob, File, and Table storage with optimized parallel throughput.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "AzCopy",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "robocopy /mir",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "ping -t",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "ipconfig /renew",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q027",
+    "title": "Azure Migrate Discovery & Assessment",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Migrate provides a centralized hub to discover, assess, and migrate on-premises VMware, Hyper-V, and physical servers to Azure.",
+    "content": {
+      "prompt": "An organization plans to migrate 200 physical and VMware servers to Azure. Which service provides an agentless appliance to discover on-premises servers, assess VM readiness, and estimate Azure costs?",
+      "explanation": "Azure Migrate provides a centralized hub to discover, assess, and migrate on-premises VMware, Hyper-V, and physical servers to Azure.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Migrate",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Site Recovery (ASR)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Traffic Manager",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Application Insights",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q028",
+    "title": "Microsoft Sentinel SIEM Connectors",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Microsoft Sentinel uses built-in Data Connectors (CEF, Syslog, Microsoft 365, AWS) to ingest security logs from multi-cloud and on-premises sources.",
+    "content": {
+      "prompt": "How does Microsoft Sentinel ingest security events from third-party firewalls, Linux servers, and multi-cloud environments?",
+      "explanation": "Microsoft Sentinel uses built-in Data Connectors (CEF, Syslog, Microsoft 365, AWS) to ingest security logs from multi-cloud and on-premises sources.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Via Data Connectors (such as Syslog, Common Event Format CEF, and API integrations).",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "By manually typing logs into Excel spreadsheets daily.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "By printing paper log files and scanning them into PDF files.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Using Windows Update KB patches only.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q029",
+    "title": "Azure Private DNS Zones Resolution",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Private DNS Zones provide name resolution for VMs within a VNet and across connected VNets without needing custom DNS server solutions.",
+    "content": {
+      "prompt": "What component is required to resolve internal custom domain names (such as app.internal.contoso.com) for Virtual Machines inside a Virtual Network without building custom DNS servers?",
+      "explanation": "Azure Private DNS Zones provide name resolution for VMs within a VNet and across connected VNets without needing custom DNS server solutions.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Private DNS Zone linked to the VNet",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Public DNS Registrar record",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Local client hosts file edit on every VM",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure ExpressRoute Circuit",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q030",
+    "title": "Azure Monitor Action Groups Alerting",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Monitor Action Groups define the notification preferences and automated actions (Email, SMS, Push, Webhook, Logic App, ITSM) triggered by alerts.",
+    "content": {
+      "prompt": "When an Azure Monitor alert fires, what component defines the list of receivers and automated actions (such as sending an SMS, triggering a Webhook, or invoking a Logic App)?",
+      "explanation": "Azure Monitor Action Groups define the notification preferences and automated actions (Email, SMS, Push, Webhook, Logic App, ITSM) triggered by alerts.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Action Group",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Management Group",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Resource Group",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Availability Group",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q031",
+    "title": "Azure Traffic Manager Routing Methods",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Traffic Manager is a DNS-based traffic load balancer that uses routing methods such as Performance (lowest latency) to direct client requests to endpoints globally.",
+    "content": {
+      "prompt": "Which service uses DNS to route incoming user requests to the closest Azure datacenter endpoint based on lowest network latency?",
+      "explanation": "Azure Traffic Manager is a DNS-based traffic load balancer that uses routing methods such as Performance (lowest latency) to direct client requests to endpoints globally.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Traffic Manager with Performance routing method",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Internal Load Balancer",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure NAT Gateway",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Network Security Group",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q032",
+    "title": "Azure Storage Managed Disks Snapshot vs Image",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "A Snapshot is a read-only point-in-time copy of a single disk. An Image is a generalized capture of both OS and data disks used to deploy new VM instances.",
+    "content": {
+      "prompt": "What is the difference between an Azure Managed Disk Snapshot and a Managed Image?",
+      "explanation": "A Snapshot is a read-only point-in-time copy of a single disk. An Image is a generalized capture of both OS and data disks used to deploy new VM instances.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "A Snapshot is a point-in-time backup copy of a single VHD disk, while an Image is a generalized template used to provision new VMs.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "A Snapshot requires an ExpressRoute connection, while an Image runs in client web browsers.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Snapshots can only store text files, while Images store MP3 audio.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "There is no difference; both terms are interchangeable.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q033",
+    "title": "Azure Files AD DS SMB Authentication",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Files supports identity-based authentication over SMB via Active Directory Domain Services (AD DS) or Entra ID Kerberos for hybrid file share access.",
+    "content": {
+      "prompt": "How can an enterprise migrate on-premises SMB file shares to Azure Files while preserving existing Active Directory (AD DS) user NTFS permission ACLs?",
+      "explanation": "Azure Files supports identity-based authentication over SMB via Active Directory Domain Services (AD DS) or Entra ID Kerberos for hybrid file share access.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Enable Identity-based AD DS authentication for Azure Files SMB shares.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Convert all file shares into public HTTP websites.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Disable all user passwords on the local domain.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Hardcode storage account keys on every user desktop.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q034",
+    "title": "Azure Load Balancer Health Probes",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Health Probes monitor the status of backend VM instances (via TCP or HTTP/HTTPS responses) to ensure traffic is only routed to healthy nodes.",
+    "content": {
+      "prompt": "How does Azure Load Balancer detect if a backend Virtual Machine instance has failed and stop sending network traffic to it?",
+      "explanation": "Health Probes monitor the status of backend VM instances (via TCP or HTTP/HTTPS responses) to ensure traffic is only routed to healthy nodes.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "By continuously monitoring backend instances using Health Probes (TCP/HTTP/HTTPS).",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "By checking client ping responses.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "By asking administrators to manually flag offline VMs in the portal.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "By inspecting Azure billing invoices.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q035",
+    "title": "Azure Container Instances (ACI) Execution",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Container Instances (ACI) provides the fastest and simplest way to run a single isolated container in Azure without managing virtual machines or cluster orchestrators.",
+    "content": {
+      "prompt": "Which Azure compute service is best suited for running a single isolated Docker container to completion in seconds without provisioning VMs or managing Kubernetes?",
+      "explanation": "Azure Container Instances (ACI) provides the fastest and simplest way to run a single isolated container in Azure without managing virtual machines or cluster orchestrators.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Container Instances (ACI)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Kubernetes Service (AKS)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Virtual Machine Scale Sets",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Dedicated Host",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q036",
+    "title": "Azure Firewall Premium Capabilities",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Firewall Premium features Advanced Threat Protection including TLS Inspection, IDPS (Intrusion Detection and Prevention System), and Web Categories filtering.",
+    "content": {
+      "prompt": "Which tier of Azure Firewall introduces Intrusion Detection and Prevention System (IDPS) and TLS Inspection to analyze encrypted network traffic for malicious payloads?",
+      "explanation": "Azure Firewall Premium features Advanced Threat Protection including TLS Inspection, IDPS (Intrusion Detection and Prevention System), and Web Categories filtering.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Firewall Premium",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Firewall Standard",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Firewall Basic",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Network Security Group Basic",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q037",
+    "title": "Azure Policy Remediation Tasks",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "DeployIfNotExists and Modify Azure Policies use Remediation Tasks to automatically bring existing non-compliant resources into compliance.",
+    "content": {
+      "prompt": "When an Azure Policy with a DeployIfNotExists effect is assigned, how can an administrator bring pre-existing non-compliant resources into compliance automatically?",
+      "explanation": "DeployIfNotExists and Modify Azure Policies use Remediation Tasks to automatically bring existing non-compliant resources into compliance.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Create and trigger a Policy Remediation Task.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Manually delete the entire subscription.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Reboot all local client workstations.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Apply a ReadOnly Resource Lock.",
+          "isCorrect": false
+        }
+      ]
+    }
+  }
+];
+  const azureBasicsD4 = [
+  {
+    "code": "AZ-BASICS-Q038",
+    "title": "Azure Virtual WAN Global Interconnect",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Virtual WAN brings networking, security, and routing functionalities together to provide a single operational hub-and-spoke interconnect for global branch offices.",
+    "content": {
+      "prompt": "An enterprise wants to interconnect 50 global branch offices, S2S VPNs, ExpressRoute circuits, and Azure VNets into a single automated networking hub. Which service should they choose?",
+      "explanation": "Azure Virtual WAN brings networking, security, and routing functionalities together to provide a single operational hub-and-spoke interconnect for global branch offices.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Virtual WAN",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Traffic Manager",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure DNS Private Resolver",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Content Delivery Network (CDN)",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q039",
+    "title": "Azure Front Door WAF Edge Security",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Front Door integrates Web Application Firewall (WAF) at the global edge to inspect and block SQL injection, cross-site scripting (XSS), and DDoS attacks before reaching web servers.",
+    "content": {
+      "prompt": "Where are Azure Front Door Web Application Firewall (WAF) rules evaluated to block malicious web attacks (such as SQL injection and XSS)?",
+      "explanation": "Azure Front Door integrates Web Application Firewall (WAF) at the global edge to inspect and block SQL injection, cross-site scripting (XSS), and DDoS attacks before reaching web servers.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "At Microsoft global edge PoP locations before traffic reaches your origin backend network.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Inside the OS of the target Virtual Machine.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "On client web browsers.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Inside the local SQL database engine.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q040",
+    "title": "Azure Storage SSE 256-bit AES Encryption",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Storage Service Encryption (SSE) automatically encrypts all data at rest using 256-bit AES encryption before persisting to disk, with zero cost or performance overhead.",
+    "content": {
+      "prompt": "How does Azure Storage protect data at rest across all storage accounts by default?",
+      "explanation": "Azure Storage Service Encryption (SSE) automatically encrypts all data at rest using 256-bit AES encryption before persisting to disk, with zero cost or performance overhead.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "All data written to Azure Storage is automatically encrypted at rest using 256-bit AES encryption.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Data is stored unencrypted unless a paid third-party tool is purchased.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Data is encrypted only if the storage account is deleted.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Encryption is only supported on Linux OS disks.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q041",
+    "title": "Azure Logic Apps Low-Code Integration",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Logic Apps provides a visual designer to automate workflows and integrate apps, data, services, and systems using over 500 pre-built connectors.",
+    "content": {
+      "prompt": "Which Azure PaaS service enables developers to build automated workflows visually using a low-code designer with hundreds of pre-built connectors (such as Salesforce, Office 365, and SQL)?",
+      "explanation": "Azure Logic Apps provides a visual designer to automate workflows and integrate apps, data, services, and systems using over 500 pre-built connectors.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Logic Apps",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Virtual Machines",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure ExpressRoute",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Bastion",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q042",
+    "title": "Azure Confidential Computing Enclaves",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Confidential Computing protects data in use by performing computations inside hardware-isolated Trusted Execution Environments (TEEs) or enclaves.",
+    "content": {
+      "prompt": "An organization requires protecting sensitive healthcare data while it is actively being processed in memory (data in use). Which technology achieves memory encryption inside hardware enclaves?",
+      "explanation": "Azure Confidential Computing protects data in use by performing computations inside hardware-isolated Trusted Execution Environments (TEEs) or enclaves.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Confidential Computing with hardware Trusted Execution Environments (TEEs)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Standard TLS 1.3 transport encryption",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Blob Cool Tier",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Public IP addresses",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q043",
+    "title": "Azure Database for PostgreSQL Flexible Server",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "PostgreSQL Flexible Server offers zone-redundant high availability, granular compute scaling, and custom maintenance window controls.",
+    "content": {
+      "prompt": "Which Azure managed database deployment option for PostgreSQL offers zone-redundant high availability with automatic failover and user-controlled maintenance windows?",
+      "explanation": "PostgreSQL Flexible Server offers zone-redundant high availability, granular compute scaling, and custom maintenance window controls.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Database for PostgreSQL Flexible Server",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure SQL Basic Database",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Table Storage",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Cache for Redis Basic",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q044",
+    "title": "Azure ExpressRoute FastPath Acceleration",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "ExpressRoute FastPath sends data path packets directly to virtual machines in the VNet, bypassing the virtual network gateway router to improve data transfer performance.",
+    "content": {
+      "prompt": "How does ExpressRoute FastPath improve data path performance for high-throughput enterprise workloads?",
+      "explanation": "ExpressRoute FastPath sends data path packets directly to virtual machines in the VNet, bypassing the virtual network gateway router to improve data transfer performance.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "It bypasses the virtual network gateway router and sends data packets directly to VMs in the VNet.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "It compresses files into ZIP archives automatically.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "It routes traffic through public Wi-Fi hotspots.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "It converts all database queries into static text.",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q045",
+    "title": "Azure Resource Graph Query Language (KQL)",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Resource Graph uses Kusto Query Language (KQL) to query resource properties across thousands of subscriptions in seconds.",
+    "content": {
+      "prompt": "Which query language is used by Azure Resource Graph and Log Analytics to run high-performance queries across large Azure environments?",
+      "explanation": "Azure Resource Graph uses Kusto Query Language (KQL) to query resource properties across thousands of subscriptions in seconds.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Kusto Query Language (KQL)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "GraphQL",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Transact-SQL (T-SQL)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "PL/SQL",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q046",
+    "title": "Azure Automation State Configuration (DSC)",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Automation State Configuration provides a PowerShell Desired State Configuration (DSC) pull server to maintain consistent OS configuration across Windows and Linux VMs.",
+    "content": {
+      "prompt": "Which management service provides a PowerShell Desired State Configuration (DSC) pull server to enforce consistent software configurations on Windows and Linux virtual machines?",
+      "explanation": "Azure Automation State Configuration provides a PowerShell Desired State Configuration (DSC) pull server to maintain consistent OS configuration across Windows and Linux VMs.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Automation State Configuration",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure ExpressRoute",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Public IP",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Key Vault",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q047",
+    "title": "Azure Virtual Desktop Multi-Session Windows 11",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Virtual Desktop (AVD) exclusive Windows 11/10 Enterprise Multi-session OS allows multiple concurrent users on a single VM to significantly lower licensing and infrastructure costs.",
+    "content": {
+      "prompt": "Which operating system edition is exclusive to Azure Virtual Desktop (AVD) and enables multiple concurrent interactive user sessions on a single Virtual Machine to optimize costs?",
+      "explanation": "Azure Virtual Desktop (AVD) exclusive Windows 11/10 Enterprise Multi-session OS allows multiple concurrent users on a single VM to significantly lower licensing and infrastructure costs.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Windows 11 / 10 Enterprise Multi-session",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Windows Home Edition",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Windows MS-DOS 6.22",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Ubuntu Desktop 18.04",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q048",
+    "title": "Azure Event Grid Reactive Event Routing",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure Event Grid uses a publish-subscribe model to route discrete events (e.g., resource created, blob uploaded) to event handlers instantly with high throughput.",
+    "content": {
+      "prompt": "Which service acts as a fully managed event routing service using a publish-subscribe model to reactively connect Azure event sources to event handlers (like Azure Functions or Logic Apps)?",
+      "explanation": "Azure Event Grid uses a publish-subscribe model to route discrete events (e.g., resource created, blob uploaded) to event handlers instantly with high throughput.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Event Grid",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure ExpressRoute",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Traffic Manager",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure VPN Gateway",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q049",
+    "title": "Azure DNS Alias Records Apex Resolution",
+    "type": "SINGLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Azure DNS Alias Records allow pointing a zone apex domain (e.g., contoso.com) directly to Azure PaaS resources such as Traffic Manager profiles or Front Door endpoints.",
+    "content": {
+      "prompt": "How can an administrator configure a zone apex root domain (such as contoso.com without 'www') to point directly to an Azure Traffic Manager or Front Door profile?",
+      "explanation": "Azure DNS Alias Records allow pointing a zone apex domain (e.g., contoso.com without 'www') to Azure PaaS resources such as Traffic Manager profiles or Front Door endpoints.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Use an Azure DNS Alias Record",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Create a TXT record with client IP address",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Apply a Resource Lock to the DNS zone",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Use a PTR reverse lookup record",
+          "isCorrect": false
+        }
+      ]
+    }
+  },
+  {
+    "code": "AZ-BASICS-Q050",
+    "title": "Azure Storage Private Endpoints vs Service Endpoints",
+    "type": "MULTIPLE_CHOICE",
+    "difficulty": "INTERMEDIATE",
+    "points": 1.0,
+    "explanation": "Service Endpoints secure PaaS endpoints to your VNet over the Azure backbone, while Private Endpoints assign a private IP directly into your subnet via Private Link.",
+    "content": {
+      "prompt": "Which of the following statements comparing Azure Service Endpoints and Private Endpoints are true? (Select TWO)",
+      "explanation": "Service Endpoints secure PaaS endpoints to your VNet over the Azure backbone, while Private Endpoints assign a private IP directly into your subnet via Private Link.",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Service Endpoints keep PaaS public IPs but restrict access to traffic originating from your VNet subnet.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Private Endpoints project a private IP address directly inside your VNet subnet for private PaaS connectivity.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Private Endpoints require turning off all firewalls in the world.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Service Endpoints require physical fiber optic installation on user desks.",
+          "isCorrect": false
+        }
+      ]
+    }
+  }
+];
 
-  // ==========================================
   // CASE STUDY 1 & CASE STUDY 2 FOR AZURE BASICS
   // ==========================================
   const cs1Data = {"code": "CS-AZURE-01", "title": "Contoso Financial Services Multi-Region Migration", "overview": "Contoso Financial Services is a global banking organization migrating its core financial processing applications and databases from on-premises datacenters to Microsoft Azure. Contoso operates primarily in Europe and North America and must strictly comply with EU General Data Protection Regulation (GDPR) data sovereignty mandates.", "businessRequirements": "1. High Availability: Core transactional API gateways must maintain a 99.99% uptime SLA.\n2. Compliance & Sovereignty: All European customer PII data must remain strictly stored in EU Azure Regions.\n3. Cost Optimization: Non-production environments (dev/test) must utilize cost-reduced VM pricing models, while production infrastructure uses 3-year Reserved Instance commitments.\n4. Disaster Recovery: Business continuity plans require cross-region disaster recovery for all primary databases.", "technicalRequirements": "1. In-Memory SAP Databases: The core transactional database requires up to 2 TB of RAM.\n2. High-Speed Compute: Batch calculation engines require high CPU clock speeds for fast execution.\n3. Infrastructure as Code (IaC): All infrastructure deployments must be automated using Bicep templates integrated into CI/CD pipelines.\n4. Security & Governance: Governance policies must be uniformly inherited across all child subscriptions.", "existingEnvironment": "Current environment consists of on-premises VMware vSphere ESXi clusters, legacy Microsoft SQL Server clusters, and custom Bash deployment scripts."};
@@ -724,7 +2367,7 @@ async function main() {
       },
     });
 
-    // Also link user1 candidate
+    // Also link user1 candidate passed attempt
     await prisma.examAttempt.upsert({
       where: { id: '36828c16-52e2-40e6-9a80-8f3e3915c9b6' },
       update: {
@@ -744,6 +2387,29 @@ async function main() {
         answers: '{}',
         startedAt: new Date('2026-07-29T10:30:00.000Z'),
         completedAt: new Date('2026-07-29T11:45:00.000Z'),
+      },
+    });
+
+    // Seed sample failed attempt for user1 so failed filter in Analytics shows records
+    await prisma.examAttempt.upsert({
+      where: { id: '36828c16-52e2-40e6-9a80-8f3e3915c9b7' },
+      update: {
+        candidateName: 'user1',
+        scorePercentage: 58.0,
+        passed: false,
+        totalQuestions: 25,
+      },
+      create: {
+        id: '36828c16-52e2-40e6-9a80-8f3e3915c9b7',
+        userId: user1Candidate.id,
+        examId: sampleAz305.id,
+        candidateName: 'user1',
+        scorePercentage: 58.0,
+        passed: false,
+        totalQuestions: 25,
+        answers: '{}',
+        startedAt: new Date('2026-07-28T14:00:00.000Z'),
+        completedAt: new Date('2026-07-28T15:15:00.000Z'),
       },
     });
   }
