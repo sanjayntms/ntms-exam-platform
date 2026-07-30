@@ -700,8 +700,8 @@ async function main() {
   }
 
   // Ensure sample passed score report attempt 36828c16-52e2-40e6-9a80-8f3e3915c9b5 exists for AZ-305
-  const az305Exam = await prisma.exam.findFirst({ where: { code: 'AZ-305' } });
-  if (az305Exam) {
+  const sampleAz305 = await prisma.exam.findFirst({ where: { code: 'AZ-305' } });
+  if (sampleAz305) {
     await prisma.examAttempt.upsert({
       where: { id: '36828c16-52e2-40e6-9a80-8f3e3915c9b5' },
       update: {
@@ -713,7 +713,7 @@ async function main() {
       create: {
         id: '36828c16-52e2-40e6-9a80-8f3e3915c9b5',
         userId: candidateUser.id,
-        examId: az305Exam.id,
+        examId: sampleAz305.id,
         candidateName: 'Standard Candidate',
         scorePercentage: 92.0,
         passed: true,
@@ -735,7 +735,7 @@ async function main() {
       create: {
         id: '36828c16-52e2-40e6-9a80-8f3e3915c9b6',
         userId: user1Candidate.id,
-        examId: az305Exam.id,
+        examId: sampleAz305.id,
         candidateName: 'user1',
         scorePercentage: 94.4,
         passed: true,
