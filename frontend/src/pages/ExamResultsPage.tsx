@@ -116,6 +116,64 @@ export const ExamResultsPage: React.FC = () => {
 
   // Calculate REAL Domain Performance Breakdown based on Exam Track and Actual Section Scores
   const getDomainBreakdown = (): any[] => {
+    const code = (attempt.exam?.code || '').toUpperCase();
+    const title = (attempt.exam?.title || '').toUpperCase();
+    const isTf = code.includes('TERRAFORM') || title.includes('TERRAFORM');
+
+    if (isTf) {
+      const officialTitles = [
+        '1. Understand infrastructure as code (IaC) concepts',
+        '2. Understand the purpose of Terraform (vs other IaC)',
+        '3. Understand Terraform basics',
+        '4. Use Terraform outside the core workflow',
+        '5. Interact with Terraform modules',
+        '6. Use the core Terraform workflow',
+        '7. Implement and maintain state',
+        '8. Read, generate, and modify configuration',
+        '9. Understand Terraform Cloud capabilities',
+      ];
+
+      let parsedSecs: any[] = [];
+      if (attempt.sectionScores) {
+        try {
+          const p = JSON.parse(attempt.sectionScores);
+          if (Array.isArray(p)) parsedSecs = p;
+        } catch (err) {
+          console.error('Error parsing sectionScores:', err);
+        }
+      }
+
+      return officialTitles.map((officialTitle, idx) => {
+        let pct = Math.round(attempt.scorePercentage || 0);
+
+        if (parsedSecs.length === 9) {
+          pct = parsedSecs[idx]?.scorePercentage ?? pct;
+        } else if (parsedSecs.length > 0) {
+          const match = parsedSecs.find((s: any) => {
+            const st = (s.title || '').toLowerCase();
+            if (idx === 0 && st.includes('iac')) return true;
+            if (idx === 1 && (st.includes('purpose') || st.includes('vs other'))) return true;
+            if (idx === 2 && st.includes('basics')) return true;
+            if (idx === 3 && st.includes('outside')) return true;
+            if (idx === 4 && st.includes('modules')) return true;
+            if (idx === 5 && st.includes('workflow')) return true;
+            if (idx === 6 && st.includes('state')) return true;
+            if (idx === 7 && (st.includes('configuration') || st.includes('modify'))) return true;
+            if (idx === 8 && st.includes('cloud')) return true;
+            return false;
+          });
+          if (match && match.scorePercentage !== undefined) {
+            pct = match.scorePercentage;
+          }
+        }
+
+        return {
+          domain: officialTitle,
+          percentage: pct,
+        };
+      });
+    }
+
     if (attempt.sectionScores) {
       try {
         const parsed = JSON.parse(attempt.sectionScores);
@@ -133,10 +191,7 @@ export const ExamResultsPage: React.FC = () => {
       }
     }
 
-    const code = (attempt.exam?.code || '').toUpperCase();
-    const title = (attempt.exam?.title || '').toUpperCase();
     const rawPct = attempt.scorePercentage || 0;
-
     let domains: string[] = [];
 
     if (code.includes('AZ-305') || title.includes('SOLUTIONS ARCHITECT')) {
