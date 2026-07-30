@@ -101,13 +101,13 @@ export const ExamListPage: React.FC = () => {
     });
   };
 
-  const handleConfirmNameModal = async (candidateFullName: string) => {
+  const handleConfirmNameModal = async (candidateFullName: string, questionCount?: number) => {
     const { mode, examId, roomCode } = nameModalConfig;
     setNameModalConfig({ isOpen: false, mode: 'START_EXAM' });
 
     if (mode === 'START_EXAM' && examId) {
       try {
-        const res = await api.post('/attempts/start', { examId, candidateName: candidateFullName });
+        const res = await api.post('/attempts/start', { examId, candidateName: candidateFullName, questionCount });
         if (res.data.exam && res.data.attemptId) {
           setExamSession(res.data.exam, res.data.attemptId);
         }
@@ -122,6 +122,7 @@ export const ExamListPage: React.FC = () => {
         const res = await api.post('/rooms/join', {
           roomCode: roomCode.trim().toUpperCase(),
           candidateName: candidateFullName,
+          questionCount,
         });
 
         setJoinMessage({ type: 'success', text: `Success: ${res.data.message} Launching exam...` });
@@ -132,6 +133,7 @@ export const ExamListPage: React.FC = () => {
               examId: res.data.exam.id,
               roomId: res.data.room?.id,
               candidateName: candidateFullName,
+              questionCount,
             });
             if (startRes.data.exam && startRes.data.attemptId) {
               setExamSession(startRes.data.exam, startRes.data.attemptId);

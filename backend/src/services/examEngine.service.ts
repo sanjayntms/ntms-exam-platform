@@ -5,7 +5,14 @@ import { prisma } from '../infrastructure/database.js';
 export class ExamEngineService {
   constructor(private uow: UnitOfWork) {}
 
-  async startExamAttempt(userId: string, examId: string, userRole?: string, roomId?: string, candidateName?: string) {
+  async startExamAttempt(
+    userId: string,
+    examId: string,
+    userRole?: string,
+    roomId?: string,
+    candidateName?: string,
+    requestedQuestionCount?: number
+  ) {
     const exam = await this.uow.exams.findById(examId);
     if (!exam) throw new Error('Exam track not found');
 
@@ -32,7 +39,6 @@ export class ExamEngineService {
     let targetRoomId = roomId;
 
     // Validate lock status:
-    // ADMINISTRATOR, globally unlocked exams, or exams with an active OPEN Exam Room bypass lock checks automatically
     if (effectiveRole !== Role.ADMINISTRATOR && !(exam as any).isGloballyUnlocked) {
       const openRoom = await prisma.examRoom.findFirst({
         where: { examId, status: 'OPEN' },
@@ -58,10 +64,16 @@ export class ExamEngineService {
       if (openRoom) targetRoomId = openRoom.id;
     }
 
-    let totalQuestions = 0;
-    exam.sections.forEach((section) => {
-      totalQuestions += section.questions.length;
-    });
+    // Sample questions based on requestedQuestionCount or default to all questions
+    const targetCount = requestedQuestionCount && requestedQuestionCount > 0 ? requestedQuestionCount : 0;
+    const { sampledExam, selectedQuestionIds, totalQuestions } = this.sampleQuestionsForExam(exam, targetCount);
+
+    const initialAnswersObj = {
+      _meta: {
+        selectedQuestionIds,
+        requestedQuestionCount: targetCount > 0 ? targetCount : totalQuestions,
+      },
+    };
 
     const attempt = await this.uow.attempts.create({
       userId: user.id,
@@ -69,14 +81,130 @@ export class ExamEngineService {
       examId: exam.id,
       roomId: targetRoomId || null,
       totalQuestions,
-      answers: JSON.stringify({}),
+      answers: JSON.stringify(initialAnswersObj),
     } as any);
 
     return {
       attemptId: attempt.id,
-      exam,
+      exam: sampledExam,
       startedAt: attempt.startedAt,
       timeLimitMinutes: exam.timeLimitMinutes,
+    };
+  }
+
+  private sampleQuestionsForExam(exam: any, requestedCount: number) {
+    const allSectionQuestions: { sectionId: string; question: any; sq: any }[] = [];
+    exam.sections.forEach((sec: any) => {
+      sec.questions.forEach((sq: any) => {
+        if (sq.question) {
+          allSectionQuestions.push({ sectionId: sec.id, question: sq.question, sq });
+        }
+      });
+    });
+
+    const totalAvailable = allSectionQuestions.length;
+    if (requestedCount <= 0 || requestedCount >= totalAvailable) {
+      const allSelectedIds = allSectionQuestions.map((item) => item.question.id);
+      return {
+        sampledExam: exam,
+        selectedQuestionIds: allSelectedIds,
+        totalQuestions: totalAvailable,
+      };
+    }
+
+    const selectedQuestionIdsSet = new Set<string>();
+    const sampledSections: any[] = [];
+    const sectionQuotas: { section: any; quota: number }[] = [];
+
+    exam.sections.forEach((sec: any) => {
+      const secTotal = sec.questions.length;
+      if (secTotal === 0) {
+        sectionQuotas.push({ section: sec, quota: 0 });
+        return;
+      }
+      const share = Math.round((secTotal / totalAvailable) * requestedCount);
+      const quota = Math.max(1, Math.min(secTotal, share));
+      sectionQuotas.push({ section: sec, quota });
+    });
+
+    let sumQuotas = sectionQuotas.reduce((acc, q) => acc + q.quota, 0);
+    while (sumQuotas > requestedCount) {
+      const largest = sectionQuotas.filter((sq) => sq.quota > 1).sort((a, b) => b.quota - a.quota)[0];
+      if (largest) {
+        largest.quota -= 1;
+        sumQuotas -= 1;
+      } else break;
+    }
+    while (sumQuotas < requestedCount) {
+      const expandable = sectionQuotas.filter((sq) => sq.quota < sq.section.questions.length)[0];
+      if (expandable) {
+        expandable.quota += 1;
+        sumQuotas += 1;
+      } else break;
+    }
+
+    for (const sqQuota of sectionQuotas) {
+      const { section, quota } = sqQuota;
+      const secQuestions = section.questions;
+      if (quota <= 0 || secQuestions.length === 0) continue;
+
+      let selectedForSec: any[] = [];
+      const hasCaseStudy = secQuestions.some((sq: any) => sq.question?.caseStudyId || sq.question?.caseStudy);
+
+      if (hasCaseStudy) {
+        const csGroups: Record<string, any[]> = {};
+        const nonCs: any[] = [];
+
+        secQuestions.forEach((sq: any) => {
+          const csId = sq.question?.caseStudyId || sq.question?.caseStudy?.id;
+          if (csId) {
+            if (!csGroups[csId]) csGroups[csId] = [];
+            csGroups[csId].push(sq);
+          } else {
+            nonCs.push(sq);
+          }
+        });
+
+        let picked = 0;
+        for (const [, group] of Object.entries(csGroups)) {
+          if (picked >= quota) break;
+          const take = Math.min(quota - picked, group.length);
+          selectedForSec.push(...group.slice(0, take));
+          picked += take;
+        }
+
+        if (picked < quota && nonCs.length > 0) {
+          selectedForSec.push(...nonCs.slice(0, quota - picked));
+        }
+      } else {
+        const copy = [...secQuestions];
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        selectedForSec = copy.slice(0, quota);
+      }
+
+      selectedForSec.forEach((sq: any) => {
+        if (sq.question) selectedQuestionIdsSet.add(sq.question.id);
+      });
+
+      sampledSections.push({
+        ...section,
+        questions: selectedForSec,
+      });
+    }
+
+    const selectedQuestionIds = Array.from(selectedQuestionIdsSet);
+    const sampledExam = {
+      ...exam,
+      sections: sampledSections,
+    };
+
+    return {
+      sampledExam,
+      selectedQuestionIds,
+      totalQuestions: selectedQuestionIds.length,
     };
   }
 

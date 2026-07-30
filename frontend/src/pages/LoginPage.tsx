@@ -98,21 +98,23 @@ export const LoginPage: React.FC = () => {
     setShowNameModal(true);
   };
 
-  const handleConfirmNameAndJoin = async (candidateFullName: string) => {
+  const handleConfirmNameAndJoin = async (candidateFullName: string, questionCount?: number) => {
     setShowNameModal(false);
     setRoomLoading(true);
     try {
       const res = await api.post('/rooms/join', {
         roomCode: roomCodeInput.trim().toUpperCase(),
         candidateName: candidateFullName,
+        questionCount,
       });
       alert(`✅ ${res.data.message}`);
 
-      // Start exam session with candidateName
+      // Start exam session with candidateName & questionCount
       const startRes = await api.post('/attempts/start', {
         examId: res.data.exam.id,
         roomId: res.data.room?.id,
         candidateName: candidateFullName,
+        questionCount,
       });
       navigate(`/exam-session/${startRes.data.attemptId}`);
     } catch (err: any) {

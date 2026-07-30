@@ -6,7 +6,8 @@ interface CandidateNameModalProps {
   initialName?: string;
   roomCode?: string;
   examTitle?: string;
-  onConfirm: (fullName: string) => void;
+  defaultQuestionCount?: number;
+  onConfirm: (fullName: string, questionCount?: number) => void;
   onCancel: () => void;
 }
 
@@ -15,15 +16,20 @@ export const CandidateNameModal: React.FC<CandidateNameModalProps> = ({
   initialName = '',
   roomCode = '',
   examTitle = '',
+  defaultQuestionCount,
   onConfirm,
   onCancel,
 }) => {
   const [fullName, setFullName] = useState(initialName);
   const [error, setError] = useState('');
+  const [selectedCountOption, setSelectedCountOption] = useState<string>('ALL');
+  const [customCount, setCustomCount] = useState<string>('');
 
   useEffect(() => {
     setFullName(initialName);
     setError('');
+    setSelectedCountOption('ALL');
+    setCustomCount('');
   }, [initialName, isOpen]);
 
   if (!isOpen) return null;
@@ -39,7 +45,20 @@ export const CandidateNameModal: React.FC<CandidateNameModalProps> = ({
       setError('Full Legal Name must be at least 2 characters long.');
       return;
     }
-    onConfirm(trimmed);
+
+    let finalCount: number | undefined = undefined;
+    if (selectedCountOption === 'CUSTOM') {
+      const parsed = parseInt(customCount, 10);
+      if (isNaN(parsed) || parsed <= 0) {
+        setError('Please enter a valid positive number for custom question count.');
+        return;
+      }
+      finalCount = parsed;
+    } else if (selectedCountOption !== 'ALL') {
+      finalCount = parseInt(selectedCountOption, 10);
+    }
+
+    onConfirm(trimmed, finalCount);
   };
 
   return (
@@ -52,7 +71,7 @@ export const CandidateNameModal: React.FC<CandidateNameModalProps> = ({
               <UserCheck className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-extrabold text-base text-white tracking-tight">Candidate Identity Verification</h3>
+              <h3 className="font-extrabold text-base text-white tracking-tight">Candidate Verification & Exam Setup</h3>
               <p className="text-xs text-sky-200 font-mono">Live Proctored Certification Room Entry</p>
             </div>
           </div>
@@ -103,13 +122,49 @@ export const CandidateNameModal: React.FC<CandidateNameModalProps> = ({
               ⚠️ Your name will be recorded on your attempt record and printed exactly as typed above on your{' '}
               <strong className="text-ntms-navy">Official Microsoft Certification Score Report</strong>.
             </p>
+          </div>
+
+          {/* Question Count Selection */}
+          <div className="space-y-2 pt-1 border-t border-slate-200">
+            <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+              Number of Questions to Appear in Exam <span className="text-sky-600 font-mono">(Configurable)</span>
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <select
+                value={selectedCountOption}
+                onChange={(e) => setSelectedCountOption(e.target.value)}
+                className="col-span-2 bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-slate-900 focus:border-ntms-blue focus:outline-none shadow-sm cursor-pointer font-mono"
+              >
+                <option value="ALL">All Available Questions (Default - Full Exam)</option>
+                <option value="10">10 Questions (Quick 10-Min Practice)</option>
+                <option value="20">20 Questions (Standard Practice)</option>
+                <option value="30">30 Questions (30-Min Test)</option>
+                <option value="50">50 Questions (Comprehensive Test)</option>
+                <option value="70">70 Questions</option>
+                <option value="CUSTOM">Custom Question Count...</option>
+              </select>
+
+              {selectedCountOption === 'CUSTOM' && (
+                <div className="col-span-2">
+                  <input
+                    type="number"
+                    min="1"
+                    max="500"
+                    value={customCount}
+                    onChange={(e) => setCustomCount(e.target.value)}
+                    placeholder="Enter custom question count (e.g. 15)..."
+                    className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs font-bold font-mono text-slate-900 focus:border-ntms-blue focus:outline-none shadow-inner"
+                  />
+                </div>
+              )}
+            </div>
             {error && <p className="text-xs font-bold text-rose-600 font-mono">{error}</p>}
           </div>
 
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 flex items-center justify-between text-xs text-emerald-900">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span className="font-bold">Identity Verification Protocol</span>
+              <span className="font-bold">Identity & Session Setup Protocol</span>
             </div>
             <span className="font-mono font-extrabold text-[11px] text-emerald-700">Strictly Enforced</span>
           </div>
@@ -127,7 +182,7 @@ export const CandidateNameModal: React.FC<CandidateNameModalProps> = ({
               type="submit"
               className="px-5 py-2.5 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded-lg font-extrabold text-xs shadow-md transition-all flex items-center gap-2"
             >
-              <span>Confirm Identity & Enter Exam ➜</span>
+              <span>Confirm & Launch Exam ➜</span>
             </button>
           </div>
         </form>

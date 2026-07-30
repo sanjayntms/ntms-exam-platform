@@ -10,8 +10,15 @@ export class AttemptController {
     try {
       const userId = req.user?.id || 'candidate';
       const userRole = req.user?.role;
-      const { examId, roomId, candidateName } = req.body;
-      const session = await this.engineService.startExamAttempt(userId, examId, userRole, roomId, candidateName);
+      const { examId, roomId, candidateName, questionCount } = req.body;
+      const session = await this.engineService.startExamAttempt(
+        userId,
+        examId,
+        userRole,
+        roomId,
+        candidateName,
+        questionCount ? parseInt(questionCount, 10) : undefined
+      );
       return res.status(201).json(session);
     } catch (err: any) {
       return res.status(400).json({ error: err.message });
@@ -33,6 +40,33 @@ export class AttemptController {
       const attempt = await this.uow.attempts.findById(req.params.id);
       if (!attempt) return res.status(404).json({ error: 'Attempt not found' });
 
+      // Check if attempt has custom sampled questions
+      let sampledExam: any = null;
+      let selectedQuestionIds: string[] = [];
+      try {
+        const parsedAnswers = JSON.parse(attempt.answers || '{}');
+        if (parsedAnswers._meta?.selectedQuestionIds) {
+          selectedQuestionIds = parsedAnswers._meta.selectedQuestionIds;
+        }
+      } catch {}
+
+      if (selectedQuestionIds.length > 0) {
+        const fullExam = await this.uow.exams.findById(attempt.examId);
+        if (fullExam) {
+          const filteredSections = fullExam.sections
+            .map((sec: any) => ({
+              ...sec,
+              questions: sec.questions.filter((sq: any) => selectedQuestionIds.includes(sq.question.id)),
+            }))
+            .filter((sec: any) => sec.questions.length > 0);
+
+          sampledExam = {
+            ...fullExam,
+            sections: filteredSections,
+          };
+        }
+      }
+
       // Determine allowReview status for candidate
       let allowReview = true;
       const roomId = (attempt as any).roomId;
@@ -53,6 +87,7 @@ export class AttemptController {
 
       return res.json({
         ...attempt,
+        exam: sampledExam || undefined,
         allowReview,
       });
     } catch (err: any) {
