@@ -196,10 +196,12 @@ export const ExamResultsPage: React.FC = () => {
 
     if (code.includes('AZURE-BASICS') || title.includes('AZURE BASICS')) {
       domains = [
-        'Azure Physical & Logical Architecture (26%)',
-        'Azure High Availability, Resiliency & Redundancy (24%)',
-        'Azure Resource Management, Tools & Infrastructure as Code (24%)',
-        'Azure Compute, Virtual Machine Families & Workloads (26%)',
+        'Azure Physical & Logical Architecture (15%)',
+        'Azure High Availability, Resiliency & Redundancy (15%)',
+        'Azure Resource Management, Tools & Infrastructure as Code (15%)',
+        'Azure Compute, Virtual Machine Families & Workloads (15%)',
+        'Case Study: Contoso Financial Services Multi-Region Migration (20%)',
+        'Case Study: Fabrikam Healthcare Global Telehealth Platform (20%)',
       ];
     } else if (code.includes('AZ-305') || title.includes('SOLUTIONS ARCHITECT')) {
       domains = [

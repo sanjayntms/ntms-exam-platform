@@ -1,0 +1,577 @@
+{
+  "cs": {
+    "code": "CS-AZURE-02",
+    "title": "Fabrikam Healthcare Global Telehealth Platform",
+    "overview": "Fabrikam Healthcare is building a next-generation cloud-native Telehealth and diagnostic platform in Microsoft Azure. The platform hosts high-resolution medical imaging analysis, AI diagnostic inference models, and real-time telehealth video consultations for millions of global patients.",
+    "businessRequirements": "1. Operational Availability: Web frontends must maintain at least 99.95% uptime SLA.\n2. Accidental Protection: Critical patient medical image storage accounts must be protected against accidental administrator deletion.\n3. High Performance: High-volume NoSQL Cassandra databases handling real-time vital metrics require direct NVMe storage throughput.\n4. Multi-Region DR: Prioritized recovery mechanisms must be established in the event of major regional power grid outages.",
+    "technicalRequirements": "1. AI Diagnostic Models: Medical image inference requires GPU-accelerated computing.\n2. Dynamic Auto-scaling: Compute workloads must dynamically scale in response to CPU metrics using Virtual Machine Scale Sets (VMSS).\n3. CLI Management: Cloud engineering teams require browser-accessible, authenticated command-line management without local software installations.\n4. Unified Access Control: Enterprise permissions must follow fine-grained Role-Based Access Control (RBAC).",
+    "existingEnvironment": "Fabrikam operates a hybrid cloud connected via Azure ExpressRoute to local hospital diagnostic imaging devices with legacy unmanaged VHD storage accounts."
+  },
+  "questions": [
+    {
+      "code": "AZ-CS2-Q021",
+      "title": "CS2: Select VM Family for GPU Acceleration",
+      "type": "SINGLE_CHOICE",
+      "prompt": "Which Virtual Machine series should Fabrikam select to run NVIDIA GPU-accelerated AI medical image diagnostic models?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "N-Series (GPU-Enabled)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "E-Series (Memory-Optimized)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "L-Series (Storage-Optimized)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "B-Series (Burstable CPU)",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "N-Series VMs are equipped with NVIDIA GPUs for AI/ML inference and graphics rendering."
+    },
+    {
+      "code": "AZ-CS2-Q022",
+      "title": "CS2: Select VM Family for NoSQL NVMe Storage",
+      "type": "SINGLE_CHOICE",
+      "prompt": "Which Virtual Machine series family should Fabrikam choose for high-volume NoSQL Cassandra databases requiring direct-attached local NVMe storage?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "L-Series (Storage-Optimized)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "D-Series (General Purpose)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "N-Series (GPU-Enabled)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "F-Series (Compute-Optimized)",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "L-Series VMs feature direct-attached local NVMe storage providing high I/O throughput for NoSQL databases."
+    },
+    {
+      "code": "AZ-CS2-Q023",
+      "title": "CS2: Prevent Accidental Storage Deletion",
+      "type": "SINGLE_CHOICE",
+      "prompt": "Which Azure Resource Lock should Fabrikam apply to prevent accidental administrator deletion of critical patient medical image storage accounts?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "CanNotDelete Lock",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "ReadOnly Lock",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "System Lock",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Subscription Lock",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "CanNotDelete lock permits reading and modifying resources while blocking accidental deletion."
+    },
+    {
+      "code": "AZ-CS2-Q024",
+      "title": "CS2: Auto-Scaling Compute Workloads",
+      "type": "SINGLE_CHOICE",
+      "prompt": "Which Azure service meets Fabrikam technical requirement to automatically scale a load-balanced pool of identical web VMs in response to patient traffic spikes?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Virtual Machine Scale Sets (VMSS)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Storage Account Containers",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Azure Entra ID Tenants",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Resource Locks",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "VMSS lets you manage and auto-scale a group of identical VMs integrated with load balancers."
+    },
+    {
+      "code": "AZ-CS2-Q025",
+      "title": "CS2: Browser Command-Line Shell",
+      "type": "SINGLE_CHOICE",
+      "prompt": "Which tool satisfies Fabrikam requirement for a browser-accessible, pre-authenticated command-line shell to run management scripts without local software installation?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Azure Cloud Shell",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Visual Studio Code Desktop",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Windows Notepad",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Microsoft Outlook",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Azure Cloud Shell is an interactive, browser-accessible shell for managing Azure resources using Bash or PowerShell."
+    },
+    {
+      "code": "AZ-CS2-Q026",
+      "title": "CS2: Benefits of Managed Disks",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO advantages will Fabrikam gain by migrating legacy unmanaged VHD disks to Azure Managed Disks? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Automatic Storage Management: Azure manages underlying storage accounts without VHD file limits.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "High Availability Alignment: Ensures disks for Availability Set VMs are placed on distinct storage Fault Domains.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Eliminates all charges for cloud storage.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Automatically converts Linux VMs into Windows Server 2025.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Managed Disks simplify storage management and align disks across distinct storage Fault Domains."
+    },
+    {
+      "code": "AZ-CS2-Q027",
+      "title": "CS2: Azure CLI Login Methods",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO authentication mechanisms can Fabrikam engineers use to log into Azure CLI? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Interactive web browser authentication using \u0007z login.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Automated non-interactive login using Service Principals or Managed Identity in automation scripts.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Scanning a paper barcode on a physical employee badge into a webcam.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Sending an SMS text message to a landline phone.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Azure CLI supports interactive browser logins and non-interactive Service Principal / Managed Identity logins."
+    },
+    {
+      "code": "AZ-CS2-Q028",
+      "title": "CS2: Subscription Functions",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO fundamental logical boundaries are provided by an Azure Subscription for Fabrikam environment? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Billing Boundary: Grouping usage metrics and issuing separate invoices.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Security & Access Boundary: Scope for applying RBAC permissions and access policies.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Hardware RAM allocation boundary for physical datacenter racks.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Web browser cookie storage boundary for client laptops.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Subscriptions serve as billing containers and security administration boundaries."
+    },
+    {
+      "code": "AZ-CS2-Q029",
+      "title": "CS2: Management Group Governance",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO features of Azure Management Groups support Fabrikam multi-subscription governance? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Support hierarchical organizational structures up to 6 levels of depth.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Enable policy assignments and RBAC permissions to inherit down to all child subscriptions.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Store raw medical image DICOM files directly on physical disk drives.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Automatically format client PC hard drives.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Management Groups support 6 levels of depth for policy inheritance across subscriptions."
+    },
+    {
+      "code": "AZ-CS2-Q030",
+      "title": "CS2: Regional Pair DR Benefits",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO capabilities do Azure Regional Pairs provide for Fabrikam global disaster recovery planning? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Prioritized Region Recovery: Azure prioritizes recovering at least one region out of every pair during widespread outages.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Cross-Region Replication: Paired regions separated by 300+ miles protect against localized natural disasters.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Automatic conversion of SQL tables into printed paper copies.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Free lifetime subscriptions for all hospital staff.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Regional Pairs provide cross-region replication and prioritized recovery during disasters."
+    },
+    {
+      "code": "AZ-CS2-Q031",
+      "title": "CS2: Match Compute Workloads to Series",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Fabrikam telehealth component to its appropriate Azure VM series.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "N-Series"
+        },
+        {
+          "id": "item-2",
+          "label": "L-Series"
+        },
+        {
+          "id": "item-3",
+          "label": "D-Series"
+        },
+        {
+          "id": "item-4",
+          "label": "B-Series"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "NVIDIA GPU acceleration for AI diagnostic model inference.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "High-throughput NoSQL Cassandra storage handling real-time vital metrics.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "General-purpose web API servers with balanced CPU and RAM.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Internal developer sandbox environments with burstable CPU demand.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "N = GPU, L = NVMe NoSQL, D = General Purpose, B = Burstable."
+    },
+    {
+      "code": "AZ-CS2-Q032",
+      "title": "CS2: Match Azure CLI Command Groups",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Azure CLI command group to its target resource category.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "az vm"
+        },
+        {
+          "id": "item-2",
+          "label": "az group"
+        },
+        {
+          "id": "item-3",
+          "label": "az network vnet"
+        },
+        {
+          "id": "item-4",
+          "label": "az storage account"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Manage virtual machine compute instances.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Manage resource group containers.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Manage virtual networks, subnets, and IP addressing.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Manage Blob, File, Queue, and Table storage accounts.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "CLI groups: az vm, az group, az network, az storage."
+    },
+    {
+      "code": "AZ-CS2-Q033",
+      "title": "CS2: Match Resiliency Models to SLA",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Fabrikam VM deployment model to its SLA uptime guarantee.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "99.99% SLA"
+        },
+        {
+          "id": "item-2",
+          "label": "99.95% SLA"
+        },
+        {
+          "id": "item-3",
+          "label": "99.90% SLA"
+        },
+        {
+          "id": "item-4",
+          "label": "Cross-Region DR"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Virtual Machines deployed across two or more Availability Zones.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Two or more Virtual Machines in an Availability Set.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Single Virtual Machine with Premium SSD or Ultra Disk.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Workload replicated across paired Azure regions 300+ miles apart.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "AZ = 99.99%, AS = 99.95%, Single Premium SSD = 99.90%, Pair = Cross-Region DR."
+    },
+    {
+      "code": "AZ-CS2-Q034",
+      "title": "CS2: Match Governance Mechanisms",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Azure governance tool to Fabrikam governance objective.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "Azure Policy"
+        },
+        {
+          "id": "item-2",
+          "label": "Azure RBAC"
+        },
+        {
+          "id": "item-3",
+          "label": "Resource Lock"
+        },
+        {
+          "id": "item-4",
+          "label": "Azure Blueprints"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Enforce compliance rules such as restricting allowed VM SKU families.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Assign fine-grained role permissions (Owner, Contributor, Reader) to staff.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Prevent accidental deletion of production medical image storage.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Package policies, RBAC, and templates into repeatable subscription standards.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "Policy = Enforcement, RBAC = Roles, Lock = Protection, Blueprints = Packages."
+    },
+    {
+      "code": "AZ-CS2-Q035",
+      "title": "CS2: Match Infrastructure Concepts",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Azure infrastructure component to its architectural function.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "Fault Domain"
+        },
+        {
+          "id": "item-2",
+          "label": "Update Domain"
+        },
+        {
+          "id": "item-3",
+          "label": "Resource Group"
+        },
+        {
+          "id": "item-4",
+          "label": "Entra ID Tenant"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Hardware rack sharing common power supply and network switch.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Group of VMs patched sequentially during planned maintenance.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Logical container for assets managed as a single lifecycle unit.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Dedicated identity boundary for user accounts and authentication.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "FD = Rack hardware, UD = Maintenance patch group, RG = Lifecycle, Tenant = Identity."
+    },
+    {
+      "code": "AZ-CS2-Q036",
+      "title": "CS2: TF - Update Domain Reboot Behavior",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Update Domains (UD) group Virtual Machines together so they can be rebooted simultaneously during planned platform maintenance.",
+      "isTrueCorrect": false,
+      "explanation": "False. Update Domains patch VMs sequentially (one UD at a time) so that remaining VMs continue servicing traffic."
+    },
+    {
+      "code": "AZ-CS2-Q037",
+      "title": "CS2: TF - Management Group Policy Inheritance",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Fabrikam can assign an Azure Policy at the Management Group level, and all child subscriptions will automatically inherit the policy rules.",
+      "isTrueCorrect": true,
+      "explanation": "True. Governance policies applied at a Management Group automatically inherit down the hierarchy to child subscriptions."
+    },
+    {
+      "code": "AZ-CS2-Q038",
+      "title": "CS2: TF - Azure CLI Command Syntax",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Azure CLI commands use a Verb-Noun structure such as New-AzVM.",
+      "isTrueCorrect": false,
+      "explanation": "False. Azure PowerShell uses Verb-Noun cmdlets (e.g. New-AzVM). Azure CLI uses az <group> <action> commands (e.g. az vm create)."
+    },
+    {
+      "code": "AZ-CS2-Q039",
+      "title": "CS2: TF - Standard HDD Performance",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Standard HDD magnetic disks deliver sub-millisecond latency for mission-critical SQL databases.",
+      "isTrueCorrect": false,
+      "explanation": "False. Ultra Disk provides sub-millisecond latency. Standard HDD is magnetic storage designed for non-critical backups."
+    },
+    {
+      "code": "AZ-CS2-Q040",
+      "title": "CS2: TF - ARM Central API Layer",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Every management request initiated from the Azure Portal, Azure CLI, or Azure PowerShell passes through Azure Resource Manager (ARM).",
+      "isTrueCorrect": true,
+      "explanation": "True. ARM is the central deployment and management service endpoint for all Azure tools and SDKs."
+    }
+  ]
+}

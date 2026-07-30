@@ -1,0 +1,577 @@
+{
+  "cs": {
+    "code": "CS-AZURE-01",
+    "title": "Contoso Financial Services Multi-Region Migration",
+    "overview": "Contoso Financial Services is a global banking organization migrating its core financial processing applications and databases from on-premises datacenters to Microsoft Azure. Contoso operates primarily in Europe and North America and must strictly comply with EU General Data Protection Regulation (GDPR) data sovereignty mandates.",
+    "businessRequirements": "1. High Availability: Core transactional API gateways must maintain a 99.99% uptime SLA.\n2. Compliance & Sovereignty: All European customer PII data must remain strictly stored in EU Azure Regions.\n3. Cost Optimization: Non-production environments (dev/test) must utilize cost-reduced VM pricing models, while production infrastructure uses 3-year Reserved Instance commitments.\n4. Disaster Recovery: Business continuity plans require cross-region disaster recovery for all primary databases.",
+    "technicalRequirements": "1. In-Memory SAP Databases: The core transactional database requires up to 2 TB of RAM.\n2. High-Speed Compute: Batch calculation engines require high CPU clock speeds for fast execution.\n3. Infrastructure as Code (IaC): All infrastructure deployments must be automated using Bicep templates integrated into CI/CD pipelines.\n4. Security & Governance: Governance policies must be uniformly inherited across all child subscriptions.",
+    "existingEnvironment": "Current environment consists of on-premises VMware vSphere ESXi clusters, legacy Microsoft SQL Server clusters, and custom Bash deployment scripts."
+  },
+  "questions": [
+    {
+      "code": "AZ-CS1-Q001",
+      "title": "CS1: Select VM Family for SAP HANA",
+      "type": "SINGLE_CHOICE",
+      "prompt": "Based on Contoso Technical Requirements, which Virtual Machine series should be selected to host the core in-memory SAP database requiring up to 2 TB of RAM?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "E-Series or M-Series (Memory-Optimized)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "F-Series (Compute-Optimized)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "B-Series (Burstable CPU)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "N-Series (GPU-Enabled)",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "E-Series and M-Series VMs provide high memory-to-CPU ratios ideal for large in-memory databases like SAP HANA."
+    },
+    {
+      "code": "AZ-CS1-Q002",
+      "title": "CS1: SLA Model for 99.99%",
+      "type": "SINGLE_CHOICE",
+      "prompt": "To satisfy Contoso Business Requirement for a 99.99% uptime SLA for core transactional API gateways, how should the Virtual Machines be deployed?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Across two or more Availability Zones in the same Azure region.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Inside a single Availability Set using Standard HDD disks.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "As a single standalone VM using Standard SSD storage.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Inside an unmanaged storage account container.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Multi-zone deployments across Availability Zones provide Azure 99.99% VM uptime SLA."
+    },
+    {
+      "code": "AZ-CS1-Q003",
+      "title": "CS1: Scope for Policy Inheritance",
+      "type": "SINGLE_CHOICE",
+      "prompt": "At which architectural level should Contoso apply Azure Policies to guarantee uniform inheritance across all European child subscriptions?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Management Group Level",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Resource Group Level",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Subnet Level",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Local Client Laptop Level",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Management Groups provide a scope of governance above subscriptions, allowing Azure Policy assignments to inherit down the hierarchy."
+    },
+    {
+      "code": "AZ-CS1-Q004",
+      "title": "CS1: Declarative IaC Deployment Tool",
+      "type": "SINGLE_CHOICE",
+      "prompt": "Which Microsoft Infrastructure as Code (IaC) language meets Contoso requirement for automated, declarative environment deployments that compile into ARM templates?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Bicep",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Python Scripting",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Bash Shell",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "HTML5 Web Forms",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Bicep is Microsoft declarative domain-specific language (DSL) for authoring Azure infrastructure that compiles to ARM JSON."
+    },
+    {
+      "code": "AZ-CS1-Q005",
+      "title": "CS1: Regional Pairs Distance Requirement",
+      "type": "SINGLE_CHOICE",
+      "prompt": "How far apart are paired Azure regions typically located to support Contoso cross-region disaster recovery requirements?",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "At least 300 miles apart.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "10 meters apart.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-3",
+          "text": "Always in different hemispheres.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Exactly 1 mile apart.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Azure Regional Pairs are separated by at least 300 miles where possible to protect against regional outages."
+    },
+    {
+      "code": "AZ-CS1-Q006",
+      "title": "CS1: Cost Optimization Strategies",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO cost optimization strategies align with Contoso requirements for non-production and production VM workloads? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Using Azure Reserved VM Instances (RI) for 1-year or 3-year production commitments.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Using Azure Spot VMs or Burstable B-Series for dev/test environments.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Running all VMs at 100% CPU utilization 24/7 without stopping.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Deleting the billing account from the Azure portal.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Reserved Instances offer up to 72% savings for production workloads, while Spot/B-Series optimize dev/test costs."
+    },
+    {
+      "code": "AZ-CS1-Q007",
+      "title": "CS1: VM Provisioning Child Components",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "When Contoso provisions a new Virtual Machine compute instance, which TWO child resources are automatically created? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Network Interface (NIC) attached to a Virtual Network Subnet.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Managed OS Disk storing the operating system.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Physical fiber optic cable delivered to the local office.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Azure Synapse Analytics dedicated SQL pool.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Deploying an Azure VM provisions underlying resources: Virtual Machine instance, NIC, and Managed OS Disk."
+    },
+    {
+      "code": "AZ-CS1-Q008",
+      "title": "CS1: Azure Resource Manager Characteristics",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO statements correctly describe the central role of Azure Resource Manager (ARM) in Contoso deployment? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Provides a unified management REST API layer for creating, updating, and deleting resources.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Authenticates and routes all requests initiated from Azure Portal, CLI, PowerShell, and Bicep.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Serves as an antivirus scanner installed on client laptops.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Physically manufactures server chassis inside datacenters.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "ARM is the central management layer for authentication, access control, and declarative resource orchestration."
+    },
+    {
+      "code": "AZ-CS1-Q009",
+      "title": "CS1: Availability Zone Features",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO statements accurately describe the physical characteristics of Azure Availability Zones? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Each zone consists of physically separate datacenters with independent power, cooling, and networking.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Protect applications and data from datacenter facility failures.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Require connecting all servers to 4G cellular dongles.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Are only available inside A-series virtual machines.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "Availability Zones feature physically isolated datacenter buildings with redundant power and cooling."
+    },
+    {
+      "code": "AZ-CS1-Q010",
+      "title": "CS1: Infrastructure as Code Benefits",
+      "type": "MULTIPLE_CHOICE",
+      "prompt": "Which TWO benefits will Contoso gain by adopting Bicep Infrastructure as Code (IaC)? (Select TWO)",
+      "options": [
+        {
+          "id": "opt-1",
+          "text": "Idempotency & Consistency: Ensures dev, test, and prod environments remain identical without configuration drift.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Automation & Speed: Enables rapid, repeatable deployments integrated into CI/CD DevOps pipelines.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Automatically increases home internet connection speed.",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Eliminates the requirement for user authentication passwords.",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "IaC provides repeatable, automated, consistent environment deployments."
+    },
+    {
+      "code": "AZ-CS1-Q011",
+      "title": "CS1: Match Contoso Workloads to VM Series",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Contoso workload requirement to its optimal Azure Virtual Machine family series.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "E-Series"
+        },
+        {
+          "id": "item-2",
+          "label": "F-Series"
+        },
+        {
+          "id": "item-3",
+          "label": "B-Series"
+        },
+        {
+          "id": "item-4",
+          "label": "H-Series"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "SAP HANA in-memory database requiring up to 2 TB of RAM.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "High-speed batch calculation engine requiring fast clock speed CPUs.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Dev/Test web environment with low baseline usage and periodic traffic bursts.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "High-performance computing scientific simulations requiring InfiniBand networking.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "E = Memory Optimized, F = Compute Optimized, B = Burstable, H = HPC."
+    },
+    {
+      "code": "AZ-CS1-Q012",
+      "title": "CS1: Match Storage Tiers to Workloads",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Managed Disk storage tier to Contoso target database workload.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "Ultra Disk"
+        },
+        {
+          "id": "item-2",
+          "label": "Premium SSD"
+        },
+        {
+          "id": "item-3",
+          "label": "Standard SSD"
+        },
+        {
+          "id": "item-4",
+          "label": "Standard HDD"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Sub-millisecond latency database storage for mission-critical transactional engines.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Production SQL Server databases requiring high IOPS and single-digit ms latency.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Light dev/test web server OS disks.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Non-critical cold backup files and archive storage.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "Ultra Disk = sub-ms; Premium SSD = Production SQL; Standard SSD = Dev/Test; Standard HDD = Cold backup."
+    },
+    {
+      "code": "AZ-CS1-Q013",
+      "title": "CS1: Match Management Tools to Use Cases",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Azure management tool to Contoso usage scenario.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "Azure Portal"
+        },
+        {
+          "id": "item-2",
+          "label": "Azure CLI"
+        },
+        {
+          "id": "item-3",
+          "label": "Azure PowerShell"
+        },
+        {
+          "id": "item-4",
+          "label": "Bicep Templates"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Web-based GUI console for visual monitoring and dashboard customization.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Cross-platform CLI tool using az <group> <action> commands.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Task automation framework using Verb-Noun cmdlets (e.g. New-AzVM).",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Declarative IaC files integrated into CI/CD pipelines.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "Portal = GUI, CLI = az commands, PowerShell = Verb-Noun, Bicep = Declarative IaC."
+    },
+    {
+      "code": "AZ-CS1-Q014",
+      "title": "CS1: Match Physical Architecture Levels",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each physical architecture boundary to its definition.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "Azure Region"
+        },
+        {
+          "id": "item-2",
+          "label": "Availability Zone"
+        },
+        {
+          "id": "item-3",
+          "label": "Regional Pair"
+        },
+        {
+          "id": "item-4",
+          "label": "Geography"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Latency-defined perimeter containing datacenters linked by a dedicated fiber network.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Physically isolated datacenter with independent power, cooling, and networking.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Two regions in the same geography paired 300+ miles apart for DR.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Discrete market containing regions that preserve data residency compliance.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "Region, Zone, Pair, Geography physical hierarchy."
+    },
+    {
+      "code": "AZ-CS1-Q015",
+      "title": "CS1: Match Resource Lock Types",
+      "type": "DRAG_AND_DROP",
+      "prompt": "Match each Azure Resource Lock type to its enforcement behavior.",
+      "items": [
+        {
+          "id": "item-1",
+          "label": "CanNotDelete Lock"
+        },
+        {
+          "id": "item-2",
+          "label": "ReadOnly Lock"
+        },
+        {
+          "id": "item-3",
+          "label": "Management Group Lock"
+        },
+        {
+          "id": "item-4",
+          "label": "Subscription Lock"
+        }
+      ],
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Allows authorized users to read and modify a resource, but prevents deletion.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-2",
+          "label": "Prevents authorized users from deleting or modifying a resource.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-3",
+          "label": "Inherits lock protections down to all child subscriptions.",
+          "correctItemId": "item-3"
+        },
+        {
+          "id": "target-4",
+          "label": "Applies lock protections across all resource groups in a subscription.",
+          "correctItemId": "item-4"
+        }
+      ],
+      "explanation": "CanNotDelete allows edits but blocks deletion; ReadOnly blocks both edits and deletion."
+    },
+    {
+      "code": "AZ-CS1-Q016",
+      "title": "CS1: TF - Resource Group Deletion",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Deleting an Azure Resource Group in Contoso subscription automatically deletes all underlying virtual machines contained within it.",
+      "isTrueCorrect": true,
+      "explanation": "Deleting a Resource Group deletes all child resources contained within that group as part of lifecycle cleanup."
+    },
+    {
+      "code": "AZ-CS1-Q017",
+      "title": "CS1: TF - Resource Group Location",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Contoso can deploy Virtual Machines physically located in Europe inside a Resource Group whose metadata location is set to East US.",
+      "isTrueCorrect": true,
+      "explanation": "Resources inside a Resource Group do not have to reside in the same physical region as the Resource Group metadata location."
+    },
+    {
+      "code": "AZ-CS1-Q018",
+      "title": "CS1: TF - Fault Domains vs Update Domains",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Fault Domains (FD) group Virtual Machines together so they can be rebooted simultaneously during planned platform updates.",
+      "isTrueCorrect": false,
+      "explanation": "False. Update Domains (UD) manage planned platform reboots; Fault Domains (FD) protect against hardware/rack power failures."
+    },
+    {
+      "code": "AZ-CS1-Q019",
+      "title": "CS1: TF - Entra ID Global Scope",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Azure Entra ID (Azure AD) is a Regional service tied to a single physical datacenter building.",
+      "isTrueCorrect": false,
+      "explanation": "False. Azure Entra ID is a Global service not bound to a single Azure region."
+    },
+    {
+      "code": "AZ-CS1-Q020",
+      "title": "CS1: TF - Bicep Compilation",
+      "type": "TRUE_FALSE",
+      "prompt": "True or False: Microsoft Bicep files compile directly into native ARM JSON templates before deployment to Azure Resource Manager.",
+      "isTrueCorrect": true,
+      "explanation": "True. Bicep is a transparent syntax abstraction that transpiles into ARM JSON templates."
+    }
+  ]
+}

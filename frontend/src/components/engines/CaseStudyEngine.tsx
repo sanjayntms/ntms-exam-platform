@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
 import { Question } from '../../types';
-import { useExamSession } from '../../context/ExamSessionContext';
 import { FileText, Building2, Cpu, Server, HelpCircle } from 'lucide-react';
+import { SingleChoiceEngine } from './SingleChoiceEngine';
+import { MultipleChoiceEngine } from './MultipleChoiceEngine';
+import { DragDropEngine } from './DragDropEngine';
+import { TrueFalseEngine } from './TrueFalseEngine';
 
 export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) => {
-  const { questionStates, updateQuestionAnswer } = useExamSession();
-  const [activeTab, setActiveTab] = useState<'overview' | 'business' | 'technical' | 'existing' | 'question'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'business' | 'technical' | 'existing' | 'question'>('question');
 
   const cs = question.caseStudy;
-  const content = JSON.parse(question.content || '{}');
-  const qState = questionStates[question.id] || {};
-  const selectedOptionId = qState.answer?.selectedOptionId;
-
   if (!cs) {
-    return <div className="text-slate-500 text-sm">Case Study content loading...</div>;
+    // If case study object is missing, fallback to rendering the question engine directly
+    switch (question.type) {
+      case 'MULTIPLE_CHOICE':
+        return <MultipleChoiceEngine question={question} />;
+      case 'DRAG_AND_DROP':
+        return <DragDropEngine question={question} />;
+      case 'TRUE_FALSE':
+        return <TrueFalseEngine question={question} />;
+      default:
+        return <SingleChoiceEngine question={question} />;
+    }
   }
 
   const tabs = [
@@ -21,11 +29,35 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
     { id: 'business', label: 'Business Requirements', icon: Building2, content: cs.businessRequirements },
     { id: 'technical', label: 'Technical Requirements', icon: Cpu, content: cs.technicalRequirements },
     { id: 'existing', label: 'Existing Environment', icon: Server, content: cs.existingEnvironment },
-    { id: 'question', label: 'Question', icon: HelpCircle, content: null },
+    { id: 'question', label: 'Case Question', icon: HelpCircle, content: null },
   ];
+
+  const renderQuestionEngine = () => {
+    switch (question.type) {
+      case 'MULTIPLE_CHOICE':
+        return <MultipleChoiceEngine question={question} />;
+      case 'DRAG_AND_DROP':
+        return <DragDropEngine question={question} />;
+      case 'TRUE_FALSE':
+        return <TrueFalseEngine question={question} />;
+      default:
+        return <SingleChoiceEngine question={question} />;
+    }
+  };
 
   return (
     <div className="space-y-4">
+      {/* Case Study Header Banner */}
+      <div className="bg-slate-900 text-white p-4 rounded border border-slate-700 flex justify-between items-center shadow">
+        <div>
+          <span className="text-[10px] font-mono uppercase text-sky-400 font-bold tracking-wider">Case Study Scenario</span>
+          <h2 className="text-base font-bold text-white leading-tight">{cs.title}</h2>
+        </div>
+        <span className="text-xs font-mono bg-sky-500/20 text-sky-300 border border-sky-400/40 px-2.5 py-1 rounded">
+          {question.type.replace('_', ' ')}
+        </span>
+      </div>
+
       {/* Case Study Tab Header */}
       <div className="flex border-b border-slate-300 overflow-x-auto bg-slate-100 rounded-t border-t border-x border-slate-300">
         {tabs.map((tab) => {
@@ -56,35 +88,7 @@ export const CaseStudyEngine: React.FC<{ question: Question }> = ({ question }) 
             {tabs.find((t) => t.id === activeTab)?.content}
           </div>
         ) : (
-          <div className="space-y-4">
-            <p className="text-base font-semibold text-slate-900 border-b border-slate-200 pb-3">{content.prompt}</p>
-
-            <div className="space-y-2">
-              {content.options?.map((opt: any) => {
-                const isSelected = selectedOptionId === opt.id;
-                return (
-                  <label
-                    key={opt.id}
-                    onClick={() => updateQuestionAnswer(question.id, { selectedOptionId: opt.id })}
-                    className={`flex items-center gap-3 p-3.5 rounded border cursor-pointer transition-all ${
-                      isSelected
-                        ? 'bg-sky-100/90 border-ntms-navy text-ntms-navy font-bold shadow-sm ring-2 ring-ntms-blue/40'
-                        : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-ntms-blue hover:bg-sky-50/50'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name={`cs_${question.id}`}
-                      checked={isSelected}
-                      onChange={() => {}}
-                      className="w-4 h-4 text-ntms-navy focus:ring-ntms-blue"
-                    />
-                    <span className="text-sm">{opt.text}</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
+          renderQuestionEngine()
         )}
       </div>
     </div>

@@ -206,7 +206,7 @@ export const LoginPage: React.FC = () => {
           {/* Certification Track Chips */}
           <div className="flex flex-wrap gap-2 pt-2">
             {[
-              { code: 'AZURE-BASICS', title: '50 Questions (4 Domains)' },
+              { code: 'AZURE-BASICS', title: '90 Questions (6 Sections & 2 Case Studies)' },
               { code: 'TERRAFORM', title: '170 Questions (9 Domains)' },
               { code: 'SC-200', title: '115 Questions' },
               { code: 'AZ-305', title: '100 Questions' },
