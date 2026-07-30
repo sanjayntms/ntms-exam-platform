@@ -720,7 +720,7 @@ async function main() {
         totalQuestions: 25,
         answers: '{}',
         startedAt: new Date('2026-07-29T10:00:00.000Z'),
-        submittedAt: new Date('2026-07-29T11:15:00.000Z'),
+        completedAt: new Date('2026-07-29T11:15:00.000Z'),
       },
     });
 
@@ -743,7 +743,7 @@ async function main() {
         totalQuestions: 25,
         answers: '{}',
         startedAt: new Date('2026-07-29T10:30:00.000Z'),
-        submittedAt: new Date('2026-07-29T11:45:00.000Z'),
+        completedAt: new Date('2026-07-29T11:45:00.000Z'),
       },
     });
   }
