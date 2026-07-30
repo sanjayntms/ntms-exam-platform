@@ -2248,10 +2248,23 @@ async function main() {
     });
   }
 
-  // Update total questions config for Azure Basics exam
+  // Update total questions config and unlock for Azure Basics exam
   await prisma.exam.update({
     where: { id: azureBasicsExam.id },
-    data: { totalQuestionsConfig: 90 },
+    data: { totalQuestionsConfig: 90, isGloballyUnlocked: true },
+  });
+
+  await prisma.examRoom.upsert({
+    where: { roomCode: 'HALL-AZURE-BASICS' },
+    update: { status: 'OPEN', isGloballyUnlocked: true },
+    create: {
+      roomCode: 'HALL-AZURE-BASICS',
+      title: 'Azure Basics Certification Practice Hall',
+      examId: azureBasicsExam.id,
+      status: 'OPEN',
+      allowReview: true,
+      createdBy: creatorUser.email,
+    },
   });
 
   console.log("✅ Seeded 2 Case Studies (CS-AZURE-01 & CS-AZURE-02) with 40 Case Questions attached to AZURE-BASICS!");
