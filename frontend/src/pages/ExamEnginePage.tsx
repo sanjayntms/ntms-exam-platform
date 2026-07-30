@@ -61,7 +61,7 @@ export const ExamEnginePage: React.FC = () => {
           setLoadingAttempt(true);
           const res = await api.get(`/attempts/${targetAttemptId}`);
           if (res.data && res.data.exam) {
-            setExamSession(res.data.exam, res.data.id);
+            setExamSession(res.data.exam, res.data.id, res.data.answers, res.data.startedAt);
             setLoadError(null);
           } else {
             setLoadError('Failed to load exam details from attempt record.');
@@ -79,6 +79,33 @@ export const ExamEnginePage: React.FC = () => {
 
     fetchAttemptData();
   }, [urlAttemptId, attemptId, exam]);
+
+  // Periodic 10-second background autosave to persistent database on VM
+  useEffect(() => {
+    const targetAttemptId = urlAttemptId || attemptId;
+    if (!targetAttemptId || !exam) return;
+
+    const interval = setInterval(() => {
+      const answersMap: Record<string, any> = {};
+      let hasAnswers = false;
+      Object.keys(questionStates).forEach((qId) => {
+        if (questionStates[qId]?.answer !== null && questionStates[qId]?.answer !== undefined) {
+          answersMap[qId] = questionStates[qId].answer;
+          hasAnswers = true;
+        }
+      });
+
+      if (hasAnswers) {
+        api.post('/attempts/submit', {
+          attemptId: targetAttemptId,
+          answers: answersMap,
+          isFinalSubmit: false,
+        }).catch((err) => console.error('Autosave error:', err));
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [urlAttemptId, attemptId, exam, questionStates]);
 
   if (loadingAttempt) {
     return (

@@ -166,6 +166,35 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
+      {/* In-Progress Exam Resume Banner for VM Restore / Recovery */}
+      {(() => {
+        const inProgress = myAttempts.find((att: any) => !att.completedAt && att.status !== 'EVALUATED');
+        if (!inProgress) return null;
+
+        return (
+          <div className="bg-amber-50 border-2 border-amber-400 p-5 rounded-xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-slate-900 animate-pulse">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-amber-200 text-amber-900 font-mono text-[11px] font-bold uppercase">
+                <Play className="w-3.5 h-3.5 text-amber-800" /> Active Exam Session In Progress
+              </div>
+              <h3 className="text-base font-extrabold text-amber-950">
+                Resume Active Exam: {inProgress.exam?.code || 'Certification Exam'} - {inProgress.exam?.title}
+              </h3>
+              <p className="text-xs text-amber-800 font-medium">
+                Started on {new Date(inProgress.startedAt).toLocaleString()}. All previous answer selections & timer progress have been restored.
+              </p>
+            </div>
+
+            <button
+              onClick={() => navigate(`/exam-session/${inProgress.id}`)}
+              className="px-6 py-3 bg-ntms-navy hover:bg-ntms-hoverBlue text-white font-extrabold rounded-lg text-xs shadow-lg transition-all flex items-center gap-2 shrink-0 border border-sky-400/40"
+            >
+              <span>Resume Active Exam Engine ➜</span>
+            </button>
+          </div>
+        );
+      })()}
+
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2 hover:shadow-md transition-all">

@@ -17,7 +17,7 @@ interface ExamSessionContextType {
   timeRemainingSeconds: number;
   isCalculatorOpen: boolean;
   isScratchpadOpen: boolean;
-  setExamSession: (exam: Exam, attemptId: string) => void;
+  setExamSession: (exam: Exam, attemptId: string, initialAnswersJson?: string, startedAt?: string) => void;
   setCurrentQuestionIndex: (idx: number) => void;
   toggleMarkForReview: (qId: string) => void;
   updateQuestionAnswer: (qId: string, answer: any) => void;
@@ -39,10 +39,18 @@ export const ExamSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [isCalculatorOpen, setCalculatorOpen] = useState<boolean>(false);
   const [isScratchpadOpen, setScratchpadOpen] = useState<boolean>(false);
 
-  const setExamSession = (examData: Exam, newAttemptId: string) => {
+  const setExamSession = (examData: Exam, newAttemptId: string, initialAnswersJson?: string, startedAt?: string) => {
     setExam(examData);
     setAttemptId(newAttemptId);
-    setTimeRemainingSeconds(examData.timeLimitMinutes * 60);
+
+    // Calculate time remaining based on startedAt timestamp
+    if (startedAt) {
+      const elapsedSeconds = Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000);
+      const remaining = Math.max(0, examData.timeLimitMinutes * 60 - elapsedSeconds);
+      setTimeRemainingSeconds(remaining);
+    } else {
+      setTimeRemainingSeconds(examData.timeLimitMinutes * 60);
+    }
 
     const questionsList: Question[] = [];
     examData.sections?.forEach((section) => {
@@ -53,12 +61,19 @@ export const ExamSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     setFlatQuestions(questionsList);
 
+    let savedAnswersMap: Record<string, any> = {};
+    if (initialAnswersJson) {
+      try {
+        savedAnswersMap = JSON.parse(initialAnswersJson);
+      } catch {}
+    }
+
     const initialStates: Record<string, QuestionState> = {};
     questionsList.forEach((q) => {
       initialStates[q.id] = {
         isMarkedForReview: false,
         notes: '',
-        answer: null,
+        answer: savedAnswersMap[q.id] || null,
         strikeouts: {},
       };
     });
