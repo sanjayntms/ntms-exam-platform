@@ -5,7 +5,16 @@ export class RoomController {
   // List all exam rooms
   async listRooms(req: Request, res: Response) {
     try {
+      const role = req.user?.role;
+      const where: any = {};
+
+      // Candidates can ONLY see active OPEN exam halls. CLOSED rooms are hidden from candidates.
+      if (role !== 'ADMINISTRATOR') {
+        where.status = 'OPEN';
+      }
+
       const rooms = await prisma.examRoom.findMany({
+        where,
         include: {
           exam: { select: { id: true, code: true, title: true, vendor: true, timeLimitMinutes: true } },
           _count: { select: { roomSessions: true } },

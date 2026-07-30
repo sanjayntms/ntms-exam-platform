@@ -318,13 +318,17 @@ export const ExamListPage: React.FC = () => {
       </div>
 
       {/* Active Exam Rooms Section for Admins & Candidates */}
-      {rooms.length > 0 && (
-        <div className="bg-white border border-slate-300 rounded p-5 space-y-3 shadow-sm">
-          <h3 className="text-xs font-bold text-ntms-navy uppercase tracking-wider flex items-center gap-2">
-            <Users className="w-4 h-4 text-emerald-600" /> Active Exam Halls & Proctor Rooms ({rooms.length})
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {rooms.map((room) => (
+      {(() => {
+        const displayRooms = user?.role === 'ADMINISTRATOR' ? rooms : rooms.filter((r) => r.status === 'OPEN');
+        if (displayRooms.length === 0) return null;
+
+        return (
+          <div className="bg-white border border-slate-300 rounded p-5 space-y-3 shadow-sm">
+            <h3 className="text-xs font-bold text-ntms-navy uppercase tracking-wider flex items-center gap-2">
+              <Users className="w-4 h-4 text-emerald-600" /> Active Exam Halls & Proctor Rooms ({displayRooms.length})
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {displayRooms.map((room) => (
               <div key={room.id} className="p-3 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -373,7 +377,8 @@ export const ExamListPage: React.FC = () => {
             ))}
           </div>
         </div>
-      )}
+        );
+      })()}
 
       {/* Main Exam Grid Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
