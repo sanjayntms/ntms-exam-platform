@@ -2256,7 +2256,7 @@ async function main() {
 
   await prisma.examRoom.upsert({
     where: { roomCode: 'HALL-AZURE-BASICS' },
-    update: { status: 'OPEN', isGloballyUnlocked: true },
+    update: { status: 'OPEN' },
     create: {
       roomCode: 'HALL-AZURE-BASICS',
       title: 'Azure Basics Certification Practice Hall',
