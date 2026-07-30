@@ -2072,6 +2072,85 @@ async function main() {
   }
 ];
 
+  const azureBasicsExam = await prisma.exam.create({
+    data: {
+      code: 'AZURE-BASICS',
+      title: 'Azure Basics Certification Practice Exam',
+      vendor: 'MICROSOFT',
+      examType: 'CERTIFICATION',
+      description: 'Comprehensive Azure Basics Certification Exam with 50 Domain questions and 40 Case Study questions.',
+      timeLimitMinutes: 120,
+      passingScore: 70.0,
+      totalQuestionsConfig: 90,
+      creatorId: creatorUser.id,
+      status: 'PUBLISHED',
+    },
+  });
+
+  const secD1 = await prisma.examSection.create({
+    data: { examId: azureBasicsExam.id, title: '1. Domain 1: Cloud Concepts & Architecture (13 Items)', orderIndex: 1, weightPercentage: 15.0 },
+  });
+  let orderD1 = 1;
+  for (const q of azureBasicsD1) {
+    const dbQ = await prisma.question.create({
+      data: {
+        code: q.code, title: q.title, type: q.type as any, difficulty: 'INTERMEDIATE', points: 1.0,
+        explanation: q.explanation, content: JSON.stringify(q.content), categoryId: catAzure.id,
+      },
+    });
+    await prisma.sectionQuestion.create({
+      data: { sectionId: secD1.id, questionId: dbQ.id, orderIndex: orderD1++ },
+    });
+  }
+
+  const secD2 = await prisma.examSection.create({
+    data: { examId: azureBasicsExam.id, title: '2. Domain 2: Core Infrastructure & Compute (12 Items)', orderIndex: 2, weightPercentage: 15.0 },
+  });
+  let orderD2 = 1;
+  for (const q of azureBasicsD2) {
+    const dbQ = await prisma.question.create({
+      data: {
+        code: q.code, title: q.title, type: q.type as any, difficulty: 'INTERMEDIATE', points: 1.0,
+        explanation: q.explanation, content: JSON.stringify(q.content), categoryId: catAzure.id,
+      },
+    });
+    await prisma.sectionQuestion.create({
+      data: { sectionId: secD2.id, questionId: dbQ.id, orderIndex: orderD2++ },
+    });
+  }
+
+  const secD3 = await prisma.examSection.create({
+    data: { examId: azureBasicsExam.id, title: '3. Domain 3: Storage, Networking & Data Services (12 Items)', orderIndex: 3, weightPercentage: 15.0 },
+  });
+  let orderD3 = 1;
+  for (const q of azureBasicsD3) {
+    const dbQ = await prisma.question.create({
+      data: {
+        code: q.code, title: q.title, type: q.type as any, difficulty: 'INTERMEDIATE', points: 1.0,
+        explanation: q.explanation, content: JSON.stringify(q.content), categoryId: catAzure.id,
+      },
+    });
+    await prisma.sectionQuestion.create({
+      data: { sectionId: secD3.id, questionId: dbQ.id, orderIndex: orderD3++ },
+    });
+  }
+
+  const secD4 = await prisma.examSection.create({
+    data: { examId: azureBasicsExam.id, title: '4. Domain 4: Security, Compliance & Governance (13 Items)', orderIndex: 4, weightPercentage: 15.0 },
+  });
+  let orderD4 = 1;
+  for (const q of azureBasicsD4) {
+    const dbQ = await prisma.question.create({
+      data: {
+        code: q.code, title: q.title, type: q.type as any, difficulty: 'INTERMEDIATE', points: 1.0,
+        explanation: q.explanation, content: JSON.stringify(q.content), categoryId: catAzure.id,
+      },
+    });
+    await prisma.sectionQuestion.create({
+      data: { sectionId: secD4.id, questionId: dbQ.id, orderIndex: orderD4++ },
+    });
+  }
+
   // CASE STUDY 1 & CASE STUDY 2 FOR AZURE BASICS
   // ==========================================
   const cs1Data = {"code": "CS-AZURE-01", "title": "Contoso Financial Services Multi-Region Migration", "overview": "Contoso Financial Services is a global banking organization migrating its core financial processing applications and databases from on-premises datacenters to Microsoft Azure. Contoso operates primarily in Europe and North America and must strictly comply with EU General Data Protection Regulation (GDPR) data sovereignty mandates.", "businessRequirements": "1. High Availability: Core transactional API gateways must maintain a 99.99% uptime SLA.\n2. Compliance & Sovereignty: All European customer PII data must remain strictly stored in EU Azure Regions.\n3. Cost Optimization: Non-production environments (dev/test) must utilize cost-reduced VM pricing models, while production infrastructure uses 3-year Reserved Instance commitments.\n4. Disaster Recovery: Business continuity plans require cross-region disaster recovery for all primary databases.", "technicalRequirements": "1. In-Memory SAP Databases: The core transactional database requires up to 2 TB of RAM.\n2. High-Speed Compute: Batch calculation engines require high CPU clock speeds for fast execution.\n3. Infrastructure as Code (IaC): All infrastructure deployments must be automated using Bicep templates integrated into CI/CD pipelines.\n4. Security & Governance: Governance policies must be uniformly inherited across all child subscriptions.", "existingEnvironment": "Current environment consists of on-premises VMware vSphere ESXi clusters, legacy Microsoft SQL Server clusters, and custom Bash deployment scripts."};
