@@ -377,7 +377,7 @@ export const ExamResultsPage: React.FC = () => {
               <p className="text-xs mt-0.5">
                 {isPass
                   ? 'You have successfully satisfied the requirements to achieve certification.'
-                  : 'You did not meet the required passing threshold (700/1000) for this certification exam.'}
+                  : `You did not meet the required passing threshold (${(attempt.exam?.code || '').toUpperCase().includes('TERRAFORM') ? 800 : 700}/1000) for this certification exam.`}
               </p>
             </div>
           </div>
@@ -388,7 +388,9 @@ export const ExamResultsPage: React.FC = () => {
             <div className={`text-3xl font-black font-mono ${isPass ? 'text-emerald-700' : 'text-rose-700'}`}>
               {scaledScore}
             </div>
-            <span className="text-[10px] text-slate-600 font-mono block mt-0.5">Passing Score: 700 / 1000</span>
+            <span className="text-[10px] text-slate-600 font-mono block mt-0.5">
+              Passing Score: {(attempt.exam?.code || '').toUpperCase().includes('TERRAFORM') ? 800 : 700} / 1000
+            </span>
           </div>
         </div>
 
@@ -520,7 +522,7 @@ export const ExamResultsPage: React.FC = () => {
                 </div>
 
                 <p className="text-[11px] text-slate-700 leading-relaxed font-sans mt-3">
-                  <strong>Disclaimer:</strong> Your section-level performance is provided for descriptive feedback only. The HashiCorp Certified: Terraform Associate (003) was designed to determine pass/fail scores based on the total exam content. Cut scores and points-per-item are proprietary and not disclosed to exam participants.
+                  <strong>Disclaimer:</strong> Your section-level performance is provided for descriptive feedback only. The HashiCorp Certified: Terraform Associate (004) was designed to determine pass/fail scores based on the total exam content. Cut scores and points-per-item are proprietary and not disclosed to exam participants.
                 </p>
               </div>
             );

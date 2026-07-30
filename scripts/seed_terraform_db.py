@@ -27,12 +27,12 @@ if not cursor.fetchone():
     """, (
         parent_exam_id,
         'TERRAFORM',
-        'HashiCorp Certified: Terraform Associate (003)',
-        'HashiCorp Certified: Terraform Associate (003) parent certification exam covering all 7 official HashiCorp Terraform domains.',
+        'HashiCorp Certified: Terraform Associate (004)',
+        'HashiCorp Certified: Terraform Associate (004) parent certification exam covering all 9 official HashiCorp Terraform domains.',
         'HASHICORP',
         1, # Unlocked
         120,
-        70,
+        80,
         50
     ))
     print('Created parent exam TERRAFORM')

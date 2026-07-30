@@ -56,21 +56,25 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
               <div>
                 <h1 className="font-black text-xl text-ntms-navy tracking-tight uppercase">
                   NTMS CERTIFIED EXAMINATION SCORE REPORT
-                </h1>
-                <p className="text-xs text-slate-600 font-medium">Authorized Computer-Based Test Delivery Platform</p>
-              </div>
+          <div className="border-b-2 border-slate-900 pb-4 flex justify-between items-end">
+            <div>
+              <h1 className="text-xl md:text-2xl font-black tracking-wider uppercase text-ntms-navy font-mono">
+                {attempt.exam?.vendor || 'NTMS'} CERTIFICATION EXAM SCORE REPORT
+              </h1>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">Automated Proctoring & Candidate Evaluation Matrix</p>
             </div>
-            <div className="text-right text-xs text-slate-600 font-mono">
-              <p><strong className="text-slate-800">Date:</strong> {new Date(attempt.startedAt).toLocaleDateString()}</p>
-              <p><strong className="text-slate-800">Verification ID:</strong> NTMS-{attempt.id.substring(0, 8).toUpperCase()}</p>
+            <div className="text-right">
+              <span className="inline-block px-3 py-1 bg-ntms-navy text-white text-[10px] font-black uppercase tracking-widest rounded">
+                OFFICIAL RECORD
+              </span>
             </div>
           </div>
 
           {/* Candidate & Exam Metadata Grid */}
-          <div className="bg-slate-50 border border-slate-300 rounded p-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-50 border border-slate-200 rounded font-mono text-xs">
             <div>
               <span className="text-slate-500 block text-[10px] uppercase font-bold">Candidate Name</span>
-              <span className="font-bold text-slate-900 text-sm">{attempt.user?.name || 'Candidate'}</span>
+              <span className="font-bold text-slate-900 text-sm">{candidateName}</span>
             </div>
             <div>
               <span className="text-slate-500 block text-[10px] uppercase font-bold">Candidate ID</span>
@@ -81,20 +85,22 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
               <span className="font-bold text-slate-900 text-sm">{attempt.exam?.code || 'NTMS-EXAM'}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[10px] uppercase font-bold">Testing ID</span>
+              <span className="text-slate-500 block text-[10px] uppercase font-bold">Registration / Testing ID</span>
               <span className="font-bold text-slate-900 text-sm">PROCTOR-{attempt.id.substring(0, 6).toUpperCase()}</span>
             </div>
           </div>
 
           {/* Exam Title Banner */}
-          <div className="text-center py-2 bg-ntms-navy text-white rounded font-extrabold text-sm uppercase tracking-wide">
+          <div className="text-center py-2.5 bg-ntms-navy text-white rounded font-extrabold text-sm uppercase tracking-wide">
             {attempt.exam?.title || 'Certification Examination'}
           </div>
 
           {/* Pass/Fail Status Banner */}
-          <div className={`p-6 rounded border flex flex-col md:flex-row items-center justify-between gap-6 ${
-            isPass ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-rose-50 border-rose-300 text-rose-950'
-          }`}>
+          <div
+            className={`p-6 rounded border flex flex-col md:flex-row items-center justify-between gap-6 ${
+              isPass ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-rose-50 border-rose-300 text-rose-950'
+            }`}
+          >
             <div className="flex items-center gap-4">
               {isPass ? (
                 <div className="w-14 h-14 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow">
@@ -111,7 +117,7 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
                 <p className="text-xs mt-0.5">
                   {isPass
                     ? 'You have successfully satisfied the requirements to achieve certification.'
-                    : 'You did not meet the required passing threshold for this certification exam.'}
+                    : `You did not meet the required passing threshold (${requiredPassingScore}/1000) for this certification exam.`}
                 </p>
               </div>
             </div>
@@ -122,7 +128,7 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
               <div className={`text-3xl font-black font-mono ${isPass ? 'text-emerald-700' : 'text-rose-700'}`}>
                 {scaledScore}
               </div>
-              <span className="text-[10px] text-slate-600 font-mono block mt-0.5">Passing Score: 700 / 1000</span>
+              <span className="text-[10px] text-slate-600 font-mono block mt-0.5">Passing Score: {requiredPassingScore} / 1000</span>
             </div>
           </div>
 
@@ -130,12 +136,16 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
           <div className="space-y-1.5 bg-slate-50 p-4 rounded border border-slate-200">
             <div className="flex justify-between text-xs font-bold text-slate-700 font-mono">
               <span>300 (Min)</span>
-              <span className="text-ntms-blue">Passing Line (700)</span>
+              <span className="text-ntms-blue">Passing Line ({requiredPassingScore})</span>
               <span>1000 (Max)</span>
             </div>
             <div className="relative w-full bg-slate-200 h-5 rounded-full overflow-hidden border border-slate-300">
               {/* Passing mark line */}
-              <div className="absolute top-0 bottom-0 left-[57%] w-1 bg-slate-800 z-10" title="Passing threshold 700" />
+              <div
+                className="absolute top-0 bottom-0 w-1 bg-slate-800 z-10"
+                style={{ left: `${passingLineLeftPct}%` }}
+                title={`Passing threshold ${requiredPassingScore}`}
+              />
               {/* Score bar */}
               <div
                 className={`h-full transition-all ${isPass ? 'bg-emerald-600' : 'bg-rose-600'}`}
@@ -143,8 +153,9 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
               />
             </div>
             <div className="flex justify-between text-[10px] text-slate-500 font-mono">
-              <span>Candidate Performance Scale</span>
-              <span className="font-bold text-slate-800">{scorePercentage}% Raw Correct</span>
+              <span>300</span>
+              <span>Your Score: {scaledScore}</span>
+              <span>1000</span>
             </div>
           </div>
 
@@ -156,7 +167,6 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
             const isCompleteTerraformExam = (examCode === 'TERRAFORM' || examCode.includes('TERRAFORM') || examTitle.includes('TERRAFORM')) && !isDomainSubExam;
 
             if (isDomainSubExam) {
-              // Remove section breakdown for domain sub-exams
               return null;
             }
 
@@ -225,7 +235,6 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
             }
 
             if (isCompleteTerraformExam) {
-              // Render HashiCorp 3-Column Performance Table with Candidate Actual Scores
               return (
                 <div className="space-y-3 pt-2">
                   <div className="overflow-x-auto border-2 border-slate-900 rounded">
@@ -280,13 +289,12 @@ export const ScoreReportModal: React.FC<ScoreReportModalProps> = ({ attempt, onC
                   </div>
 
                   <p className="text-[11px] text-slate-700 leading-relaxed font-sans mt-3">
-                    <strong>Disclaimer:</strong> Your section-level performance is provided for descriptive feedback only. The HashiCorp Certified: Terraform Associate (003) was designed to determine pass/fail scores based on the total exam content. Cut scores and points-per-item are proprietary and not disclosed to exam participants.
+                    <strong>Disclaimer:</strong> Your section-level performance is provided for descriptive feedback only. The HashiCorp Certified: Terraform Associate (004) was designed to determine pass/fail scores based on the total exam content. Cut scores and points-per-item are proprietary and not disclosed to exam participants.
                   </p>
                 </div>
               );
             }
 
-            // Default Microsoft / Standard Bar Chart Breakdown
             return (
               <div className="space-y-4">
                 <div className="border-b border-slate-300 pb-2">
