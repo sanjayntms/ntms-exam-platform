@@ -20,11 +20,6 @@
           "isCorrect": true
         },
         {
-          "id": "opt-2",
-          "text": "E-Series (Memory-Optimized)",
-          "isCorrect": false
-        },
-        {
           "id": "opt-3",
           "text": "L-Series (Storage-Optimized)",
           "isCorrect": false
@@ -32,6 +27,11 @@
         {
           "id": "opt-4",
           "text": "B-Series (Burstable CPU)",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-2",
+          "text": "E-Series (Memory-Optimized)",
           "isCorrect": false
         }
       ],
@@ -49,8 +49,8 @@
           "isCorrect": true
         },
         {
-          "id": "opt-2",
-          "text": "D-Series (General Purpose)",
+          "id": "opt-4",
+          "text": "F-Series (Compute-Optimized)",
           "isCorrect": false
         },
         {
@@ -59,8 +59,8 @@
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "F-Series (Compute-Optimized)",
+          "id": "opt-2",
+          "text": "D-Series (General Purpose)",
           "isCorrect": false
         }
       ],
@@ -73,13 +73,13 @@
       "prompt": "Which Azure Resource Lock should Fabrikam apply to prevent accidental administrator deletion of critical patient medical image storage accounts?",
       "options": [
         {
-          "id": "opt-1",
-          "text": "CanNotDelete Lock",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "ReadOnly Lock",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Subscription Lock",
           "isCorrect": false
         },
         {
@@ -88,9 +88,9 @@
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Subscription Lock",
-          "isCorrect": false
+          "id": "opt-1",
+          "text": "CanNotDelete Lock",
+          "isCorrect": true
         }
       ],
       "explanation": "CanNotDelete lock permits reading and modifying resources while blocking accidental deletion."
@@ -102,16 +102,6 @@
       "prompt": "Which Azure service meets Fabrikam technical requirement to automatically scale a load-balanced pool of identical web VMs in response to patient traffic spikes?",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Azure Virtual Machine Scale Sets (VMSS)",
-          "isCorrect": true
-        },
-        {
-          "id": "opt-2",
-          "text": "Azure Storage Account Containers",
-          "isCorrect": false
-        },
-        {
           "id": "opt-3",
           "text": "Azure Entra ID Tenants",
           "isCorrect": false
@@ -119,6 +109,16 @@
         {
           "id": "opt-4",
           "text": "Azure Resource Locks",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-1",
+          "text": "Azure Virtual Machine Scale Sets (VMSS)",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Azure Storage Account Containers",
           "isCorrect": false
         }
       ],
@@ -131,6 +131,11 @@
       "prompt": "Which tool satisfies Fabrikam requirement for a browser-accessible, pre-authenticated command-line shell to run management scripts without local software installation?",
       "options": [
         {
+          "id": "opt-3",
+          "text": "Windows Notepad",
+          "isCorrect": false
+        },
+        {
           "id": "opt-1",
           "text": "Azure Cloud Shell",
           "isCorrect": true
@@ -138,11 +143,6 @@
         {
           "id": "opt-2",
           "text": "Visual Studio Code Desktop",
-          "isCorrect": false
-        },
-        {
-          "id": "opt-3",
-          "text": "Windows Notepad",
           "isCorrect": false
         },
         {
@@ -160,23 +160,23 @@
       "prompt": "Which TWO advantages will Fabrikam gain by migrating legacy unmanaged VHD disks to Azure Managed Disks? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Automatic Storage Management: Azure manages underlying storage accounts without VHD file limits.",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "High Availability Alignment: Ensures disks for Availability Set VMs are placed on distinct storage Fault Domains.",
           "isCorrect": true
         },
         {
-          "id": "opt-3",
-          "text": "Eliminates all charges for cloud storage.",
+          "id": "opt-4",
+          "text": "Automatically converts Linux VMs into Windows Server 2025.",
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Automatically converts Linux VMs into Windows Server 2025.",
+          "id": "opt-1",
+          "text": "Automatic Storage Management: Azure manages underlying storage accounts without VHD file limits.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Eliminates all charges for cloud storage.",
           "isCorrect": false
         }
       ],
@@ -189,14 +189,9 @@
       "prompt": "Which TWO authentication mechanisms can Fabrikam engineers use to log into Azure CLI? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Interactive web browser authentication using \u0007z login.",
-          "isCorrect": true
-        },
-        {
-          "id": "opt-2",
-          "text": "Automated non-interactive login using Service Principals or Managed Identity in automation scripts.",
-          "isCorrect": true
+          "id": "opt-4",
+          "text": "Sending an SMS text message to a landline phone.",
+          "isCorrect": false
         },
         {
           "id": "opt-3",
@@ -204,9 +199,14 @@
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Sending an SMS text message to a landline phone.",
-          "isCorrect": false
+          "id": "opt-2",
+          "text": "Automated non-interactive login using Service Principals or Managed Identity in automation scripts.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-1",
+          "text": "Interactive web browser authentication using \u0007z login.",
+          "isCorrect": true
         }
       ],
       "explanation": "Azure CLI supports interactive browser logins and non-interactive Service Principal / Managed Identity logins."
@@ -218,23 +218,23 @@
       "prompt": "Which TWO fundamental logical boundaries are provided by an Azure Subscription for Fabrikam environment? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Billing Boundary: Grouping usage metrics and issuing separate invoices.",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "Security & Access Boundary: Scope for applying RBAC permissions and access policies.",
           "isCorrect": true
         },
         {
-          "id": "opt-3",
-          "text": "Hardware RAM allocation boundary for physical datacenter racks.",
+          "id": "opt-4",
+          "text": "Web browser cookie storage boundary for client laptops.",
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Web browser cookie storage boundary for client laptops.",
+          "id": "opt-1",
+          "text": "Billing Boundary: Grouping usage metrics and issuing separate invoices.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Hardware RAM allocation boundary for physical datacenter racks.",
           "isCorrect": false
         }
       ],
@@ -247,9 +247,9 @@
       "prompt": "Which TWO features of Azure Management Groups support Fabrikam multi-subscription governance? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Support hierarchical organizational structures up to 6 levels of depth.",
-          "isCorrect": true
+          "id": "opt-4",
+          "text": "Automatically format client PC hard drives.",
+          "isCorrect": false
         },
         {
           "id": "opt-2",
@@ -257,13 +257,13 @@
           "isCorrect": true
         },
         {
-          "id": "opt-3",
-          "text": "Store raw medical image DICOM files directly on physical disk drives.",
-          "isCorrect": false
+          "id": "opt-1",
+          "text": "Support hierarchical organizational structures up to 6 levels of depth.",
+          "isCorrect": true
         },
         {
-          "id": "opt-4",
-          "text": "Automatically format client PC hard drives.",
+          "id": "opt-3",
+          "text": "Store raw medical image DICOM files directly on physical disk drives.",
           "isCorrect": false
         }
       ],
@@ -305,20 +305,20 @@
       "prompt": "Match each Fabrikam telehealth component to its appropriate Azure VM series.",
       "items": [
         {
-          "id": "item-1",
-          "label": "N-Series"
-        },
-        {
-          "id": "item-2",
-          "label": "L-Series"
-        },
-        {
           "id": "item-3",
           "label": "D-Series"
         },
         {
+          "id": "item-1",
+          "label": "N-Series"
+        },
+        {
           "id": "item-4",
           "label": "B-Series"
+        },
+        {
+          "id": "item-2",
+          "label": "L-Series"
         }
       ],
       "targets": [
@@ -328,9 +328,9 @@
           "correctItemId": "item-1"
         },
         {
-          "id": "target-2",
-          "label": "High-throughput NoSQL Cassandra storage handling real-time vital metrics.",
-          "correctItemId": "item-2"
+          "id": "target-4",
+          "label": "Internal developer sandbox environments with burstable CPU demand.",
+          "correctItemId": "item-4"
         },
         {
           "id": "target-3",
@@ -338,9 +338,9 @@
           "correctItemId": "item-3"
         },
         {
-          "id": "target-4",
-          "label": "Internal developer sandbox environments with burstable CPU demand.",
-          "correctItemId": "item-4"
+          "id": "target-2",
+          "label": "High-throughput NoSQL Cassandra storage handling real-time vital metrics.",
+          "correctItemId": "item-2"
         }
       ],
       "explanation": "N = GPU, L = NVMe NoSQL, D = General Purpose, B = Burstable."
@@ -370,24 +370,24 @@
       ],
       "targets": [
         {
-          "id": "target-1",
-          "label": "Manage virtual machine compute instances.",
-          "correctItemId": "item-1"
-        },
-        {
           "id": "target-2",
           "label": "Manage resource group containers.",
           "correctItemId": "item-2"
         },
         {
-          "id": "target-3",
-          "label": "Manage virtual networks, subnets, and IP addressing.",
-          "correctItemId": "item-3"
-        },
-        {
           "id": "target-4",
           "label": "Manage Blob, File, Queue, and Table storage accounts.",
           "correctItemId": "item-4"
+        },
+        {
+          "id": "target-1",
+          "label": "Manage virtual machine compute instances.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-3",
+          "label": "Manage virtual networks, subnets, and IP addressing.",
+          "correctItemId": "item-3"
         }
       ],
       "explanation": "CLI groups: az vm, az group, az network, az storage."
@@ -399,10 +399,6 @@
       "prompt": "Match each Fabrikam VM deployment model to its SLA uptime guarantee.",
       "items": [
         {
-          "id": "item-1",
-          "label": "99.99% SLA"
-        },
-        {
           "id": "item-2",
           "label": "99.95% SLA"
         },
@@ -411,16 +407,15 @@
           "label": "99.90% SLA"
         },
         {
+          "id": "item-1",
+          "label": "99.99% SLA"
+        },
+        {
           "id": "item-4",
           "label": "Cross-Region DR"
         }
       ],
       "targets": [
-        {
-          "id": "target-1",
-          "label": "Virtual Machines deployed across two or more Availability Zones.",
-          "correctItemId": "item-1"
-        },
         {
           "id": "target-2",
           "label": "Two or more Virtual Machines in an Availability Set.",
@@ -435,6 +430,11 @@
           "id": "target-4",
           "label": "Workload replicated across paired Azure regions 300+ miles apart.",
           "correctItemId": "item-4"
+        },
+        {
+          "id": "target-1",
+          "label": "Virtual Machines deployed across two or more Availability Zones.",
+          "correctItemId": "item-1"
         }
       ],
       "explanation": "AZ = 99.99%, AS = 99.95%, Single Premium SSD = 99.90%, Pair = Cross-Region DR."
@@ -446,12 +446,12 @@
       "prompt": "Match each Azure governance tool to Fabrikam governance objective.",
       "items": [
         {
-          "id": "item-1",
-          "label": "Azure Policy"
-        },
-        {
           "id": "item-2",
           "label": "Azure RBAC"
+        },
+        {
+          "id": "item-1",
+          "label": "Azure Policy"
         },
         {
           "id": "item-3",
@@ -469,14 +469,14 @@
           "correctItemId": "item-1"
         },
         {
-          "id": "target-2",
-          "label": "Assign fine-grained role permissions (Owner, Contributor, Reader) to staff.",
-          "correctItemId": "item-2"
-        },
-        {
           "id": "target-3",
           "label": "Prevent accidental deletion of production medical image storage.",
           "correctItemId": "item-3"
+        },
+        {
+          "id": "target-2",
+          "label": "Assign fine-grained role permissions (Owner, Contributor, Reader) to staff.",
+          "correctItemId": "item-2"
         },
         {
           "id": "target-4",
@@ -493,27 +493,27 @@
       "prompt": "Match each Azure infrastructure component to its architectural function.",
       "items": [
         {
-          "id": "item-1",
-          "label": "Fault Domain"
-        },
-        {
           "id": "item-2",
           "label": "Update Domain"
         },
         {
-          "id": "item-3",
-          "label": "Resource Group"
+          "id": "item-1",
+          "label": "Fault Domain"
         },
         {
           "id": "item-4",
           "label": "Entra ID Tenant"
+        },
+        {
+          "id": "item-3",
+          "label": "Resource Group"
         }
       ],
       "targets": [
         {
-          "id": "target-1",
-          "label": "Hardware rack sharing common power supply and network switch.",
-          "correctItemId": "item-1"
+          "id": "target-4",
+          "label": "Dedicated identity boundary for user accounts and authentication.",
+          "correctItemId": "item-4"
         },
         {
           "id": "target-2",
@@ -526,9 +526,9 @@
           "correctItemId": "item-3"
         },
         {
-          "id": "target-4",
-          "label": "Dedicated identity boundary for user accounts and authentication.",
-          "correctItemId": "item-4"
+          "id": "target-1",
+          "label": "Hardware rack sharing common power supply and network switch.",
+          "correctItemId": "item-1"
         }
       ],
       "explanation": "FD = Rack hardware, UD = Maintenance patch group, RG = Lifecycle, Tenant = Identity."

@@ -14,9 +14,9 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
 
   return (
     <div className="space-y-5">
-      <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
+      <p className="text-base md:text-lg font-bold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
 
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {content.options?.map((opt: any) => {
           const isSelected = selectedOptionId === opt.id;
           const isStruck = qState.strikeouts?.[opt.id];
@@ -26,7 +26,7 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
               <button
                 type="button"
                 onClick={() => toggleStrikeout(question.id, opt.id)}
-                className="text-[11px] font-bold font-mono px-2 py-1 rounded bg-slate-200 text-slate-600 hover:text-rose-700 hover:bg-rose-100 border border-slate-300 transition-colors"
+                className="text-xs font-bold font-mono px-2.5 py-1.5 rounded bg-slate-200 text-slate-600 hover:text-rose-700 hover:bg-rose-100 border border-slate-300 transition-colors"
                 title="Strikeout option"
               >
                 S
@@ -34,7 +34,7 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
 
               <div
                 onClick={() => handleSelect(opt.id)}
-                className={`flex-1 flex items-center gap-3.5 p-3.5 rounded border cursor-pointer transition-all ${
+                className={`flex-1 flex items-center gap-3.5 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   isSelected
                     ? 'bg-sky-100/90 border-ntms-navy text-ntms-navy font-bold shadow-sm ring-2 ring-ntms-blue/40'
                     : 'bg-slate-50 border-slate-300 text-slate-800 hover:border-ntms-blue hover:bg-sky-50/50'
@@ -45,9 +45,9 @@ export const SingleChoiceEngine: React.FC<{ question: Question }> = ({ question 
                   name={`single_${question.id}`}
                   checked={isSelected}
                   onChange={() => handleSelect(opt.id)}
-                  className="w-4 h-4 text-ntms-navy focus:ring-ntms-blue cursor-pointer"
+                  className="w-4 h-4 md:w-5 md:h-5 text-ntms-navy focus:ring-ntms-blue cursor-pointer shrink-0"
                 />
-                <span className="text-sm leading-snug">{opt.text}</span>
+                <span className="text-sm md:text-base leading-snug font-medium">{opt.text}</span>
               </div>
             </div>
           );

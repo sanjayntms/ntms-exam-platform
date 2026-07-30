@@ -15,9 +15,9 @@
       "prompt": "Based on Contoso Technical Requirements, which Virtual Machine series should be selected to host the core in-memory SAP database requiring up to 2 TB of RAM?",
       "options": [
         {
-          "id": "opt-1",
-          "text": "E-Series or M-Series (Memory-Optimized)",
-          "isCorrect": true
+          "id": "opt-3",
+          "text": "B-Series (Burstable CPU)",
+          "isCorrect": false
         },
         {
           "id": "opt-2",
@@ -25,14 +25,14 @@
           "isCorrect": false
         },
         {
-          "id": "opt-3",
-          "text": "B-Series (Burstable CPU)",
-          "isCorrect": false
-        },
-        {
           "id": "opt-4",
           "text": "N-Series (GPU-Enabled)",
           "isCorrect": false
+        },
+        {
+          "id": "opt-1",
+          "text": "E-Series or M-Series (Memory-Optimized)",
+          "isCorrect": true
         }
       ],
       "explanation": "E-Series and M-Series VMs provide high memory-to-CPU ratios ideal for large in-memory databases like SAP HANA."
@@ -44,13 +44,8 @@
       "prompt": "To satisfy Contoso Business Requirement for a 99.99% uptime SLA for core transactional API gateways, how should the Virtual Machines be deployed?",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Across two or more Availability Zones in the same Azure region.",
-          "isCorrect": true
-        },
-        {
-          "id": "opt-2",
-          "text": "Inside a single Availability Set using Standard HDD disks.",
+          "id": "opt-4",
+          "text": "Inside an unmanaged storage account container.",
           "isCorrect": false
         },
         {
@@ -59,8 +54,13 @@
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Inside an unmanaged storage account container.",
+          "id": "opt-1",
+          "text": "Across two or more Availability Zones in the same Azure region.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Inside a single Availability Set using Standard HDD disks.",
           "isCorrect": false
         }
       ],
@@ -73,13 +73,13 @@
       "prompt": "At which architectural level should Contoso apply Azure Policies to guarantee uniform inheritance across all European child subscriptions?",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Management Group Level",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "Resource Group Level",
+          "isCorrect": false
+        },
+        {
+          "id": "opt-4",
+          "text": "Local Client Laptop Level",
           "isCorrect": false
         },
         {
@@ -88,9 +88,9 @@
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Local Client Laptop Level",
-          "isCorrect": false
+          "id": "opt-1",
+          "text": "Management Group Level",
+          "isCorrect": true
         }
       ],
       "explanation": "Management Groups provide a scope of governance above subscriptions, allowing Azure Policy assignments to inherit down the hierarchy."
@@ -102,11 +102,6 @@
       "prompt": "Which Microsoft Infrastructure as Code (IaC) language meets Contoso requirement for automated, declarative environment deployments that compile into ARM templates?",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Bicep",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "Python Scripting",
           "isCorrect": false
@@ -115,6 +110,11 @@
           "id": "opt-3",
           "text": "Bash Shell",
           "isCorrect": false
+        },
+        {
+          "id": "opt-1",
+          "text": "Bicep",
+          "isCorrect": true
         },
         {
           "id": "opt-4",
@@ -131,11 +131,6 @@
       "prompt": "How far apart are paired Azure regions typically located to support Contoso cross-region disaster recovery requirements?",
       "options": [
         {
-          "id": "opt-1",
-          "text": "At least 300 miles apart.",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "10 meters apart.",
           "isCorrect": false
@@ -149,6 +144,11 @@
           "id": "opt-4",
           "text": "Exactly 1 mile apart.",
           "isCorrect": false
+        },
+        {
+          "id": "opt-1",
+          "text": "At least 300 miles apart.",
+          "isCorrect": true
         }
       ],
       "explanation": "Azure Regional Pairs are separated by at least 300 miles where possible to protect against regional outages."
@@ -160,14 +160,14 @@
       "prompt": "Which TWO cost optimization strategies align with Contoso requirements for non-production and production VM workloads? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Using Azure Reserved VM Instances (RI) for 1-year or 3-year production commitments.",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "Using Azure Spot VMs or Burstable B-Series for dev/test environments.",
           "isCorrect": true
+        },
+        {
+          "id": "opt-4",
+          "text": "Deleting the billing account from the Azure portal.",
+          "isCorrect": false
         },
         {
           "id": "opt-3",
@@ -175,9 +175,9 @@
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Deleting the billing account from the Azure portal.",
-          "isCorrect": false
+          "id": "opt-1",
+          "text": "Using Azure Reserved VM Instances (RI) for 1-year or 3-year production commitments.",
+          "isCorrect": true
         }
       ],
       "explanation": "Reserved Instances offer up to 72% savings for production workloads, while Spot/B-Series optimize dev/test costs."
@@ -189,9 +189,9 @@
       "prompt": "When Contoso provisions a new Virtual Machine compute instance, which TWO child resources are automatically created? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Network Interface (NIC) attached to a Virtual Network Subnet.",
-          "isCorrect": true
+          "id": "opt-3",
+          "text": "Physical fiber optic cable delivered to the local office.",
+          "isCorrect": false
         },
         {
           "id": "opt-2",
@@ -199,9 +199,9 @@
           "isCorrect": true
         },
         {
-          "id": "opt-3",
-          "text": "Physical fiber optic cable delivered to the local office.",
-          "isCorrect": false
+          "id": "opt-1",
+          "text": "Network Interface (NIC) attached to a Virtual Network Subnet.",
+          "isCorrect": true
         },
         {
           "id": "opt-4",
@@ -218,23 +218,23 @@
       "prompt": "Which TWO statements correctly describe the central role of Azure Resource Manager (ARM) in Contoso deployment? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Provides a unified management REST API layer for creating, updating, and deleting resources.",
-          "isCorrect": true
-        },
-        {
           "id": "opt-2",
           "text": "Authenticates and routes all requests initiated from Azure Portal, CLI, PowerShell, and Bicep.",
           "isCorrect": true
         },
         {
-          "id": "opt-3",
-          "text": "Serves as an antivirus scanner installed on client laptops.",
+          "id": "opt-4",
+          "text": "Physically manufactures server chassis inside datacenters.",
           "isCorrect": false
         },
         {
-          "id": "opt-4",
-          "text": "Physically manufactures server chassis inside datacenters.",
+          "id": "opt-1",
+          "text": "Provides a unified management REST API layer for creating, updating, and deleting resources.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-3",
+          "text": "Serves as an antivirus scanner installed on client laptops.",
           "isCorrect": false
         }
       ],
@@ -252,14 +252,14 @@
           "isCorrect": true
         },
         {
-          "id": "opt-2",
-          "text": "Protect applications and data from datacenter facility failures.",
-          "isCorrect": true
-        },
-        {
           "id": "opt-3",
           "text": "Require connecting all servers to 4G cellular dongles.",
           "isCorrect": false
+        },
+        {
+          "id": "opt-2",
+          "text": "Protect applications and data from datacenter facility failures.",
+          "isCorrect": true
         },
         {
           "id": "opt-4",
@@ -276,16 +276,6 @@
       "prompt": "Which TWO benefits will Contoso gain by adopting Bicep Infrastructure as Code (IaC)? (Select TWO)",
       "options": [
         {
-          "id": "opt-1",
-          "text": "Idempotency & Consistency: Ensures dev, test, and prod environments remain identical without configuration drift.",
-          "isCorrect": true
-        },
-        {
-          "id": "opt-2",
-          "text": "Automation & Speed: Enables rapid, repeatable deployments integrated into CI/CD DevOps pipelines.",
-          "isCorrect": true
-        },
-        {
           "id": "opt-3",
           "text": "Automatically increases home internet connection speed.",
           "isCorrect": false
@@ -294,6 +284,16 @@
           "id": "opt-4",
           "text": "Eliminates the requirement for user authentication passwords.",
           "isCorrect": false
+        },
+        {
+          "id": "opt-1",
+          "text": "Idempotency & Consistency: Ensures dev, test, and prod environments remain identical without configuration drift.",
+          "isCorrect": true
+        },
+        {
+          "id": "opt-2",
+          "text": "Automation & Speed: Enables rapid, repeatable deployments integrated into CI/CD DevOps pipelines.",
+          "isCorrect": true
         }
       ],
       "explanation": "IaC provides repeatable, automated, consistent environment deployments."
@@ -305,32 +305,27 @@
       "prompt": "Match each Contoso workload requirement to its optimal Azure Virtual Machine family series.",
       "items": [
         {
-          "id": "item-1",
-          "label": "E-Series"
+          "id": "item-3",
+          "label": "B-Series"
         },
         {
           "id": "item-2",
           "label": "F-Series"
         },
         {
-          "id": "item-3",
-          "label": "B-Series"
-        },
-        {
           "id": "item-4",
           "label": "H-Series"
+        },
+        {
+          "id": "item-1",
+          "label": "E-Series"
         }
       ],
       "targets": [
         {
-          "id": "target-1",
-          "label": "SAP HANA in-memory database requiring up to 2 TB of RAM.",
-          "correctItemId": "item-1"
-        },
-        {
-          "id": "target-2",
-          "label": "High-speed batch calculation engine requiring fast clock speed CPUs.",
-          "correctItemId": "item-2"
+          "id": "target-4",
+          "label": "High-performance computing scientific simulations requiring InfiniBand networking.",
+          "correctItemId": "item-4"
         },
         {
           "id": "target-3",
@@ -338,9 +333,14 @@
           "correctItemId": "item-3"
         },
         {
-          "id": "target-4",
-          "label": "High-performance computing scientific simulations requiring InfiniBand networking.",
-          "correctItemId": "item-4"
+          "id": "target-2",
+          "label": "High-speed batch calculation engine requiring fast clock speed CPUs.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-1",
+          "label": "SAP HANA in-memory database requiring up to 2 TB of RAM.",
+          "correctItemId": "item-1"
         }
       ],
       "explanation": "E = Memory Optimized, F = Compute Optimized, B = Burstable, H = HPC."
@@ -352,33 +352,23 @@
       "prompt": "Match each Managed Disk storage tier to Contoso target database workload.",
       "items": [
         {
-          "id": "item-1",
-          "label": "Ultra Disk"
+          "id": "item-4",
+          "label": "Standard HDD"
         },
         {
           "id": "item-2",
           "label": "Premium SSD"
         },
         {
-          "id": "item-3",
-          "label": "Standard SSD"
+          "id": "item-1",
+          "label": "Ultra Disk"
         },
         {
-          "id": "item-4",
-          "label": "Standard HDD"
+          "id": "item-3",
+          "label": "Standard SSD"
         }
       ],
       "targets": [
-        {
-          "id": "target-1",
-          "label": "Sub-millisecond latency database storage for mission-critical transactional engines.",
-          "correctItemId": "item-1"
-        },
-        {
-          "id": "target-2",
-          "label": "Production SQL Server databases requiring high IOPS and single-digit ms latency.",
-          "correctItemId": "item-2"
-        },
         {
           "id": "target-3",
           "label": "Light dev/test web server OS disks.",
@@ -388,6 +378,16 @@
           "id": "target-4",
           "label": "Non-critical cold backup files and archive storage.",
           "correctItemId": "item-4"
+        },
+        {
+          "id": "target-2",
+          "label": "Production SQL Server databases requiring high IOPS and single-digit ms latency.",
+          "correctItemId": "item-2"
+        },
+        {
+          "id": "target-1",
+          "label": "Sub-millisecond latency database storage for mission-critical transactional engines.",
+          "correctItemId": "item-1"
         }
       ],
       "explanation": "Ultra Disk = sub-ms; Premium SSD = Production SQL; Standard SSD = Dev/Test; Standard HDD = Cold backup."
@@ -407,24 +407,24 @@
           "label": "Azure CLI"
         },
         {
-          "id": "item-3",
-          "label": "Azure PowerShell"
-        },
-        {
           "id": "item-4",
           "label": "Bicep Templates"
+        },
+        {
+          "id": "item-3",
+          "label": "Azure PowerShell"
         }
       ],
       "targets": [
         {
+          "id": "target-4",
+          "label": "Declarative IaC files integrated into CI/CD pipelines.",
+          "correctItemId": "item-4"
+        },
+        {
           "id": "target-1",
           "label": "Web-based GUI console for visual monitoring and dashboard customization.",
           "correctItemId": "item-1"
-        },
-        {
-          "id": "target-2",
-          "label": "Cross-platform CLI tool using az <group> <action> commands.",
-          "correctItemId": "item-2"
         },
         {
           "id": "target-3",
@@ -432,9 +432,9 @@
           "correctItemId": "item-3"
         },
         {
-          "id": "target-4",
-          "label": "Declarative IaC files integrated into CI/CD pipelines.",
-          "correctItemId": "item-4"
+          "id": "target-2",
+          "label": "Cross-platform CLI tool using az <group> <action> commands.",
+          "correctItemId": "item-2"
         }
       ],
       "explanation": "Portal = GUI, CLI = az commands, PowerShell = Verb-Noun, Bicep = Declarative IaC."
@@ -446,42 +446,42 @@
       "prompt": "Match each physical architecture boundary to its definition.",
       "items": [
         {
-          "id": "item-1",
-          "label": "Azure Region"
-        },
-        {
           "id": "item-2",
           "label": "Availability Zone"
+        },
+        {
+          "id": "item-4",
+          "label": "Geography"
         },
         {
           "id": "item-3",
           "label": "Regional Pair"
         },
         {
-          "id": "item-4",
-          "label": "Geography"
+          "id": "item-1",
+          "label": "Azure Region"
         }
       ],
       "targets": [
-        {
-          "id": "target-1",
-          "label": "Latency-defined perimeter containing datacenters linked by a dedicated fiber network.",
-          "correctItemId": "item-1"
-        },
         {
           "id": "target-2",
           "label": "Physically isolated datacenter with independent power, cooling, and networking.",
           "correctItemId": "item-2"
         },
         {
-          "id": "target-3",
-          "label": "Two regions in the same geography paired 300+ miles apart for DR.",
-          "correctItemId": "item-3"
-        },
-        {
           "id": "target-4",
           "label": "Discrete market containing regions that preserve data residency compliance.",
           "correctItemId": "item-4"
+        },
+        {
+          "id": "target-1",
+          "label": "Latency-defined perimeter containing datacenters linked by a dedicated fiber network.",
+          "correctItemId": "item-1"
+        },
+        {
+          "id": "target-3",
+          "label": "Two regions in the same geography paired 300+ miles apart for DR.",
+          "correctItemId": "item-3"
         }
       ],
       "explanation": "Region, Zone, Pair, Geography physical hierarchy."
@@ -493,20 +493,20 @@
       "prompt": "Match each Azure Resource Lock type to its enforcement behavior.",
       "items": [
         {
-          "id": "item-1",
-          "label": "CanNotDelete Lock"
-        },
-        {
-          "id": "item-2",
-          "label": "ReadOnly Lock"
+          "id": "item-4",
+          "label": "Subscription Lock"
         },
         {
           "id": "item-3",
           "label": "Management Group Lock"
         },
         {
-          "id": "item-4",
-          "label": "Subscription Lock"
+          "id": "item-2",
+          "label": "ReadOnly Lock"
+        },
+        {
+          "id": "item-1",
+          "label": "CanNotDelete Lock"
         }
       ],
       "targets": [

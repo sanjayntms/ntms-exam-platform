@@ -45,16 +45,16 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
 
   return (
     <div className="space-y-6">
-      <p className="text-base font-semibold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
+      <p className="text-base md:text-lg font-bold text-slate-900 leading-relaxed border-b border-slate-200 pb-3">{content.prompt}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Source Drag Pool */}
-        <div className="bg-slate-50 p-4 rounded border border-slate-300 space-y-3 shadow-sm">
+        <div className="bg-slate-50 p-4 rounded-lg border border-slate-300 space-y-3 shadow-sm">
           <div className="flex justify-between items-center border-b border-slate-200 pb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-ntms-navy font-mono flex items-center gap-1.5">
-              <Move className="w-3.5 h-3.5 text-ntms-blue" /> Drag Items Pool
+            <span className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-ntms-navy font-mono flex items-center gap-1.5">
+              <Move className="w-4 h-4 text-ntms-blue" /> Drag Items Pool
             </span>
-            <span className="text-[10px] text-slate-500">Drag to target target on right</span>
+            <span className="text-xs text-slate-500 font-medium">Drag to target on right</span>
           </div>
 
           <div className="flex flex-col gap-2.5">
@@ -65,14 +65,14 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                   key={item.id}
                   draggable
                   onDragStart={(e) => handleDragStart(e, item.id)}
-                  className={`p-3 rounded border text-xs font-bold font-mono cursor-grab active:cursor-grabbing transition-all flex items-center justify-between shadow-sm ${
+                  className={`p-3.5 rounded-md border text-sm font-bold font-mono cursor-grab active:cursor-grabbing transition-all flex items-center justify-between shadow-sm ${
                     isAssigned
                       ? 'bg-slate-200 border-slate-300 text-slate-500 opacity-60'
                       : 'bg-white border-sky-300 text-ntms-navy hover:border-ntms-blue hover:shadow'
                   }`}
                 >
                   <span>{item.label}</span>
-                  <Move className="w-3.5 h-3.5 text-slate-400" />
+                  <Move className="w-4 h-4 text-slate-400" />
                 </div>
               );
             })}
@@ -80,8 +80,8 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
         </div>
 
         {/* Target Drop Zone */}
-        <div className="bg-slate-50 p-4 rounded border border-slate-300 space-y-3 shadow-sm">
-          <div className="text-xs font-bold uppercase tracking-wider text-ntms-navy font-mono border-b border-slate-200 pb-2">
+        <div className="bg-slate-50 p-4 rounded-lg border border-slate-300 space-y-3 shadow-sm">
+          <div className="text-xs md:text-sm font-extrabold uppercase tracking-wider text-ntms-navy font-mono border-b border-slate-200 pb-2">
             Target Drop Placeholders
           </div>
 
@@ -95,13 +95,13 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                   key={target.id}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, target.id)}
-                  className={`p-3 rounded border transition-all ${
+                  className={`p-3.5 rounded-md border-2 transition-all ${
                     assignedItem
                       ? 'bg-sky-100/90 border-ntms-navy shadow-sm'
                       : 'bg-white border-dashed border-slate-400 hover:border-ntms-blue'
                   }`}
                 >
-                  <div className="text-xs font-bold text-slate-800 mb-1 flex justify-between items-center">
+                  <div className="text-sm md:text-base font-bold text-slate-900 mb-1.5 flex justify-between items-center">
                     <span>{target.label}</span>
                     {assignedItem && (
                       <button
@@ -110,13 +110,13 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                         className="text-slate-500 hover:text-rose-700"
                         title="Clear target assignment"
                       >
-                        <RotateCcw className="w-3.5 h-3.5" />
+                        <RotateCcw className="w-4 h-4" />
                       </button>
                     )}
                   </div>
 
                   {assignedItem ? (
-                    <div className="p-2 bg-white rounded border border-ntms-blue text-xs font-bold font-mono text-ntms-navy flex items-center justify-between">
+                    <div className="p-2.5 bg-white rounded border border-ntms-blue text-sm font-bold font-mono text-ntms-navy flex items-center justify-between">
                       <span>{assignedItem.label}</span>
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     </div>
@@ -124,7 +124,7 @@ export const DragDropEngine: React.FC<{ question: Question }> = ({ question }) =
                     <select
                       value={userTargets[target.id] || ''}
                       onChange={(e) => handleAssign(target.id, e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs font-bold text-slate-700 focus:border-ntms-blue focus:outline-none font-mono"
+                      className="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs md:text-sm font-bold text-slate-700 focus:border-ntms-blue focus:outline-none font-mono"
                     >
                       <option value="">-- Drag item here or select --</option>
                       {content.items?.map((item: any) => (
