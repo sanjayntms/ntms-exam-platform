@@ -2278,17 +2278,17 @@ async function main() {
         totalQuestionsConfig: 50,
         creatorId: creatorUser.id,
         status: 'PUBLISHED',
-        isGloballyUnlocked: true,
+        isGloballyUnlocked: false,
       },
     });
 
-    // Parent Room
+    // Parent Room (CLOSED by default - candidates cannot see/launch unless allowed by Admin)
     await prisma.examRoom.create({
       data: {
         roomCode: 'HALL-TERRAFORM',
         title: 'HashiCorp Terraform Complete Certification Hall',
         examId: parentTfExam.id,
-        status: 'OPEN',
+        status: 'CLOSED',
         allowReview: true,
         createdBy: creatorUser.email,
       },
@@ -2337,18 +2337,18 @@ async function main() {
           totalQuestionsConfig: questions.length,
           creatorId: creatorUser.id,
           status: 'PUBLISHED',
-          isGloballyUnlocked: true,
+          isGloballyUnlocked: false,
         },
       });
 
-      // 2. Create Sub-Exam Dedicated Room
+      // 2. Create Sub-Exam Dedicated Room (CLOSED by default)
       const roomCode = `HALL-TF-${domain_code}`;
       await prisma.examRoom.create({
         data: {
           roomCode,
           title: `HashiCorp Terraform ${domain_code} Proctored Hall`,
           examId: subExam.id,
-          status: 'OPEN',
+          status: 'CLOSED',
           allowReview: true,
           createdBy: creatorUser.email,
         },
