@@ -66,11 +66,12 @@ export class ExamEngineService {
 
     // Sample questions based on requestedQuestionCount or default to all questions
     const targetCount = requestedQuestionCount && requestedQuestionCount > 0 ? requestedQuestionCount : 0;
-    const { sampledExam, selectedQuestionIds, totalQuestions } = this.sampleQuestionsForExam(exam, targetCount);
+    const { sampledExam, selectedQuestionIds, optionOrders, totalQuestions } = this.sampleQuestionsForExam(exam, targetCount);
 
     const initialAnswersObj = {
       _meta: {
         selectedQuestionIds,
+        optionOrders,
         requestedQuestionCount: targetCount > 0 ? targetCount : totalQuestions,
       },
     };
@@ -93,27 +94,60 @@ export class ExamEngineService {
   }
 
   private sampleQuestionsForExam(exam: any, requestedCount: number) {
-    const allSectionQuestions: { sectionId: string; question: any; sq: any }[] = [];
-    exam.sections.forEach((sec: any) => {
-      sec.questions.forEach((sq: any) => {
-        if (sq.question) {
-          allSectionQuestions.push({ sectionId: sec.id, question: sq.question, sq });
-        }
-      });
-    });
+    const optionOrders: Record<string, string[]> = {};
 
-    const totalAvailable = allSectionQuestions.length;
+    const processQuestionAndShuffleOptions = (sq: any) => {
+      if (!sq || !sq.question || !sq.question.content) return sq;
+      try {
+        const q = sq.question;
+        const content = typeof q.content === 'string' ? JSON.parse(q.content) : q.content;
+        if (Array.isArray(content.options) && content.options.length > 0) {
+          const shuffledOpts = shuffleArray(content.options);
+          optionOrders[q.id] = shuffledOpts.map((o: any) => o.id);
+          content.options = shuffledOpts;
+        }
+        return {
+          ...sq,
+          question: {
+            ...q,
+            content: JSON.stringify(content),
+          },
+        };
+      } catch {
+        return sq;
+      }
+    };
+
+    const sampledSections: any[] = [];
+    const selectedQuestionIdsSet = new Set<string>();
+
+    const totalAvailable = exam.sections.reduce((acc: number, sec: any) => acc + (sec.questions?.length || 0), 0);
+
     if (requestedCount <= 0 || requestedCount >= totalAvailable) {
-      const allSelectedIds = allSectionQuestions.map((item) => item.question.id);
+      // Full exam: shuffle questions within each section and shuffle options
+      exam.sections.forEach((sec: any) => {
+        const secQuestions = sec.questions ? shuffleArray(sec.questions) : [];
+        const processedQs = secQuestions.map((sq: any) => processQuestionAndShuffleOptions(sq));
+        processedQs.forEach((sq: any) => {
+          if (sq.question) selectedQuestionIdsSet.add(sq.question.id);
+        });
+        sampledSections.push({
+          ...sec,
+          questions: processedQs,
+        });
+      });
+
       return {
-        sampledExam: exam,
-        selectedQuestionIds: allSelectedIds,
+        sampledExam: {
+          ...exam,
+          sections: sampledSections,
+        },
+        selectedQuestionIds: Array.from(selectedQuestionIdsSet),
+        optionOrders,
         totalQuestions: totalAvailable,
       };
     }
 
-    const selectedQuestionIdsSet = new Set<string>();
-    const sampledSections: any[] = [];
     const sectionQuotas: { section: any; quota: number }[] = [];
 
     exam.sections.forEach((sec: any) => {
@@ -169,29 +203,26 @@ export class ExamEngineService {
         for (const [, group] of Object.entries(csGroups)) {
           if (picked >= quota) break;
           const take = Math.min(quota - picked, group.length);
-          selectedForSec.push(...group.slice(0, take));
+          selectedForSec.push(...shuffleArray(group.slice(0, take)));
           picked += take;
         }
 
         if (picked < quota && nonCs.length > 0) {
-          selectedForSec.push(...nonCs.slice(0, quota - picked));
+          selectedForSec.push(...shuffleArray(nonCs.slice(0, quota - picked)));
         }
       } else {
-        const copy = [...secQuestions];
-        for (let i = copy.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [copy[i], copy[j]] = [copy[j], copy[i]];
-        }
-        selectedForSec = copy.slice(0, quota);
+        selectedForSec = shuffleArray(secQuestions).slice(0, quota);
       }
 
-      selectedForSec.forEach((sq: any) => {
+      const processedQs = selectedForSec.map((sq: any) => processQuestionAndShuffleOptions(sq));
+
+      processedQs.forEach((sq: any) => {
         if (sq.question) selectedQuestionIdsSet.add(sq.question.id);
       });
 
       sampledSections.push({
         ...section,
-        questions: selectedForSec,
+        questions: processedQs,
       });
     }
 
@@ -204,6 +235,7 @@ export class ExamEngineService {
     return {
       sampledExam,
       selectedQuestionIds,
+      optionOrders,
       totalQuestions: selectedQuestionIds.length,
     };
   }

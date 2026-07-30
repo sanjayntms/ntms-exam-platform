@@ -40,13 +40,17 @@ export class AttemptController {
       const attempt = await this.uow.attempts.findById(req.params.id);
       if (!attempt) return res.status(404).json({ error: 'Attempt not found' });
 
-      // Check if attempt has custom sampled questions
+      // Check if attempt has custom sampled questions & option orders
       let sampledExam: any = null;
       let selectedQuestionIds: string[] = [];
+      let optionOrders: Record<string, string[]> = {};
       try {
         const parsedAnswers = JSON.parse(attempt.answers || '{}');
         if (parsedAnswers._meta?.selectedQuestionIds) {
           selectedQuestionIds = parsedAnswers._meta.selectedQuestionIds;
+        }
+        if (parsedAnswers._meta?.optionOrders) {
+          optionOrders = parsedAnswers._meta.optionOrders;
         }
       } catch {}
 
@@ -54,10 +58,44 @@ export class AttemptController {
         const fullExam = await this.uow.exams.findById(attempt.examId);
         if (fullExam) {
           const filteredSections = fullExam.sections
-            .map((sec: any) => ({
-              ...sec,
-              questions: sec.questions.filter((sq: any) => selectedQuestionIds.includes(sq.question.id)),
-            }))
+            .map((sec: any) => {
+              const matchedQs = sec.questions.filter((sq: any) => selectedQuestionIds.includes(sq.question.id));
+              const sortedQs = matchedQs
+                .sort((a: any, b: any) => {
+                  const idxA = selectedQuestionIds.indexOf(a.question.id);
+                  const idxB = selectedQuestionIds.indexOf(b.question.id);
+                  return (idxA !== -1 ? idxA : 9999) - (idxB !== -1 ? idxB : 9999);
+                })
+                .map((sq: any) => {
+                  const q = sq.question;
+                  if (!q || !q.content) return sq;
+                  try {
+                    const content = typeof q.content === 'string' ? JSON.parse(q.content) : q.content;
+                    const savedOrder = optionOrders[q.id];
+                    if (Array.isArray(content.options) && Array.isArray(savedOrder) && savedOrder.length > 0) {
+                      content.options.sort((a: any, b: any) => {
+                        const idxA = savedOrder.indexOf(a.id);
+                        const idxB = savedOrder.indexOf(b.id);
+                        return (idxA !== -1 ? idxA : 9999) - (idxB !== -1 ? idxB : 9999);
+                      });
+                    }
+                    return {
+                      ...sq,
+                      question: {
+                        ...q,
+                        content: JSON.stringify(content),
+                      },
+                    };
+                  } catch {
+                    return sq;
+                  }
+                });
+
+              return {
+                ...sec,
+                questions: sortedQs,
+              };
+            })
             .filter((sec: any) => sec.questions.length > 0);
 
           sampledExam = {
