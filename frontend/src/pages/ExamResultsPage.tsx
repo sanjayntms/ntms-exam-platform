@@ -194,7 +194,14 @@ export const ExamResultsPage: React.FC = () => {
     const rawPct = attempt.scorePercentage || 0;
     let domains: string[] = [];
 
-    if (code.includes('AZ-305') || title.includes('SOLUTIONS ARCHITECT')) {
+    if (code.includes('AZURE-BASICS') || title.includes('AZURE BASICS')) {
+      domains = [
+        'Azure Physical & Logical Architecture (26%)',
+        'Azure High Availability, Resiliency & Redundancy (24%)',
+        'Azure Resource Management, Tools & Infrastructure as Code (24%)',
+        'Azure Compute, Virtual Machine Families & Workloads (26%)',
+      ];
+    } else if (code.includes('AZ-305') || title.includes('SOLUTIONS ARCHITECT')) {
       domains = [
         'Design Identity, Governance, and Monitoring Solutions (25-30%)',
         'Design Data Storage Solutions (25-30%)',

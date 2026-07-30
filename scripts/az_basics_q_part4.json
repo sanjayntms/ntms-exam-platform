@@ -1,0 +1,415 @@
+[
+  {
+    "code": "AZ-BASICS-Q038",
+    "title": "Burstable CPU B-Series VM Family",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which Azure Virtual Machine family uses a CPU credit model that accumulates credits during low usage and bursts CPU performance to 100% during traffic spikes, making it ideal for web servers and development environments?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "B-Series (Burstable CPU)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "M-Series (Memory Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "F-Series (Compute Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "H-Series (High Performance Computing)",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "B-Series VMs accumulate CPU credits during baseline usage and burst up to 100% vCPU during high traffic periods."
+  },
+  {
+    "code": "AZ-BASICS-Q039",
+    "title": "General Purpose D-Series VM Family",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which Azure VM series provides a balanced CPU-to-memory ratio suitable for enterprise applications, relational databases, and medium-traffic web servers?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "D-Series (General Purpose)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "N-Series (GPU Enabled)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "L-Series (Storage Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "A-Series (Entry Level Basic)",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "D-Series offers balanced vCPU and RAM configuration for general-purpose server workloads."
+  },
+  {
+    "code": "AZ-BASICS-Q040",
+    "title": "Memory Optimized E-Series & M-Series VM Families",
+    "type": "SINGLE_CHOICE",
+    "prompt": "You are deploying a large in-memory SAP HANA or SQL Server database requiring up to 4 TB of RAM. Which VM series family should you select?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "E-Series or M-Series (Memory Optimized)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "F-Series (Compute Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "B-Series (Burstable)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "N-Series (GPU Enabled)",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "E-Series and M-Series VMs feature high memory-to-core ratios designed for heavy in-memory database engines like SAP HANA and enterprise SQL Server."
+  },
+  {
+    "code": "AZ-BASICS-Q041",
+    "title": "Compute Optimized F-Series VM Family",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which Azure VM series features a high CPU-to-memory ratio with fast processor clock speeds, making it ideal for batch processing, web analytics, and gaming servers?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "F-Series (Compute Optimized)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "L-Series (Storage Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "E-Series (Memory Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "B-Series (Burstable)",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "F-Series VMs have high CPU-to-memory ratios and high clock speed cores for CPU-bound computations."
+  },
+  {
+    "code": "AZ-BASICS-Q042",
+    "title": "Storage Optimized L-Series VM Family",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which Azure VM family includes direct-attached local NVMe storage providing high disk throughput and low latency for NoSQL databases (e.g. Cassandra, MongoDB) and data warehousing?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "L-Series (Storage Optimized)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "D-Series (General Purpose)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "N-Series (GPU Enabled)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "B-Series (Burstable)",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Lsv2/Lsv3 Series VMs provide high-throughput, low latency, direct-mapped local NVMe storage."
+  },
+  {
+    "code": "AZ-BASICS-Q043",
+    "title": "High Performance Computing H-Series VM Family",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which Azure VM series features InfiniBand networking for ultra-low latency inter-node communication required by High-Performance Computing (HPC) workloads, scientific simulations, and weather modeling?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "H-Series (HPC High Performance Computing)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "A-Series (Basic Entry)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "B-Series (Burstable)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "D-Series (General Purpose)",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "H-Series VMs feature RDMA InfiniBand networking specifically engineered for complex parallel scientific and HPC simulations."
+  },
+  {
+    "code": "AZ-BASICS-Q044",
+    "title": "GPU Enabled N-Series VM Family",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which Azure VM family provides NVIDIA GPU acceleration for deep learning, AI model training, graphic rendering, and video editing?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "N-Series (GPU Enabled)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "E-Series (Memory Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "L-Series (Storage Optimized)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "D-Series (General Purpose)",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "N-Series (NC, ND, NV) VMs are equipped with NVIDIA GPUs for AI/ML model training, CAD rendering, and graphic acceleration."
+  },
+  {
+    "code": "AZ-BASICS-Q045",
+    "title": "Matching Azure VM Series to Workload Requirement",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure Virtual Machine family series to its intended workload optimization target.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "B-Series"
+      },
+      {
+        "id": "item-2",
+        "label": "E-Series"
+      },
+      {
+        "id": "item-3",
+        "label": "F-Series"
+      },
+      {
+        "id": "item-4",
+        "label": "H-Series"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Burstable CPU workload (e.g. low-traffic web servers, dev/test environments).",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "Memory-optimized workload (e.g. SAP HANA, heavy relational SQL databases).",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "Compute-optimized workload (e.g. high-speed batch processing, web analytics).",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "High-performance computing workload (e.g. InfiniBand scientific simulations).",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "VM Series: B = Burstable, E = Memory, F = Compute, H = HPC."
+  },
+  {
+    "code": "AZ-BASICS-Q046",
+    "title": "Components Created During VM Provisioning",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "When creating a Virtual Machine in Azure, which additional child resources are typically provisioned automatically alongside the VM compute instance? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Network Interface (NIC) connected to a Virtual Network Subnet.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Managed OS Disk (Premium SSD, Standard SSD, or HDD) storing the operating system.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "A physical optical fiber cable delivered to the customer office.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "An Azure Synapse Analytics dedicated SQL pool.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Deploying an Azure VM provisions underlying resources: Virtual Machine, Network Interface (NIC), OS Disk, Network Security Group (NSG), and optional Public IP."
+  },
+  {
+    "code": "AZ-BASICS-Q047",
+    "title": "Managed Disks vs Unmanaged Disks",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What is the primary benefit of using Azure Managed Disks over legacy Unmanaged Disks?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Azure automatically handles storage account creation, scaling, and fault domain alignment without manual VHD file management.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Managed Disks eliminate the need to pay for any cloud storage usage.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Managed Disks convert all Windows VMs into Mac computers.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Managed Disks bypass all password requirements.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Managed Disks are managed by Azure behind the scenes, eliminating storage account limits and ensuring disks for Availability Set VMs are placed on distinct storage Fault Domains."
+  },
+  {
+    "code": "AZ-BASICS-Q048",
+    "title": "Matching Azure Disk Storage Tiers",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure Managed Disk storage tier to its performance and workload profile.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "Ultra Disk"
+      },
+      {
+        "id": "item-2",
+        "label": "Premium SSD"
+      },
+      {
+        "id": "item-3",
+        "label": "Standard SSD"
+      },
+      {
+        "id": "item-4",
+        "label": "Standard HDD"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Top-tier sub-millisecond latency storage for mission-critical I/O intensive databases (up to 160,000 IOPS).",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "High-performance SSD storage for production workloads and SQL databases requiring single-digit ms latency.",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "Cost-effective SSD storage for entry-level web servers, light workloads, and dev/test environments.",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "Magnetic platter storage suitable for non-critical backup data and infrequently accessed storage.",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "Disk Tiers: Ultra Disk (highest IOPS/sub-ms) -> Premium SSD (production) -> Standard SSD (dev/test) -> Standard HDD (backups)."
+  },
+  {
+    "code": "AZ-BASICS-Q049",
+    "title": "Azure VM Scale Sets (VMSS) Purpose",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What is Azure Virtual Machine Scale Sets (VMSS)?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "An Azure compute resource that lets you create and manage a group of identical, load-balanced VMs that automatically scale in response to demand.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "A physical scale used to weigh server racks inside datacenters.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "A billing calculator for predicting Azure expenses.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "A backup tool for printing hard copies of database tables.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "VM Scale Sets allow auto-scaling identical VM instances up or down based on CPU, memory, or custom metrics, integrated with Load Balancers."
+  },
+  {
+    "code": "AZ-BASICS-Q050",
+    "title": "Azure VM Cost Optimization Strategies",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "Which of the following strategies can organizations implement to reduce Azure Virtual Machine compute costs? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Azure Reserved VM Instances (RI): Committing to 1-year or 3-year plans for up to 72% cost savings compared to pay-as-you-go pricing.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Azure Spot VMs: Utilizing unused Azure compute capacity at steep discounts for interruptible workloads.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Running all VMs at 100% CPU utilization 24 hours a day without stopping.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Deleting the billing address from the Azure portal user account.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Reserved Instances (1-3 yr commitment) and Spot VMs (interruptible capacity) provide significant cost reductions for Azure compute."
+  }
+]

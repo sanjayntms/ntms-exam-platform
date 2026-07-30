@@ -1,0 +1,415 @@
+[
+  {
+    "code": "AZ-BASICS-Q001",
+    "title": "Physical vs Logical Architecture Comparison",
+    "type": "SINGLE_CHOICE",
+    "prompt": "According to Azure architectural principles, how is physical architecture distinguished from logical architecture?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Physical architecture defines where Azure exists physically (datacenters, land, power), while logical architecture defines how resources are organized and managed (subscriptions, resource groups).",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Physical architecture manages user passwords, while logical architecture connects optical fiber cables between cities.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Physical architecture refers exclusively to virtual machine operating systems, while logical architecture refers to network security groups.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Physical architecture is configured via JSON templates, while logical architecture cannot be modified once created.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Physical architecture represents tangible assets (buildings, servers, network cabling, power), while logical architecture represents management boundaries (Tenants, Management Groups, Subscriptions, Resource Groups)."
+  },
+  {
+    "code": "AZ-BASICS-Q002",
+    "title": "Azure Region Definition",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What is the official definition of an Azure Region?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "A geographical area containing one or more datacenters connected through a dedicated, latency-defined network perimeter.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "A single standalone physical server rack located in a customer data center.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "A collection of Entra ID user accounts spanning an entire country.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "A software container hosting multiple Docker microservices.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "An Azure Region is a set of datacenters deployed within a latency-defined perimeter and connected through a dedicated regional low-latency network."
+  },
+  {
+    "code": "AZ-BASICS-Q003",
+    "title": "Key Benefits of Azure Regions",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "What are the main benefits of deploying workloads across Azure Regions? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Data Residency and Compliance: Enables organizations to keep data close to users while adhering to local privacy laws.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Reduced Network Latency: Allows positioning applications physically closer to end users to improve response times.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Elimination of all Azure subscription billing charges.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Automatic conversion of Windows VMs into Linux containers without configuration.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Azure Regions provide local data residency compliance and reduced network latency by placing cloud resources near users."
+  },
+  {
+    "code": "AZ-BASICS-Q004",
+    "title": "Availability Zone Definition",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which statement accurately describes an Azure Availability Zone?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "A physically separate datacenter location within an Azure region equipped with independent power, cooling, and networking infrastructure.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "A virtual subnet within an Azure Virtual Network used for database isolation.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "A backup copy of data saved automatically in a secondary country.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "A security group rule that blocks incoming HTTP requests.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Availability Zones are unique physical locations within an Azure region. Each zone is made up of one or more datacenters with independent power, cooling, and networking."
+  },
+  {
+    "code": "AZ-BASICS-Q005",
+    "title": "Matching Azure Physical Infrastructure Components",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure physical infrastructure component to its correct architectural description.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "Azure Region"
+      },
+      {
+        "id": "item-2",
+        "label": "Availability Zone"
+      },
+      {
+        "id": "item-3",
+        "label": "Regional Pair"
+      },
+      {
+        "id": "item-4",
+        "label": "Geography"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Latency-defined perimeter containing datacenters connected via dedicated low-latency fiber network.",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "Physically isolated datacenter facility within a region with independent power, cooling, and networking.",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "Two regions in the same geography paired at least 300 miles apart for disaster recovery.",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "A discrete market (typically containing two or more regions) that preserves data residency and compliance boundaries.",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "Azure Physical Architecture builds from Datacenters -> Availability Zones -> Regions -> Regional Pairs -> Geographies."
+  },
+  {
+    "code": "AZ-BASICS-Q006",
+    "title": "Azure Regional Pairs Distance & DR",
+    "type": "SINGLE_CHOICE",
+    "prompt": "How far apart are paired Azure Regions typically located, and why?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "At least 300 miles apart, to prevent a single natural disaster or regional outage from affecting both paired regions simultaneously.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "10 meters apart, to maximize cable connection speeds between racks.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Always in different continents, to enforce international border security policies.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Exactly 5 miles apart, to allow wireless microwave synchronization.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Regional Pairs are separated by at least 300 miles (where possible) to protect against regional disasters, power grid failures, or natural events."
+  },
+  {
+    "code": "AZ-BASICS-Q007",
+    "title": "Azure Entra ID Tenant Scope",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What represents the top-level logical boundary for organization identity, users, and authentication in Azure?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Azure Entra ID (Azure AD) Tenant",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Resource Group",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Virtual Network Subnet",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Storage Account Container",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "An Entra ID Tenant represents a dedicated, isolated instance of Entra ID that an organization receives when signing up for Microsoft cloud services."
+  },
+  {
+    "code": "AZ-BASICS-Q008",
+    "title": "Management Group Capabilities",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "Which of the following statements regarding Azure Management Groups are true? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Management Groups provide a scope of governance above subscriptions, allowing policy assignments to inherit down the tree.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Management Group hierarchies can support up to 6 levels of depth for enterprise organizational modeling.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Management Groups store virtual machine OS hard drive disk files directly.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Deleting a Management Group permanently erases all underlying Virtual Machines instantly without recovery.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Management Groups allow hierarchical organization of subscriptions (up to 6 levels deep) to apply Azure Policy and RBAC rules uniformly."
+  },
+  {
+    "code": "AZ-BASICS-Q009",
+    "title": "Azure Subscriptions as Boundaries",
+    "type": "SINGLE_CHOICE",
+    "prompt": "An Azure Subscription acts as a fundamental logical boundary for which two key functions?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Billing Boundary (generating separate invoices/costs) and Access Control / Security Boundary.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Hardware RAM allocation and CPU clock speed regulation.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Physical fiber optic cable routing and diesel generator fueling schedules.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Web browser cookie storage and DNS domain registration.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Subscriptions serve as a billing container (where usage charges are grouped) and a management security boundary for RBAC and quotas."
+  },
+  {
+    "code": "AZ-BASICS-Q010",
+    "title": "Matching Azure Logical Hierarchy Levels",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure logical hierarchy scope to its correct management function.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "Management Group"
+      },
+      {
+        "id": "item-2",
+        "label": "Subscription"
+      },
+      {
+        "id": "item-3",
+        "label": "Resource Group"
+      },
+      {
+        "id": "item-4",
+        "label": "Resource"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Highest organizational scope used to manage governance and policy compliance across multiple subscriptions.",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "Logical container providing billing separation and top-level administration boundary.",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "Logical container that holds related Azure assets deployed, managed, and deleted as a lifecycle unit.",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "Individual manageable item in Azure, such as a Virtual Machine, Storage Account, or SQL Database.",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "Azure Logical Hierarchy: Management Groups -> Subscriptions -> Resource Groups -> Resources."
+  },
+  {
+    "code": "AZ-BASICS-Q011",
+    "title": "Resource Group Rules & Properties",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which rule applies to Azure Resource Groups?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "A resource can exist in only one Resource Group at a time.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Deleting a Resource Group retains all child Virtual Machines running indefinitely.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "All resources in a Resource Group must be located in the exact same physical region as the Resource Group itself.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Resource Groups can be nested inside other Resource Groups up to 10 levels deep.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "A resource belongs to exactly one Resource Group. Note that resources inside a Resource Group can reside in different Azure Regions than the group itself."
+  },
+  {
+    "code": "AZ-BASICS-Q012",
+    "title": "Azure Geographies & Data Residency",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "What is the purpose of an Azure Geography? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "To define a discrete market containing two or more Azure regions that preserve data residency and compliance boundaries.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "To ensure that geopolitical boundaries are respected for tax, legal, and compliance regulations.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "To force all virtual machines in the world to reboot simultaneously.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "To automatically translate English source code into 50 languages.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Geographies contain two or more regions and ensure data residency, sovereignty, compliance, and latency boundaries are preserved."
+  },
+  {
+    "code": "AZ-BASICS-Q013",
+    "title": "Global vs Regional Azure Services",
+    "type": "SINGLE_CHOICE",
+    "prompt": "Which of the following is considered a Global Azure Service (not tied to a specific Azure Region)?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Azure Entra ID (Azure AD)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Azure Virtual Machine (IaaS VM)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Azure VNet Subnet",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Azure Managed Disk",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Azure Entra ID, Traffic Manager, Azure Front Door, and Azure DNS are Global services, whereas VMs, VNets, and Disks are Regional services."
+  }
+]

@@ -1,0 +1,386 @@
+[
+  {
+    "code": "AZ-BASICS-Q026",
+    "title": "Role of Azure Resource Manager (ARM)",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What is Azure Resource Manager (ARM)?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "The central management and deployment service in Azure that provides a consistent management layer for creating, updating, and deleting resources via REST APIs.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "A physical handheld device used by datacenter technicians to repair servers.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "A desktop application installed on client PCs to play video games.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "A third-party web browser for browsing external websites.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "ARM is the management layer of Azure. Every request from the Azure Portal, CLI, PowerShell, or SDKs passes through ARM to be authenticated and executed."
+  },
+  {
+    "code": "AZ-BASICS-Q027",
+    "title": "Behind the Scenes REST API Flow",
+    "type": "SINGLE_CHOICE",
+    "prompt": "When an administrator clicks Create in the Azure Portal to deploy a Virtual Machine, what occurs behind the scenes?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "The Azure Portal converts the UI inputs into an HTTPS REST API request sent directly to Azure Resource Manager (ARM).",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "An email is automatically sent to Microsoft support staff to manually assemble a physical server.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "The browser compiles C# source code and uploads a ZIP file to OneDrive.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "The portal reboots the local client laptop to apply new Windows registry keys.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "The Azure Portal is a web GUI client. Behind the scenes, all Portal actions send REST API requests to ARM endpoints."
+  },
+  {
+    "code": "AZ-BASICS-Q028",
+    "title": "Characteristics of Azure Portal",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "Which of the following are key characteristics of the Azure Portal? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Web-based graphical management console accessible from any modern browser.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Customizable dashboards allowing administrators to monitor and visually manage resources.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Requires installing a 50 GB local software package before opening.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Can only be accessed from computers connected directly to Microsoft headquarters Wi-Fi.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "The Azure Portal provides a web-based GUI for building, managing, and monitoring cloud infrastructure across devices."
+  },
+  {
+    "code": "AZ-BASICS-Q029",
+    "title": "Azure PowerShell Syntax & Features",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What naming convention does Azure PowerShell use for its cmdlets?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Verb-Noun syntax (e.g. New-AzVM, Get-AzResourceGroup, Remove-AzStorageAccount).",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Python snake_case functions (e.g. create_azure_vm).",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "HTML tags (e.g. <create-vm>).",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "SQL query strings (e.g. SELECT * FROM AzureVMs).",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "PowerShell cmdlets always follow the standard Verb-Noun format, prefixed with Az for Azure cmdlets (e.g., Get-AzVM, New-AzResourceGroup)."
+  },
+  {
+    "code": "AZ-BASICS-Q030",
+    "title": "Azure CLI Structure & Cross-Platform Support",
+    "type": "SINGLE_CHOICE",
+    "prompt": "How is an Azure CLI command structured?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "az <group> <subgroup> <action> (e.g., az vm create, az group list).",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "git commit -m create vm.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "docker run -d azure-vm.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "npm install azure-vm-latest.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Azure CLI commands follow a clear command hierarchy: az + group + subgroup + action (e.g., az vm create)."
+  },
+  {
+    "code": "AZ-BASICS-Q031",
+    "title": "Matching Azure Management Tools",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure management tool to its core description and command structure.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "Azure Portal"
+      },
+      {
+        "id": "item-2",
+        "label": "Azure CLI"
+      },
+      {
+        "id": "item-3",
+        "label": "Azure PowerShell"
+      },
+      {
+        "id": "item-4",
+        "label": "ARM Templates / Bicep"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Web-based graphical user interface for visual resource creation and monitoring.",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "Cross-platform command-line tool using az <group> <action> syntax (Bash, zsh, cmd).",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "Task automation framework using Verb-Noun cmdlets (e.g., New-AzResourceGroup).",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "Declarative Infrastructure as Code (IaC) files defining desired state deployments.",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "Management Tools: Portal (GUI), CLI (az commands), PowerShell (Verb-Noun cmdlets), ARM/Bicep (IaC files)."
+  },
+  {
+    "code": "AZ-BASICS-Q032",
+    "title": "Benefits of Infrastructure as Code (IaC)",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "What are the main advantages of deploying Azure resources using Infrastructure as Code (IaC)? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Idempotency and Consistency: Ensures environments (dev, test, prod) are deployed identically without manual configuration drift.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Automation and Speed: Allows rapid, repeatable deployments integrated into CI/CD DevOps pipelines.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Automatically increases internet connection speed at home by 10x.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Guarantees that no passwords or security keys are needed in cloud computing.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "IaC provides repeatable, automated, consistent deployments with version control support."
+  },
+  {
+    "code": "AZ-BASICS-Q033",
+    "title": "ARM Templates Data Format",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What data format is used to write native Azure Resource Manager (ARM) templates?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "JSON (JavaScript Object Notation)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "XML (Extensible Markup Language)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "CSV (Comma Separated Values)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "INI file",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Native ARM templates are written in JSON format containing schema, parameters, variables, resources, and outputs."
+  },
+  {
+    "code": "AZ-BASICS-Q034",
+    "title": "Bicep Language Purpose",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What is Microsoft Bicep in relation to Azure ARM templates?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "A domain-specific language (DSL) that uses cleaner, concise syntax to write Azure IaC, compiling directly into ARM JSON templates.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "An antivirus program designed for Windows 11 PCs.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "A database query language for querying MySQL tables.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "A video editing software included in Microsoft Office.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Bicep is a transparent abstraction over ARM JSON that simplifies authoring experience with cleaner syntax and type safety."
+  },
+  {
+    "code": "AZ-BASICS-Q035",
+    "title": "Matching Azure CLI Command Groups",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure CLI command group prefix to the target resource category it manages.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "az vm"
+      },
+      {
+        "id": "item-2",
+        "label": "az group"
+      },
+      {
+        "id": "item-3",
+        "label": "az network vnet"
+      },
+      {
+        "id": "item-4",
+        "label": "az storage account"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Manage Azure Virtual Machine compute instances.",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "Manage Azure Resource Groups containers.",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "Manage Virtual Networks, subnets, and IP addressing.",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "Manage Blob, File, Queue, and Table storage accounts.",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "CLI command groups align with Azure resource types: az vm, az group, az network, az storage."
+  },
+  {
+    "code": "AZ-BASICS-Q036",
+    "title": "Azure Cloud Shell Capabilities",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What is Azure Cloud Shell?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "An interactive, browser-accessible command-line shell pre-configured with Azure CLI, Azure PowerShell, and common developer tools.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "A physical laptop handed out free at Microsoft stores.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "A background virus scanner running on Azure datacenters.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "A paid third-party plugin for Microsoft Word.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Azure Cloud Shell is an authenticated, browser-accessible shell for managing Azure resources using either Bash or PowerShell."
+  },
+  {
+    "code": "AZ-BASICS-Q037",
+    "title": "Azure CLI Authentication Methods",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "Which of the following authentication methods can be used to log into Azure CLI? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Interactive user login via browser using az login.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Automated non-interactive login using Service Principals or Managed Identity in CI/CD pipelines.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Scanning a paper barcode on a physical ID card into a webcam.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Sending a text message to a landline phone number.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Azure CLI supports interactive login (az login) for users, as well as Service Principal and Managed Identity logins for automated automation scripts."
+  }
+]

@@ -1,0 +1,386 @@
+[
+  {
+    "code": "AZ-BASICS-Q014",
+    "title": "Fault Domains vs Update Domains",
+    "type": "SINGLE_CHOICE",
+    "prompt": "In an Azure Availability Set, what is the difference between a Fault Domain (FD) and an Update Domain (UD)?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Fault Domains protect against physical hardware failures (power & network switches), while Update Domains protect against planned maintenance reboots.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Fault Domains manage software updates, while Update Domains protect against fiber optic cable cuts.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Fault Domains are located in different countries, while Update Domains exist inside user laptops.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Fault Domains require paid licensing, while Update Domains are free for Linux VMs only.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Fault Domains share common power source and network switch (protecting against physical hardware failure). Update Domains group VMs that can be rebooted together during planned Azure maintenance."
+  },
+  {
+    "code": "AZ-BASICS-Q015",
+    "title": "Availability Set SLA Guarantee",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What is the Financially Backed Service Level Agreement (SLA) uptime guarantee for Virtual Machines configured inside an Azure Availability Set?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "99.95%",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "99.99%",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "99.90%",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "100.00%",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Azure offers a 99.95% SLA for VMs deployed across an Availability Set (protecting against single datacenter rack failures)."
+  },
+  {
+    "code": "AZ-BASICS-Q016",
+    "title": "Availability Zone SLA & Requirements",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "Which of the following statements about Availability Zone SLAs and requirements are correct? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Deploying VMs across two or more Availability Zones in the same Azure region provides a 99.99% SLA uptime guarantee.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Availability Zones protect applications from entire datacenter facility failures (power, cooling, flooding).",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Availability Zones require connecting all servers to a 4G cellular dongle.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Availability Zones are only supported in single-core A-series Virtual Machines.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Multi-zone VM deployments provide Azure's highest single-region SLA of 99.99% by guaranteeing isolation across physical datacenter buildings."
+  },
+  {
+    "code": "AZ-BASICS-Q017",
+    "title": "Matching Resiliency Options to SLA",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure Virtual Machine deployment model to its corresponding Service Level Agreement (SLA) uptime guarantee.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "99.99% SLA"
+      },
+      {
+        "id": "item-2",
+        "label": "99.95% SLA"
+      },
+      {
+        "id": "item-3",
+        "label": "99.90% SLA"
+      },
+      {
+        "id": "item-4",
+        "label": "Multi-Region DR Deployment"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Virtual Machines deployed across two or more Availability Zones in the same region.",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "Two or more Virtual Machines deployed in an Availability Set (across Fault and Update Domains).",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "A Single Virtual Machine utilizing Premium SSD or Ultra Disk storage for all OS and data disks.",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "Application deployment replicated across paired Azure Regions for complete regional failover.",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "SLA Levels: Availability Zones = 99.99%, Availability Sets = 99.95%, Single Premium SSD VM = 99.90%."
+  },
+  {
+    "code": "AZ-BASICS-Q018",
+    "title": "Planned Maintenance in Update Domains",
+    "type": "SINGLE_CHOICE",
+    "prompt": "During planned Azure host platform updates, how does Azure use Update Domains (UD) to prevent application downtime?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Azure updates only one Update Domain at a time, allowing remaining VMs in other UDs to continue servicing traffic.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Azure reboots all servers in the datacenter simultaneously at midnight.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Azure automatically emails end users to log off for 4 hours.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Azure converts all Virtual Machines into static HTML files.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Sequential patching of Update Domains ensures that at least one instance of your application remains running during platform maintenance."
+  },
+  {
+    "code": "AZ-BASICS-Q019",
+    "title": "Hardware Failures in Fault Domains",
+    "type": "SINGLE_CHOICE",
+    "prompt": "If a top-of-rack network switch or power distribution unit (PDU) fails in an Azure datacenter, how does a Fault Domain (FD) configuration protect your workload?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "VMs in the Availability Set are placed on separate hardware racks with redundant power and switches, ensuring unaffected VMs keep running.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "The failed rack automatically downloads new RAM from the internet.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "The Virtual Machines are instantly converted into Azure Functions.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "The Azure subscription is transferred to a different billing account.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Fault Domains separate VMs across different physical hardware racks, power units, and network switches."
+  },
+  {
+    "code": "AZ-BASICS-Q020",
+    "title": "Resource Group Deletion & Lifecycle Rules",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "Which of the following actions happen when an administrator deletes an Azure Resource Group? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "All child resources contained within the Resource Group are automatically deleted as part of the lifecycle cleanup.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Azure issues asynchronous REST API delete calls to remove all resources in parallel or proper dependency sequence.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "The customer billing credit card is automatically charged  penalty.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "The entire Entra ID Tenant directory is permanently erased.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Deleting a Resource Group deletes all child resources within it. This makes Resource Groups ideal lifecycle containers for environment management."
+  },
+  {
+    "code": "AZ-BASICS-Q021",
+    "title": "Azure Resource Locks (CanNotDelete vs ReadOnly)",
+    "type": "SINGLE_CHOICE",
+    "prompt": "An organization wants to prevent accidental deletion of a critical production database while still allowing authorized applications to read and write data. Which Azure Resource Lock should be applied?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "CanNotDelete (Delete Lock)",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "ReadOnly (Read-Only Lock)",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "System Lock",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Subscription Lock",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "CanNotDelete lock allows authorized users to read and modify a resource, but prevents them from deleting it. ReadOnly lock prevents modifications as well."
+  },
+  {
+    "code": "AZ-BASICS-Q022",
+    "title": "Matching Governance Mechanisms",
+    "type": "DRAG_AND_DROP",
+    "prompt": "Match each Azure governance mechanism to its primary purpose.",
+    "items": [
+      {
+        "id": "item-1",
+        "label": "Azure Policy"
+      },
+      {
+        "id": "item-2",
+        "label": "Azure RBAC"
+      },
+      {
+        "id": "item-3",
+        "label": "Resource Lock (CanNotDelete)"
+      },
+      {
+        "id": "item-4",
+        "label": "Azure Blueprints / Policy Initiatives"
+      }
+    ],
+    "targets": [
+      {
+        "id": "target-1",
+        "label": "Enforces operational standards and compliance rules (e.g., restricting deployment regions or SKU sizes).",
+        "correctItemId": "item-1"
+      },
+      {
+        "id": "target-2",
+        "label": "Grants fine-grained user identity permissions (e.g., Owner, Contributor, Reader) based on job roles.",
+        "correctItemId": "item-2"
+      },
+      {
+        "id": "target-3",
+        "label": "Prevents accidental deletion of critical production infrastructure by administrators.",
+        "correctItemId": "item-3"
+      },
+      {
+        "id": "target-4",
+        "label": "Packages policies, RBAC roles, and ARM templates into repeatable subscription deployment standards.",
+        "correctItemId": "item-4"
+      }
+    ],
+    "explanation": "Azure Policy = Compliance rules; RBAC = Access control; Resource Locks = Accident protection; Blueprints = Deployment packages."
+  },
+  {
+    "code": "AZ-BASICS-Q023",
+    "title": "Cross-Region Replication with Regional Pairs",
+    "type": "SINGLE_CHOICE",
+    "prompt": "How do Azure Regional Pairs support business continuity during a widespread major disaster?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Azure prioritizes recovering at least one region out of every regional pair first to restore core services quickly.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Azure automatically moves physical server racks onto cargo trucks to relocate them.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Azure sends printed paper backups of all SQL tables via express postal mail.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Azure forces all subscriptions to downgrade to free trial mode.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "In the event of a broad multi-region outage, recovery of one region from every pair is prioritized to ensure at least one region is restored rapidly."
+  },
+  {
+    "code": "AZ-BASICS-Q024",
+    "title": "Factors Influencing Region Selection",
+    "type": "MULTIPLE_CHOICE",
+    "prompt": "Which key factors should an architect evaluate when selecting an Azure Region for deployment? (Select TWO)",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Feature Availability: Ensuring required Azure services (e.g. specific VM series or AI services) are available in that region.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Data Sovereignty & Legal Compliance: Meeting local government regulatory requirements for data storage.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-3",
+        "text": "Color of the physical datacenter building exterior walls.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Number of employee parking spaces available at the local Microsoft office.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Service availability, compliance/data sovereignty, latency to users, and regional pricing vary across Azure regions and must be evaluated."
+  },
+  {
+    "code": "AZ-BASICS-Q025",
+    "title": "Azure Sovereign Clouds",
+    "type": "SINGLE_CHOICE",
+    "prompt": "What are Azure Sovereign Clouds (such as Azure Government and Azure China)?",
+    "options": [
+      {
+        "id": "opt-1",
+        "text": "Physically and logically isolated instances of Azure designed to meet strict government security, compliance, and regulatory requirements.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-2",
+        "text": "Public Wi-Fi networks available at international airports.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-3",
+        "text": "Free trial Azure subscriptions provided to university students.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-4",
+        "text": "Gaming servers dedicated exclusively to Xbox Live multiplayer games.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Azure Sovereign Clouds (e.g. Azure US Government, Azure China 21Vianet) operate independently with dedicated isolated networks and compliance validation."
+  }
+]

@@ -1,0 +1,2609 @@
+Found 95 slides.
+
+=== SLIDE 1 ===
+Azure basics
+
+
+=== SLIDE 2 ===
+Azure architecture is generally explained in 
+two parts
+:
+Physical Architecture
+ – 
+Where Azure exists physically.
+ 
+Logical Architecture
+ – 
+How Azure resources are organized and managed.
+ 
+Think of it like a city:
+Physical Architecture
+ = The actual land, buildings, roads, and power supply. 
+Logical Architecture
+ = The city map showing districts, streets, and addresses.
+
+
+=== SLIDE 3 ===
+Azure Physical Infrastructure
+Azure runs from large buildings called 
+datacenters
+. 
+A datacenter contains 
+servers, storage, and networking equipment
+. 
+It also has 
+power, cooling, and security
+ to keep everything running. 
+Microsoft has 
+many datacenters around the world
+. 
+You cannot choose or access a specific datacenter directly. 
+Instead, Azure groups datacenters into 
+Regions
+ and 
+Availability Zones
+. 
+These groups help keep your applications 
+available and reliable
+, even if one datacenter has a problem. 
+🎤 One-Line Summary
+"Azure is built on datacenters, and these datacenters are organized into Regions and Availability Zones to provide high availability and reliability."
+
+
+=== SLIDE 4 ===
+Now let's understand 
+Azure Geographies
+.
+Before I explain Azure Geography, let me ask you a question.
+Have you ever seen companies saying, "Our customer data never leaves India" or "European customer data stays only in Europe"?
+Why do companies say that?
+Because many countries have laws about 
+where customer data can be stored
+.
+That's exactly where 
+Azure Geography
+ comes in.
+So, 
+what is an Azure Geography?
+In simple words...
+An Azure Geography is a large area that contains one or more Azure Regions.
+Think of it as a 
+big boundary
+ that Microsoft creates.
+Inside that boundary, there are multiple Azure Regions.
+For example...
+Suppose Microsoft creates an 
+India Geography
+.
+Inside that Geography, there may be multiple Azure Regions such as:
+Central India 
+South India 
+All these regions belong to the same Geography.
+So remember...
+Geography is the bigger area.
+Regions are the smaller locations inside it.
+Azure Geographies
+
+
+=== SLIDE 5 ===
+Now the next question is...
+Why do we need Azure Geographies?
+The biggest reason is 
+data residency
+.
+Now, what does 
+data residency
+ mean?
+It simply means...
+The data stays in a particular country or geographic area instead of moving around the world.
+Many governments and organizations require this by law.
+Suppose you have customers in Europe.
+European privacy laws are very strict.
+Many organizations choose Azure Regions that belong to the Europe Geography so that customer information stays within Europe. This helps them meet legal and compliance requirements.
+So, Azure Geography mainly helps with four things.
+First
+, it groups together one or more Azure Regions.
+Second
+, it usually represents one country or a group of nearby countries.
+Third
+, it helps organizations keep their data in a specific geographic area.
+Fourth
+, it helps meet legal, compliance, and regulatory requirements.
+One more important point.
+A Geography usually contains 
+multiple Azure Regions
+.
+Why?
+Because if one Region has a problem, another Region in the same Geography can be used for backup or disaster recovery.
+So Microsoft is not only thinking about compliance...
+It is also thinking about 
+high availability
+ and 
+business continuity
+.
+Azure Geographies
+
+
+=== SLIDE 6 ===
+Let's quickly summarize.
+Azure Geography
+ is a large area. 
+It contains 
+one or more Azure Regions
+. 
+It helps keep data in a specific geographic area. 
+It supports legal, compliance, and data residency requirements. 
+Multiple Regions inside the Geography also improve availability and disaster recovery.
+Azure Geographies
+
+
+=== SLIDE 7 ===
+Now that we understand 
+Azure Geographies
+, let's move one level deeper and talk about 
+Azure Regions
+.
+Remember...
+A 
+Geography is the big boundary
+.
+Inside that boundary, we have 
+Azure Regions
+.
+So the question is...
+What exactly is an Azure Region?
+An 
+Azure Region
+ is a 
+specific physical location
+ where Microsoft has one or more datacenters.
+Notice I said 
+physical location
+.
+This means the servers are actually installed in a real city or area.
+These are not virtual places.
+They are real buildings filled with thousands of servers, networking devices, storage systems, power supplies, and cooling equipment.
+For example...
+India has multiple Azure Regions such as:
+Central India 
+South India 
+Each of these is a different physical location.
+If your virtual machine is deployed in 
+Central India
+, it actually runs inside Microsoft's datacenters located in that region.
+Azure Regions
+
+
+=== SLIDE 8 ===
+Now let me ask you a question.
+When you create a Virtual Machine or Storage Account in Azure, what is the first thing Azure asks you to choose?
+It asks you to select a 
+Region
+.
+Why?
+Because Azure needs to know 
+where your resources should physically run
+.
+Let's take an example.
+Suppose your company is based in Mumbai.
+Most of your users are in India.
+If you deploy your application in an Indian Azure Region, your users usually experience faster response times because the servers are closer to them.
+But imagine deploying the same application in another continent.
+Every request would have to travel much farther before reaching the server.
+That extra travel time can make the application feel slower.
+So choosing the right Region can improve performance.
+Another reason for choosing a Region is 
+compliance
+.
+Some organizations are required to keep their data inside a specific country or geographic area.
+By choosing the appropriate Azure Region, they can meet those legal and regulatory requirements.
+Azure Regions
+
+
+=== SLIDE 9 ===
+Cost is another factor.
+The price of Azure services is not always the same in every Region.
+A Virtual Machine or Storage Account may cost a little more in one Region and a little less in another.
+So organizations also consider pricing before selecting a Region.
+Now let's talk about 
+availability
+.
+What happens if one Region experiences a major problem?
+Maybe a power failure...
+A network outage...
+Or even a natural disaster.
+Does the entire application stop working?
+Not necessarily.
+Microsoft provides multiple Regions so that organizations can design solutions that continue running even if one Region becomes unavailable.
+For critical applications, data and services can be replicated to another Region.
+If one Region has an issue, the other Region can continue serving users.
+This is one of the reasons Azure offers multiple Regions around the world.
+Here is another important point.
+An Azure Region contains 
+one or more datacenters
+.
+Notice that.
+It is 
+not just one building
+.
+A Region may include several datacenters connected through Microsoft's high-speed network.
+If one datacenter needs maintenance or encounters a hardware issue, workloads can continue operating in the others.
+This improves reliability.
+Azure Regions
+
+
+=== SLIDE 10 ===
+So, what are the main benefits of Azure Regions?
+First
+, they provide a physical location for deploying Azure resources.
+Second
+, they help reduce network delay by placing applications closer to users.
+Third
+, they support compliance and data residency requirements.
+Fourth
+, they improve availability by allowing applications to use multiple Regions.
+Fifth
+, they give customers flexibility in choosing pricing and services.
+Let's look at a simple real-world example.
+Imagine your company has offices in Mumbai, London, and Singapore.
+You could deploy:
+Indian users to an India Region. 
+European users to a Europe Region. 
+Asian users to a Southeast Asia Region. 
+This allows users to connect to the nearest Azure Region, giving them a faster and better experience.
+Now let's quickly summarize.
+An 
+Azure Region
+ is a 
+physical location
+ where Microsoft has 
+one or more datacenters
+. 
+Every Azure resource is deployed into a Region. 
+Choosing the right Region can improve performance. 
+Regions help organizations meet compliance and data residency requirements. 
+Multiple Regions improve availability and disaster recovery. 
+A Region contains 
+one or more datacenters
+, not just one. 
+Azure Regions
+
+
+=== SLIDE 11 ===
+So, what are the main benefits of Azure Regions?
+First
+, they provide a physical location for deploying Azure resources.
+Second
+, they help reduce network delay by placing applications closer to users.
+Third
+, they support compliance and data residency requirements.
+Fourth
+, they improve availability by allowing applications to use multiple Regions.
+Fifth
+, they give customers flexibility in choosing pricing and services.
+Let's look at a simple real-world example.
+Imagine your company has offices in Mumbai, London, and Singapore.
+You could deploy:
+Indian users to an India Region. 
+European users to a Europe Region. 
+Asian users to a Southeast Asia Region. 
+This allows users to connect to the nearest Azure Region, giving them a faster and better experience.
+Now let's quickly summarize.
+An 
+Azure Region
+ is a 
+physical location
+ where Microsoft has 
+one or more datacenters
+. 
+Every Azure resource is deployed into a Region. 
+Choosing the right Region can improve performance. 
+Regions help organizations meet compliance and data residency requirements. 
+Multiple Regions improve availability and disaster recovery. 
+A Region contains 
+one or more datacenters
+, not just one. 
+Azure Regions
+
+
+=== SLIDE 12 ===
+Now let's move to another important Azure concept.
+Availability Zones.
+Before I explain it...
+Let me ask you a question.
+What happens if an entire datacenter loses power?
+Maybe there is a fire...
+A flood...
+Or a major network failure.
+If your application is running in only that datacenter...
+Your application will also stop working.
+So how can Azure protect us from this?
+That's where 
+Availability Zones
+ come in.
+First, let's understand what an Availability Zone is.
+An 
+Availability Zone
+ is a 
+physically separate datacenter
+ inside the same Azure Region.
+Notice something important.
+We are 
+still inside the same Region.
+We are 
+not moving to another Region.
+We are simply using different datacenters within that Region.
+Availability Zones
+
+
+=== SLIDE 13 ===
+For example...
+Suppose you deploy your application in 
+Central India
+.
+Inside that Region, Microsoft may have:
+Zone 1 
+Zone 2 
+Zone 3 
+Each zone is a separate datacenter.
+Each one has its own:
+Power supply 
+Cooling system 
+Network connection 
+So if one datacenter has a major problem...
+The other zones continue running.
+Let's take a simple example.
+Imagine you own an online shopping website.
+You create two virtual machines.
+VM1 is in Zone 1. 
+VM2 is in Zone 2. 
+A Load Balancer sends customers to both virtual machines.
+Now suppose Zone 1 loses power.
+VM1 stops working.
+But VM2 in Zone 2 is still running.
+Customers can continue shopping without even knowing that one datacenter had a problem.
+That is the power of Availability Zones.
+Availability Zones
+
+
+=== SLIDE 14 ===
+Now here's an important point.
+Availability Zones protect against 
+datacenter failures
+.
+They do 
+not
+ protect against an entire Region becoming unavailable.
+If the whole Region has a problem...
+Availability Zones alone cannot help.
+For Regional disasters, we use another Azure Region for disaster recovery.
+So remember this simple rule.
+Availability Zone = Protection from datacenter failure.
+Region Pair = Protection from regional failure.
+Let's summarize Availability Zones.
+They exist inside a single Azure Region. 
+Each Zone is a physically separate datacenter. 
+Every Zone has independent power, cooling, and networking. 
+They protect applications from datacenter failures. 
+They improve application availability. 
+Availability Zones
+
+
+=== SLIDE 15 ===
+Now let's look at another feature that sounds similar...
+Availability Sets.
+Many beginners confuse 
+Availability Sets
+ and 
+Availability Zones
+.
+Although both improve availability...
+They solve 
+different problems
+.
+Let me ask you another question.
+Imagine your virtual machine is healthy.
+The datacenter is also healthy.
+But Microsoft needs to install a security update on the physical server hosting your VM.
+What happens?
+That physical server needs to restart.
+If your application has only one VM...
+Your application becomes unavailable for a short time.
+How can Azure reduce this risk?
+That's where 
+Availability Sets
+ help.
+An 
+Availability Set
+ is a way to place multiple virtual machines on 
+different physical servers
+ inside the 
+same datacenter
+.
+Notice the difference.
+Availability Sets usually work 
+within one datacenter
+.
+Availability Zones use 
+multiple datacenters
+.
+Availability Sets.
+
+
+=== SLIDE 16 ===
+Azure automatically spreads your VMs across two important groups.
+The first group is called a 
+Fault Domain
+.
+Let's understand that first.
+A 
+Fault Domain
+ is a group of hardware that shares common components like power supply, network switch, or storage.
+If one rack or one power unit fails...
+Only the VMs in that Fault Domain are affected.
+Azure places your VMs in different Fault Domains.
+So one hardware failure doesn't stop all your VMs.
+Now the second group.
+This is called an 
+Update Domain
+.
+Microsoft regularly updates the physical servers.
+Instead of restarting every server at the same time...
+Azure updates one Update Domain first.
+After that finishes...
+It moves to the next Update Domain.
+This means not all your virtual machines restart together.
+Your application can continue serving users.
+Availability Sets.
+
+
+=== SLIDE 17 ===
+Let's see an example.
+Suppose you have two virtual machines.
+VM1 is placed in Fault Domain 1 and Update Domain 1.
+VM2 is placed in Fault Domain 2 and Update Domain 2.
+Now Microsoft performs maintenance.
+Only VM1 restarts first.
+VM2 keeps running.
+After VM1 comes back online...
+Azure updates VM2.
+Your application remains available throughout the maintenance process.
+So Availability Sets protect against two things.
+First
+, hardware failures using Fault Domains.
+Second
+, planned maintenance using Update Domains.
+Availability Sets.
+
+
+=== SLIDE 18 ===
+One more important point.
+Today, for new production applications, 
+Availability Zones are generally preferred whenever the Azure Region supports them.
+Availability Sets are still useful in Regions where Zones are not available or when you're working with older deployments.
+Let's quickly summarize.
+Availability Sets distribute VMs across different physical servers. 
+They use Fault Domains and Update Domains. 
+They reduce downtime caused by hardware failures and planned maintenance. 
+They usually work inside one datacenter. 
+Availability Zones provide stronger protection because they use separate datacenters. 
+Availability Set
+Availability Zone
+Uses multiple physical servers in the same datacenter
+Uses multiple datacenters inside one Region
+Protects against hardware failure
+Protects against complete datacenter failure
+Uses Fault Domains and Update Domains
+Uses physically isolated Zones
+Good for planned maintenance and server failures
+Good for high availability across datacenters
+
+
+=== SLIDE 19 ===
+Now let's move to one of the most important concepts in Azure.
+Microsoft Entra ID Tenant.
+Before I explain it...
+Let me ask you a question.
+When you sign in to Azure Portal, how does Azure know who you are?
+How does it know:
+Which users belong to your company? 
+Which applications you can access? 
+Which subscriptions you can manage? 
+The answer is...
+Microsoft Entra ID.
+And inside Microsoft Entra ID, everything starts with a 
+Tenant
+.
+So.
+..
+What is a Tenant?
+In simple words...
+A 
+Tenant
+ is a 
+dedicated and isolated identity space
+ for an organization.
+That sounds technical.
+Let's make it much simpler.
+A 
+Tenant is your organization's identity container.
+It stores information about:
+Users, Groups , Administrators, Applications, Devices, policies 
+Think of it as 
+your company's digital identity home
+.
+Tenant
+
+
+=== SLIDE 20 ===
+For example...
+Suppose your company is called 
+ABC Technologies
+.
+When the company starts using Microsoft cloud services...
+Microsoft creates a Tenant for ABC Technologies.
+Inside that Tenant, the company creates:
+Employee accounts 
+Admin accounts 
+Security groups 
+Applications 
+Policies 
+Everything related to identities is stored inside that Tenant.
+Now here's an important question.
+Can another company see your Tenant? 
+No.
+Every Tenant is completely isolated.
+If another company creates its own Tenant...
+Their users, applications, passwords, and policies remain completely separate from yours.
+Microsoft keeps every organization's identity information isolated for security.
+A Tenant is created 
+only once
+ for an organization.
+After that...You can create many Azure Subscriptions inside the same Tenant.
+We'll talk about Subscriptions in the next topic.
+For now, just remember...
+Tenant comes first.
+Subscriptions come later.
+Tenant
+
+
+=== SLIDE 21 ===
+Let's look at a simple example.
+Imagine a company has three departments.
+Development 
+HR 
+Finance 
+All employees belong to the same company.
+So they all use the same Tenant.
+But the company may create different Azure Subscriptions for different departments.
+Even though there are multiple subscriptions...
+Everyone's identity is still managed by one Tenant.
+Can one user access multiple Tenants?
+Yes.
+For example...
+Suppose you work as an Azure consultant.
+You may have:
+Your company's Tenant 
+Your customer's Tenant 
+Azure allows you to switch between Tenants.
+That's why sometimes in Azure Portal you'll see the option 
+Switch Directory
+ or 
+Switch Tenant
+.
+Tenant
+
+
+=== SLIDE 22 ===
+Let's summarize what a Tenant does.
+A Tenant:
+Stores users. 
+Stores groups. 
+Stores applications. 
+Stores devices. 
+Stores security policies. 
+Provides identity and authentication. 
+Keeps one organization's identities separate from another organization's identities. 
+Quick Summary
+A 
+Tenant
+ is an organization's identity container. 
+It is created in Microsoft Entra ID. 
+It stores users, groups, applications, devices, and security policies. 
+Every Tenant is isolated from other organizations. 
+One Tenant can contain multiple Azure Subscriptions. 
+Users can be members of multiple Tenants if needed.
+Tenant
+
+
+=== SLIDE 23 ===
+Now that we understand 
+Microsoft Entra ID Tenant
+, let's move to the next building block.
+Azure Subscription.
+Before I explain it...
+Let me ask you a question.
+Suppose your company has 500 employees.
+Everyone signs in using the same Microsoft Entra ID Tenant.
+But...
+How does Azure know:
+Which team is paying for the resources? 
+Who can create Virtual Machines? 
+Which department should receive the monthly bill? 
+That's exactly why we use an 
+Azure Subscription
+.
+So.
+..
+What is an Azure Subscription?
+In simple words...
+An 
+Azure Subscription
+ is a 
+billing and management boundary
+.
+Let's understand those two words.
+Billing boundary
+ means...
+Azure knows 
+who pays the bill
+ for the resources.
+Management boundary
+ means...
+Azure knows 
+who can create, manage, or delete resources
+.
+Subscription
+
+
+=== SLIDE 24 ===
+Think about it like this.
+The 
+Tenant
+ stores 
+people
+.
+The 
+Subscription
+ stores 
+Azure resources
+ like:
+Virtual Machines 
+Storage Accounts 
+Virtual Networks 
+Databases 
+App Services 
+Key Vaults 
+So remember this simple sentence:
+Tenant manages identities.
+Subscription manages Azure resources.
+Let's take an example.
+Suppose your company has three departments.
+Development , Testing, Production 
+Instead of putting everything into one Subscription...
+The company creates:
+Development Subscription, Testing Subscription and Production Subscription 
+Now every department has its own resources.
+Its own budget.
+Its own permissions.
+Its own billing.
+This makes management much easier.
+Subscription
+
+
+=== SLIDE 25 ===
+Now here's an important point.
+Every Azure resource belongs to exactly one Subscription.
+For example...
+When you create a Virtual Machine... Azure first asks:
+Which Subscription do you want to use?
+Without selecting a Subscription...You cannot create Azure resources.
+Now let's talk about billing.
+Imagine the Development team creates:
+20 Virtual Machines 
+5 Storage Accounts 
+2 SQL Databases 
+At the end of the month...
+Azure calculates the cost.
+The bill is generated for that Subscription.
+If the Production team has a different Subscription...Their bill is completely separate.
+Another advantage is 
+access control
+.
+Suppose Alice works in the Development team.
+Bob works in Production.
+You may give:
+Alice access only to the Development Subscription. 
+Bob access only to the Production Subscription. 
+This prevents users from accidentally modifying resources they shouldn't manage.
+Subscription
+
+
+=== SLIDE 26 ===
+Now here's another important concept.
+One Tenant can have multiple Subscriptions.
+For example:
+One Tenant
+↓
+Development Subscription
+Testing Subscription
+Production Subscription
+Sandbox Subscription
+Training Subscription
+All these Subscriptions belong to the same organization.
+All users are still managed by the same Tenant.
+Can one Subscription belong to multiple Tenants?
+No.
+A Subscription belongs to 
+only one Tenant at a time
+.
+However, it can later be transferred to another Tenant if needed.
+Subscription
+
+
+=== SLIDE 27 ===
+Now let's see what a Subscription contains.
+Inside a Subscription, you create:
+Resource Groups , Virtual Machines, Storage Accounts, Virtual Networks, Databases, App Services 
+Key Vaults 
+Load Balancers 
+Azure Functions 
+Everything you build in Azure starts inside a Subscription.
+Let's understand the hierarchy.
+The order is:
+Microsoft Entra ID Tenant 
+↓ 
+Azure Subscription 
+↓ 
+Resource Group 
+↓ 
+Resources
+For example:
+Tenant
+↓
+Production Subscription
+↓
+WebApp Resource Group
+↓
+Virtual Machine 
+Storage Account 
+SQL Database 
+Virtual Network 
+This is the basic Azure hierarchy.
+Subscription
+
+
+=== SLIDE 28 ===
+Let's look at a practical example.
+Imagine you're an Azure consultant.
+A customer wants to separate environments.
+You create:
+Production Subscription 
+Development Subscription 
+Disaster Recovery Subscription 
+Each Subscription has:
+Separate billing 
+Separate budgets 
+Separate permissions 
+Separate resources 
+If the Development team accidentally deletes a VM...
+The Production environment is unaffected because it's in a different Subscription.
+Let's quickly summarize.
+An Azure Subscription:
+Is a billing boundary. 
+Is a management boundary. 
+Contains Azure resources. 
+Belongs to one Tenant. 
+Can contain many Resource Groups. 
+Helps separate departments, projects, or environments. 
+Supports independent access control and budgeting.
+Subscription
+
+
+=== SLIDE 29 ===
+Now we've learned about:
+Microsoft Entra ID Tenant 
+Azure Subscription 
+Let's go one step higher.
+Management Groups.
+Before I explain it...
+Let me ask you a question.
+Imagine your company has:
+10 Azure Subscriptions... 
+Or maybe 100... 
+Or even 500 Subscriptions. 
+Now imagine you want to give the Security Team 
+Reader access to every Subscription
+.
+Would you assign permissions 
+500 times
+?
+Probably not.
+There has to be an easier way.
+That's exactly why Azure provides 
+Management Groups
+.
+What is a Management Group?
+In simple words...
+A 
+Management Group
+ is a 
+container used to organize multiple Azure Subscriptions
+.
+Notice something important.
+A Management Group 
+does not contain Virtual Machines, Storage Accounts, or Resource Groups.
+It contains 
+Subscriptions
+.
+Management Groups
+
+
+=== SLIDE 30 ===
+Think of it like a folder.
+Suppose your computer has hundreds of files.
+Instead of keeping everything on the Desktop...
+You create folders.
+The folders help organize your files.
+Similarly...
+Management Groups help organize Azure Subscriptions.
+Let's take an example.
+Suppose a company has five departments.
+HR , Finance, Development , Sales, Marketing 
+Each department has its own Azure Subscription.
+Instead of managing every Subscription individually...
+You create one Management Group called:
+Corporate
+Then place all five Subscriptions inside it.
+Now you can manage all of them together.
+Now here's the biggest advantage.
+Suppose the Security Team needs 
+Reader access
+ to every Subscription.
+Instead of assigning permissions to each Subscription...
+You assign the permission once at the 
+Management Group
+.
+Azure automatically applies that permission to all the Subscriptions inside it.
+This saves a lot of time.
+Management Groups
+
+
+=== SLIDE 31 ===
+The same applies to Azure Policies.
+Suppose your organization has a rule.
+"No one is allowed to create resources outside India."
+If you apply this Azure Policy to every Subscription individually...
+It takes time.
+Instead...
+Apply the Policy once to the Management Group.
+Now every Subscription inside that Management Group automatically follows the same rule.
+Let's look at another example. Imagine a multinational company.
+It has different business units. India, Europe, USA 
+Each business unit has many Azure Subscriptions.
+The company creates three Management Groups.
+India Management Group
+Development Subscription 
+Production Subscription 
+Sandbox Subscription 
+Europe Management Group
+Development Subscription 
+Production Subscription 
+USA Management Group
+Production Subscription 
+DR Subscription 
+Now each region can be managed independently.
+Management Groups
+
+
+=== SLIDE 32 ===
+Now here's another important point.
+Settings applied at a Management Group are 
+inherited
+.
+What does "inherited" mean?
+It means child resources automatically receive the same settings.
+For example...
+If you assign an Azure Policy to a Management Group...
+Every Subscription under that Management Group automatically follows that Policy.
+The same is true for Azure Role-Based Access Control (RBAC).
+Permissions assigned at the Management Group can automatically flow down to all child Subscriptions.
+This makes administration much easier.
+Now let's summarize the benefits.
+Management Groups help organizations:
+Organize large numbers of Azure Subscriptions. 
+Apply permissions to multiple Subscriptions at once. 
+Apply Azure Policies across multiple Subscriptions. 
+Create a hierarchy for enterprise management. 
+Reduce administrative work. 
+Management Groups
+
+
+=== SLIDE 33 ===
+Easy Way to Remember
+Imagine a large company.
+The 
+Tenant
+ is the entire company.
+Inside the company are different 
+business divisions
+.
+Those business divisions are your 
+Management Groups
+.
+Inside each division are different 
+departments
+.
+Those are your 
+Subscriptions
+.
+Inside each department are 
+project folders
+.
+Those are your 
+Resource Groups
+.
+Inside each project folder are the actual 
+documents and files
+.
+Those are your Azure Resources.
+So the flow becomes:
+Company → Business Division → Department → Project Folder → Resources
+Which maps to:
+Tenant → Management Group → Subscription → Resource Group → Resources
+Azure Management Groups provide a governance layer above Azure Subscriptions. They allow organizations to organize subscriptions into a hierarchy and apply Azure RBAC roles and Azure Policies consistently across multiple subscriptions from a single location.
+
+
+=== SLIDE 34 ===
+Now we've reached one of the most commonly used concepts in Azure.
+Resource Groups.
+If you've ever created a Virtual Machine, Storage Account, or Virtual Network...
+You've already used a Resource Group.
+But what exactly is it?
+Let's find out.
+Before I explain...
+Let me ask you a question….Imagine you're working on a project.
+The project needs:
+One Virtual Machine 
+One Storage Account 
+One Virtual Network 
+One SQL Database 
+One Key Vault 
+Would you keep these resources scattered everywhere?
+Or would you keep everything related to the project in one place?
+Most people would keep everything together.
+That's exactly what a 
+Resource Group
+ does.
+What is a Resource Group?
+In simple words...
+A 
+Resource Group
+ is a 
+container that holds related Azure resources
+.
+It helps you organize resources that belong to the same application, project, or environment.
+Resource Groups
+
+
+=== SLIDE 35 ===
+For example...
+Suppose you're building an online shopping website.
+Your application needs:
+A Virtual Machine 
+A SQL Database 
+A Storage Account 
+A Load Balancer 
+A Virtual Network 
+Instead of creating these resources separately...You create one Resource Group called:
+ShoppingApp
+-RG
+Then place all these resources inside it.
+Now everything related to that application is in one place.
+Let's take another example.
+Suppose your company has three environments.
+Development 
+Testing 
+Production 
+You could create:
+Dev-RG 
+Test-RG 
+Prod-RG 
+Each Resource Group contains only the resources for that environment.
+This makes management much easier.
+Resource Groups
+
+
+=== SLIDE 36 ===
+Now here's an important question.
+Can different types of resources exist in the same Resource Group?
+Absolutely.
+A Resource Group can contain many different Azure resources, such as:
+VM, Database, App Service etc
+You are not limited to just one resource type.
+Now let's talk about management.
+Suppose you want to see all the resources used by one application.
+Instead of searching across the entire Azure Subscription...
+You simply open the Resource Group.
+Everything is there.
+This makes administration much easier.
+Another benefit is permissions.
+Suppose admin1 manages the HR application.
+Admin2 manages the Finance application.
+You can give:
+Admin1 access only to the HR Resource Group. 
+Admin2 access only to the Finance Resource Group. 
+They won't be able to modify each other's resources.
+Resource Groups
+
+
+=== SLIDE 37 ===
+Let's look at a practical example.
+Suppose you're deploying a company website.
+You create:
+Subscription
+↓
+Website-RG
+↓
+Virtual Machine, Storage Account, Azure SQL Database, Virtual Network 
+Load Balancer 
+Key Vault 
+Everything related to the website stays together.
+If another application is developed later...
+You simply create another Resource Group.
+Now let's summarize the benefits.
+Resource Groups help you:
+Organize related Azure resources. 
+Manage permissions easily. 
+Monitor resources together. 
+Deploy resources together. 
+Delete resources together. 
+Simplify administration. 
+Resource Groups
+
+
+=== SLIDE 38 ===
+Easy Way to Remember
+Imagine you're building a house.
+You buy:
+Bricks 
+Cement 
+Steel 
+Paint 
+Doors 
+Windows 
+Instead of leaving these materials in different places...
+You keep everything at the construction site.
+The 
+construction site
+ is your 
+Resource Group
+.
+The 
+building materials
+ are your Azure Resources.
+Everything needed for one project stays together.
+Quick Summary
+A Resource Group is a logical container for Azure resources. 
+It holds related resources for an application or project. 
+Every Azure resource belongs to one Resource Group. 
+A Resource Group belongs to one Azure Subscription. 
+It simplifies organization, permissions, deployment, monitoring, and deletion. 
+Deleting a Resource Group deletes all resources inside it. 
+Resource Groups
+
+
+=== SLIDE 39 ===
+JSON
+Even simpler (classroom style)
+The browser asks for some data. 
+The web server receives the request. 
+The web server reads the data from the database. 
+The server sends the data back as 
+JSON
+. 
+The browser reads the JSON and displays it on the screen. 
+What is JSON?
+JSON is a simple text format used to exchange data between two computers. It organizes data into "name : value" pairs, making it easy for both humans and programs to read.
+Why do we use JSON?
+✅ It is easy for computers to read. 
+✅ It is easy for developers to understand. 
+✅ It is smaller and faster than many older data formats. 
+✅ Almost every programming language can work with JSON. 
+✅ REST APIs use JSON as the standard way to exchange data.
+The database stores the data. The web server fetches it, converts it into JSON, and sends it to the browser because JSON is a simple, standard format that both the server and the browser understand.
+JSON
+
+
+=== SLIDE 40 ===
+JSON
+Id
+Name
+Price
+1
+Laptop
+50000
+2
+Mouse
+500
+Browser → Web Server
+ 
+Sends an HTTP request. 
+Example:
+GET /
+api
+/products
+Web Server → Database
+ 
+Sends an SQL query. 
+Example:
+SELECT * FROM Products;
+Database → Web Server
+Returns rows of data. 
+Web Server → Browser
+Converts the database rows into JSON. 
+{
+  "id": 1,
+  "name": "Laptop",
+  "price": 50000
+}
+Browser
+ 
+Reads the JSON. 
+Displays it as a web page or in your application. 
+JSON
+
+
+=== SLIDE 41 ===
+JSON
+why brackets in Json, why not simple plain English
+This is one of the best beginner questions. The answer is 
+because computers need structure, not just words.
+Imagine the server sends plain English
+Product is Laptop. 
+Price is 50000.
+Category is Electronics.
+A human understands this immediately. But a computer has questions: Which word is the product name? 
+Is 
+50000
+ the price or the product ID? What if the sentence changes? 
+For example:
+Laptop costs 50000.
+or
+The price of Laptop is 50000.
+The meaning is the same for us, but now the computer has to understand different sentence structures.
+JSON gives every value a label
+{
+  "name": "Laptop",
+  "price": 50000,
+  "category": "Electronics"
+}
+Now there is no confusion.
+The computer knows:
+"name" → Laptop 
+"price" → 50000 
+"category" → Electronics 
+It doesn't have to understand English grammar.
+JSON
+
+
+=== SLIDE 42 ===
+JSON
+Humans understand sentences, but computers understand structured data. JSON uses brackets and labels to organize data so every computer, browser, and programming language can read it quickly and accurately.
+Why the brackets? 
+The brackets show the 
+structure
+ of the data.
+Curly braces { }
+Mean:
+"This is one object."
+Example:
+{
+  "name": "Laptop",
+  "price": 50000
+}
+Think of it as one product.
+Square brackets [ ]
+Mean:
+"This is a list of objects."
+[
+  {
+    "name": "Laptop"
+  },
+  {
+    "name": "Mouse"
+  }
+]
+This is a list containing two products.
+JSON
+
+
+=== SLIDE 43 ===
+ow let's understand one of the most important concepts in IT.
+API.
+You will hear this word everywhere.
+Azure...
+Microsoft 365...
+Google...
+AWS...
+Mobile apps...
+Almost every modern application uses APIs.
+But what exactly is an API?
+Before I explain...
+Let me ask you a question.
+When you open a weather app on your phone...
+Where does it get today's temperature?
+When you order food online...
+How does the restaurant receive your order?
+When you log in to a website using your Google account...
+How does that website talk to Google?
+The answer is...
+API.
+This is a list containing two products.
+API
+
+
+=== SLIDE 44 ===
+What is an API?
+API stands for 
+Application Programming Interface
+.
+That's a long name.
+Let's make it simple.
+An 
+API is a way for two applications to talk to each other.
+That's all.
+Think of it as a messenger.
+One application sends a request.
+The API carries that request.
+Another application processes it.
+Then the API brings back the response.
+For example...
+Imagine your mobile banking app.
+When you check your account balance...
+The app doesn't already know your balance.
+Instead...
+It sends a request to the bank's server using an API.
+The bank checks your account.
+Then it sends your balance back through the API.
+Finally...
+The mobile app displays it on your screen.
+So remember...
+The app and the server are talking through an API.
+API
+
+
+=== SLIDE 45 ===
+Real-world Azure Example
+Suppose you want to create a Virtual Machine using Azure CLI.
+When you run this command...
+az
+ 
+vm
+ create
+Does Azure CLI create the VM by itself?
+No.
+Azure CLI sends an API request to Azure Resource Manager.
+Azure processes the request.
+Creates the VM.
+Returns a success message.
+So behind almost every Azure command...
+There is an API call.
+Another Azure Example
+Imagine you open Azure Portal.
+You click...
+"Create Storage Account."
+The portal doesn't create it directly.
+The portal sends an API request to Azure.
+Azure creates the Storage Account.
+Then sends the result back.
+So whether you use: Azure Portal, Azure CLI, PowerShell, ARM Template, Bicep, Terraform, SDK 
+Everything eventually calls the same Azure APIs.
+API
+
+
+=== SLIDE 46 ===
+Different Types of APIs
+You'll hear about different kinds of APIs.
+The most common one is:
+REST API
+It uses HTTP.
+Examples:
+GET
+POST
+PUT
+DELETE
+We'll learn these later.
+For now...
+Just remember...
+Most cloud services, including Azure, use REST APIs.
+API
+
+
+=== SLIDE 47 ===
+Let's summarize.
+An API:
+Allows applications to communicate. 
+Sends requests. 
+Receives responses. 
+Shares information securely. 
+Makes integration possible. 
+Is used by almost every cloud service. 
+Easy Way to Remember
+Imagine you are in a restaurant.
+You don't go into the kitchen.
+You tell the waiter what you want.
+The waiter carries your request to the kitchen.
+The chef prepares the food.
+The waiter brings it back.
+In this example:
+You
+ = Application 
+Waiter
+ = API 
+Kitchen
+ = Server 
+Food
+ = Response 
+The waiter doesn't cook the food.
+The waiter simply carries requests and responses.
+That's exactly what an API does.
+API
+
+
+=== SLIDE 48 ===
+An API (Application Programming Interface) is a communication interface that allows two applications or services to exchange data by sending requests and receiving responses. In Azure, almost every operation—whether from the Azure Portal, Azure CLI, PowerShell, ARM templates, Bicep, or Terraform—is performed by calling Azure Resource Manager REST APIs.
+Check steps in next slides
+
+
+=== SLIDE 49 ===
+What happens behind the scenes when you create a Virtual Machine?
+Let's follow the request step by step.
+Step 1 – Browser
+Everything starts with you.
+You open your browser...
+Go to the Azure Portal...
+Click 
+Create Virtual Machine
+...
+And then click 
+Create
+.
+At this moment...
+The browser creates a request.
+It doesn't create the Virtual Machine itself.
+It simply sends the request to Azure.
+Think of the browser as the person 
+placing an online order.
+.
+Step 2 – Azure Portal or Azure CLI
+The request now reaches the Azure Portal.
+If you're using Azure CLI...
+PowerShell...
+Terraform...
+Or ARM Templates...
+The process is exactly the same.
+All these tools are just different interfaces.
+Their job is simple.
+They convert your action into an Azure REST API request.
+So whether you click a button...
+Or type a command...
+Eventually, an API request is generated
+
+
+=== SLIDE 50 ===
+What happens behind the scenes when you create a Virtual Machine?
+Let's follow the request step by step.
+Step 3 – Microsoft Entra ID
+Now Azure asks an important question.
+Who is making this request?
+Before creating anything...
+Azure must verify your identity.
+Microsoft Entra ID checks:
+Are you authenticated? 
+Is your access token valid? 
+Do you have permission to create a Virtual Machine? 
+For example...
+If you only have Reader access...
+Entra ID will allow you to log in...
+But Azure won't let you create a VM.
+So authentication happens first.
+Authorization happens next.
+.
+Step 4 – Azure Resource Manager (ARM)
+Once your identity is verified...
+The request reaches the 
+Azure Resource Manager
+, also called 
+ARM
+.
+You can think of ARM as Azure's traffic controller.
+Every request passes through ARM.
+ARM performs several checks.
+It validates:
+Is the request correct? 
+Does the Resource Group exist? 
+Is the Virtual Machine size valid? 
+Are all required parameters present? 
+Are Azure Policies being followed? 
+Are Resource Locks preventing changes? 
+Only after these checks does ARM continue.
+
+
+=== SLIDE 51 ===
+What happens behind the scenes when you create a Virtual Machine?
+Let's follow the request step by step.
+Step 5 – Subscription
+Next...
+ARM checks your Azure Subscription.
+Why?
+Because every Azure resource belongs to a 
+Subscription.
+Azure verifies things like:
+Is the Subscription active? 
+Do you have permission in this Subscription? 
+Has the subscription reached any quota? 
+Is billing active? 
+If the Subscription is disabled...
+The process stops here.
+No Virtual Machine is created.
+.
+Step 6 – 
+Microsoft.Compute
+ Resource Provider
+Now the request reaches the 
+Microsoft.Compute
+ Resource Provider
+.
+Different Azure services have different Resource Providers.
+For example:
+Microsoft.Compute
+ creates Virtual Machines. 
+Microsoft.Storage
+ creates Storage Accounts. 
+Microsoft.Network
+ creates Virtual Networks. 
+Since we're creating a Virtual Machine...
+The request goes to 
+Microsoft.Compute
+.
+Its job is to understand everything related to Virtual Machines.
+It prepares all the compute resources needed.
+
+
+=== SLIDE 52 ===
+What happens behind the scenes when you create a Virtual Machine?
+Let's follow the request step by step.
+Step 7 – Azure Region
+Now Azure needs to know...
+Where should this Virtual Machine be created?
+Maybe you selected:
+East US 
+West Europe 
+Central India 
+Azure routes the request to that specific Region.
+Remember...
+A Region is a physical location containing one or 
+more datacenters.
+.
+Step 8 – Azure Datacenter
+Inside the selected Region...
+Azure chooses one of its datacenters.
+The datacenter contains:
+Server racks 
+Networking equipment 
+Storage systems 
+Power systems 
+Cooling systems 
+This is the physical building where your Virtual Machine will eventually run.
+
+
+=== SLIDE 53 ===
+What happens next?
+Azure now sends a response back.
+The response travels through the same path in reverse.
+Virtual Machine
+↓
+Hyper-V Host
+↓
+Azure Datacenter
+↓
+Azure Region
+↓
+Microsoft.Compute
+↓
+Azure Resource Manager
+↓
+Azure Portal
+↓
+Browser
+Finally...
+The Azure Portal displays:
+Deployment Succeeded.
+.
+Let's summarize the complete flow.
+Browser sends the request. 
+Azure Portal or Azure CLI creates a REST API request. 
+Microsoft Entra ID authenticates you and checks permissions. 
+Azure Resource Manager validates the request and applies governance. 
+Azure Subscription checks billing, quotas, and limits. 
+Microsoft.Compute
+ Resource Provider handles VM creation. 
+Azure routes the request to the selected Region. 
+A Datacenter is selected. 
+A Hyper-V Host allocates physical resources. 
+The Virtual Machine is created and the success response is returned. 
+
+
+=== SLIDE 54 ===
+Azure Cloud Adoption Journey
+Step 1: Identify Business Requirements
+Understand the business goals.
+Identify the applications that will move to the cloud.
+Estimate users, security, and compliance requirements.
+Step 2: Create an Azure Account
+Sign up for Microsoft Azure.
+Add billing information.
+Verify your account.
+Output: Azure account is ready.
+Step 3: Create a Microsoft Entra ID Tenant
+Create a Microsoft Entra ID tenant for the organization.
+Add users and groups.
+Configure identity and authentication.
+Output: Organization identity is ready.
+Step 4: Create Azure Subscription(s)
+Create one or more Azure subscriptions.
+Configure billing.
+Create separate subscriptions for Production, Development, and Testing if needed.
+Output: Resource deployment and billing boundary is ready.
+
+
+=== SLIDE 55 ===
+Step 5: Organize with Management Groups (Optional)
+Group multiple subscriptions together.
+Apply Azure Policy, RBAC, and governance.
+Simplify administration for large organizations.
+Output: Subscription hierarchy is organized.
+Step 6: Design the Azure Landing Zone
+Plan networking.
+Configure identity, security, governance, and monitoring.
+Output: Enterprise-ready Azure environment.
+Step 7: Create Resource Groups
+Create logical containers for related resources.
+Organize resources by application, department, or environment.
+Output: Resources are organized.
+Step 8: Deploy Azure Resources
+Deploy Virtual Machines, Storage Accounts, Virtual Networks, SQL Databases, App Services, Key Vault, and other Azure services.
+Output: Applications are running in Azure.
+Step 9: Secure and Govern
+Configure RBAC.
+Apply Azure Policy.
+Enable Microsoft Defender for Cloud.
+Use resource locks and tags where appropriate.
+Step 10: Monitor and Optimize
+Use Azure Monitor.
+Review Azure Advisor recommendations.
+Manage costs, backups, disaster recovery, and performance.
+
+
+=== SLIDE 56 ===
+Now that we understand Azure's architecture...
+Let's move to something you'll use every day.
+The 
+Azure Portal
+.
+Almost every Azure administrator, cloud engineer, and architect starts here.
+Before I explain...
+Let me ask you a question.
+If Azure has thousands of services...
+How do we manage them?
+Do we memorize hundreds of commands?
+Do we manually connect to Microsoft's datacenters?
+Of course not.
+Microsoft gives us one central place to manage everything.
+That place is called the 
+Azure Portal
+.
+What is the Azure Portal?
+The Azure Portal is a 
+web-based management interface
+ for Microsoft Azure.
+In simple words...
+It is the 
+website where we manage Azure resources.
+Instead of remembering commands...
+We simply use our browser.
+Everything is available through a graphical interface.
+Azure Portal
+
+
+=== SLIDE 57 ===
+The Azure Portal itself does 
+not create Virtual Machines.
+It does 
+not create Storage Accounts.
+It does 
+not create Networks.
+Instead...
+It sends API requests to Azure Resource Manager.
+So think of the Azure Portal as a 
+control panel
+, not the actual cloud.
+Let's look at the screen.
+The first thing you'll notice...
+is the 
+Search bar
+ at the top.
+This is probably the feature you'll use the most.
+Instead of searching through menus...
+Simply type:
+Virtual Machine
+Storage Account
+Resource Group
+Virtual Network
+Azure quickly finds the service for you.
+Think of it as Google's search box for Azure resources.
+Azure Portal
+
+
+=== SLIDE 58 ===
+Look at the 
+Azure Services
+ section.
+These are shortcuts to the services you use most often.
+For example...
+Create a Resource 
+Storage Accounts 
+App Services 
+Resource Groups 
+Microsoft Entra ID 
+Microsoft Sentinel 
+Log Analytics Workspace 
+These shortcuts save time.
+Instead of searching every time...
+You simply click the service.
+Below that...
+You'll see the 
+Resources
+ section.
+This shows the Azure resources you've recently opened.
+For example...
+If you recently viewed a Virtual Machine...
+or a Storage Account...
+Azure displays them here.
+This makes it easy to continue your work without searching again.
+Azure Portal
+
+
+=== SLIDE 59 ===
+Now look further down.
+You'll see the 
+Navigate
+ section.
+These are some of the most commonly used areas.
+Let's understand each one.
+Subscriptions
+This is where you manage your Azure Subscriptions.
+Here you can see:
+Subscription Name 
+Subscription ID 
+Billing 
+Access 
+Resource usage 
+Remember...
+Every Azure resource belongs to a Subscription.
+Resource Groups
+This is where you organize Azure resources.
+For example...
+One Resource Group may contain:
+Virtual Machine 
+Storage Account 
+SQL Database 
+Virtual Network 
+Everything related to one application can be managed together.
+Azure Portal
+
+
+=== SLIDE 60 ===
+Now let's move to the top-right corner.
+You'll see your 
+user profile
+.
+This tells you:
+Who is currently signed in.
+If you belong to multiple organizations...
+This is also where you can switch between Tenants.
+Next to it...
+You'll notice the 
+Settings
+ icon.
+From here...
+You can customize:
+Theme 
+Language 
+Startup page 
+Notifications 
+These settings only affect your Azure Portal experience.
+They don't change Azure resources.
+Azure Portal
+
+
+=== SLIDE 61 ===
+You'll also see the 
+Notifications
+ icon.
+Whenever Azure completes an operation...
+Like creating a Virtual Machine...
+Deleting a Storage Account...
+Or deploying an ARM Template...
+Azure displays the progress here.
+If something fails...
+You'll also see the error message here.
+One of the newest features is 
+Copilot
+.
+Azure Copilot uses Artificial Intelligence to help you manage Azure.
+For example...
+You can ask:
+"Show all Virtual Machines."
+"Why is this VM stopped?"
+"Summarize my Azure resources."
+Instead of clicking through menus...
+You simply ask questions.
+Azure Portal
+
+
+=== SLIDE 62 ===
+The Azure Portal is Microsoft's web-based graphical management interface for Azure. It allows administrators to create, manage, monitor, and secure Azure resources. Behind the scenes, every action performed in the Portal is translated into an Azure Resource Manager REST API request.
+Azure Portal
+
+
+=== SLIDE 63 ===
+Azure PowerShell
+Now let's look at another way to manage Azure.
+Instead of clicking buttons in the Azure Portal...
+What if we could manage Azure by writing commands?
+That's exactly what 
+Azure PowerShell
+ allows us to do.
+Before I explain...
+Let me ask you a question.
+Suppose you need to create 
+100 Virtual Machines
+.
+Would you click 
+Create
+ one hundred times in the Azure Portal?
+Probably not.
+It would take a long time.
+Instead...
+We can automate the entire process with Azure PowerShell.
+
+
+=== SLIDE 64 ===
+What is Azure PowerShell?
+Azure PowerShell is a 
+command-line tool and scripting module
+ that allows you to manage Azure using 
+PowerShell commands
+.
+Instead of clicking buttons...
+You type commands.
+Azure executes them automatically.
+Azure PowerShell is built on top of 
+PowerShell
+.
+PowerShell is Microsoft's scripting language.
+Azure PowerShell simply adds Azure-specific commands called 
+cmdlets
+.
+For example...
+To sign in to Azure...
+You type:
+Connect-
+AzAccount
+A sign-in window appears.
+You enter your Azure credentials.
+Now you're connected to Azure.
+
+
+=== SLIDE 65 ===
+Why use Azure PowerShell?
+PowerShell is excellent for:
+Automation 
+Bulk operations 
+Repetitive tasks 
+Administration 
+Scripting 
+For example...
+Instead of creating 50 Storage Accounts manually...
+You can write a loop.
+PowerShell creates all 50 automatically.
+Behind the Scenes
+Here's something important.
+When you run:
+New-
+AzVM
+Does PowerShell create the Virtual Machine?
+No.
+PowerShell simply converts your command into an 
+Azure REST API request
+.
+That request goes to:
+Microsoft Entra ID
+Azure Resource Manager
+Microsoft.Compute
+ Resource Provider
+Azure Datacenter
+Virtual Machine
+So Azure PowerShell is just another interface for calling Azure APIs.
+
+
+=== SLIDE 66 ===
+Easy Way to Remember
+Think of Azure Portal and Azure PowerShell like driving a car.
+The 
+Azure Portal
+ is an automatic car.
+You press buttons and the car does the work.
+Azure PowerShell
+ is like giving precise instructions.
+Instead of clicking...
+You tell Azure exactly what to do using commands.
+Both reach the same destination.
+One uses a graphical interface.
+The other uses commands.
+Azure PowerShell is a PowerShell module used to manage Azure resources through cmdlets. It enables automation, scripting, and bulk administration. Behind the scenes, every Azure PowerShell cmdlet sends Azure Resource Manager REST API requests to Azure.
+
+
+=== SLIDE 67 ===
+Azure CLI
+Now let's look at another popular way to manage Azure.
+Azure CLI.
+You may have noticed that Azure PowerShell and Azure CLI both use commands.
+So.
+..
+What's the difference?
+Let's understand.
+Before I explain...Let me ask you a question.
+Suppose you're using:
+Windows 
+Linux 
+macOS 
+Can you use the same Azure management tool on all three operating systems?
+Yes.
+That's exactly why Microsoft created 
+Azure CLI
+.
+What is Azure CLI?
+Azure CLI stands for 
+Azure Command-Line Interface
+.
+In simple words...
+It is a command-line tool that allows you to manage Azure using simple commands.
+Instead of clicking buttons in the Azure Portal...
+You type commands in a terminal.
+Azure performs the requested action.
+
+
+=== SLIDE 68 ===
+Azure CLI is designed to work on:
+Windows 
+Linux 
+macOS 
+The commands remain almost the same on every operating system.
+That's one of its biggest advantages.
+Let's see an example.
+First...
+You need to sign in to Azure.
+Simply type:
+az
+ login
+A browser window opens.
+You sign in using your Microsoft account.
+Now Azure CLI is connected to your Azure account.
+Suppose you want to see all your Virtual Machines.
+Simply type:
+az
+ 
+vm
+ list
+Azure returns all the Virtual Machines in your subscription.
+
+
+=== SLIDE 69 ===
+Why use Azure CLI?
+Azure CLI is commonly used for:
+Automation 
+Shell scripting 
+DevOps 
+CI/CD pipelines 
+GitHub Actions 
+Azure DevOps Pipelines 
+Whenever you see automation in Azure...
+There's a good chance Azure CLI is involved.
+
+
+=== SLIDE 70 ===
+Azure CLI vs Azure PowerShell
+Many beginners ask this question.
+Both can manage Azure.
+Both call Azure REST APIs.
+But they are designed for different users.
+Azure CLI
+Azure PowerShell
+Uses 
+az
+ commands
+Uses PowerShell cmdlets
+Works the same on Windows, Linux, and macOS
+Best experience on Windows and PowerShell
+Preferred by Linux administrators
+Preferred by Windows administrators
+Uses Bash-style commands
+Uses PowerShell scripting
+Popular in DevOps and GitHub Actions
+Popular for Windows automation
+
+
+=== SLIDE 71 ===
+Azure CLI Command Structure
+Most Azure CLI commands follow a simple pattern.
+az
+ <service> <operation>
+For example:
+az
+ 
+vm
+ create
+az
+ → Azure CLI 
+vm
+ → Virtual Machine service 
+create
+ → Action
+Azure CLI is Microsoft's cross-platform command-line tool for managing Azure resources. It uses simple 
+az
+ commands, supports automation and scripting on Windows, Linux, and macOS, and every command ultimately sends Azure Resource Manager REST API requests to Azure.
+
+
+=== SLIDE 72 ===
+Azure VM
+
+
+=== SLIDE 73 ===
+What is this application?
+Imagine a company like 
+Amazon, Flipkart, Walmart, or eBay
+. Every second, thousands of customers are browsing products, searching, placing orders, making payments, uploading product images, and the company is also running analytics and machine learning in the background.
+One VM family cannot do all these jobs efficiently. Some tasks need more CPU, some need more memory, some need GPUs, while others need very fast storage. Azure provides different VM families so we can choose the best VM for each workload. This saves money and improves performance.
+Azure VM
+
+
+=== SLIDE 74 ===
+Let's walk through the application from left to right.
+1. Users access the application
+Customers open the website or mobile app.
+Their request first reaches Azure Front Door, WAF and Application Gateway for global routing, load balancing and security.
+After that, the request enters our Azure Virtual Network.
+2. B-Series VM (Burstable)
+The first workload is the 
+web frontend
+.
+These virtual machines display the website, product pages, login page and shopping cart.
+Most of the time CPU usage is low because users are just reading pages.
+Sometimes traffic suddenly increases during a sale.
+Instead of paying for a powerful VM all day, we use 
+B-Series
+ because it can burst CPU whenever traffic increases.
+Real job
+Website 
+Landing pages 
+Product catalogue 
+Static content 
+Azure VM
+
+
+=== SLIDE 75 ===
+What is Burst CPU?
+Imagine a small shop.
+Normally, only 
+5 customers
+ visit every minute, so one employee is enough.
+Suddenly, during a festival, 
+100 customers
+ arrive.
+Instead of hiring 10 employees permanently, you temporarily ask one employee to work much faster.
+That's exactly how 
+Burst CPU
+ works.
+A 
+B-Series VM
+ usually runs using only part of its CPU. While it's running at low usage, it 
+earns CPU credits
+.
+When the application suddenly needs more processing power, the VM uses those saved CPU credits to temporarily run at a much higher CPU speed.
+For example:
+Normal website traffic → CPU usage around 
+10–20%
+ 
+Black Friday sale → CPU jumps to 
+100%
+ for a while 
+After the traffic drops, the VM goes back to normal and starts earning CPU credits again. 
+Best use cases
+Small websites 
+Development servers 
+Test environments 
+Jump servers 
+Small APIs 
+Not suitable for workloads that require high CPU all day.
+Azure VM
+
+
+=== SLIDE 76 ===
+3. D-Series VM (General Purpose)
+Now the request reaches the application servers.
+This is where the actual business logic runs.
+The application checks
+user login 
+shopping cart 
+product availability 
+order creation 
+payment request 
+inventory updates 
+These servers need a balanced amount of CPU and memory.
+That's why we choose 
+D-Series
+.
+Think of D-Series as the all-rounder VM.
+Most enterprise applications run on D-Series.
+Azure VM
+
+
+=== SLIDE 77 ===
+4. E-Series VM (Memory Optimized)
+Now suppose a customer searches for
+"Samsung 65-inch 4K TV"
+The application needs very fast searching.
+Instead of reading millions of records from disk every time, it keeps frequently used data in memory.
+Redis Cache
+Large search indexes
+Recommendation engine
+Session storage
+        all need a large amount of RAM.
+CPU is not the main requirement here.
+Memory is.
+That's why we use 
+E-Series
+.
+Azure VM
+Instead of reading data from the database every time, 
+Redis stores frequently used data in memory (RAM).
+For example, thousands of users may request:
+Product list 
+Today's offers 
+User session 
+Shopping cart 
+Top-selling products 
+Instead of asking SQL Server every time,
+Application → Redis → Answer immediately
+Only if Redis doesn't have the data does it ask SQL Server.
+It may require 
+64 GB
+, 
+128 GB
+, or 
+256 GB
+ of RAM.
+An 
+E-Series VM
+ is perfect.
+
+
+=== SLIDE 78 ===
+5. Fsv2 Series (Compute Optimized)
+Now imagine the company starts a huge background job.
+Examples are
+calculating product recommendations 
+fraud detection 
+pricing calculations 
+sales forecasting 
+financial simulations 
+image processing 
+search indexing 
+These jobs perform millions of calculations.
+They don't require huge memory.
+They mainly need CPU power.
+This is where 
+Fsv2 Compute Optimized
+ VMs are perfect.
+Usually Azure Batch or VM Scale Sets create hundreds of Fsv2 VMs.
+Each VM processes one part of the workload.
+Together they finish the job much faster.
+Azure VM
+
+
+=== SLIDE 79 ===
+6. 
+NVads
+ A10 v5 (GPU Optimized)
+Now suppose the customer uploads a product photo.
+Or the company wants to generate AI product images.
+Or customers want to try furniture inside their room using augmented reality.
+These workloads require GPU.
+Examples are
+AI inference 
+Image generation 
+Video rendering 
+3D visualization 
+Product image enhancement 
+CPU alone cannot process these efficiently.
+GPU-optimized 
+NVads
+ A10 v5
+ VMs handle these workloads.
+Azure VM
+
+
+=== SLIDE 80 ===
+7. M-Series (Memory Optimized - Very Large)
+Now we reach the database layer.
+This company stores
+millions of customers 
+billions of orders 
+inventory 
+payment history 
+reports 
+Large enterprise databases like SAP HANA or SQL Server Enterprise can keep huge amounts of data in memory.
+Instead of reading from storage repeatedly, data stays in RAM for very fast queries.
+That's why 
+M-Series
+ VMs are used.
+These VMs provide enormous amounts of memory.
+Azure VM
+Example of M-Series
+Now imagine a multinational bank.
+It has
+50 million customers 
+20 years of transaction history 
+Thousands of employees running reports 
+The entire SAP HANA database may require 
+4 TB
+, 
+8 TB
+, or even 
+12 TB
+ of RAM.
+An 
+E-Series
+ cannot provide that much memory.
+That's why Azure provides 
+M-Series
+, which is built specifically for huge enterprise databases.
+
+
+=== SLIDE 81 ===
+8. L-Series (Storage Optimized)
+Finally, we have storage-intensive workloads.
+Examples are
+File servers 
+Log processing 
+Backup repositories 
+Video storage 
+Search indexes 
+Big log analytics 
+These workloads continuously read and write massive amounts of data.
+They don't mainly need CPU or memory.
+They need extremely fast local SSD storage.
+That's why 
+L-Series
+ VMs are used.
+Azure VM
+
+
+=== SLIDE 82 ===
+How everything works together
+So the complete flow is very simple.
+Customer opens the website.
+The web server on 
+B-Series
+ displays the pages.
+The application server on 
+D-Series
+ processes business logic.
+The 
+E-Series
+ cache provides frequently used data very quickly.
+Background calculations are performed by 
+Fsv2 Compute Optimized
+ VMs.
+AI image processing and rendering are handled by 
+NVads
+ A10 v5 GPU
+ VMs.
+Large enterprise databases run on 
+M-Series
+.
+High-speed file storage and log processing run on 
+L-Series
+.
+Finally, reports are generated in Power BI, monitoring is done through Azure Monitor, and security is handled by Microsoft Defender for Cloud.
+Azure VM
+
+
+=== SLIDE 83 ===
+One-line summary
+B-Series
+ → Small websites with occasional traffic spikes. 
+D-Series
+ → Everyday business applications. 
+E-Series
+ → Applications that need lots of memory. 
+Fsv2
+ → CPU-intensive calculations and batch processing. 
+NVads
+ A10 v5
+ → AI, graphics, rendering and video workloads. 
+M-Series
+ → Very large enterprise databases. 
+L-Series
+ → High-speed storage and file processing. 
+The key idea is simple:
+ Azure doesn't expect one VM family to do every job. It provides specialized VM families so each part of the application runs on the infrastructure best suited to its workload, delivering better performance and lower cost.
+Azure VM
+
+
+=== SLIDE 84 ===
+What is HPC?
+HPC stands for 
+High Performance Computing
+.
+Normally, one computer solves one problem.
+In HPC, 
+hundreds or even thousands of virtual machines work together to solve one very large problem.
+Instead of one VM taking 10 days, 1,000 VMs can finish the same job in a few hours.
+Real-world example
+Imagine a pharmaceutical company.
+Scientists are trying to discover a new medicine.
+To find the correct molecule, they need to test 
+billions of chemical combinations
+.
+One VM would take months.
+So Azure creates thousands of HPC virtual machines.
+Each VM tests a small group of molecules.
+All the results are combined together.
+This dramatically reduces the research time.
+Azure VM
+
+
+=== SLIDE 85 ===
+Other real-world HPC workloads
+Weather forecasting 
+Earthquake prediction 
+Aircraft design (Boeing, Airbus) 
+Car crash simulation (BMW, Tesla, Mercedes) 
+Oil and gas exploration 
+DNA and genome sequencing 
+Space research (NASA) 
+Financial risk modelling 
+Scientific research at universities 
+Azure VM
+Researcher submits one large job
+                │
+                ▼
+        Azure Batch / HPC Scheduler
+                │
+     ┌──────────┼──────────┐
+     ▼          ▼          ▼
+ HPC VM 1    HPC VM 2   HPC VM 3
+     ▼          ▼          ▼
+ Thousands of calculations
+     ▼          ▼          ▼
+      Results combined together
+                │
+                ▼
+          Final Answer
+
+
+=== SLIDE 86 ===
+Which Azure VM family is used?
+Azure provides dedicated HPC VM families such as:
+HB-series
+ – CPU-intensive scientific computing 
+HC-series
+ – Engineering simulations 
+HX-series
+ – Very large memory HPC workloads 
+These VMs include technologies such as:
+AMD EPYC processors 
+High-speed InfiniBand networking 
+RDMA (Remote Direct Memory Access) 
+Low-latency communication between VMs 
+This allows hundreds or thousands of VMs to exchange data extremely quickly, which is essential for HPC.
+Azure VM
+
+
+=== SLIDE 87 ===
+Simple way to explain
+Compute Optimized
+ means 
+"This VM has a very powerful CPU."
+HPC
+ means 
+"Many powerful VMs work together as one supercomputer."
+Azure VM
+Compute Optimized
+HPC
+One VM or a small VM Scale Set
+Hundreds or thousands of VMs
+High CPU for application processing
+Massive parallel computing
+Batch jobs, search indexing, fraud detection
+Scientific simulations, weather models, genome sequencing
+Fsv2, FX-series
+HB, HC, HX-series
+
+
+=== SLIDE 88 ===
+Azure VM
+1. Enable Secure Boot ✅ (Checked)
+What does it do?
+Secure Boot ensures that 
+only trusted and digitally signed software
+ is allowed to run when the VM starts.
+Normal boot
+Power On
+   │
+   ▼
+BIOS/UEFI
+   │
+   ▼
+Boot Loader
+   │
+   ▼
+Operating System
+If a hacker replaces the boot loader with malware, the operating system starts with the malware.
+Secure Boot enabled
+Power On
+   │
+   ▼
+UEFI Firmware
+   │
+Verify Digital Signature
+   │
+   ├── Trusted ✔ Boot continues
+   └── Untrusted ❌ Boot stops
+Only Microsoft-signed or trusted boot components are allowed.
+Protects against
+Bootkits
+ 
+Rootkits 
+Boot loader malware
+
+
+=== SLIDE 89 ===
+2. Enable 
+vTPM
+ (Virtual Trusted Platform Module) ✅ (Checked)
+A 
+TPM (Trusted Platform Module)
+ is normally a small security chip on a physical computer.
+Azure provides a 
+virtual TPM
+ inside the VM.
+It securely stores:
+Encryption keys 
+Certificates 
+Password-related secrets 
+BitLocker keys 
+Measured boot information 
+Example
+Suppose you enable 
+BitLocker
+ inside your Windows VM.
+Without TPM:
+Disk Encryption Key
+        │
+Stored somewhere on disk
+An attacker may be able to access it.
+With 
+vTPM
+:
+Disk Encryption Key
+        │
+Stored securely inside 
+vTPM
+The key is protected and cannot be easily extracted.
+Used by
+BitLocker 
+Windows Hello 
+Credential Guard 
+Device Guard 
+Measured Boot
+
+
+=== SLIDE 90 ===
+3. Integrity Monitoring ⬜ (Unchecked)
+This continuously checks whether the VM's boot process has been modified.
+Think of it as a security guard who checks every time the VM starts.
+Normal boot
+Firmware
+   │
+Boot Loader
+   │
+Operating System
+Azure records measurements of these components.
+Later it compares them.
+Previous Boot
+        │
+        ▼
+Current Boot
+        │
+Same? ✔ VM looks healthy
+Different? ❌ Generate security alert
+If someone changes:
+Firmware  , Boot loader ,Kernel ,Boot configuration 
+Azure can detect it and raise an alert.
+This feature integrates with 
+Microsoft Defender for Cloud
+.
+
+
+=== SLIDE 91 ===
+What is an Azure Spot VM?
+An 
+Azure Spot VM
+ is an Azure virtual machine that uses 
+unused (spare) capacity
+ in Microsoft's datacenters. Because Azure can reclaim that capacity at any time, Spot VMs are offered at a 
+significantly lower price
+ than regular VMs.
+Think of it like this:
+Azure has many servers. If some are sitting idle, Azure rents them at a big discount. But if another customer needs that capacity, Azure can take the Spot VM back.
+How it works
+Regular VM
+You request a VM
+        │
+        ▼
+Azure creates the VM
+        │
+        ▼
+VM keeps running until you stop or delete it
+Spot VM
+You request a Spot VM
+        │
+        ▼
+Azure uses spare capacity
+        │
+        ▼
+VM runs normally
+        │
+        ▼
+Azure needs the capacity
+        │
+        ▼
+Spot VM may be evicted (stopped or deleted)
+Why is it cheaper?
+A regular VM reserves capacity for you.
+A Spot VM 
+does not reserve capacity
+. Azure can reclaim it whenever capacity is needed elsewhere.
+That's why Spot VMs can be much cheaper.
+
+
+=== SLIDE 92 ===
+Best use cases
+Spot VMs are ideal for work that can be interrupted and restarted:
+Batch processing 
+Video transcoding 
+Image rendering 
+AI model training 
+HPC simulations 
+Data analysis 
+CI/CD build agents 
+Software testing 
+Scientific research 
+For example, if you need to process 
+10 million 
+images
+, you can run hundreds of Spot VMs. 
+If a few are evicted, your application 
+simply restarts those tasks on other VMs.
+Not suitable for
+Avoid Spot VMs for workloads that must stay online continuously, such as:
+Production web servers 
+SQL databases 
+Domain controllers 
+ERP systems 
+Banking applications 
+Real-time payment systems 
+These workloads require guaranteed availability.
+Eviction policies
+When Azure needs the capacity back, it can evict the Spot VM.
+You can choose what happens:
+Stop/Deallocate
+VM is stopped. 
+OS and data disks remain. 
+You can restart the VM later if capacity becomes available. 
+Delete
+VM is deleted. 
+Managed disks can optionally be retained, depending on your configuration. 
+
+
+=== SLIDE 93 ===
+The option you're seeing is 
+Ephemeral OS Disk
+. This is a special way to store the 
+operating system disk
+ of an Azure VM.
+What is an Ephemeral OS Disk?
+Normally, the operating system (Windows or Linux) is stored on a 
+Managed Disk
+.
+Managed Disk
+     │
+     ▼
+Windows/Linux OS
+With an 
+Ephemeral OS Disk
+, Azure stores the operating system on the 
+physical disk inside the host server
+ instead of a managed disk.
+Azure Host Server
+┌───────────────────────────┐
+│ CPU                       │
+│ Memory                    │
+│ Local SSD / 
+NVMe
+          │ ◄── Operating System stored here
+└───────────────────────────┘
+There is 
+no separate managed OS disk
+.
+
+
+=== SLIDE 94 ===
+Feature
+Managed OS Disk
+Ephemeral OS Disk
+Stored on
+Azure Managed Disk
+Host local SSD / Cache / NVMe
+Persistent
+✅ Yes
+❌ No
+Survives host failure
+✅ Yes
+❌ No
+Boot speed
+Good
+Excellent
+Reimage speed
+Slower
+Very fast
+Storage cost
+Managed disk charges apply
+No managed OS disk charge
+Best for
+Production workloads
+Stateless, disposable workloads
+
+
+=== SLIDE 95 ===
+"So, don't think of a 
+compromised web application
+ as a different application. It's the 
+same web application
+ that was working normally, but an attacker has found a vulnerability, such as SQL Injection or Remote Code Execution, and is now using that application to run malicious commands. Normally, the web application only does its intended job, like displaying products, processing orders, or reading a specific secret from Azure Key Vault using its Managed Identity. But once it's compromised, the attacker may try to access sensitive Azure services like the 
+Instance Metadata Service (IMDS)
+ to obtain a Managed Identity access token, and then use that token to access other Azure resources such as Key Vault, Storage Accounts, or SQL databases. Azure doesn't simply label an application as 'compromised'; instead, security solutions like Microsoft Defender monitor its behaviour and look for suspicious activities, such as unexpected token requests, unusual network connections, or attempts to access resources the application has never used before. This is where the 
+Metadata Security Protocol
+ becomes important. It adds an extra security layer in front of IMDS and 
+WireServer
+ by using the 
+Guest Proxy Agent
+ and 
+eBPF
+ to verify that requests are coming from trusted and authorised applications. If an attacker tries to misuse the web application to steal Managed Identity tokens, the request can be blocked before it ever reaches IMDS. In simple words, Metadata Security Protocol helps ensure that even if an attacker manages to compromise a web application, they cannot easily use it as a stepping stone to gain access to the rest of your Azure environment."
+
