@@ -293,32 +293,32 @@
     {
       "code": "AZ-BASICS-Q009",
       "title": "Azure Subscriptions as Boundaries",
-      "type": "SINGLE_CHOICE",
+      "type": "MULTIPLE_CHOICE",
       "difficulty": "INTERMEDIATE",
       "points": 1.0,
-      "explanation": "Subscriptions serve as a billing container (where usage charges are grouped) and a management security boundary for RBAC and quotas.",
+      "explanation": "An Azure Subscription acts as both a Billing Boundary (grouping usage costs) and an Access Control / Security Boundary (applying RBAC and policies).",
       "content": {
-        "prompt": "An Azure Subscription acts as a fundamental logical boundary for which two key functions?",
-        "explanation": "Subscriptions serve as a billing container (where usage charges are grouped) and a management security boundary for RBAC and quotas.",
+        "prompt": "An Azure Subscription acts as a fundamental logical boundary for which two key functions? (Select TWO)",
+        "explanation": "An Azure Subscription acts as both a Billing Boundary (grouping usage costs) and an Access Control / Security Boundary (applying RBAC and policies).",
         "options": [
           {
             "id": "opt-1",
-            "text": "Physical fiber optic cable routing and diesel generator fueling schedules.",
+            "text": "Physical Hardware Allocation Boundary: Used to assign CPU cores directly to server racks.",
             "isCorrect": false
           },
           {
             "id": "opt-2",
-            "text": "Web browser cookie storage and DNS domain registration.",
-            "isCorrect": false
+            "text": "Billing Boundary: Used to segregate costs, group consumption metrics, and generate separate invoices.",
+            "isCorrect": true
           },
           {
             "id": "opt-3",
-            "text": "Billing Boundary (generating separate invoices/costs) and Access Control / Security Boundary.",
+            "text": "Access Control & Security Boundary: Used as an administrative scope for applying RBAC role assignments and access policies.",
             "isCorrect": true
           },
           {
             "id": "opt-4",
-            "text": "Hardware RAM allocation and CPU clock speed regulation.",
+            "text": "Web Browser Session Boundary: Used to store user login cookies inside client web browsers.",
             "isCorrect": false
           }
         ]
