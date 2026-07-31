@@ -222,6 +222,19 @@ export const ExamListPage: React.FC = () => {
     }
   };
 
+  const [expandedRoomId, setExpandedRoomId] = useState<string | null>(null);
+
+  const handleDisconnectCandidate = async (roomId: string, userId: string, userName: string) => {
+    if (!window.confirm(`⚡ Force Disconnect Warning:\nAre you sure you want to disconnect candidate "${userName}" from this room?\n\nTheir active exam session will be terminated immediately.`)) return;
+    try {
+      const res = await api.post(`/rooms/${roomId}/disconnect-candidate`, { userId });
+      alert(`⚡ ${res.data.message}`);
+      fetchExamsAndRooms();
+    } catch (err: any) {
+      alert('Error disconnecting candidate: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
   const openEditExamModal = (exam: any) => {
     setEditingExamId(exam.id);
     setEditExamCode(exam.code);
@@ -362,36 +375,114 @@ export const ExamListPage: React.FC = () => {
                   </span>
                 </div>
 
-                <p className="text-xs font-bold text-slate-800">{room.title}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-bold text-slate-800">{room.title}</p>
+                  <span className="text-[11px] font-mono font-extrabold text-ntms-navy bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    👥 {room.roomSessions?.length || room._count?.roomSessions || 0} Active Logins
+                  </span>
+                </div>
 
                 {user?.role === 'ADMINISTRATOR' && (
-                  <div className="flex items-center gap-2 pt-1 border-t border-slate-200">
-                    <button
-                      onClick={() => handleToggleRoomStatus(room.id)}
-                      className={`flex-1 px-2 py-1 text-[10px] font-bold rounded border transition-colors ${
-                        room.status === 'OPEN' ? 'bg-rose-100 hover:bg-rose-200 text-rose-800 border-rose-300' : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border-emerald-300'
-                      }`}
-                    >
-                      {room.status === 'OPEN' ? '🔴 Close' : '🟢 Re-Open'}
-                    </button>
+                  <div className="space-y-2 pt-1 border-t border-slate-200">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleToggleRoomStatus(room.id)}
+                        className={`flex-1 px-2 py-1 text-[10px] font-bold rounded border transition-colors ${
+                          room.status === 'OPEN' ? 'bg-rose-100 hover:bg-rose-200 text-rose-800 border-rose-300' : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border-emerald-300'
+                        }`}
+                      >
+                        {room.status === 'OPEN' ? '🔴 Close' : '🟢 Re-Open'}
+                      </button>
+
+                      <button
+                        onClick={() => handleToggleAllowReview(room.id)}
+                        className={`flex-1 px-2 py-1 text-[10px] font-bold rounded border transition-colors ${
+                          room.allowReview !== false ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300' : 'bg-purple-100 hover:bg-purple-200 text-purple-900 border-purple-300'
+                        }`}
+                        title="Toggle Candidate Question/Answer Review"
+                      >
+                        {room.allowReview !== false ? '🔒 Review' : '👁 Review'}
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteRoom(room.id, room.roomCode)}
+                        className="px-2 py-1 text-[10px] font-bold rounded border bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-700 border-slate-300 transition-colors"
+                        title="Permanently Remove / Delete Room"
+                      >
+                        🗑 Delete
+                      </button>
+                    </div>
 
                     <button
-                      onClick={() => handleToggleAllowReview(room.id)}
-                      className={`flex-1 px-2 py-1 text-[10px] font-bold rounded border transition-colors ${
-                        room.allowReview !== false ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300' : 'bg-purple-100 hover:bg-purple-200 text-purple-900 border-purple-300'
-                      }`}
-                      title="Toggle Candidate Question/Answer Review"
+                      onClick={() => setExpandedRoomId(expandedRoomId === room.id ? null : room.id)}
+                      className="w-full px-2.5 py-1.5 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded text-[11px] font-bold shadow-xs flex items-center justify-between transition-all"
                     >
-                      {room.allowReview !== false ? '🔒 Review' : '👁 Review'}
+                      <span className="flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-sky-300" />
+                        Live Proctor Monitor ({room.roomSessions?.length || 0} Logins)
+                      </span>
+                      <span>{expandedRoomId === room.id ? '▲ Close' : '▼ Monitor'}</span>
                     </button>
+                  </div>
+                )}
 
-                    <button
-                      onClick={() => handleDeleteRoom(room.id, room.roomCode)}
-                      className="px-2 py-1 text-[10px] font-bold rounded border bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-700 border-slate-300 transition-colors"
-                      title="Permanently Remove / Delete Room"
-                    >
-                      🗑 Delete
-                    </button>
+                {/* Expanded Live Proctor Candidate List for Room */}
+                {user?.role === 'ADMINISTRATOR' && expandedRoomId === room.id && (
+                  <div className="mt-2 p-3 bg-white rounded border border-slate-300 space-y-2 shadow-inner">
+                    <h4 className="text-[11px] font-extrabold text-ntms-navy uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-1.5">
+                      <Users className="w-3.5 h-3.5 text-emerald-600" /> Active Candidate Logins in Room {room.roomCode}
+                    </h4>
+
+                    {(!room.roomSessions || room.roomSessions.length === 0) ? (
+                      <div className="p-4 text-center text-[11px] text-slate-500 font-medium">
+                        No candidates currently logged into this room.
+                      </div>
+                    ) : (
+                      <div className="divide-y divide-slate-200 text-xs font-sans">
+                        {room.roomSessions.map((session: any) => {
+                          const candidateAttempt = room.attempts?.find((att: any) => att.userId === session.user?.id);
+                          const isAttemptActive = candidateAttempt && !candidateAttempt.completedAt && candidateAttempt.status !== 'CLOSED' && candidateAttempt.status !== 'EXPIRED';
+
+                          return (
+                            <div key={session.id || session.user?.id} className="py-2 flex items-center justify-between gap-2">
+                              <div className="space-y-0.5">
+                                <div className="font-bold text-slate-900 flex items-center gap-2">
+                                  <span>{session.user?.name || 'Candidate'}</span>
+                                  {isAttemptActive ? (
+                                    <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-900 font-mono text-[9px] font-bold border border-emerald-300 animate-pulse">
+                                      🟢 IN PROGRESS
+                                    </span>
+                                  ) : candidateAttempt?.completedAt ? (
+                                    <span className="px-1.5 py-0.2 rounded bg-sky-100 text-ntms-navy font-mono text-[9px] font-bold border border-sky-300">
+                                      🔵 SUBMITTED ({candidateAttempt.scorePercentage}%)
+                                    </span>
+                                  ) : candidateAttempt?.status === 'CLOSED' ? (
+                                    <span className="px-1.5 py-0.2 rounded bg-rose-100 text-rose-900 font-mono text-[9px] font-bold border border-rose-300">
+                                      🔴 DISCONNECTED
+                                    </span>
+                                  ) : (
+                                    <span className="px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 font-mono text-[9px] font-bold border border-amber-300">
+                                      🟡 JOINED
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="text-[10px] text-slate-500 font-mono">
+                                  {session.user?.email} • Joined {new Date(session.joinedAt).toLocaleTimeString()}
+                                </div>
+                              </div>
+
+                              <button
+                                onClick={() => handleDisconnectCandidate(room.id, session.user?.id, session.user?.name || 'Candidate')}
+                                className="px-2.5 py-1 bg-rose-100 hover:bg-rose-600 hover:text-white text-rose-800 border border-rose-300 rounded font-mono text-[10px] font-extrabold transition-all shadow-xs flex items-center gap-1 shrink-0"
+                                title="Force Disconnect Candidate & End Active Exam Session"
+                              >
+                                ⚡ Disconnect
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

@@ -17,7 +17,19 @@ export class RoomController {
         where,
         include: {
           exam: { select: { id: true, code: true, title: true, vendor: true, timeLimitMinutes: true } },
-          _count: { select: { roomSessions: true } },
+          _count: { select: { roomSessions: true, attempts: true } },
+          roomSessions: role === 'ADMINISTRATOR' ? {
+            include: {
+              user: { select: { id: true, name: true, email: true, role: true } },
+            },
+            orderBy: { joinedAt: 'desc' },
+          } : false,
+          attempts: role === 'ADMINISTRATOR' ? {
+            include: {
+              user: { select: { id: true, name: true, email: true } },
+            },
+            orderBy: { startedAt: 'desc' },
+          } : false,
         },
         orderBy: { createdAt: 'desc' },
       });
@@ -229,6 +241,51 @@ export class RoomController {
       await prisma.examRoom.delete({ where: { id: roomId } });
 
       return res.json({ message: `Exam Room "${room.title}" (${room.roomCode}) deleted successfully.` });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  // Admin Force Disconnect Candidate from Exam Room Session
+  async disconnectCandidate(req: Request, res: Response) {
+    try {
+      const { roomId } = req.params;
+      const { userId } = req.body;
+
+      if (!userId) return res.status(400).json({ error: 'User ID is required to disconnect candidate.' });
+
+      const room = await prisma.examRoom.findUnique({ where: { id: roomId } });
+      if (!room) return res.status(404).json({ error: 'Exam Room not found.' });
+
+      const candidateUser = await prisma.user.findUnique({ where: { id: userId } });
+
+      // Expire any active in-progress attempts for this candidate in this room
+      await prisma.examAttempt.updateMany({
+        where: {
+          userId,
+          OR: [
+            { roomId },
+            { examId: room.examId },
+          ],
+          completedAt: null,
+          status: { notIn: ['EVALUATED', 'CLOSED', 'EXPIRED'] },
+        },
+        data: { status: 'CLOSED' },
+      });
+
+      // Remove Room Session record
+      await prisma.roomSession.deleteMany({
+        where: { roomId, userId },
+      });
+
+      // Revoke per-student exam unlock access
+      await prisma.studentExamAccess.deleteMany({
+        where: { userId, examId: room.examId },
+      });
+
+      return res.json({
+        message: `Candidate ${candidateUser?.name || userId} has been disconnected and active session terminated.`,
+      });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
