@@ -212,6 +212,16 @@ export const ExamListPage: React.FC = () => {
     }
   };
 
+  const handleDeleteRoom = async (roomId: string, roomCode: string) => {
+    if (!window.confirm(`Are you sure you want to permanently delete Exam Room "${roomCode}"? All active candidate sessions for this room will be cleared.`)) return;
+    try {
+      await api.delete(`/rooms/${roomId}`);
+      fetchExamsAndRooms();
+    } catch (err: any) {
+      alert('Error deleting room: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
   const openEditExamModal = (exam: any) => {
     setEditingExamId(exam.id);
     setEditExamCode(exam.code);
@@ -362,7 +372,7 @@ export const ExamListPage: React.FC = () => {
                         room.status === 'OPEN' ? 'bg-rose-100 hover:bg-rose-200 text-rose-800 border-rose-300' : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border-emerald-300'
                       }`}
                     >
-                      {room.status === 'OPEN' ? '🔴 Close Room' : '🟢 Re-Open Room'}
+                      {room.status === 'OPEN' ? '🔴 Close' : '🟢 Re-Open'}
                     </button>
 
                     <button
@@ -372,7 +382,15 @@ export const ExamListPage: React.FC = () => {
                       }`}
                       title="Toggle Candidate Question/Answer Review"
                     >
-                      {room.allowReview !== false ? '🔒 Lock Review' : '👁 Allow Review'}
+                      {room.allowReview !== false ? '🔒 Review' : '👁 Review'}
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteRoom(room.id, room.roomCode)}
+                      className="px-2 py-1 text-[10px] font-bold rounded border bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-700 border-slate-300 transition-colors"
+                      title="Permanently Remove / Delete Room"
+                    >
+                      🗑 Delete
                     </button>
                   </div>
                 )}

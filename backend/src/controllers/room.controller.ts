@@ -205,4 +205,29 @@ export class RoomController {
       return res.status(500).json({ error: err.message });
     }
   }
+
+  // Permanently Delete / Remove Exam Room
+  async deleteRoom(req: Request, res: Response) {
+    try {
+      const { roomId } = req.params;
+      const room = await prisma.examRoom.findUnique({ where: { id: roomId } });
+      if (!room) return res.status(404).json({ error: 'Exam Room not found' });
+
+      // Auto-expire any active in-progress attempts associated with this room
+      await prisma.examAttempt.updateMany({
+        where: {
+          roomId,
+          completedAt: null,
+          status: { notIn: ['EVALUATED', 'CLOSED', 'EXPIRED'] },
+        },
+        data: { status: 'CLOSED' },
+      });
+
+      await prisma.examRoom.delete({ where: { id: roomId } });
+
+      return res.json({ message: `Exam Room "${room.title}" (${room.roomCode}) deleted successfully.` });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
 }
