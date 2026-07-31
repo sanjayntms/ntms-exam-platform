@@ -17,7 +17,7 @@ interface ExamSessionContextType {
   timeRemainingSeconds: number;
   isCalculatorOpen: boolean;
   isScratchpadOpen: boolean;
-  setExamSession: (exam: Exam, attemptId: string, initialAnswersJson?: string, startedAt?: string) => void;
+  setExamSession: (exam: Exam | null, attemptId?: string | null, initialAnswersJson?: string, startedAt?: string) => void;
   setCurrentQuestionIndex: (idx: number) => void;
   toggleMarkForReview: (qId: string) => void;
   updateQuestionAnswer: (qId: string, answer: any) => void;
@@ -39,9 +39,19 @@ export const ExamSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [isCalculatorOpen, setCalculatorOpen] = useState<boolean>(false);
   const [isScratchpadOpen, setScratchpadOpen] = useState<boolean>(false);
 
-  const setExamSession = (examData: Exam, newAttemptId: string, initialAnswersJson?: string, startedAt?: string) => {
+  const setExamSession = (examData: Exam | null, newAttemptId?: string | null, initialAnswersJson?: string, startedAt?: string) => {
+    if (!examData) {
+      setExam(null);
+      setAttemptId(null);
+      setFlatQuestions([]);
+      setQuestionStates({});
+      try {
+        localStorage.removeItem('ntms_exam_session');
+      } catch {}
+      return;
+    }
     setExam(examData);
-    setAttemptId(newAttemptId);
+    setAttemptId(newAttemptId || null);
 
     // Calculate time remaining based on startedAt timestamp
     if (startedAt) {
