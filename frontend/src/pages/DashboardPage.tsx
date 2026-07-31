@@ -104,7 +104,7 @@ export const DashboardPage: React.FC = () => {
 
           <div className="space-y-3">
             <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">
-              Enterprise Examination Center <br />
+              NTMS Cloud Examination Center <br />
               <span className="bg-gradient-to-r from-sky-400 via-blue-300 to-indigo-300 bg-clip-text text-transparent">
                 & Certification Halls
               </span>
