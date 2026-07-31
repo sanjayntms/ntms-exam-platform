@@ -262,8 +262,8 @@ export class ExamEngineService {
     // Evaluate scoring for assigned sampled questions (or full exam if no sampling metadata)
     const fullExam = attempt.exam;
     let selectedQuestionIds: string[] = [];
-    if (mergedAnswers._meta?.selectedQuestionIds) {
-      selectedQuestionIds = mergedAnswers._meta.selectedQuestionIds;
+    if ((mergedAnswers as any)._meta?.selectedQuestionIds) {
+      selectedQuestionIds = (mergedAnswers as any)._meta.selectedQuestionIds;
     }
 
     const sectionsToEvaluate = fullExam.sections
