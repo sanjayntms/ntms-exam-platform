@@ -40,32 +40,31 @@ export class ExamEngineService {
 
     let roomQuestionCount: number | null = null;
 
-    // Validate lock status and resolve room question count:
+    // Validate room status and candidate room session:
     if (targetRoomId) {
       const room = await prisma.examRoom.findUnique({ where: { id: targetRoomId } });
-      if (room && room.questionCount && room.questionCount > 0) {
-        roomQuestionCount = room.questionCount;
+      if (!room || room.status === 'CLOSED') {
+        throw new Error('🔒 Exam Room Closed: The Administrator has closed this exam room. Exam attempt cannot be started.');
       }
-    } else {
-      const openRoom = await prisma.examRoom.findFirst({
-        where: { examId, status: 'OPEN' },
-        orderBy: { createdAt: 'desc' },
-      });
-      if (openRoom) {
-        targetRoomId = openRoom.id;
-        if (openRoom.questionCount && openRoom.questionCount > 0) {
-          roomQuestionCount = openRoom.questionCount;
-        }
+      if (room.questionCount && room.questionCount > 0) {
+        roomQuestionCount = room.questionCount;
       }
     }
 
-    if (effectiveRole !== Role.ADMINISTRATOR && !(exam as any).isGloballyUnlocked && !targetRoomId) {
-      const access = await prisma.studentExamAccess.findUnique({
+    if (effectiveRole !== Role.ADMINISTRATOR && !(exam as any).isGloballyUnlocked) {
+      if (!targetRoomId) {
+        throw new Error('🔒 Proctored Room Code Required: This exam track requires joining an active Exam Room. Please enter your Room Code to launch this exam.');
+      }
+
+      const roomSession = await prisma.roomSession.findUnique({
+        where: { roomId_userId: { roomId: targetRoomId, userId: user.id } },
+      });
+      const studentAccess = await prisma.studentExamAccess.findUnique({
         where: { userId_examId: { userId: user.id, examId } },
       });
 
-      if (!access || !access.isUnlocked) {
-        throw new Error('This exam track is currently LOCKED. Please ask Admin (sanjay@ntmsentra.onmicrosoft.com) to open an Exam Room for this track.');
+      if (!roomSession && (!studentAccess || !studentAccess.isUnlocked)) {
+        throw new Error('🔒 Proctored Room Session Required: You must enter the live Exam Room Code before launching this exam.');
       }
     }
 

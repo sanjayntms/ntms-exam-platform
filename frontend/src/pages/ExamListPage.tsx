@@ -68,14 +68,30 @@ export const ExamListPage: React.FC = () => {
     fetchExamsAndRooms();
   }, []);
 
-  const handleStartExam = async (examId: string) => {
+  const handleStartExam = (examId: string) => {
     if (!user) {
-      alert('🔒 Authentication Required: Only logged-in candidates can enter an Exam Room. Please log in or register.');
+      alert('🔒 Authentication Required: Only registered candidates can launch an exam.');
       navigate('/login');
       return;
     }
 
     const targetExam = exams.find((e) => e.id === examId);
+    const openRoomForExam = rooms.find((r) => r.examId === examId && r.status === 'OPEN');
+
+    if (user.role !== 'ADMINISTRATOR' && !targetExam?.isGloballyUnlocked) {
+      if (openRoomForExam) {
+        setNameModalConfig({
+          isOpen: true,
+          mode: 'JOIN_ROOM',
+          roomCode: openRoomForExam.roomCode,
+        });
+        return;
+      } else {
+        alert('🔒 Proctored Exam Room Required: This certification exam requires an active Exam Room. Please enter your live Room Code provided by your Administrator.');
+        return;
+      }
+    }
+
     setNameModalConfig({
       isOpen: true,
       mode: 'START_EXAM',
