@@ -105,21 +105,37 @@ export class AttemptController {
         }
       }
 
-      // Determine allowReview status for candidate
+      // Determine allowReview status for candidate and validate room open status for active attempt
       let allowReview = true;
       const roomId = (attempt as any).roomId;
+      let targetRoom: any = null;
+
       if (roomId) {
-        const room = await prisma.examRoom.findUnique({ where: { id: roomId } });
-        if (room) {
-          allowReview = room.allowReview;
+        targetRoom = await prisma.examRoom.findUnique({ where: { id: roomId } });
+        if (targetRoom) {
+          allowReview = targetRoom.allowReview;
         }
       } else {
-        const activeRoom = await prisma.examRoom.findFirst({
+        targetRoom = await prisma.examRoom.findFirst({
           where: { examId: attempt.examId },
           orderBy: { createdAt: 'desc' },
         });
-        if (activeRoom) {
-          allowReview = activeRoom.allowReview;
+        if (targetRoom) {
+          allowReview = targetRoom.allowReview;
+        }
+      }
+
+      // If attempt is in-progress and the exam room is CLOSED (and exam not globally unlocked), block access
+      const isAttemptInProgress = !attempt.completedAt && attempt.status !== 'EVALUATED';
+      const isUnlocked = (attempt as any).exam?.isGloballyUnlocked;
+      if (isAttemptInProgress && !isUnlocked) {
+        if (targetRoom && targetRoom.status === 'CLOSED') {
+          // Auto-expire attempt in DB
+          await prisma.examAttempt.update({
+            where: { id: attempt.id },
+            data: { status: 'CLOSED' },
+          });
+          return res.status(403).json({ error: '🔒 Exam Room Closed: The Administrator has closed this exam room. In-progress exam attempt cleared.' });
         }
       }
 
@@ -136,6 +152,26 @@ export class AttemptController {
   async myAttempts(req: Request, res: Response) {
     try {
       const userId = req.user?.id || 'candidate';
+      
+      // Auto-expire in-progress attempts whose rooms are CLOSED
+      const userAttempts = await prisma.examAttempt.findMany({
+        where: { userId },
+        include: { exam: true, room: true },
+      });
+
+      for (const att of userAttempts) {
+        if (!att.completedAt && att.status !== 'EVALUATED' && att.status !== 'CLOSED' && att.status !== 'EXPIRED') {
+          const roomIsClosed = att.room ? att.room.status === 'CLOSED' : false;
+          const isGloballyUnlocked = att.exam?.isGloballyUnlocked || false;
+          if (roomIsClosed && !isGloballyUnlocked) {
+            await prisma.examAttempt.update({
+              where: { id: att.id },
+              data: { status: 'CLOSED' },
+            });
+          }
+        }
+      }
+
       const attempts = await this.uow.attempts.findByUser(userId);
       return res.json(attempts);
     } catch (err: any) {

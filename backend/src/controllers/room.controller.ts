@@ -71,6 +71,23 @@ export class RoomController {
         include: { exam: { select: { id: true, code: true, title: true } } },
       });
 
+      // If room is closed, automatically clear/expire all in-progress exam attempts for this room & exam
+      if (newStatus === 'CLOSED') {
+        await prisma.examAttempt.updateMany({
+          where: {
+            OR: [
+              { roomId: roomId },
+              { examId: room.examId },
+            ],
+            completedAt: null,
+            status: { notIn: ['EVALUATED', 'CLOSED', 'EXPIRED'] },
+          },
+          data: {
+            status: 'CLOSED',
+          },
+        });
+      }
+
       return res.json(updated);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
