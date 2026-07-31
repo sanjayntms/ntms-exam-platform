@@ -30,7 +30,7 @@ export class RoomController {
   // Create a new proctor exam room
   async createRoom(req: Request, res: Response) {
     try {
-      const { roomCode, title, examId, status, allowReview } = req.body;
+      const { roomCode, title, examId, status, allowReview, questionCount } = req.body;
       const createdBy = req.user?.email || 'admin';
 
       const existing = await prisma.examRoom.findUnique({ where: { roomCode } });
@@ -45,6 +45,7 @@ export class RoomController {
           examId,
           status: status || 'OPEN',
           allowReview: allowReview !== undefined ? Boolean(allowReview) : true,
+          questionCount: questionCount ? parseInt(String(questionCount), 10) : null,
           createdBy,
         },
         include: { exam: { select: { id: true, code: true, title: true } } },

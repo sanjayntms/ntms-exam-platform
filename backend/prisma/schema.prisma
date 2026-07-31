@@ -154,15 +154,16 @@ model Exam {
 }
 
 model ExamRoom {
-  id          String        @id @default(uuid())
-  roomCode    String        @unique
-  title       String
-  examId      String
-  status      String        @default("OPEN") // "OPEN" | "CLOSED"
-  allowReview Boolean       @default(true)
-  createdBy   String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id            String        @id @default(uuid())
+  roomCode      String        @unique
+  title         String
+  examId        String
+  status        String        @default("OPEN") // "OPEN" | "CLOSED"
+  allowReview   Boolean       @default(true)
+  questionCount Int?          // Configured question count limit for candidates in this room
+  createdBy     String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   exam         Exam          @relation(fields: [examId], references: [id], onDelete: Cascade)
   roomSessions RoomSession[]

@@ -38,41 +38,49 @@ export class ExamEngineService {
     const effectiveRole = userRole || user.role;
     let targetRoomId = roomId;
 
-    // Validate lock status:
-    if (effectiveRole !== Role.ADMINISTRATOR && !(exam as any).isGloballyUnlocked) {
+    let roomQuestionCount: number | null = null;
+
+    // Validate lock status and resolve room question count:
+    if (targetRoomId) {
+      const room = await prisma.examRoom.findUnique({ where: { id: targetRoomId } });
+      if (room && room.questionCount && room.questionCount > 0) {
+        roomQuestionCount = room.questionCount;
+      }
+    } else {
       const openRoom = await prisma.examRoom.findFirst({
         where: { examId, status: 'OPEN' },
         orderBy: { createdAt: 'desc' },
       });
-
       if (openRoom) {
         targetRoomId = openRoom.id;
-      } else {
-        const access = await prisma.studentExamAccess.findUnique({
-          where: { userId_examId: { userId: user.id, examId } },
-        });
-
-        if (!access || !access.isUnlocked) {
-          throw new Error('This exam track is currently LOCKED. Please ask Admin (sanjay@ntmsentra.onmicrosoft.com) to open an Exam Room for this track.');
+        if (openRoom.questionCount && openRoom.questionCount > 0) {
+          roomQuestionCount = openRoom.questionCount;
         }
       }
-    } else if (!targetRoomId) {
-      const openRoom = await prisma.examRoom.findFirst({
-        where: { examId, status: 'OPEN' },
-        orderBy: { createdAt: 'desc' },
-      });
-      if (openRoom) targetRoomId = openRoom.id;
     }
 
-    // Sample questions based on requestedQuestionCount or default to all questions
-    const targetCount = requestedQuestionCount && requestedQuestionCount > 0 ? requestedQuestionCount : 0;
-    const { sampledExam, selectedQuestionIds, optionOrders, totalQuestions } = this.sampleQuestionsForExam(exam, targetCount);
+    if (effectiveRole !== Role.ADMINISTRATOR && !(exam as any).isGloballyUnlocked && !targetRoomId) {
+      const access = await prisma.studentExamAccess.findUnique({
+        where: { userId_examId: { userId: user.id, examId } },
+      });
+
+      if (!access || !access.isUnlocked) {
+        throw new Error('This exam track is currently LOCKED. Please ask Admin (sanjay@ntmsentra.onmicrosoft.com) to open an Exam Room for this track.');
+      }
+    }
+
+    // Sample questions based on room questionCount or requestedQuestionCount or default to all questions
+    const finalRequestedCount = roomQuestionCount && roomQuestionCount > 0
+      ? roomQuestionCount
+      : (requestedQuestionCount && requestedQuestionCount > 0 ? requestedQuestionCount : 0);
+
+    const { sampledExam, selectedQuestionIds, optionOrders, totalQuestions } = this.sampleQuestionsForExam(exam, finalRequestedCount);
 
     const initialAnswersObj = {
       _meta: {
         selectedQuestionIds,
         optionOrders,
-        requestedQuestionCount: targetCount > 0 ? targetCount : totalQuestions,
+        requestedQuestionCount: finalRequestedCount > 0 ? finalRequestedCount : totalQuestions,
       },
     };
 
