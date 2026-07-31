@@ -54,7 +54,7 @@ export const ExamResultsPage: React.FC = () => {
   const totalQuestions = attempt.totalQuestions || 43;
   const correctCount = attempt.correctAnswers || 0;
   const rawAnswersObj = attempt.answers ? JSON.parse(attempt.answers) : {};
-  const answeredCount = Object.keys(rawAnswersObj).length;
+  const answeredCount = Object.keys(rawAnswersObj).filter((key) => !key.startsWith('_')).length;
   const unansweredCount = Math.max(0, totalQuestions - answeredCount);
   const allowReview = attempt.allowReview !== false;
 

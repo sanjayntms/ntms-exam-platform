@@ -259,13 +259,31 @@ export class ExamEngineService {
       });
     }
 
-    // Evaluate scoring for all questions in the exam and calculate per-section domain performance
-    const exam = attempt.exam;
+    // Evaluate scoring for assigned sampled questions (or full exam if no sampling metadata)
+    const fullExam = attempt.exam;
+    let selectedQuestionIds: string[] = [];
+    if (mergedAnswers._meta?.selectedQuestionIds) {
+      selectedQuestionIds = mergedAnswers._meta.selectedQuestionIds;
+    }
+
+    const sectionsToEvaluate = fullExam.sections
+      .map((sec: any) => {
+        if (selectedQuestionIds.length > 0) {
+          return {
+            ...sec,
+            questions: sec.questions.filter((sq: any) => sq.question && selectedQuestionIds.includes(sq.question.id)),
+          };
+        }
+        return sec;
+      })
+      .filter((sec: any) => sec.questions.length > 0);
+
     let earnedPoints = 0.0;
     let totalPossiblePoints = 0.0;
     let correctCount = 0;
+    let evaluatedQuestionCount = 0;
 
-    const sectionScores = exam.sections.map((section: any) => {
+    const sectionScores = sectionsToEvaluate.map((section: any) => {
       let secTotal = 0;
       let secCorrect = 0;
 
@@ -273,6 +291,7 @@ export class ExamEngineService {
         const q = sq.question;
         totalPossiblePoints += q.points;
         secTotal++;
+        evaluatedQuestionCount++;
 
         const userAnswer = (mergedAnswers as any)[q.id];
         if (userAnswer) {
@@ -281,7 +300,7 @@ export class ExamEngineService {
             earnedPoints += q.points;
             correctCount++;
             secCorrect++;
-          } else if (exam.negativeMarking && q.negativePoints > 0) {
+          } else if (fullExam.negativeMarking && q.negativePoints > 0) {
             earnedPoints = Math.max(0, earnedPoints - q.negativePoints);
           }
         }
@@ -304,13 +323,14 @@ export class ExamEngineService {
     });
 
     const scorePercentage = totalPossiblePoints > 0 ? (earnedPoints / totalPossiblePoints) * 100 : 0;
-    const passed = scorePercentage >= exam.passingScore;
+    const passed = scorePercentage >= fullExam.passingScore;
 
     return this.uow.attempts.update(attemptId, {
       answers: JSON.stringify(mergedAnswers),
       sectionScores: JSON.stringify(sectionScores),
       status: AttemptStatus.EVALUATED,
       completedAt: new Date(),
+      totalQuestions: evaluatedQuestionCount > 0 ? evaluatedQuestionCount : attempt.totalQuestions,
       scorePercentage: parseFloat(scorePercentage.toFixed(2)),
       correctAnswers: correctCount,
       passed,
