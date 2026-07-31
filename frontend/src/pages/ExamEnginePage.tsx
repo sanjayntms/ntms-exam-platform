@@ -40,6 +40,7 @@ export const ExamEnginePage: React.FC = () => {
 
   const [loadingAttempt, setLoadingAttempt] = useState(!exam);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [roomClosedModalMessage, setRoomClosedModalMessage] = useState<string | null>(null);
   const [showPalette, setShowPalette] = useState(false);
   const [showEndConfirm, setShowEndConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,7 +69,13 @@ export const ExamEnginePage: React.FC = () => {
           }
         } catch (err: any) {
           console.error(err);
-          setLoadError(err.response?.data?.error || 'Unable to load exam session from server.');
+          const errMsg = err.response?.data?.error || 'Unable to load exam session from server.';
+          if (err.response?.status === 403 || errMsg.includes('Closed') || errMsg.includes('Removed')) {
+            setExamSession(null);
+            setRoomClosedModalMessage(errMsg);
+          } else {
+            setLoadError(errMsg);
+          }
         } finally {
           setLoadingAttempt(false);
         }
@@ -80,32 +87,77 @@ export const ExamEnginePage: React.FC = () => {
     fetchAttemptData();
   }, [urlAttemptId, attemptId, exam]);
 
-  // Periodic 10-second background autosave to persistent database on VM
+  // Periodic 5-second background room status check & answer autosave
   useEffect(() => {
     const targetAttemptId = urlAttemptId || attemptId;
     if (!targetAttemptId || !exam) return;
 
-    const interval = setInterval(() => {
-      const answersMap: Record<string, any> = {};
-      let hasAnswers = false;
-      Object.keys(questionStates).forEach((qId) => {
-        if (questionStates[qId]?.answer !== null && questionStates[qId]?.answer !== undefined) {
-          answersMap[qId] = questionStates[qId].answer;
-          hasAnswers = true;
+    const interval = setInterval(async () => {
+      try {
+        // Heartbeat check room open status
+        const checkRes = await api.get(`/attempts/${targetAttemptId}`);
+        if (checkRes.data && (checkRes.data.status === 'CLOSED' || checkRes.data.status === 'EXPIRED')) {
+          setExamSession(null);
+          setRoomClosedModalMessage('🔒 Exam Room Closed: The Administrator has closed or removed this exam room. Active exam session terminated.');
+          return;
         }
-      });
 
-      if (hasAnswers) {
-        api.post('/attempts/submit', {
-          attemptId: targetAttemptId,
-          answers: answersMap,
-          isFinalSubmit: false,
-        }).catch((err) => console.error('Autosave error:', err));
+        // Autosave answers
+        const answersMap: Record<string, any> = {};
+        let hasAnswers = false;
+        Object.keys(questionStates).forEach((qId) => {
+          if (questionStates[qId]?.answer !== null && questionStates[qId]?.answer !== undefined) {
+            answersMap[qId] = questionStates[qId].answer;
+            hasAnswers = true;
+          }
+        });
+
+        if (hasAnswers) {
+          await api.post('/attempts/submit', {
+            attemptId: targetAttemptId,
+            answers: answersMap,
+            isFinalSubmit: false,
+          });
+        }
+      } catch (err: any) {
+        if (err.response?.status === 403 || err.response?.data?.error?.includes('Closed') || err.response?.data?.error?.includes('Removed')) {
+          setExamSession(null);
+          setRoomClosedModalMessage(err.response?.data?.error || '🔒 Exam Room Closed: This proctored exam room was closed or removed by the Administrator.');
+        }
       }
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [urlAttemptId, attemptId, exam, questionStates]);
+
+  if (roomClosedModalMessage) {
+    return (
+      <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center z-50 p-6 font-sans text-slate-900">
+        <div className="bg-white rounded-xl border border-slate-300 max-w-lg w-full p-8 shadow-2xl space-y-5 text-center">
+          <div className="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto shadow-inner">
+            <AlertTriangle className="w-9 h-9" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-xl font-black text-slate-900 tracking-tight">Active Exam Session Terminated</h2>
+            <p className="text-xs text-slate-600 font-medium leading-relaxed">
+              {roomClosedModalMessage}
+            </p>
+          </div>
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                setExamSession(null);
+                navigate('/dashboard');
+              }}
+              className="w-full py-3 bg-ntms-navy hover:bg-ntms-hoverBlue text-white rounded-lg font-bold text-xs shadow-lg transition-all"
+            >
+              Return to Candidate Dashboard ➜
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loadingAttempt) {
     return (

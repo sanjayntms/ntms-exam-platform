@@ -252,6 +252,28 @@ export class ExamEngineService {
     const attempt = await this.uow.attempts.findById(attemptId);
     if (!attempt) throw new Error('Exam attempt not found');
 
+    // Validate if the room or exam for this attempt is closed or deleted
+    if (attempt.status === 'CLOSED' || attempt.status === 'EXPIRED') {
+      throw new Error('🔒 Exam Room Closed: The Administrator has closed or deleted this exam room. Active exam session terminated.');
+    }
+
+    const roomId = (attempt as any).roomId;
+    let room: any = null;
+    if (roomId) {
+      room = await prisma.examRoom.findUnique({ where: { id: roomId } });
+    } else {
+      room = await prisma.examRoom.findFirst({
+        where: { examId: attempt.examId },
+        orderBy: { createdAt: 'desc' },
+      });
+    }
+
+    const isUnlocked = (attempt as any).exam?.isGloballyUnlocked;
+    if (!isUnlocked && (!room || room.status === 'CLOSED')) {
+      await this.uow.attempts.update(attemptId, { status: 'CLOSED' });
+      throw new Error('🔒 Exam Room Closed: The Administrator has closed or deleted this exam room. Active exam session terminated.');
+    }
+
     let currentAnswers = {};
     try {
       currentAnswers = JSON.parse(attempt.answers || '{}');
