@@ -169,7 +169,11 @@ export const DashboardPage: React.FC = () => {
       {/* In-Progress Exam Resume Banner for VM Restore / Recovery */}
       {(() => {
         const inProgress = myAttempts.find(
-          (att: any) => !att.completedAt && att.status !== 'EVALUATED' && att.status !== 'CLOSED' && att.status !== 'EXPIRED'
+          (att: any) => {
+            if (att.completedAt || att.status === 'EVALUATED' || att.status === 'CLOSED' || att.status === 'EXPIRED') return false;
+            if (att.room && att.room.status === 'CLOSED') return false;
+            return true;
+          }
         );
         if (!inProgress) return null;
 

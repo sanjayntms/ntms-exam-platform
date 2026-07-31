@@ -213,10 +213,13 @@ export class RoomController {
       const room = await prisma.examRoom.findUnique({ where: { id: roomId } });
       if (!room) return res.status(404).json({ error: 'Exam Room not found' });
 
-      // Auto-expire any active in-progress attempts associated with this room
+      // Auto-expire any active in-progress attempts associated with this room or exam
       await prisma.examAttempt.updateMany({
         where: {
-          roomId,
+          OR: [
+            { roomId: roomId },
+            { examId: room.examId },
+          ],
           completedAt: null,
           status: { notIn: ['EVALUATED', 'CLOSED', 'EXPIRED'] },
         },

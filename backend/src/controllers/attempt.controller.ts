@@ -125,17 +125,26 @@ export class AttemptController {
         }
       }
 
-      // If attempt is in-progress and the exam room is CLOSED (and exam not globally unlocked), block access
+      // If attempt status is CLOSED/EXPIRED or room is CLOSED or deleted, block access unconditionally
       const isAttemptInProgress = !attempt.completedAt && attempt.status !== 'EVALUATED';
-      const isUnlocked = (attempt as any).exam?.isGloballyUnlocked;
-      if (isAttemptInProgress && !isUnlocked) {
+      if (attempt.status === 'CLOSED' || attempt.status === 'EXPIRED') {
+        return res.status(403).json({ error: '🔒 Exam Room Closed: The Administrator has closed or deleted this exam room. Active exam session terminated.' });
+      }
+
+      if (isAttemptInProgress) {
         if (targetRoom && targetRoom.status === 'CLOSED') {
-          // Auto-expire attempt in DB
           await prisma.examAttempt.update({
             where: { id: attempt.id },
             data: { status: 'CLOSED' },
           });
-          return res.status(403).json({ error: '🔒 Exam Room Closed: The Administrator has closed this exam room. In-progress exam attempt cleared.' });
+          return res.status(403).json({ error: '🔒 Exam Room Closed: The Administrator has closed or deleted this exam room. Active exam session terminated.' });
+        }
+        if (roomId && !targetRoom) {
+          await prisma.examAttempt.update({
+            where: { id: attempt.id },
+            data: { status: 'CLOSED' },
+          });
+          return res.status(403).json({ error: '🔒 Exam Room Removed: The Administrator has deleted this exam room. Active exam session terminated.' });
         }
       }
 
@@ -153,7 +162,7 @@ export class AttemptController {
     try {
       const userId = req.user?.id || 'candidate';
       
-      // Auto-expire in-progress attempts whose rooms are CLOSED
+      // Auto-expire in-progress attempts whose rooms are CLOSED or DELETED
       const userAttempts = await prisma.examAttempt.findMany({
         where: { userId },
         include: { exam: true, room: true },
@@ -162,8 +171,8 @@ export class AttemptController {
       for (const att of userAttempts) {
         if (!att.completedAt && att.status !== 'EVALUATED' && att.status !== 'CLOSED' && att.status !== 'EXPIRED') {
           const roomIsClosed = att.room ? att.room.status === 'CLOSED' : false;
-          const isGloballyUnlocked = att.exam?.isGloballyUnlocked || false;
-          if (roomIsClosed && !isGloballyUnlocked) {
+          const roomIsDeleted = att.roomId ? !att.room : false;
+          if (roomIsClosed || roomIsDeleted) {
             await prisma.examAttempt.update({
               where: { id: att.id },
               data: { status: 'CLOSED' },
