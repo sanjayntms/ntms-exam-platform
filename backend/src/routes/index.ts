@@ -57,6 +57,7 @@ router.post('/attempts/submit', authenticateJWT, (req, res) => attemptCtrl.submi
 router.get('/attempts/my', authenticateJWT, (req, res) => attemptCtrl.myAttempts(req, res));
 router.get('/attempts/search', authenticateJWT, (req, res) => attemptCtrl.adminSearchAttempts(req, res));
 router.get('/attempts/:id', authenticateJWT, (req, res) => attemptCtrl.getById(req, res));
+router.delete('/attempts/:id', authenticateJWT, authorizeRoles(Role.ADMINISTRATOR), (req, res) => attemptCtrl.deleteAttempt(req, res));
 
 // Exam Room Routes (School/College Exam Hall system)
 router.get('/rooms', authenticateJWT, (req, res) => roomCtrl.listRooms(req, res));

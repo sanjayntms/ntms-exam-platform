@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { ExamAttempt } from '../types';
+import { useAuth } from '../context/AuthContext';
 import {
   ArrowLeft,
   Printer,
@@ -17,6 +18,7 @@ import {
   ChevronDown,
   ChevronUp,
   Filter,
+  Trash2,
 } from 'lucide-react';
 
 interface DomainBreakdown {
@@ -27,9 +29,22 @@ interface DomainBreakdown {
 
 export const ExamResultsPage: React.FC = () => {
   const { attemptId } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [attempt, setAttempt] = useState<ExamAttempt | null>(null);
   const [showReview, setShowReview] = useState(false);
   const [reviewFilter, setReviewFilter] = useState<'ALL' | 'CORRECT' | 'INCORRECT' | 'UNANSWERED'>('ALL');
+
+  const handleDeleteResult = async () => {
+    if (!attempt) return;
+    if (!window.confirm('Are you sure you want to permanently delete this candidate exam result score report? This action cannot be undone.')) return;
+    try {
+      await api.delete(`/attempts/${attempt.id}`);
+      navigate('/dashboard');
+    } catch (err: any) {
+      alert('Error deleting exam result: ' + (err.response?.data?.error || err.message));
+    }
+  };
 
   useEffect(() => {
     const fetchAttempt = async () => {
@@ -304,6 +319,16 @@ export const ExamResultsPage: React.FC = () => {
           >
             <Printer className="w-4 h-4" /> Print Score Report (PDF)
           </button>
+
+          {user?.role === 'ADMINISTRATOR' && (
+            <button
+              onClick={handleDeleteResult}
+              className="flex items-center gap-1.5 px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded text-xs font-bold shadow transition-all print:hidden"
+              title="Permanently Delete Candidate Exam Result"
+            >
+              <Trash2 className="w-4 h-4" /> Delete Exam Result
+            </button>
+          )}
         </div>
       </div>
 

@@ -110,6 +110,19 @@ export const UserManagementPage: React.FC = () => {
     }
   };
 
+  const handleDeleteAttempt = async (attemptId: string) => {
+    if (!window.confirm('Are you sure you want to permanently delete this candidate exam result? This action cannot be undone.')) return;
+    try {
+      await api.delete(`/attempts/${attemptId}`);
+      if (selectedStudent) {
+        const res = await api.get(`/users/${selectedStudent.id}/attempts`);
+        setHistoryList(res.data);
+      }
+    } catch (err: any) {
+      alert('Error deleting attempt: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
   return (
     <div className="space-y-6 font-sans">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded border border-slate-300 shadow-sm">
@@ -369,7 +382,8 @@ export const UserManagementPage: React.FC = () => {
                           <th className="p-3">Score %</th>
                           <th className="p-3">Correct / Total</th>
                           <th className="p-3">Date Taken</th>
-                          <th className="p-3 text-right">Result</th>
+                          <th className="p-3 text-center">Result</th>
+                          <th className="p-3 text-right">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-200 font-medium">
@@ -386,7 +400,7 @@ export const UserManagementPage: React.FC = () => {
                             <td className="p-3 font-mono text-slate-600">
                               {new Date(att.startedAt).toLocaleString()}
                             </td>
-                            <td className="p-3 text-right">
+                            <td className="p-3 text-center">
                               <span
                                 className={`px-2 py-0.5 rounded font-mono font-bold text-[10px] border ${
                                   att.passed
@@ -396,6 +410,15 @@ export const UserManagementPage: React.FC = () => {
                               >
                                 {att.passed ? 'PASSED' : 'FAILED'}
                               </span>
+                            </td>
+                            <td className="p-3 text-right">
+                              <button
+                                onClick={() => handleDeleteAttempt(att.id)}
+                                className="px-2.5 py-1 bg-rose-100 hover:bg-rose-600 hover:text-white text-rose-800 border border-rose-300 rounded font-mono text-[10px] font-bold transition-all shadow-xs"
+                                title="Permanently Delete Exam Result Record"
+                              >
+                                🗑 Delete Result
+                              </button>
                             </td>
                           </tr>
                         ))}

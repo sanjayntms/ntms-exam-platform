@@ -188,6 +188,20 @@ export class AttemptController {
     }
   }
 
+  // Admin Delete Candidate Exam Result Attempt
+  async deleteAttempt(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const attempt = await this.uow.attempts.findById(id);
+      if (!attempt) return res.status(404).json({ error: 'Exam result record not found' });
+
+      await prisma.examAttempt.delete({ where: { id } });
+      return res.json({ message: `Exam attempt result record (${id}) deleted successfully.` });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
   // Admin Search & Filter Candidate Exam Records
   async adminSearchAttempts(req: Request, res: Response) {
     try {

@@ -80,6 +80,17 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
+  const handleDeleteAttempt = async (attemptId: string) => {
+    if (!window.confirm('Are you sure you want to permanently delete this exam result record?')) return;
+    try {
+      await api.delete(`/attempts/${attemptId}`);
+      const attemptsRes = await api.get('/attempts/my');
+      setMyAttempts(attemptsRes.data);
+    } catch (err: any) {
+      alert('Error deleting exam attempt: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
   return (
     <div className="space-y-8 font-sans pb-8">
       {/* Hero Cinematic Section */}
@@ -274,7 +285,8 @@ export const DashboardPage: React.FC = () => {
                   <th className="p-4">Score %</th>
                   <th className="p-4">Correct Answers</th>
                   <th className="p-4">Timestamp</th>
-                  <th className="p-4 text-right">Result</th>
+                  <th className="p-4 text-center">Result</th>
+                  {user?.role === 'ADMINISTRATOR' && <th className="p-4 text-right">Actions</th>}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 font-medium">
@@ -288,7 +300,7 @@ export const DashboardPage: React.FC = () => {
                     <td className="p-4 font-mono text-slate-600">
                       {new Date(att.startedAt).toLocaleString()}
                     </td>
-                    <td className="p-4 text-right">
+                    <td className="p-4 text-center">
                       <span
                         className={`px-3 py-1 rounded font-mono font-bold text-[10px] border ${
                           att.passed
@@ -299,6 +311,17 @@ export const DashboardPage: React.FC = () => {
                         {att.passed ? 'PASSED' : 'FAILED'}
                       </span>
                     </td>
+                    {user?.role === 'ADMINISTRATOR' && (
+                      <td className="p-4 text-right">
+                        <button
+                          onClick={() => handleDeleteAttempt(att.id)}
+                          className="px-2.5 py-1 bg-rose-100 hover:bg-rose-600 hover:text-white text-rose-800 border border-rose-300 rounded font-mono text-[10px] font-bold transition-all"
+                          title="Delete Candidate Exam Result"
+                        >
+                          🗑 Delete
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
