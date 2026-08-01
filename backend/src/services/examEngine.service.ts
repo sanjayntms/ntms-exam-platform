@@ -131,9 +131,11 @@ export class ExamEngineService {
     const totalAvailable = exam.sections.reduce((acc: number, sec: any) => acc + (sec.questions?.length || 0), 0);
 
     if (requestedCount <= 0 || requestedCount >= totalAvailable) {
-      // Full exam: shuffle questions within each section and shuffle options
+      // Full exam: maintain strict sequential order of questions by orderIndex
       exam.sections.forEach((sec: any) => {
-        const secQuestions = sec.questions ? shuffleArray(sec.questions) : [];
+        const secQuestions = sec.questions
+          ? [...sec.questions].sort((a: any, b: any) => (a.orderIndex || 0) - (b.orderIndex || 0))
+          : [];
         const processedQs = secQuestions.map((sq: any) => processQuestionAndShuffleOptions(sq));
         processedQs.forEach((sq: any) => {
           if (sq.question) selectedQuestionIdsSet.add(sq.question.id);
@@ -186,7 +188,7 @@ export class ExamEngineService {
 
     for (const sqQuota of sectionQuotas) {
       const { section, quota } = sqQuota;
-      const secQuestions = section.questions;
+      const secQuestions = section.questions ? [...section.questions].sort((a: any, b: any) => (a.orderIndex || 0) - (b.orderIndex || 0)) : [];
       if (quota <= 0 || secQuestions.length === 0) continue;
 
       let selectedForSec: any[] = [];
@@ -210,15 +212,15 @@ export class ExamEngineService {
         for (const [, group] of Object.entries(csGroups)) {
           if (picked >= quota) break;
           const take = Math.min(quota - picked, group.length);
-          selectedForSec.push(...shuffleArray(group.slice(0, take)));
+          selectedForSec.push(...group.slice(0, take));
           picked += take;
         }
 
         if (picked < quota && nonCs.length > 0) {
-          selectedForSec.push(...shuffleArray(nonCs.slice(0, quota - picked)));
+          selectedForSec.push(...nonCs.slice(0, quota - picked));
         }
       } else {
-        selectedForSec = shuffleArray(secQuestions).slice(0, quota);
+        selectedForSec = secQuestions.slice(0, quota);
       }
 
       const processedQs = selectedForSec.map((sq: any) => processQuestionAndShuffleOptions(sq));
