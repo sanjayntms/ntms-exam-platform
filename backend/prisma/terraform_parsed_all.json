@@ -436,7 +436,7 @@
   {
     "domain_code": "D-2",
     "exam_code": "TERRAFORM-D2",
-    "domain_title": "Domain 2: Understand Terraform Purpose & Provider Plugins",
+    "domain_title": "Domain 2: Understand Terraform Purpose & Provider Model",
     "questions": [
       {
         "number": 1,
@@ -2080,7 +2080,7 @@
   {
     "domain_code": "D-4",
     "exam_code": "TERRAFORM-D4",
-    "domain_title": "Domain 4: Interact with Terraform Modules & Dependencies",
+    "domain_title": "Domain 4: Read, Generate, and Modify Configuration",
     "questions": [
       {
         "number": 1,
@@ -2938,7 +2938,7 @@
   {
     "domain_code": "D-5",
     "exam_code": "TERRAFORM-D5",
-    "domain_title": "Domain 5: Manage Terraform State & Backends",
+    "domain_title": "Domain 5: Interact with Terraform Modules",
     "questions": [
       {
         "number": 1,
@@ -3650,7 +3650,7 @@
   {
     "domain_code": "D-6",
     "exam_code": "TERRAFORM-D6",
-    "domain_title": "Domain 6: Understand Terraform Cloud & Enterprise Features",
+    "domain_title": "Domain 6: Implement and Maintain State & Remote Backends",
     "questions": [
       {
         "number": 1,
@@ -4393,7 +4393,7 @@
   {
     "domain_code": "D-7",
     "exam_code": "TERRAFORM-D7",
-    "domain_title": "Domain 7: Perform Advanced Terraform Operations & Import",
+    "domain_title": "Domain 7: Perform Advanced Terraform Operations & Resource Import",
     "questions": [
       {
         "number": 1,
