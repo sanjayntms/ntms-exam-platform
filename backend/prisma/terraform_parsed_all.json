@@ -317,7 +317,7 @@
       {
         "number": 11,
         "code": "TERRAFORM-D1-Q011",
-        "prompt": "Your team manages long-lived VMs with a configuration management tool, but drift and rollbacks are frequent. You’re evaluating altenatives. Which option best reflects an IaC advantage over traditional configuration management?",
+        "prompt": "Your team manages long-lived VMs with a configuration management tool, but drift and rollbacks are frequent. You\u2019re evaluating altenatives. Which option best reflects an IaC advantage over traditional configuration management?",
         "options": [
           {
             "key": "A",
@@ -410,7 +410,7 @@
           },
           {
             "key": "B",
-            "text": "Its state can be stored in one cloud’s remote backend while it provisions resources in another.",
+            "text": "Its state can be stored in one cloud\u2019s remote backend while it provisions resources in another.",
             "isCorrect": true
           },
           {
@@ -445,7 +445,7 @@
         "options": [
           {
             "key": "A",
-            "text": "Adding the provide’s documentation URL as a comment in the Terraform code.",
+            "text": "Adding the provide\u2019s documentation URL as a comment in the Terraform code.",
             "isCorrect": false
           },
           {
@@ -483,7 +483,7 @@
           },
           {
             "key": "B",
-            "text": "since a new provider has been introduced, adding it to required_providers is sufficient and running terraform init isn’t needed",
+            "text": "since a new provider has been introduced, adding it to required_providers is sufficient and running terraform init isn\u2019t needed",
             "isCorrect": false
           },
           {
@@ -582,7 +582,7 @@
           },
           {
             "key": "C",
-            "text": "The .terraform directory stores Terraform’s local working data, including installed provider and module plugins, backend metadata, and state lock information.",
+            "text": "The .terraform directory stores Terraform\u2019s local working data, including installed provider and module plugins, backend metadata, and state lock information.",
             "isCorrect": true
           },
           {
@@ -736,10 +736,15 @@
       {
         "number": 11,
         "code": "TERRAFORM-D2-Q011",
-        "prompt": "Tue or False? Multiple providers can be declared within a single Terraform configuration file. 0/0 T Tue",
+        "prompt": "True or False? Multiple providers can be declared within a single Terraform configuration file.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": false
           }
@@ -805,7 +810,7 @@
       {
         "number": 14,
         "code": "TERRAFORM-D2-Q014",
-        "prompt": "In the top-level terraform block, which setting specifies a provide’s source and version constraints?",
+        "prompt": "In the top-level terraform block, which setting specifies a provide\u2019s source and version constraints?",
         "options": [
           {
             "key": "A",
@@ -1005,7 +1010,7 @@
           },
           {
             "key": "C",
-            "text": "Abstract the target platform’s API behind a consistent resource/data-source schema and lifecycle",
+            "text": "Abstract the target platform\u2019s API behind a consistent resource/data-source schema and lifecycle",
             "isCorrect": true
           },
           {
@@ -1098,10 +1103,15 @@
       {
         "number": 25,
         "code": "TERRAFORM-D2-Q025",
-        "prompt": "Tue or False? In most cases, you can migrate Terraform state between supported backends at any time, even after running your first terraform apply. 0/0 T Tue",
+        "prompt": "True or False? In most cases, you can migrate Terraform state between supported backends at any time, even after running your first terraform apply.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": false
           }
@@ -1146,10 +1156,15 @@
       {
         "number": 2,
         "code": "TERRAFORM-D3-Q002",
-        "prompt": "Tue or False? By default, the terraform destroy command will prompt the user for confirmation before proceeding. 0/0 T Tue",
+        "prompt": "True or False? By default, the terraform destroy command will prompt the user for confirmation before proceeding.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": false
           }
@@ -1219,12 +1234,12 @@
           },
           {
             "key": "C",
-            "text": "Significant changes. Terraform tracks each resource’s location within each .tf file, so moving blocks can tigger replacements.",
+            "text": "Significant changes. Terraform tracks each resource\u2019s location within each .tf file, so moving blocks can tigger replacements.",
             "isCorrect": false
           },
           {
             "key": "D",
-            "text": "No changes. Block order doesn’t affect the plan because Terraform parses all .tf files in a module together during execution.",
+            "text": "No changes. Block order doesn\u2019t affect the plan because Terraform parses all .tf files in a module together during execution.",
             "isCorrect": true
           }
         ],
@@ -1401,7 +1416,7 @@
       {
         "number": 12,
         "code": "TERRAFORM-D3-Q012",
-        "prompt": "What is the purpose of Terraform’s dependency graph?",
+        "prompt": "What is the purpose of Terraform\u2019s dependency graph?",
         "options": [
           {
             "key": "A",
@@ -1639,7 +1654,7 @@
         "options": [
           {
             "key": "A",
-            "text": "update all previously installed plugins and modules to the newest version that complies with the configuration’s version constraints",
+            "text": "update all previously installed plugins and modules to the newest version that complies with the configuration\u2019s version constraints",
             "isCorrect": true
           },
           {
@@ -1691,10 +1706,15 @@
       {
         "number": 22,
         "code": "TERRAFORM-D3-Q022",
-        "prompt": "Tue or False? Terraform requires you to un a terraform plan before applying the configuration with terraform apply. 0/0 T Tue",
+        "prompt": "True or False? Terraform requires you to run a terraform plan before applying the configuration with terraform apply.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": true
           }
@@ -1839,26 +1859,26 @@
       {
         "number": 28,
         "code": "TERRAFORM-D3-Q028",
-        "prompt": "You’ve updated a production load balancer using Terraform. Before making changes, you must (a) preview the exact set of actions as a dy un and (b) ensure that the same reviewed actions are applied later without drift. Which commands meet both requirements?",
+        "prompt": "You\u2019ve updated a production load balancer using Terraform. Before making changes, you must (a) preview the exact set of actions as a dy un and (b) ensure that the same reviewed actions are applied later without drift. Which commands meet both requirements?",
         "options": [
           {
             "key": "A",
-            "text": "terraform plan -out=lb.tfplan → terraform apply -auto-approve",
+            "text": "terraform plan -out=lb.tfplan \u2192 terraform apply -auto-approve",
             "isCorrect": false
           },
           {
             "key": "B",
-            "text": "terraform fmt -check → terraform plan -refresh-only",
+            "text": "terraform fmt -check \u2192 terraform plan -refresh-only",
             "isCorrect": false
           },
           {
             "key": "C",
-            "text": "terraform plan -out=lb.tfplan → terraform apply lb.tfplan",
+            "text": "terraform plan -out=lb.tfplan \u2192 terraform apply lb.tfplan",
             "isCorrect": true
           },
           {
             "key": "D",
-            "text": "terraform validate → terraform apply",
+            "text": "terraform validate \u2192 terraform apply",
             "isCorrect": false
           }
         ],
@@ -1923,11 +1943,26 @@
       {
         "number": 31,
         "code": "TERRAFORM-D3-Q031",
-        "prompt": "After running terraform init in a new working directory, Pooja wants a dy un that saves the result for a later apply without creating resources. You un terraform plan -out=thomas 0/0 T Tue",
+        "prompt": "After running terraform init in a new working directory, Pooja wants a dry run that saves the execution plan for a later apply without creating resources immediately. Which command should Pooja run?",
         "options": [
           {
-            "key": "F",
-            "text": "False",
+            "key": "A",
+            "text": "terraform plan -out=tfplan",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
+            "text": "terraform apply -auto-approve",
+            "isCorrect": false
+          },
+          {
+            "key": "C",
+            "text": "terraform validate",
+            "isCorrect": false
+          },
+          {
+            "key": "D",
+            "text": "terraform init -upgrade",
             "isCorrect": false
           }
         ],
@@ -2162,10 +2197,15 @@
       {
         "number": 5,
         "code": "TERRAFORM-D4-Q005",
-        "prompt": "Tue or False? In the configuration below, the aws_volume_attachment.attach_data resource has an implicit dependency on both the instance and the volume. resource \"aws_instance\" \"app_core\" { ami = \"ami-0c55b159cbfafe1f0\" instance_type = \"t3.micro\" availability_zone = \"ca-central-1a\" tags = { Owner = \"btk-platform\", Env = \"pr0d-east\" } } resource \"aws_ebs_volume\" \"data_pr0d_east\" { availability_zone = \"ca-central-1a\" size = 10 } resource \"aws_volume_attachment\" \"attach_data\" { device_name = \"/dev/xvdf\" volume_id = aws_ebs_volume.data_pr0d_east.id instance_id = aws_instance.app_core.id } 0/0 T Tue",
+        "prompt": "True or False? In the configuration below, the aws_volume_attachment.attach_data resource has an implicit dependency on both the instance and the volume.\n\nresource \"aws_instance\" \"app_core\" {\n  ami = \"ami-0c55b159cbfafe1f0\"\n  instance_type = \"t3.micro\"\n}\nresource \"aws_ebs_volume\" \"data_pr0d_east\" {\n  availability_zone = \"ca-central-1a\"\n  size = 10\n}\nresource \"aws_volume_attachment\" \"attach_data\" {\n  device_name = \"/dev/xvdf\"\n  volume_id = aws_ebs_volume.data_pr0d_east.id\n  instance_id = aws_instance.app_core.id\n}",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": false
           }
@@ -2189,12 +2229,12 @@
           },
           {
             "key": "C",
-            "text": "Set the variable’s default to 2 within the variables.tf file",
+            "text": "Set the variable\u2019s default to 2 within the variables.tf file",
             "isCorrect": false
           },
           {
             "key": "D",
-            "text": "Rely on Terraform’s number type constraint and document the requirement in the README",
+            "text": "Rely on Terraform\u2019s number type constraint and document the requirement in the README",
             "isCorrect": false
           }
         ],
@@ -2315,7 +2355,7 @@
       {
         "number": 11,
         "code": "TERRAFORM-D4-Q011",
-        "prompt": "What is preventing you from producing a plan based on the error below? $ terraform plan Planning failed. Terraform encountered an error while generating this plan. ╷ │ Error: Invalid value for variable │ │ on variables.tf line 7 │ 7 variable \"cluster_endpoint\" { │ ├──────────────── │ │ var.cluster_endpoint is \"\" │ │ var.create_cluster is false │ │ You must specify a value for cluster_endpoint if create_cluster is false.",
+        "prompt": "What is preventing you from producing a plan based on the error below? $ terraform plan Planning failed. Terraform encountered an error while generating this plan. \u2577 \u2502 Error: Invalid value for variable \u2502 \u2502 on variables.tf line 7 \u2502 7 variable \"cluster_endpoint\" { \u2502 \u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 \u2502 \u2502 var.cluster_endpoint is \"\" \u2502 \u2502 var.create_cluster is false \u2502 \u2502 You must specify a value for cluster_endpoint if create_cluster is false.",
         "options": [
           {
             "key": "A",
@@ -2371,10 +2411,15 @@
       {
         "number": 13,
         "code": "TERRAFORM-D4-Q013",
-        "prompt": "Tue or False? Marking an output as sensitive does not prevent its value from being stored in the Terraform state file. 0/0 T Tue",
+        "prompt": "True or False? Marking an output as sensitive does not prevent its value from being stored in the Terraform state file.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": false
           }
@@ -2421,7 +2466,7 @@
           },
           {
             "key": "B",
-            "text": "Create outputs for these values and reference them from a second “override” module that uns after the first.",
+            "text": "Create outputs for these values and reference them from a second \u201coverride\u201d module that uns after the first.",
             "isCorrect": false
           },
           {
@@ -2468,10 +2513,15 @@
       {
         "number": 17,
         "code": "TERRAFORM-D4-Q017",
-        "prompt": "Tue or False? Terraform can only manage dependencies between resources if the depends_on argument is explicitly set for the dependent resources. 0/0 T Tue",
+        "prompt": "True or False? Terraform can only manage dependencies between resources if the depends_on argument is explicitly set for the dependent resources.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": true
           }
@@ -2789,10 +2839,15 @@
       {
         "number": 29,
         "code": "TERRAFORM-D4-Q029",
-        "prompt": "Tue or False? The terraform graph command can be used to generate a visual representation of a configuration or execution plan. 0/0 T Tue",
+        "prompt": "True or False? The terraform graph command can be used to generate a visual representation of a configuration or execution plan.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": false
           }
@@ -2888,7 +2943,7 @@
       {
         "number": 1,
         "code": "TERRAFORM-D5-Q001",
-        "prompt": "You're invoking a module that creates a subnet. The root load balancer module requires that subnet’s ID. How should you expose the ID and pass it to the load balancer module? modules/subnets: resource \"aws_subnet\" \"bk\" { vpc_id = aws_vpc.bk.id cidr_block = var.subnet_cidr tags = { Name = \"BK Subnet\" } }",
+        "prompt": "You're invoking a module that creates a subnet. The root load balancer module requires that subnet\u2019s ID. How should you expose the ID and pass it to the load balancer module? modules/subnets: resource \"aws_subnet\" \"bk\" { vpc_id = aws_vpc.bk.id cidr_block = var.subnet_cidr tags = { Name = \"BK Subnet\" } }",
         "options": [
           {
             "key": "A",
@@ -3196,7 +3251,7 @@
       {
         "number": 12,
         "code": "TERRAFORM-D5-Q012",
-        "prompt": "You maintain an existing Terraform configuration that uses a public module pinned to a specific version. A new minor version 5.3.0 of the module is available, and you want your configuration to use it. What steps are required to update the module version safely? (select two) module \"compute\" { source = \"azure/compute/azurem\" version = \"5.2.0\" # …module inputs… }",
+        "prompt": "You maintain an existing Terraform configuration that uses a public module pinned to a specific version. A new minor version 5.3.0 of the module is available, and you want your configuration to use it. What steps are required to update the module version safely? (select two) module \"compute\" { source = \"azure/compute/azurem\" version = \"5.2.0\" # \u2026module inputs\u2026 }",
         "options": [
           {
             "key": "A",
@@ -3519,10 +3574,15 @@
       {
         "number": 23,
         "code": "TERRAFORM-D5-Q023",
-        "prompt": "Tue or False? You can specify multiple version constraints for a single module by using the version argument multiple times in the module block, such as version = \">= 1.0.0\" and version = \"< 2.0.0\". 0/0 T Tue",
+        "prompt": "True or False? You can specify multiple version constraints for a single module by using the version argument multiple times in the module block, such as version = \">= 1.0.0\" and version = \"< 2.0.0\".",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": true
           }
@@ -3651,7 +3711,7 @@
       {
         "number": 3,
         "code": "TERRAFORM-D6-Q003",
-        "prompt": "In Terraform, what does “drift” mean in the context of a workspace’s state?",
+        "prompt": "In Terraform, what does \u201cdrift\u201d mean in the context of a workspace\u2019s state?",
         "options": [
           {
             "key": "A",
@@ -3809,7 +3869,7 @@
       {
         "number": 9,
         "code": "TERRAFORM-D6-Q009",
-        "prompt": "You’re moving a project to a remote backend so the state is stored in Amazon S3. How do you correctly configure and initialize the backend?",
+        "prompt": "You\u2019re moving a project to a remote backend so the state is stored in Amazon S3. How do you correctly configure and initialize the backend?",
         "options": [
           {
             "key": "A",
@@ -3865,10 +3925,15 @@
       {
         "number": 11,
         "code": "TERRAFORM-D6-Q011",
-        "prompt": "Tue or False? After successfully applying a moved block to refactor your resources, you should immediately remove the moved block from your configuration to keep your code clean. 0/0 T Tue",
+        "prompt": "True or False? After successfully applying a moved block to refactor your resources, you should immediately remove the moved block from your configuration to keep your code clean.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": true
           }
@@ -3906,10 +3971,15 @@
       {
         "number": 13,
         "code": "TERRAFORM-D6-Q013",
-        "prompt": "Tue or False? All remote backends in Terraform support state locking by default, so you never need to woy about concurrent modifications when using any remote backend. 0/0 T Tue",
+        "prompt": "True or False? All remote backends in Terraform support state locking by default, so you never need to worry about concurrent modifications when using any remote backend.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": true
           }
@@ -3952,7 +4022,7 @@
       {
         "number": 15,
         "code": "TERRAFORM-D6-Q015",
-        "prompt": "You’re using the local backend. In the current workspace, terraform.tfstate was accidentally deleted, but the configuration is unchanged. You un terraform plan. Which statements are tue? (select three)",
+        "prompt": "You\u2019re using the local backend. In the current workspace, terraform.tfstate was accidentally deleted, but the configuration is unchanged. You un terraform plan. Which statements are tue? (select three)",
         "options": [
           {
             "key": "A",
@@ -4013,10 +4083,15 @@
       {
         "number": 17,
         "code": "TERRAFORM-D6-Q017",
-        "prompt": "Tue or False? A remote backend configuration is required for using Terraform. 0/0 T Tue",
+        "prompt": "True or False? A remote backend configuration is required for using Terraform.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": true
           }
@@ -4431,7 +4506,7 @@
         "options": [
           {
             "key": "A",
-            "text": "Use Terraform state commands terraform state show to match the tracked VM’s ID with the list of active VMs.",
+            "text": "Use Terraform state commands terraform state show to match the tracked VM\u2019s ID with the list of active VMs.",
             "isCorrect": true
           },
           {
@@ -4441,12 +4516,12 @@
           },
           {
             "key": "C",
-            "text": "Delete every VM that isn’t clearly documented, assuming any missing VM will be recreated by Terraform.",
+            "text": "Delete every VM that isn\u2019t clearly documented, assuming any missing VM will be recreated by Terraform.",
             "isCorrect": false
           },
           {
             "key": "D",
-            "text": "Use the provide’s CLI or API to label all VMs, then rely on Terraform to ovewite any unlabeled instances.",
+            "text": "Use the provide\u2019s CLI or API to label all VMs, then rely on Terraform to ovewite any unlabeled instances.",
             "isCorrect": false
           }
         ],
@@ -4623,10 +4698,15 @@
       {
         "number": 11,
         "code": "TERRAFORM-D7-Q011",
-        "prompt": "Tue or False? After successfully impoting an existing resource using an impot block and running terraform apply, you can immediately delete the impot block from your configuration file without affecting Terraform's ability to manage the resource. 0/0 T Tue",
+        "prompt": "True or False? After successfully importing an existing resource using an import block and running terraform apply, you can immediately delete the import block from your configuration file without affecting Terraform's ability to manage the resource.",
         "options": [
           {
-            "key": "F",
+            "key": "A",
+            "text": "True",
+            "isCorrect": true
+          },
+          {
+            "key": "B",
             "text": "False",
             "isCorrect": false
           }
