@@ -33,7 +33,9 @@ export const LoginPage: React.FC = () => {
           window.history.replaceState(null, '', window.location.pathname);
           window.location.href = '/dashboard';
         } catch (err: any) {
-          alert('Microsoft Entra ID Authentication Error: ' + (err.response?.data?.error || err.message));
+          const errorMsg = err.response?.data?.error || err.message;
+          alert('Microsoft Entra ID Authentication Error: ' + errorMsg);
+          window.history.replaceState(null, '', window.location.pathname);
         } finally {
           setIsEntraLoading(false);
         }
@@ -49,7 +51,9 @@ export const LoginPage: React.FC = () => {
           window.history.replaceState(null, '', window.location.pathname);
           window.location.href = '/dashboard';
         } catch (err: any) {
-          alert('Microsoft Entra ID Authentication Error: ' + (err.response?.data?.error || err.message));
+          const errorMsg = err.response?.data?.error || err.message;
+          alert('Microsoft Entra ID Authentication Error: ' + errorMsg);
+          window.history.replaceState(null, '', window.location.pathname);
         } finally {
           setIsEntraLoading(false);
         }
